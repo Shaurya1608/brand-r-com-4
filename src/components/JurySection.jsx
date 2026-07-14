@@ -132,28 +132,28 @@ export default function JurySection() {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {jury.map((member, idx) => (
-              <motion.div
+              <motion.div 
                 key={idx}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="flex-none w-[260px] md:w-[280px] snap-start"
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="flex-none w-[200px] md:w-[240px] snap-start flex flex-col items-center text-center group cursor-pointer"
               >
-                <div className="relative h-[350px] md:h-[400px] rounded-[2rem] overflow-hidden group shadow-lg shadow-brand-primary/5 border border-brand-primary/10">
-                  {/* Image that gets a slight tint/zoom on hover */}
+                <div className="relative w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden mb-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border-4 border-white group-hover:border-brand-primary/20 transition-all duration-300">
+                  {/* Circular Image */}
                   <img 
                     src={member.image} 
                     alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
-                  
-                  {/* Frosted glass text container */}
-                  <div className="absolute bottom-3 left-3 right-3 p-4 rounded-xl bg-white/80 backdrop-blur-md border border-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500 shadow-sm">
-                    <h3 className="text-xl font-serif text-brand-dark mb-1">{member.name}</h3>
-                    <p className="text-brand-primary text-[10px] font-bold tracking-widest uppercase mb-1">{member.role}</p>
-                    <p className="text-brand-dark/70 text-xs font-sans">{member.company}</p>
-                  </div>
+                </div>
+                
+                {/* Text content moved below the circle */}
+                <div className="px-2">
+                  <h3 className="text-lg md:text-xl font-serif text-brand-dark mb-2 group-hover:text-brand-primary transition-colors">{member.name}</h3>
+                  <p className="text-brand-primary text-[9px] md:text-[10px] font-bold tracking-widest uppercase mb-1">{member.role}</p>
+                  <p className="text-brand-dark/60 text-xs font-sans">{member.company}</p>
                 </div>
               </motion.div>
             ))}

@@ -78,7 +78,7 @@ export default function EventHighlights() {
       
       {/* Light theme background gradients */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-white rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
         
@@ -112,8 +112,8 @@ export default function EventHighlights() {
         {/* Staggered Timeline Layout */}
         <div className="relative w-full pb-16">
           
-          {/* Subtle connecting line down the middle for desktop */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-brand-primary/20 -translate-x-1/2" />
+          {/* Solid connecting line down the middle for desktop */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-brand-primary/30 -translate-x-1/2" />
 
           <div className="flex flex-col gap-12 md:gap-20">
             {highlights.map((item, index) => {

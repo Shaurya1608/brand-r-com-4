@@ -21,8 +21,11 @@ export default function Navbar() {
         
         {/* Logo */}
         <div className="flex-shrink-0 group cursor-pointer">
-          <Link href="/" className="text-2xl md:text-3xl font-serif text-brand-dark tracking-wide transition-all duration-300 group-hover:text-brand-primary flex items-center">
-            BRAND <span className="text-brand-primary italic ml-1 group-hover:text-brand-primary-hover transition-colors">R.</span>COMM <span className="text-[10px] font-sans align-top tracking-widest text-brand-dark/50 ml-2 pt-1 font-bold">2026</span>
+          <Link href="/" className="flex items-center space-x-3">
+            <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm 2026 Logo" className="h-6 md:h-8 w-auto object-contain" />
+            <div className="text-lg md:text-xl font-serif text-brand-dark tracking-wide transition-all duration-300 group-hover:text-brand-primary flex items-center">
+              BRAND <span className="text-brand-primary italic ml-1 group-hover:text-brand-primary-hover transition-colors">R.</span>COMM <span className="text-[9px] font-sans align-top tracking-widest text-brand-dark/50 ml-2 pt-1 font-bold">2026</span>
+            </div>
           </Link>
         </div>
 

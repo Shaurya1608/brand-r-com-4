@@ -50,7 +50,7 @@ export default function AwardCategoriesSection() {
   ];
 
   return (
-    <section className="relative w-full bg-white py-16 md:py-20 overflow-hidden">
+    <section className="relative w-full bg-brand-surface py-16 md:py-20 overflow-hidden">
       <div className="relative z-10 max-w-[65rem] mx-auto px-6 md:px-12">
         
         {/* Centered Header Layout */}

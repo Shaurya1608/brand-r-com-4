@@ -127,48 +127,30 @@ export default function WhoShouldAttend() {
             A room built for the industry&apos;s <br className="hidden md:block" />
             <span className="italic text-brand-primary">decision-shapers.</span>
           </h2>
-          <p className="text-brand-dark/80 text-base md:text-lg leading-relaxed font-sans max-w-2xl">
-            Every seat is curated. Every conversation is measured. If you build, market, communicate, invest in or regulate the agri-ecosystem, you belong in this room.
+          <p className="text-brand-dark/80 text-base md:text-lg leading-relaxed font-sans max-w-4xl">
+            Every seat is curated. Every conversation is measured. If you build, market, communicate, <br className="hidden md:block" /> invest in or regulate the agri-ecosystem, you belong in this room.
           </p>
         </div>
 
-        {/* Premium Bento Grid Layout - Centered & Uniform Light BG */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 grid-flow-dense">
-          {categories.map((category, index) => {
-            let spanClass = "col-span-1";
-            
-            if (index === 0) {
-              spanClass = "md:col-span-2 lg:col-span-2 lg:row-span-2";
-            } else if (index === 1) {
-              spanClass = "md:col-span-2 lg:col-span-2";
-            } else if (index === 4) {
-              spanClass = "md:col-span-2 lg:col-span-2";
-            } else if (index === 9 || index === 10 || index === 11) {
-              spanClass = "md:col-span-2 lg:col-span-2";
-            }
-
-            const isLarge = index === 0;
-
-            return (
-              <div 
-                key={index}
-                className={`group flex flex-col items-center justify-center text-center p-6 lg:p-8 min-h-[120px] ${isLarge ? 'min-h-[220px]' : ''} rounded-3xl transition-all duration-300 cursor-default relative overflow-hidden bg-brand-primary/5 border border-transparent hover:border-brand-primary/20 hover:shadow-md ${spanClass}`}
-              >
-                <div className={`text-brand-primary mb-4 md:mb-5 group-hover:scale-110 transform transition-transform duration-500`}>
-                  {React.cloneElement(category.icon, { className: isLarge ? 'w-8 h-8' : 'w-6 h-6' })}
-                </div>
-                
-                <div>
-                  {isLarge && (
-                    <span className="text-[10px] tracking-widest uppercase font-bold text-brand-primary/70 mb-2 block">Primary Audience</span>
-                  )}
-                  <h3 className={`${isLarge ? 'text-2xl lg:text-3xl' : 'text-lg md:text-xl'} font-serif text-brand-dark leading-snug font-normal`}>
-                    {category.title}
-                  </h3>
-                </div>
+        {/* Ultra-compact, High-visibility Grid Layout */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-5">
+          {categories.map((category, index) => (
+            <div 
+              key={index}
+              className="group flex flex-col items-center justify-center text-center p-4 bg-[#f6f9f1] border border-brand-primary/20 rounded-xl shadow-sm hover:shadow-lg hover:border-brand-primary/40 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
+            >
+              {/* Subtle top gradient on hover */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="text-brand-primary mb-3 bg-brand-primary/10 p-3 rounded-full group-hover:scale-110 group-hover:bg-brand-primary/20 transform transition-all duration-500">
+                {React.cloneElement(category.icon, { className: 'w-5 h-5' })}
               </div>
-            );
-          })}
+              
+              <h3 className="text-sm md:text-base font-serif text-brand-dark leading-snug font-normal">
+                {category.title}
+              </h3>
+            </div>
+          ))}
         </div>
 
       </div>

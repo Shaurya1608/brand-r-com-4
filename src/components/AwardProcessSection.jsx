@@ -38,7 +38,7 @@ export default function AwardProcessSection() {
   ];
 
   return (
-    <section className="relative w-full bg-brand-surface py-20 md:py-24 overflow-hidden border-t border-brand-primary/10">
+    <section className="relative w-full bg-white py-20 md:py-24 overflow-hidden border-t border-brand-primary/10">
       <div className="relative z-10 max-w-[85rem] mx-auto px-6 md:px-12">
         
         {/* Header Layout */}

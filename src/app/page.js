@@ -11,6 +11,13 @@ import JurySection from "@/components/JurySection";
 import AwardsSection from "@/components/AwardsSection";
 import AwardCategoriesSection from "@/components/AwardCategoriesSection";
 import AwardProcessSection from "@/components/AwardProcessSection";
+import RequiredDocumentsSection from "@/components/RequiredDocumentsSection";
+import WinnerBenefitsSection from "@/components/WinnerBenefitsSection";
+import DelegateRegistrationSection from "@/components/DelegateRegistrationSection";
+import SponsorshipSection from "@/components/SponsorshipSection";
+import GeneralSponsorshipSection from "@/components/GeneralSponsorshipSection";
+import RegistrationFlowSection from "@/components/RegistrationFlowSection";
+import SecurePaymentsSection from "@/components/SecurePaymentsSection";
 
 export default function Home() {
   return (
@@ -25,9 +32,16 @@ export default function Home() {
       <AgendaSection />
       <SpeakersSection />
       <JurySection />
-      <AwardsSection />
       <AwardCategoriesSection />
       <AwardProcessSection />
+      <RequiredDocumentsSection />
+      <WinnerBenefitsSection />
+      <SponsorshipSection />
+      <GeneralSponsorshipSection />
+      <DelegateRegistrationSection />
+      <AwardsSection />
+      <RegistrationFlowSection />
+      <SecurePaymentsSection />
     </main>
   );
 }

@@ -2,30 +2,35 @@ import React from "react";
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden bg-[url('/landing/generated_bg.png')] bg-cover bg-center">
+    <section className="relative w-full min-h-[100dvh] flex items-center justify-center pt-24 pb-20 overflow-hidden bg-[url('/landing/generated_bg.png')] bg-cover bg-center">
       
       {/* Dark overlay so the white text is readable without hiding the background */}
       <div className="absolute inset-0 z-0 bg-black/80" />
       
-      {/* Text Container */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100">
+      {/* Text Container with Glassmorphism to separate from background text */}
+      <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-10 py-4 md:py-6 w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 bg-black/40 backdrop-blur-md rounded-[2.5rem] border border-white/10 shadow-2xl">
         
+        {/* Event Logo */}
+        <div className="mb-4">
+          <img src="/logo/brand-r-comm-logo-2.png" alt="Brand R.Comm" className="h-16 md:h-20 lg:h-28 w-auto object-contain mx-auto" />
+        </div>
+
         {/* Subtitle / Edition */}
-        <div className="flex items-center justify-center space-x-4 mb-6">
+        <div className="flex items-center justify-center space-x-4 mb-4">
           <div className="h-px w-12 bg-brand-primary" />
-          <span className="text-white tracking-[0.2em] text-xs font-bold uppercase">
+          <span className="text-white tracking-[0.2em] text-[10px] md:text-xs font-bold uppercase">
             4th Edition • New Delhi, India
           </span>
           <div className="h-px w-12 bg-brand-primary" />
         </div>
         
         {/* Main Headline */}
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.15] text-white mb-6 max-w-3xl">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.15] text-white mb-4 max-w-2xl">
           Where India&apos;s <span className="text-brand-primary italic">agri-industry</span> writes its next chapter.
         </h1>
         
         {/* Description */}
-        <p className="text-base md:text-lg text-white/90 max-w-2xl leading-relaxed mb-10 font-sans font-normal">
+        <p className="text-sm md:text-base text-white/90 max-w-xl leading-relaxed mb-6 font-sans font-normal">
           The BRAND R.COMM 2026 Summit & Awards is India&apos;s most decisive gathering of chairmen, marketers, agencies and policymakers shaping the future of agriculture and rural communication.
         </p>
         
