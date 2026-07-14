@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #6a9a38;
+  --color-brand-primary-hover: #557d2a;
+  --color-brand-light: #ffffff;
+  --color-brand-dark: #1a1a1a;
+  --color-brand-surface: #e8efde;
+  
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-cormorant);
+}
+
+@layer utilities {
+  .btn-primary {
+    @apply bg-brand-primary text-white px-6 py-2 font-medium tracking-wide transition-all hover:bg-brand-primary-hover hover:scale-[1.02] active:scale-95 shadow-sm hover:shadow-md;
+  }
+  
+  .btn-ghost {
+    @apply border border-brand-primary/50 text-brand-primary px-6 py-2 font-medium tracking-wide transition-all hover:bg-brand-primary/10 hover:border-brand-primary hover:scale-[1.02] active:scale-95;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body {
+  background-color: var(--color-brand-surface);
+  color: var(--color-brand-dark);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-brand-surface);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-primary);
+  border-radius: 4px;
+  border: 2px solid var(--color-brand-surface);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-primary-hover);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-brand-primary) var(--color-brand-surface);
+}
