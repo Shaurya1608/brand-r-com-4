@@ -1,6 +1,19 @@
-import React from "react";
+"use client";
+import React, { useRef, useState } from "react";
 
 export default function ByTheNumbers() {
+  const scrollRef = useRef(null);
+  const [activeDot, setActiveDot] = useState(0);
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const scrollLeft = scrollRef.current.scrollLeft;
+      const itemWidth = scrollRef.current.children[0].offsetWidth;
+      const newIndex = Math.round(scrollLeft / itemWidth);
+      setActiveDot(newIndex);
+    }
+  };
+
   const stats = [
     { 
       number: "1,200+", 
@@ -83,10 +96,10 @@ export default function ByTheNumbers() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/60 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
         
         {/* Top Header Section */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-20">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 md:gap-12 mb-16 md:mb-20">
           
           <div className="max-w-2xl">
             <div className="flex items-center space-x-4 mb-6">
@@ -108,26 +121,42 @@ export default function ByTheNumbers() {
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          {stats.map((stat, index) => (
-            <div 
-              key={index} 
-              className="group flex flex-col items-start justify-between p-6 bg-white/40 backdrop-blur-md border border-brand-dark/5 rounded-2xl transition-all duration-500 hover:-translate-y-1 hover:bg-white/80 hover:shadow-lg hover:shadow-brand-primary/10 hover:border-brand-primary/20"
-            >
-              <div className="w-10 h-10 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white">
-                {stat.icon}
+        {/* Stats Carousel (Mobile) / Grid (Desktop) */}
+        <div className="relative w-full -mx-6 md:mx-0 w-[calc(100%+3rem)] md:w-full">
+          <div 
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="flex overflow-x-auto px-6 scroll-pl-6 sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pb-6 sm:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
+            {stats.map((stat, index) => (
+              <div 
+                key={index} 
+                className="w-[280px] sm:w-auto flex-shrink-0 snap-start group flex flex-col items-start justify-between p-6 bg-white/40 backdrop-blur-md border border-brand-dark/5 rounded-2xl transition-all duration-500 hover:-translate-y-1 hover:bg-white/80 hover:shadow-lg hover:shadow-brand-primary/10 hover:border-brand-primary/20"
+              >
+                <div className="w-10 h-10 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white">
+                  {stat.icon}
+                </div>
+                <div>
+                  <h3 className="text-3xl md:text-4xl font-serif text-brand-dark mb-2 transition-colors duration-300 group-hover:text-brand-primary">
+                    {stat.number}
+                  </h3>
+                  <p className="text-brand-dark/60 text-[10px] tracking-widest font-bold uppercase group-hover:text-brand-dark transition-colors duration-300">
+                    {stat.label}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-3xl md:text-4xl font-serif text-brand-dark mb-2 transition-colors duration-300 group-hover:text-brand-primary">
-                  {stat.number}
-                </h3>
-                <p className="text-brand-dark/60 text-[10px] tracking-widest font-bold uppercase group-hover:text-brand-dark transition-colors duration-300">
-                  {stat.label}
-                </p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {/* Mobile Dots */}
+          <div className="flex sm:hidden justify-center space-x-2 mt-4">
+            {stats.map((_, index) => (
+              <div 
+                key={index} 
+                className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${activeDot === index ? 'bg-brand-primary' : 'bg-brand-dark/20'}`}
+              />
+            ))}
+          </div>
         </div>
 
       </div>

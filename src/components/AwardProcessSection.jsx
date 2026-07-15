@@ -1,9 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 export default function AwardProcessSection() {
+  const scrollRef = useRef(null);
+  const [activeDot, setActiveDot] = useState(0);
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const scrollLeft = scrollRef.current.scrollLeft;
+      const itemWidth = scrollRef.current.children[0].offsetWidth;
+      const newIndex = Math.round(scrollLeft / itemWidth);
+      setActiveDot(newIndex);
+    }
+  };
+
   const steps = [
     {
       id: "01",
@@ -72,17 +84,22 @@ export default function AwardProcessSection() {
           </div>
         </div>
 
-        {/* Process Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {steps.map((step, idx) => (
-            <motion.div
-              key={step.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-white/60 backdrop-blur-md border border-brand-primary/10 rounded-2xl p-8 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-md flex flex-col h-full relative overflow-hidden group"
-            >
+        {/* Process Carousel (Mobile) / Grid (Desktop) */}
+        <div className="relative w-full -mx-6 md:mx-0 w-[calc(100%+3rem)] md:w-full">
+          <div 
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="flex overflow-x-auto px-6 scroll-pl-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 pb-6 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
+            {steps.map((step, idx) => (
+              <motion.div
+                key={step.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="w-[280px] md:w-auto flex-shrink-0 snap-start bg-white/60 backdrop-blur-md border border-brand-primary/10 rounded-2xl p-8 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-md flex flex-col h-full relative overflow-hidden group"
+              >
               {/* Large background number */}
               <div className="absolute -right-4 -bottom-8 text-8xl font-serif font-bold text-brand-primary/5 select-none group-hover:text-brand-primary/10 transition-colors duration-300">
                 {step.id}
@@ -109,6 +126,17 @@ export default function AwardProcessSection() {
               </div>
             </motion.div>
           ))}
+          </div>
+          
+          {/* Mobile Dots */}
+          <div className="flex md:hidden justify-center space-x-2 mt-4">
+            {steps.map((_, index) => (
+              <div 
+                key={index} 
+                className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${activeDot === index ? 'bg-brand-primary' : 'bg-brand-dark/20'}`}
+              />
+            ))}
+          </div>
         </div>
 
       </div>

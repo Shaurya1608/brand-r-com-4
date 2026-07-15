@@ -18,6 +18,15 @@ import SponsorshipSection from "@/components/SponsorshipSection";
 import GeneralSponsorshipSection from "@/components/GeneralSponsorshipSection";
 import RegistrationFlowSection from "@/components/RegistrationFlowSection";
 import SecurePaymentsSection from "@/components/SecurePaymentsSection";
+import PastEditionsSection from "@/components/PastEditionsSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import CompanyMarquee from "@/components/CompanyMarquee";
+import EcosystemPartnersSection from "@/components/EcosystemPartnersSection";
+import OrganiserSection from "@/components/OrganiserSection";
+import FaqSection from "@/components/FaqSection";
+import ContactSection from "@/components/ContactSection";
+import NewsletterSection from "@/components/NewsletterSection";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -42,6 +51,15 @@ export default function Home() {
       <AwardsSection />
       <RegistrationFlowSection />
       <SecurePaymentsSection />
+      <PastEditionsSection />
+      <TestimonialsSection />
+      <CompanyMarquee />
+      <EcosystemPartnersSection />
+      <OrganiserSection />
+      <FaqSection />
+      <NewsletterSection />
+      <ContactSection />
+      <Footer />
     </main>
   );
 }

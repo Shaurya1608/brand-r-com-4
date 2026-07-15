@@ -119,7 +119,7 @@ export default function SponsorshipSection() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="px-6 py-3 bg-brand-dark text-white text-[10px] font-bold tracking-widest uppercase hover:bg-brand-primary transition-colors text-center rounded">
+              <button className="px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-widest uppercase hover:bg-brand-dark transition-colors text-center rounded">
                 APPLY NOW
               </button>
               <button className="px-6 py-3 border border-brand-primary/20 text-brand-dark text-[10px] font-bold tracking-widest uppercase hover:border-brand-primary transition-colors bg-white text-center rounded">
