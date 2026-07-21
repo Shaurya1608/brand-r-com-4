@@ -1,34 +1,61 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 
 export default function TestimonialsSection() {
+  const scrollRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.clientWidth;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const scrollPosition = scrollRef.current.scrollLeft;
+      const cardWidth = scrollRef.current.clientWidth;
+      const newIndex = Math.round(scrollPosition / cardWidth);
+      setActiveIndex(newIndex);
+    }
+  };
   const testimonials = [
     {
       id: 1,
-      quote: "BRAND R.COMM is now on our corporate calendar the moment the year begins. Nowhere else in India do so many decision-makers of the agri industry gather in one room.",
-      name: "Rakesh Vaidya",
-      title: "Group CMO, AgriGrow Corporation"
+      quote: "Snail Integral has created unique platforms that celebrate leadership, innovation, and knowledge sharing in agriculture. Through The SnailShow Podcast, the Coffee Table Book, industry events, and BRAND R.Comm Awards, they have successfully built a vibrant ecosystem that recognizes excellence and promotes impactful dialogue across the industry.",
+      name: "Mr. Manoj Varshney",
+      title: "MD & CEO",
+      company: "IFFCO-MC Crop Science Pvt. Ltd.",
+      image: "/speakers/Mr. Manoj Varshney.jpg"
     },
     {
       id: 2,
-      quote: "Winning at BRAND R.COMM validated eighteen months of work behind our rural campaign. The PR that followed was worth more than the trophy itself.",
-      name: "Simran Kaur",
-      title: "Head of Communications, Prithvi Bio"
+      quote: "Snail Integral has been a reliable partner in celebrity management, TVC production, media planning, and social media management. Their quick execution and strategic approach have significantly strengthened our brand visibility. We look forward to continuing this successful partnership.",
+      name: "Sumit Gupta",
+      title: "Director Project",
+      company: "Thakar Chemical Limited",
+      image: "/speakers/Sumit Gupta.jpg"
     },
     {
       id: 3,
-      quote: "The quality of one-to-one meetings is unmatched. In a single day, we closed conversations that would normally take a quarter.",
-      name: "Aditya Bansal",
-      title: "Founder, KrishiCloud"
+      quote: "Snail Integral has been a trusted extension of our team, delivering consistent results across brand communication and marketing. Their strategic thinking, timely execution, and deep understanding of rural markets have helped strengthen our brand presence. We highly value this partnership and confidently recommend Snail Integral.",
+      name: "Rajendar Kumar",
+      title: "Head-Agri Input Business",
+      company: "Akshamaala Solutions Pvt. Ltd. (Unnati)",
+      image: "/speakers/Rajendar Kumar.jpg"
     }
   ];
 
   return (
-    <section className="relative w-full py-12 md:py-16 bg-white text-brand-dark overflow-hidden border-t border-brand-primary/10">
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12">
+    <section className="relative w-full py-12 md:py-16 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-brand-surface">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Header Section */}
         <div className="mb-10 flex flex-col items-center text-center">
@@ -57,8 +84,33 @@ export default function TestimonialsSection() {
           </motion.h2>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+        {/* Mobile Navigation Arrows & Dots */}
+        <div className="flex md:hidden justify-between items-center w-full mt-2 mb-4 px-2">
+          <button onClick={() => scroll("left")} className="w-10 h-10 rounded-full border border-brand-primary/20 text-brand-primary flex items-center justify-center hover:bg-brand-primary hover:text-white transition-colors shadow-sm" aria-label="Scroll left">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          
+          <div className="flex items-center gap-2">
+            {testimonials.map((_, idx) => (
+              <div 
+                key={idx}
+                className={`transition-all duration-300 rounded-full ${activeIndex === idx ? "w-6 h-2 bg-brand-primary" : "w-2 h-2 bg-brand-primary/30"}`}
+              />
+            ))}
+          </div>
+
+          <button onClick={() => scroll("right")} className="w-10 h-10 rounded-full border border-brand-primary/20 text-brand-primary flex items-center justify-center hover:bg-brand-primary hover:text-white transition-colors shadow-sm" aria-label="Scroll right">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </div>
+
+        {/* Cards Grid (Horizontal Scroll on Mobile) */}
+        <div 
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-3 gap-6 lg:gap-8 pb-6 md:pb-0 [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.id}
@@ -66,22 +118,30 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 + 0.2 }}
-              className="bg-brand-surface border border-brand-primary/10 rounded-2xl p-6 md:p-8 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow"
+              className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center bg-white rounded-2xl p-6 md:p-8 flex flex-col justify-between shadow-sm hover:shadow-xl hover:shadow-brand-primary/5 hover:-translate-y-2 transition-all duration-300"
             >
               <div>
                 <Quote size={20} className="text-brand-primary mb-4" />
-                <p className="text-brand-dark/80 text-xs md:text-sm leading-relaxed mb-6 italic">
+                <p className="text-brand-dark/80 text-sm leading-relaxed mb-8">
                   "{testimonial.quote}"
                 </p>
               </div>
               
-              <div>
-                <h4 className="text-brand-dark font-bold text-sm">
-                  {testimonial.name}
-                </h4>
-                <p className="text-brand-dark/60 text-[10px] md:text-xs">
-                  {testimonial.title}
-                </p>
+              <div className="flex items-center gap-4 mt-auto">
+                <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-brand-surface border border-brand-primary/20">
+                  <img src={testimonial.image} alt={testimonial.name} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex flex-col">
+                  <h4 className="text-brand-dark font-bold text-sm leading-tight">
+                    {testimonial.name}
+                  </h4>
+                  <p className="text-brand-primary font-semibold text-[10px] md:text-xs leading-tight mt-1">
+                    {testimonial.title}
+                  </p>
+                  <p className="text-brand-dark/50 font-medium text-[10px] leading-tight mt-0.5">
+                    {testimonial.company}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}

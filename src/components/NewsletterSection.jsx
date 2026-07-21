@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function NewsletterSection() {
   return (
-    <section className="w-full bg-white py-12 md:py-16 px-6 md:px-12 flex justify-center pb-24">
+    <section className="w-full py-12 md:py-16 px-6 md:px-12 flex justify-center pb-24 bg-white">
       <div className="w-full max-w-5xl">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

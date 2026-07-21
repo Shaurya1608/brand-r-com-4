@@ -79,9 +79,8 @@ export default function JurySection() {
               transition={{ delay: 0.1 }}
               className="max-w-3xl"
             >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-dark mb-4">
-                An independent jury.<br />
-                <span className="text-brand-primary italic">Zero conflicts.</span>
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-brand-dark mb-6 leading-[1.1]">
+                An independent jury. <span className="text-brand-primary italic block sm:inline mt-2 sm:mt-0">Zero conflicts.</span>
               </h2>
             </motion.div>
 

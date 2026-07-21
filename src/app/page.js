@@ -10,22 +10,18 @@ import SpeakersSection from "@/components/SpeakersSection";
 import JurySection from "@/components/JurySection";
 import AwardsSection from "@/components/AwardsSection";
 import AwardCategoriesSection from "@/components/AwardCategoriesSection";
-import AwardProcessSection from "@/components/AwardProcessSection";
-import RequiredDocumentsSection from "@/components/RequiredDocumentsSection";
 import WinnerBenefitsSection from "@/components/WinnerBenefitsSection";
+import RequiredDocumentsSection from "@/components/RequiredDocumentsSection";
 import DelegateRegistrationSection from "@/components/DelegateRegistrationSection";
 import SponsorshipSection from "@/components/SponsorshipSection";
 import GeneralSponsorshipSection from "@/components/GeneralSponsorshipSection";
 import RegistrationFlowSection from "@/components/RegistrationFlowSection";
-import SecurePaymentsSection from "@/components/SecurePaymentsSection";
 import PastEditionsSection from "@/components/PastEditionsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import CompanyMarquee from "@/components/CompanyMarquee";
 import EcosystemPartnersSection from "@/components/EcosystemPartnersSection";
 import OrganiserSection from "@/components/OrganiserSection";
 import FaqSection from "@/components/FaqSection";
 import ContactSection from "@/components/ContactSection";
-import NewsletterSection from "@/components/NewsletterSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -42,22 +38,18 @@ export default function Home() {
       <SpeakersSection />
       <JurySection />
       <AwardCategoriesSection />
-      <AwardProcessSection />
-      <RequiredDocumentsSection />
       <WinnerBenefitsSection />
+      <RequiredDocumentsSection />
       <SponsorshipSection />
       <GeneralSponsorshipSection />
       <DelegateRegistrationSection />
       <AwardsSection />
       <RegistrationFlowSection />
-      <SecurePaymentsSection />
       <PastEditionsSection />
       <TestimonialsSection />
-      <CompanyMarquee />
       <EcosystemPartnersSection />
       <OrganiserSection />
-      <FaqSection />
-      <NewsletterSection />
+      {/* <FaqSection /> */}
       <ContactSection />
       <Footer />
     </main>

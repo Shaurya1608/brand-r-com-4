@@ -28,7 +28,7 @@ export default function DelegateRegistrationSection() {
   ];
 
   return (
-    <section id="delegates" className="relative w-full py-16 md:py-20 bg-brand-surface text-brand-dark overflow-hidden border-t border-brand-primary/10">
+    <section id="delegates" className="relative w-full py-16 md:py-20 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-brand-surface">
       
       {/* Subtle Background Elements */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />

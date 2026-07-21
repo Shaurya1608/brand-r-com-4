@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Lightbulb, Code2, PenTool, Megaphone } from "lucide-react";
 
 export default function OrganiserSection() {
   const stats = [
@@ -11,103 +12,121 @@ export default function OrganiserSection() {
     { value: "5", label: "INDUSTRY PLATFORMS" }
   ];
 
+  const services = [
+    {
+      title: "Strategy & Consulting",
+      description: "Market research, brand positioning, go-to-market strategy, and business development consulting for agriculture and allied sectors.",
+      icon: <Lightbulb className="w-6 h-6 text-brand-primary" />
+    },
+    {
+      title: "Digital & Technology",
+      description: "Website development, digital marketing, social media management, SEO/SEM, and technology solutions for events and brands.",
+      icon: <Code2 className="w-6 h-6 text-brand-primary" />
+    },
+    {
+      title: "Content & Creative",
+      description: "Content creation, graphic design, video production, branding, and creative communication for B2B and B2C audiences.",
+      icon: <PenTool className="w-6 h-6 text-brand-primary" />
+    },
+    {
+      title: "Communication & Activations",
+      description: "PR, media relations, influencer engagement, on-ground activations, and experiential marketing.",
+      icon: <Megaphone className="w-6 h-6 text-brand-primary" />
+    }
+  ];
+
   return (
-    <section className="relative w-full py-16 md:py-24 bg-white text-brand-dark overflow-hidden border-b border-brand-primary/10">
+    <section className="relative w-full py-16 md:py-24 text-brand-dark overflow-hidden border-b border-brand-primary/10 bg-brand-surface">
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12">
         
-        <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+        <div className="flex flex-col items-center justify-center max-w-4xl mx-auto text-center">
           
-          {/* Left Content */}
-          <div className="w-full md:w-1/2 flex flex-col items-start">
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center space-x-3 mb-6"
-            >
-              <div className="h-px w-6 bg-brand-primary" />
-              <span className="text-brand-primary tracking-[0.2em] text-[10px] md:text-xs font-bold uppercase">
-                The Organiser
-              </span>
-            </motion.div>
-            
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight text-brand-dark mb-4"
-            >
-              Snail Integral.
-            </motion.h2>
-            
-            <motion.h3
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-xl md:text-2xl font-serif text-brand-primary italic mb-6"
-            >
-              Slow craft. Sharp results.
-            </motion.h3>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="text-brand-dark/70 leading-relaxed mb-10 text-sm md:text-base max-w-lg"
-            >
-              Snail Integral is an integrated communication, media and consulting firm focused 
-              exclusively on the agriculture, rural and food ecosystem. We work with the 
-              industry's most demanding clients on brand strategy, communication, editorial and 
-              consumer research — and BRAND R.COMM is our flagship annual gathering.
-            </motion.p>
-            
-            {/* Stats */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-wrap gap-8 md:gap-12"
-            >
-              {stats.map((stat, index) => (
-                <div key={index} className="flex flex-col items-start">
-                  <span className="text-3xl md:text-4xl font-serif text-brand-primary mb-1">
-                    {stat.value}
-                  </span>
-                  <span className="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-bold text-brand-dark/60">
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
-            </motion.div>
-            
-          </div>
-          
-          {/* Right Image */}
           <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="w-full md:w-1/2"
+            className="flex items-center justify-center space-x-3 mb-6"
           >
-            <div className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-dark/10 group">
-              <div className="absolute inset-0 bg-brand-primary/10 mix-blend-multiply z-10 group-hover:bg-transparent transition-colors duration-500" />
-              <img
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200"
-                alt="Snail Integral Office"
-                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-              />
-              {/* Decorative border */}
-              <div className="absolute inset-0 rounded-[2rem] border border-white/20 z-20 pointer-events-none" />
-            </div>
+            <div className="h-px w-6 bg-brand-primary" />
+            <span className="text-brand-primary tracking-[0.2em] text-[10px] md:text-xs font-bold uppercase">
+              The Organiser
+            </span>
+            <div className="h-px w-6 bg-brand-primary" />
+          </motion.div>
+          
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight text-brand-dark mb-4"
+          >
+            Snail Integral.
+          </motion.h2>
+          
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-xl md:text-2xl font-serif text-brand-primary italic mb-6"
+          >
+            Slow craft. Sharp results.
+          </motion.h3>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="text-brand-dark/70 leading-relaxed mb-12 text-sm md:text-base lg:text-lg"
+          >
+            Snail Integral Pvt. Ltd. is a leading agricultural communication and marketing solutions provider, dedicated to enhancing the visibility and impact of businesses in the agriculture and rural sectors. Guided by our tagline, "Visibility Matters," we offer a comprehensive range of services, including Brand Building, Strategic Marketing, Celebrity Management & TVC Film Production, Corporate Communication, Public Relation, Event Management, Content Creation, and Digital Outreach. Our expertise lies in bridging the gap between innovation and stakeholders, empowering clients to achieve sustainable growth while fostering collaboration among industry leaders, policymakers, and farmers. At Snail Integral, we believe in driving transformation through creative solutions and impactful storytelling, ensuring our partners stand out in an evolving agricultural landscape.
+          </motion.p>
+          
+          {/* Stats */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-wrap justify-center gap-8 md:gap-16 w-full"
+          >
+            {stats.map((stat, index) => (
+              <div key={index} className="flex flex-col items-center text-center">
+                <span className="text-3xl md:text-4xl font-serif text-brand-primary mb-2">
+                  {stat.value}
+                </span>
+                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-bold text-brand-dark/60">
+                  {stat.label}
+                </span>
+              </div>
+            ))}
           </motion.div>
           
         </div>
+
+        {/* Services Grid */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mt-16 md:mt-24"
+        >
+          {services.map((service, index) => (
+            <div key={index} className="flex flex-col sm:flex-row items-start h-full bg-white p-6 md:p-8 rounded-2xl border border-brand-primary/10 hover:shadow-xl hover:shadow-brand-primary/5 hover:border-brand-primary/30 transition-all duration-300 hover:-translate-y-1 group">
+              <div className="w-12 h-12 shrink-0 rounded-xl bg-brand-primary/10 flex items-center justify-center mb-5 sm:mb-0 sm:mr-6 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">
+                {React.cloneElement(service.icon, { className: "w-6 h-6 transition-colors duration-300 text-brand-primary group-hover:text-white" })}
+              </div>
+              <div className="flex flex-col flex-grow">
+                <h4 className="text-lg font-bold text-brand-dark mb-2 leading-tight group-hover:text-brand-primary transition-colors duration-300">{service.title}</h4>
+                <p className="text-sm text-brand-dark/70 leading-relaxed">{service.description}</p>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
       </div>
     </section>
   );

@@ -30,7 +30,7 @@ export default function PastEditionsSection() {
   ];
 
   return (
-    <section id="past-editions" className="relative w-full py-12 md:py-16 bg-brand-surface text-brand-dark overflow-hidden border-t border-brand-primary/10">
+    <section id="past-editions" className="relative w-full py-12 md:py-16 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-white">
       
       <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12">
         
@@ -56,22 +56,9 @@ export default function PastEditionsSection() {
               transition={{ delay: 0.1 }}
               className="text-3xl md:text-4xl font-serif leading-tight text-brand-dark"
             >
-              Three editions.<br/>
-              <span className="text-brand-dark/70">A permanent seat on the industry calendar.</span>
+              Glimpse of The BRAND R.Comm Summit & Awards 2025
             </motion.h2>
           </div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="max-w-xs"
-          >
-            <p className="text-brand-dark/60 text-xs md:text-sm leading-relaxed">
-              A curated look at what happened when Indian agri-industry's most influential leaders gathered under one roof.
-            </p>
-          </motion.div>
         </div>
 
         {/* Cards Grid */}

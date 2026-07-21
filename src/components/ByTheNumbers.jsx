@@ -116,7 +116,7 @@ export default function ByTheNumbers() {
 
           <div className="max-w-md lg:pb-2">
             <p className="text-brand-dark/70 leading-relaxed font-sans text-base">
-              Since 2023, BRAND R.COMM has grown from a curated dinner of 200 CMOs into India&apos;s most reported agriculture & rural communication summit — and it is only accelerating.
+              Since 2023, BRAND R.COMM has grown from a curated dinner of 200 CMOs into India&apos;s most reported agriculture & rural communication summit and it is only accelerating.
             </p>
           </div>
         </div>

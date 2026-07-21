@@ -48,7 +48,7 @@ export default function RegistrationFlowSection() {
   ];
 
   return (
-    <section id="registration-flow" className="relative w-full bg-brand-surface py-16 md:py-20 overflow-hidden text-brand-dark border-t border-brand-primary/10">
+    <section id="registration-flow" className="relative w-full py-16 md:py-20 overflow-hidden text-brand-dark border-t border-brand-primary/10 bg-brand-surface">
       
       {/* Background Glow */}
       <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none -translate-x-1/3 -translate-y-1/2" />

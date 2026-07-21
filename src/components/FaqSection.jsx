@@ -31,7 +31,7 @@ export default function FaqSection() {
   ];
 
   return (
-    <section className="relative w-full py-12 md:py-16 bg-brand-surface text-brand-dark overflow-hidden border-b border-brand-primary/10">
+    <section className="relative w-full py-12 md:py-16 text-brand-dark overflow-hidden border-b border-brand-primary/10 bg-brand-surface">
       
       {/* Decorative Blur */}
       <div className="absolute top-0 left-1/2 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
@@ -76,14 +76,14 @@ export default function FaqSection() {
           </motion.div>
         </div>
         {/* Accordion */}
-        <div className="w-full max-w-4xl">
-          <div className="flex flex-col">
+        <div className="w-full max-w-7xl">
+          <div className="columns-1 lg:columns-2 gap-8 md:gap-12 lg:gap-16">
             {faqs.map((faq, index) => {
               const isOpen = openIndex === index;
               return (
                 <div 
                   key={index} 
-                  className="group border-b border-brand-primary/10 last:border-b-0"
+                  className="break-inside-avoid group border-b border-brand-primary/10 lg:last:border-b-0"
                 >
                   <button
                     onClick={() => setOpenIndex(isOpen ? -1 : index)}

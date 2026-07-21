@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Phone, Mail } from "lucide-react";
 
 const FacebookIcon = ({ size = 24, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -20,131 +20,130 @@ const InstagramIcon = ({ size = 24, className = "" }) => (
 
 export default function ContactSection() {
   return (
-    <section className="relative w-full py-16 bg-white text-black overflow-hidden border-b border-black/10">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <section className="relative w-full py-16 text-black overflow-hidden border-b border-black/10 bg-white">
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
         
-        {/* TOP ROW: Contact Info & Form */}
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 mb-20">
-          
-          {/* Left Column: Info */}
-          <div className="w-full lg:w-1/2 flex flex-col">
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter mb-6 leading-none text-brand-dark">
-              Contact Us
-            </h2>
-            
-            <p className="text-sm md:text-base text-brand-dark/70 max-w-sm mb-10 font-medium">
-              Snail Integral conveniently located in Delhi NCR, India. You can contact us via e-mail, phone or simply walk-in.
-            </p>
-            
-            <div className="flex flex-col gap-5">
-              <div className="flex items-center gap-2 group cursor-pointer">
-                <span className="text-base md:text-lg font-medium text-brand-dark">Snail Integral, Delhi NCR, India</span>
-                <ArrowRight className="text-[#8CC63F] group-hover:translate-x-1 transition-transform" size={18} strokeWidth={3} />
-              </div>
-              <p className="text-[11px] font-bold text-brand-dark/50 -mt-3 mb-1">Monday - Friday | 10:00 am-5:30 pm</p>
+        {/* Header */}
+        <div className="flex flex-col items-center text-center mb-12 mt-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center space-x-2 mb-4 bg-brand-primary/10 py-1 px-3 md:px-4 rounded-full"
+          >
+            <span className="text-brand-primary tracking-[0.2em] text-[9px] md:text-[10px] font-bold uppercase">
+              Get in Touch
+            </span>
+          </motion.div>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight text-brand-dark"
+          >
+            Contact Us
+          </motion.h2>
+        </div>
 
-              <div className="flex items-center gap-2 group cursor-pointer">
-                <span className="text-base md:text-lg font-medium text-brand-dark">+91 98100 00000</span>
-                <ArrowRight className="text-[#8CC63F] group-hover:translate-x-1 transition-transform" size={18} strokeWidth={3} />
+        {/* Team Contacts */}
+        <div className="mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {/* Card 1 */}
+            <div className="bg-white border border-brand-primary/10 rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow h-full">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 mb-6 bg-gray-50 shadow-sm flex items-center justify-center">
+                <img src="/team/Amit Khare New.png" alt="Amit BK Khare" className="w-full h-full object-cover object-top" />
               </div>
-
-              <div className="flex items-center gap-2 group cursor-pointer -mt-3">
-                <span className="text-base md:text-lg font-medium text-brand-dark">+91 98200 00000</span>
-                <ArrowRight className="text-[#8CC63F] group-hover:translate-x-1 transition-transform" size={18} strokeWidth={3} />
+              <h3 className="text-xl font-bold text-[#0a2540] mb-1">Amit BK Khare</h3>
+              <p className="text-[#8CC63F] text-xs font-bold uppercase tracking-wide mb-4">FOUNDER AND MANAGING PARTNER</p>
+              <div className="w-full mt-auto flex flex-col gap-3 text-sm text-gray-600 text-left border-t border-gray-100 pt-6">
+                <div className="flex items-start gap-3">
+                  <Phone size={16} className="text-[#8CC63F] shrink-0 mt-1" />
+                  <div className="flex flex-col">
+                    <span>+91 8750807676</span>
+                    <span>+91 9354342588</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Mail size={16} className="text-[#8CC63F] shrink-0 mt-1" />
+                  <div className="flex flex-col">
+                    <a href="mailto:amit.khare@snailintegral.com" className="hover:text-brand-primary transition-colors">amit.khare@snailintegral.com</a>
+                    <a href="mailto:snailintegral@gmail.com" className="hover:text-brand-primary transition-colors">snailintegral@gmail.com</a>
+                  </div>
+                </div>
               </div>
-
-              <div className="flex items-center gap-2 group cursor-pointer mt-1">
-                <span className="text-base md:text-lg font-medium text-brand-dark">hello@rcomm-awards.com</span>
-                <ArrowRight className="text-[#8CC63F] group-hover:translate-x-1 transition-transform" size={18} strokeWidth={3} />
+              <div className="w-full flex flex-col items-center justify-center mt-6 pt-6 border-t border-gray-100">
+                <div className="w-24 h-24 mb-3">
+                  <img src="/qr/Amit Khare QR Code.png" alt="Amit BK Khare QR" className="w-full h-full object-contain" />
+                </div>
+                <p className="text-[10px] text-gray-400 uppercase tracking-widest">Scan for contact info</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 mt-8">
-              <a href="#" className="w-8 h-8 bg-black/5 rounded-sm flex items-center justify-center hover:bg-black/10 transition-colors">
-                <FacebookIcon size={16} className="text-brand-dark" />
-              </a>
-              <a href="#" className="w-8 h-8 bg-black/5 rounded-sm flex items-center justify-center hover:bg-black/10 transition-colors">
-                <InstagramIcon size={16} className="text-brand-dark" />
-              </a>
+            {/* Card 2 */}
+            <div className="bg-white border border-brand-primary/10 rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow h-full">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 mb-6 bg-gray-50 shadow-sm flex items-center justify-center">
+                <img src="/team/Arpita.png" alt="Arpita Kaur Matharu" className="w-full h-full object-cover object-top" />
+              </div>
+              <h3 className="text-xl font-bold text-[#0a2540] mb-1">Arpita Kaur Matharu</h3>
+              <p className="text-[#8CC63F] text-xs font-bold uppercase tracking-wide mb-4">LEAD, DIGITAL MARKETING</p>
+              <div className="w-full mt-auto flex flex-col gap-3 text-sm text-gray-600 text-left border-t border-gray-100 pt-6">
+                <div className="flex items-start gap-3">
+                  <Phone size={16} className="text-[#8CC63F] shrink-0 mt-1" />
+                  <div className="flex flex-col">
+                    <span>+91 8700178106</span>
+                    <span>+91 8750807676</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Mail size={16} className="text-[#8CC63F] shrink-0 mt-1" />
+                  <div className="flex flex-col">
+                    <a href="mailto:info@snailintegral.com" className="hover:text-brand-primary transition-colors">info@snailintegral.com</a>
+                    <a href="mailto:snailintegral@gmail.com" className="hover:text-brand-primary transition-colors">snailintegral@gmail.com</a>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full flex flex-col items-center justify-center mt-6 pt-6 border-t border-gray-100">
+                <div className="w-24 h-24 mb-3">
+                  <img src="/qr/Arpita QR Code.png" alt="Arpita Kaur Matharu QR" className="w-full h-full object-contain" />
+                </div>
+                <p className="text-[10px] text-gray-400 uppercase tracking-widest">Scan for contact info</p>
+              </div>
             </div>
-          </div>
 
-          {/* Right Column: Form */}
-          <div className="w-full lg:w-1/2">
-            <div className="bg-white border border-black/5 p-6 md:p-8 shadow-sm w-full max-w-lg mx-auto lg:ml-auto rounded-sm">
-              <h3 className="text-sm font-bold mb-5 text-brand-dark">Chat with us or fill out this form:</h3>
-              
-              <form className="flex flex-col gap-4">
-                <input 
-                  type="text" 
-                  placeholder="Name" 
-                  className="w-full border-b border-black/10 pb-2 text-sm placeholder:text-black/40 focus:outline-none focus:border-brand-dark transition-colors bg-transparent text-brand-dark"
-                />
-                <input 
-                  type="email" 
-                  placeholder="Email" 
-                  className="w-full border-b border-black/10 pb-2 text-sm placeholder:text-black/40 focus:outline-none focus:border-brand-dark transition-colors bg-transparent text-brand-dark"
-                />
-                <input 
-                  type="text" 
-                  placeholder="Describe your project" 
-                  className="w-full border-b border-black/10 pb-2 text-sm placeholder:text-black/40 focus:outline-none focus:border-brand-dark transition-colors bg-transparent text-brand-dark"
-                />
-                
-                <label className="flex items-start gap-2 mt-2 cursor-pointer group">
-                  <input type="checkbox" className="mt-1 rounded-sm border-black/20 text-[#8CC63F] focus:ring-[#8CC63F]" />
-                  <span className="text-[10px] text-black/60 group-hover:text-black transition-colors">
-                    By submitting this form, you agree to our <a href="#" className="underline">Privacy Policy</a>.
-                  </span>
-                </label>
-
-                <button type="button" className="bg-[#8CC63F] text-brand-dark font-bold text-xs py-3 px-8 mt-2 w-fit hover:bg-opacity-90 transition-opacity">
-                  Submit
-                </button>
-              </form>
+            {/* Card 3 */}
+            <div className="bg-white border border-brand-primary/10 rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow h-full">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 mb-6 bg-gray-50 shadow-sm flex items-center justify-center">
+                <img src="/team/Yashi sharma.png" alt="Yashasvi Sharma" className="w-full h-full object-cover object-top" />
+              </div>
+              <h3 className="text-xl font-bold text-[#0a2540] mb-1">Yashasvi Sharma</h3>
+              <p className="text-[#8CC63F] text-xs font-bold uppercase tracking-wide mb-4">LEAD, BUSINESS SUPPORT</p>
+              <div className="w-full mt-auto flex flex-col gap-3 text-sm text-gray-600 text-left border-t border-gray-100 pt-6">
+                <div className="flex items-start gap-3">
+                  <Phone size={16} className="text-[#8CC63F] shrink-0 mt-1" />
+                  <div className="flex flex-col">
+                    <span>+91 8527552425</span>
+                    <span>+91 8750807676</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Mail size={16} className="text-[#8CC63F] shrink-0 mt-1" />
+                  <div className="flex flex-col">
+                    <a href="mailto:marketing@snailintegral.com" className="hover:text-brand-primary transition-colors">marketing@snailintegral.com</a>
+                    <a href="mailto:snailintegral2@gmail.com" className="hover:text-brand-primary transition-colors">snailintegral2@gmail.com</a>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full flex flex-col items-center justify-center mt-6 pt-6 border-t border-gray-100">
+                <div className="w-24 h-24 mb-3">
+                  <img src="/qr/Yashi sharma QR.png" alt="Yashasvi Sharma QR" className="w-full h-full object-contain" />
+                </div>
+                <p className="text-[10px] text-gray-400 uppercase tracking-widest">Scan for contact info</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* BOTTOM ROW: Map & Gallery */}
-        <div className="flex flex-col w-full">
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter mb-6 leading-none text-brand-dark">
-            How to Find Us
-          </h2>
-          
-          {/* Main Map */}
-          <div className="w-full h-[320px] bg-gray-200 mb-2 relative group overflow-hidden">
-             <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d448181.1637411366!2d76.81306232675662!3d28.647279935105315!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sDelhi!5e0!3m2!1sen!2sin!4v1715000000000!5m2!1sen!2sin"
-                className="absolute inset-0 w-full h-full border-0 opacity-90 transition-all duration-500 hover:opacity-100"
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Location Map"
-              ></iframe>
-              
-              <a href="https://maps.google.com/?q=Delhi" target="_blank" rel="noopener noreferrer" className="absolute bottom-4 left-4 bg-[#8CC63F] text-brand-dark text-[10px] font-bold px-3 py-1.5 hover:bg-opacity-90 transition-opacity z-10">
-                Open in google maps
-              </a>
-          </div>
-
-          {/* 3 Images Grid */}
-          <div className="grid grid-cols-3 gap-2 h-[160px] md:h-[200px] lg:h-[250px]">
-            <div className="w-full h-full bg-gray-300 relative overflow-hidden group">
-               <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" alt="Building 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            </div>
-            <div className="w-full h-full bg-gray-300 relative overflow-hidden group">
-               <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" alt="Building 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            </div>
-            <div className="w-full h-full bg-gray-300 relative overflow-hidden group cursor-pointer">
-               <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069&auto=format&fit=crop" alt="Building 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-               <div className="absolute inset-0 bg-black/10 flex items-center justify-center transition-colors group-hover:bg-black/30">
-                  <ArrowUpRight className="text-white w-8 h-8 drop-shadow-md" strokeWidth={2} />
-               </div>
-            </div>
-          </div>
-          
-        </div>
       </div>
     </section>
   );

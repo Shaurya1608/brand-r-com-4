@@ -1,6 +1,10 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import SponsorModal from "./SponsorModal";
 
 export default function Hero() {
+  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
+
   return (
     <section className="relative w-full min-h-[100dvh] flex items-center justify-center pt-24 pb-20 overflow-hidden bg-[url('/landing/generated_bg.png')] bg-cover bg-center">
       
@@ -11,7 +15,7 @@ export default function Hero() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-primary/20 rounded-full blur-[150px] pointer-events-none z-0" />
 
       {/* Text Container with Glassmorphism and pronounced green glow */}
-      <div className="relative z-10 max-w-2xl mx-auto px-6 md:px-10 pt-4 pb-6 md:pt-6 md:pb-8 w-[90%] md:w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 bg-black/5 md:bg-black/20 backdrop-blur-sm md:backdrop-blur-md rounded-[2.5rem] border border-brand-primary/20 shadow-[0_0_60px_rgba(var(--brand-primary),0.2)] shadow-brand-primary/10 -mt-12 md:-mt-16">
+      <div className="relative z-10 max-w-2xl mx-auto px-6 md:px-10 pt-4 pb-6 md:pt-6 md:pb-8 w-[90%] md:w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 bg-black/5 md:bg-black/20 backdrop-blur-sm md:backdrop-blur-md rounded-[2.5rem] border border-brand-primary/20 shadow-[0_0_60px_rgba(var(--brand-primary),0.2)] shadow-brand-primary/10 mt-8 md:mt-12">
         
         {/* Event Logo */}
         <div className="mb-3 md:mb-4">
@@ -34,17 +38,28 @@ export default function Hero() {
         
         
 
-        {/* Call to Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 w-full sm:w-auto">
-          <button className="btn-primary w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-8 text-sm group">
-            <span>REGISTER NOW</span>
-            <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </button>
-          <button className="btn-ghost w-full sm:w-auto py-3 px-8 text-sm border-white/30 text-white hover:bg-white/10 hover:border-white">
-            BECOME A SPONSOR
-          </button>
+        {/* Call to Actions - Quick Links */}
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 w-full mt-4">
+          {[
+            "Become a Sponsor",
+            "Benefits of Sponsors",
+            "Nomination for Awards",
+            "Register as Delegate",
+            "Speaker Interest",
+            "Event Brochure"
+          ].map((text, i) => (
+            <button 
+              key={i} 
+              onClick={() => {
+                if (text === "Become a Sponsor") {
+                  setIsSponsorModalOpen(true);
+                }
+              }}
+              className="px-4 py-2 md:px-5 md:py-2.5 text-xs md:text-sm font-medium text-white bg-white/5 backdrop-blur-sm border border-white/30 hover:bg-brand-primary hover:border-brand-primary transition-all duration-300 whitespace-nowrap rounded"
+            >
+              {text}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -61,6 +76,10 @@ export default function Hero() {
         </p>
       </div>
       
+      <SponsorModal 
+        isOpen={isSponsorModalOpen} 
+        onClose={() => setIsSponsorModalOpen(false)} 
+      />
     </section>
   );
 }

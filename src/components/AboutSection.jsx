@@ -6,7 +6,7 @@ export default function AboutSection() {
     {
       label: "OUR MISSION",
       title: "Move the needle for agri-communication.",
-      description: "Set the industry benchmark for what excellent agri-marketing looks like — and celebrate the work that raises it every year.",
+      description: "Set the industry benchmark for what excellent agri-marketing looks like and celebrate the work that raises it every year.",
       delay: "0",
     },
     {
@@ -51,7 +51,7 @@ export default function AboutSection() {
               </h2>
 
               <p className="text-brand-dark/70 text-sm md:text-base leading-relaxed font-sans mb-8 max-w-lg">
-                BRAND R.COMM exists because the story of Indian agriculture is being rewritten every quarter — and the people writing it deserved a room designed for them. A room where a Chairman shares a table with a young CMO, an agency creative sits beside a policy adviser, and a village-first startup pitches an idea to the head of a multinational. That is where BRAND R.COMM begins.
+                BRAND R.COMM exists because the story of Indian agriculture is being rewritten every quarter and the people writing it deserved a room designed for them. A room where a Chairman shares a table with a young CMO, an agency creative sits beside a policy adviser, and a village-first startup pitches an idea to the head of a multinational. That is where BRAND R.COMM begins.
               </p>
 
               {/* Decorative Image */}

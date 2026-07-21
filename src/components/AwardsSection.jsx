@@ -12,14 +12,14 @@ export default function AwardsSection() {
   ];
 
   const timeline = [
-    { label: "Nominations close", date: "30 Oct 2026" },
-    { label: "Shortlist announced", date: "15 Nov 2026" },
-    { label: "Jury round", date: "22 Nov 2026" },
-    { label: "Awards ceremony", date: "4 Dec 2026" }
+    { label: "Last Date for application", date: "10 Nov 2026" },
+    { label: "Screening & Jury Round", date: "20 Nov 2026" },
+    { label: "Winner Announcement", date: "25 Nov 2026" },
+    { label: "Awards Distribution", date: "4 Dec 2026" }
   ];
 
   return (
-    <section id="awards" className="relative w-full bg-white py-16 md:py-20 overflow-hidden text-brand-dark border-t border-brand-primary/10">
+    <section id="awards" className="relative w-full py-16 md:py-20 overflow-hidden text-brand-dark border-t border-brand-primary/10 bg-white">
       
       {/* Background Glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
@@ -88,24 +88,17 @@ export default function AwardsSection() {
                   ₹ 10,000 <span className="text-xs md:text-sm font-sans text-brand-dark/50">+ GST</span>
                 </div>
               </div>
-              
-              <div className="hidden md:block w-px h-12 bg-brand-primary/10" />
-              <div className="md:hidden w-full h-px bg-brand-primary/10" />
-              
-              <div className="flex-1">
-                <span className="text-brand-dark/50 font-mono text-[9px] tracking-widest uppercase block mb-2 font-semibold">
-                  Approval Required
-                </span>
-                <div className="text-brand-dark/80 text-sm md:text-base font-medium">
-                  Senior Management sign-off
-                </div>
-              </div>
 
-              <div className="w-full md:w-auto mt-4 md:mt-0">
+              <div className="w-full md:w-auto mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
                 <button
-                  className="w-full md:w-auto px-8 py-4 bg-brand-primary text-white text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-brand-primary-hover transition-colors shadow-sm rounded-lg whitespace-nowrap"
+                  className="w-full sm:w-auto px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-brand-primary-hover transition-colors shadow-sm rounded-lg whitespace-nowrap"
                 >
-                  Nominate Your Work
+                  Download Award Brochure
+                </button>
+                <button
+                  className="w-full sm:w-auto px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-brand-primary-hover transition-colors shadow-sm rounded-lg whitespace-nowrap"
+                >
+                  Nomination for Awards
                 </button>
               </div>
             </div>
@@ -119,38 +112,18 @@ export default function AwardsSection() {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="bg-white border border-brand-primary/10 rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md hover:border-brand-primary/30 transition-all duration-300 w-full"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-              
-              <div>
-                <span className="text-brand-dark/60 font-mono text-[9px] tracking-[0.2em] uppercase block mb-6 font-semibold">
-                  Benefits
-                </span>
-                <ul className="space-y-4">
-                  {benefits.map((benefit, idx) => (
-                    <li key={idx} className="flex items-start space-x-3">
-                      <svg className="w-3.5 h-3.5 text-brand-primary mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="text-brand-dark/80 text-sm leading-relaxed">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
+            <div className="max-w-2xl mx-auto">
+              <span className="text-brand-dark/60 font-mono text-[9px] tracking-[0.2em] uppercase block mb-6 font-semibold text-center">
+                Timeline
+              </span>
+              <div className="space-y-1">
+                {timeline.map((item, idx) => (
+                  <div key={idx} className="flex justify-between items-center group/item hover:bg-brand-surface py-2 px-3 md:px-6 rounded-lg transition-colors">
+                    <span className="text-brand-dark/80 text-sm md:text-base">{item.label}</span>
+                    <span className="text-brand-dark/90 text-sm md:text-base font-mono tracking-wider font-semibold">{item.date}</span>
+                  </div>
+                ))}
               </div>
-
-              <div>
-                <span className="text-brand-dark/60 font-mono text-[9px] tracking-[0.2em] uppercase block mb-6 font-semibold">
-                  Timeline
-                </span>
-                <div className="space-y-3">
-                  {timeline.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center group/item hover:bg-brand-surface p-2 -mx-2 rounded-lg transition-colors">
-                      <span className="text-brand-dark/60 text-xs md:text-sm">{item.label}</span>
-                      <span className="text-brand-dark/90 text-xs md:text-sm font-mono tracking-wider font-semibold">{item.date}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
             </div>
           </motion.div>
 

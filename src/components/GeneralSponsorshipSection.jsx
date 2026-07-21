@@ -7,87 +7,70 @@ export default function GeneralSponsorshipSection() {
   const sponsorships = [
     {
       title: "Platinum Sponsor",
-      price: "₹ 10,00,000",
-      visibility: "Highest tier under Powered By",
-      deliverables: "Prime signage, opening reel, 8 delegate passes, panel slot, CTB feature",
-      exposure: "Pre, during & post-event"
+      price: "₹5,00,000 + GST",
+      features: [
+        "Official Platinum Sponsor recognition.",
+        "Branding on event marketing collaterals.",
+        "Premium logo visibility at the venue.",
+        "Speaking or networking opportunities.",
+        "Venue standee branding.",
+        "Colour advertisement in the event souvenir.",
+        "2-Pages Feature coverage in The SnailShow Coffee Table Book.",
+        "Dedicated episode on The SnailShow Podcast (Before or After the Event).",
+        "06 Complimentary Delegates Passes"
+      ]
     },
     {
       title: "Gold Sponsor",
-      price: "₹ 7,50,000",
-      visibility: "Top-tier logo placement",
-      deliverables: "Signage, 6 passes, half-page CTB feature, LinkedIn co-branded post",
-      exposure: "Pre, during & post-event"
+      price: "₹4,00,000 + GST",
+      features: [
+        "Official Gold Sponsor recognition.",
+        "Branding across event communication.",
+        "Venue standee branding.",
+        "Logo visibility on marketing collaterals.",
+        "Colour advertisement in the event souvenir.",
+        "2-Pages Feature coverage in The SnailShow Coffee Table Book.",
+        "Dedicated episode on The SnailShow Podcast (Before or After the Event).",
+        "05 Complimentary Delegates Passes"
+      ]
     },
     {
       title: "Silver Sponsor",
-      price: "₹ 5,00,000",
-      visibility: "Mid-tier placement",
-      deliverables: "4 passes, quarter-page CTB feature, event signage",
-      exposure: "Pre & during event"
+      price: "₹3,00,000 + GST",
+      features: [
+        "Official Silver Sponsor recognition.",
+        "Branding on marketing collaterals.",
+        "Venue standee branding.",
+        "Special acknowledgement during the event.",
+        "Colour advertisement in the event souvenir.",
+        "2-Pages Feature coverage in The SnailShow Coffee Table Book.",
+        "Dedicated episode on The SnailShow Podcast (Before or After the Event).",
+        "04 Complimentary Delegates Passes"
+      ]
     },
     {
       title: "Bronze Sponsor",
-      price: "₹ 3,00,000",
-      visibility: "Standard placement",
-      deliverables: "3 passes, listing in CTB, social mention",
-      exposure: "During event"
-    },
-    {
-      title: "Delegate Kit Sponsor",
-      price: "₹ 4,00,000",
-      visibility: "Every delegate carries your brand",
-      deliverables: "Branded delegate kit + 3 passes",
-      exposure: "During event & beyond"
-    },
-    {
-      title: "Lunch Sponsor",
-      price: "₹ 3,50,000",
-      visibility: "Branded lunch area",
-      deliverables: "Signage + menu branding + 3 passes",
-      exposure: "During event"
-    },
-    {
-      title: "Gala Dinner Sponsor",
-      price: "₹ 6,00,000",
-      visibility: "Owning the gala moment",
-      deliverables: "Dinner area branding, table branding, 5 passes",
-      exposure: "During event peak hours"
-    },
-    {
-      title: "Agenda Sponsor",
-      price: "₹ 2,50,000",
-      visibility: "Logo on printed & digital agenda",
-      deliverables: "Logo lock-up + 2 passes",
-      exposure: "Pre & during event"
-    },
-    {
-      title: "Badge Sponsor",
-      price: "₹ 2,00,000",
-      visibility: "Every delegate wears your brand",
-      deliverables: "Co-branded badges + 2 passes",
-      exposure: "During event"
-    },
-    {
-      title: "Lanyard Sponsor",
-      price: "₹ 2,00,000",
-      visibility: "Lanyard printed with your logo",
-      deliverables: "Lanyard branding + 2 passes",
-      exposure: "During event"
+      price: "₹2,00,000 + GST",
+      features: [
+        "Official Bronze Sponsor recognition.",
+        "Branding on marketing collaterals.",
+        "Venue branding opportunity.",
+        "Special acknowledgement during the event.",
+        "02 Complimentary Delegates Passes"
+      ]
     },
     {
       title: "Panel Sponsor",
-      price: "₹ 3,00,000",
-      visibility: "One dedicated panel sponsored",
-      deliverables: "Opening mention, backdrop, 3 passes",
-      exposure: "During event"
-    },
-    {
-      title: "Memento Sponsor",
-      price: "₹ 2,50,000",
-      visibility: "Every winner receives a memento",
-      deliverables: "Co-branded memento + 2 passes",
-      exposure: "During event & post-event"
+      price: "₹2,00,000 + GST",
+      features: [
+        "Official sponsorship of a conference panel session.",
+        "Logo branding on the panel backdrop and session screen.",
+        "Brand recognition before and after the panel discussion.",
+        "Opportunity for a company representative to introduce or moderate the session.",
+        "Branding across session-specific communication.",
+        "Venue standee branding.",
+        "04 Complimentary Delegates Passes"
+      ]
     }
   ];
 
@@ -115,7 +98,7 @@ export default function GeneralSponsorshipSection() {
   };
 
   return (
-    <section className="relative w-full bg-white py-20 overflow-hidden">
+    <section className="relative w-full py-20 overflow-hidden bg-white">
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
         
         {/* Header */}
@@ -174,7 +157,7 @@ export default function GeneralSponsorshipSection() {
           <div 
             ref={scrollRef}
             onScroll={handleScroll}
-            className="flex overflow-x-auto gap-6 lg:gap-8 pb-8 snap-x snap-mandatory px-4 md:px-0 scroll-smooth"
+            className="w-full flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 px-4 md:px-12 items-stretch hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             <style dangerouslySetInnerHTML={{__html: `
@@ -183,51 +166,36 @@ export default function GeneralSponsorshipSection() {
             {sponsorships.map((tier, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: (idx % 3) * 0.1 }}
-                className="flex flex-col bg-white rounded-3xl p-5 lg:p-6 border border-brand-primary/10 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-brand-primary/30 transition-all duration-300 w-[85vw] sm:w-[320px] md:w-[350px] lg:w-[380px] flex-shrink-0 snap-center md:snap-start"
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="w-[95%] md:w-[90%] lg:w-[100%] max-w-[1200px] snap-center shrink-0 bg-white rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col lg:flex-row gap-8 lg:gap-10 justify-between mx-auto border border-brand-primary/10 shadow-sm hover:shadow-xl transition-all duration-300"
               >
-                {/* Header: Title and Price */}
-                <div className="mb-4 pb-4 border-b border-gray-100">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-brand-primary/60 text-[8px] font-bold tracking-widest uppercase">SPONSOR TIER</span>
+                <div className="flex-1 lg:max-w-md flex flex-col">
+                  <div className="flex items-center space-x-3 mb-6 text-brand-dark/40 text-[10px] font-mono tracking-widest uppercase">
+                    <span>SPONSOR TIER</span>
                   </div>
-                  <h3 className="text-lg font-serif text-brand-dark mb-1 transition-colors">{tier.title}</h3>
-                  <div className="text-xl lg:text-2xl font-serif text-brand-primary">{tier.price}</div>
-                </div>
-                
-                {/* Features */}
-                <div className="space-y-3 flex-grow mb-5">
-                  <div>
-                    <h4 className="flex items-center text-[8px] font-bold tracking-widest uppercase text-brand-dark/40 mb-1">
-                      <svg className="w-3 h-3 mr-1.5 text-brand-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                      Visibility
-                    </h4>
-                    <p className="text-xs text-brand-dark/80 leading-snug">{tier.visibility}</p>
-                  </div>
-                  <div>
-                    <h4 className="flex items-center text-[8px] font-bold tracking-widest uppercase text-brand-dark/40 mb-1">
-                      <svg className="w-3 h-3 mr-1.5 text-brand-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                      Deliverables
-                    </h4>
-                    <p className="text-xs text-brand-dark/80 leading-snug">{tier.deliverables}</p>
-                  </div>
-                  <div>
-                    <h4 className="flex items-center text-[8px] font-bold tracking-widest uppercase text-brand-dark/40 mb-1">
-                      <svg className="w-3 h-3 mr-1.5 text-brand-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
-                      Brand Exposure
-                    </h4>
-                    <p className="text-xs text-brand-dark/80 leading-snug">{tier.exposure}</p>
+                  
+                  <h3 className="text-3xl md:text-4xl font-serif text-brand-dark mb-2">{tier.title}</h3>
+                  <div className="text-xl md:text-2xl font-serif text-brand-primary mb-4">{tier.price}</div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 mt-auto lg:mt-10">
+                    <button className="px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-widest uppercase hover:bg-brand-dark transition-colors text-center rounded">
+                      ENQUIRE NOW
+                    </button>
                   </div>
                 </div>
-                
-                {/* Action Button */}
-                <div className="mt-auto pt-4 border-t border-gray-50">
-                  <button className="w-full py-2.5 bg-white border border-brand-primary/20 text-brand-dark text-[9px] font-bold tracking-widest uppercase hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all duration-300 text-center rounded shadow-sm hover:shadow-md">
-                    ENQUIRE NOW
-                  </button>
+
+                <div className="flex-1 flex flex-col justify-center space-y-6 lg:pl-12 lg:border-l lg:border-brand-primary/10">
+                  <ul className="space-y-2 md:space-y-2.5">
+                    {tier.features.map((feature, i) => (
+                      <li key={i} className="flex items-start space-x-3">
+                        <span className="text-brand-primary font-serif italic text-base leading-none mt-0.5">&rsaquo;</span>
+                        <span className="text-brand-dark/80 text-[13px] leading-relaxed">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </motion.div>
             ))}

@@ -13,7 +13,7 @@ export default function WhyAttend() {
     },
     {
       title: "Category-Defining Ideas",
-      description: "Six hours of curated content — no filler. CEOs, agencies and policymakers unpack the campaigns and playbooks that reshaped rural India in 2025.",
+      description: "Six hours of curated content no filler. CEOs, agencies and policymakers unpack the campaigns and playbooks that reshaped rural India in 2025.",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -40,7 +40,7 @@ export default function WhyAttend() {
     },
     {
       title: "Signal, Not Noise",
-      description: "Proprietary research, agency benchmarks and rural consumer data released first at BRAND R.COMM — before the trade press picks it up.",
+      description: "Proprietary research, agency benchmarks and rural consumer data released first at BRAND R.COMM before the trade press picks it up.",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
@@ -59,7 +59,7 @@ export default function WhyAttend() {
   ];
 
   return (
-    <section id="why-attend" className="relative w-full bg-brand-surface min-h-screen flex items-center py-20 overflow-hidden border-t border-brand-dark/5">
+    <section id="why-attend" className="relative w-full bg-brand-surface flex items-center py-16 overflow-hidden border-t border-brand-dark/5">
       
       {/* Decorative background element */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -68,7 +68,7 @@ export default function WhyAttend() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 text-center">
         
         {/* Header centered */}
-        <div className="max-w-2xl mx-auto mb-16 md:mb-24 flex flex-col items-center">
+        <div className="max-w-4xl mx-auto mb-12 md:mb-16 flex flex-col items-center">
           <div className="flex items-center space-x-3 mb-4">
             <div className="h-px w-8 bg-brand-primary" />
             <span className="text-brand-primary tracking-[0.2em] text-[10px] font-bold uppercase">
@@ -83,7 +83,7 @@ export default function WhyAttend() {
         </div>
 
         {/* Floating Masonry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 text-left">
           {reasons.map((reason, index) => {
             // Stagger the middle column downwards on large screens
             const isMiddleColumn = index % 3 === 1;
@@ -91,15 +91,15 @@ export default function WhyAttend() {
             return (
               <div 
                 key={index}
-                className={`group flex flex-col items-start p-6 md:p-8 bg-white/60 backdrop-blur-md border border-white/50 rounded-2xl transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:shadow-xl hover:shadow-brand-primary/10 hover:border-brand-primary/20 ${isMiddleColumn ? 'lg:translate-y-12' : ''}`}
+                className={`group flex flex-col items-start p-5 md:p-6 bg-white/60 backdrop-blur-md border border-white/50 rounded-2xl transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:shadow-xl hover:shadow-brand-primary/10 hover:border-brand-primary/20 ${isMiddleColumn ? 'lg:translate-y-8' : ''}`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Small compact icon */}
-                <div className="w-10 h-10 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white shadow-sm">
+                <div className="w-10 h-10 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white shadow-sm">
                   {React.cloneElement(reason.icon, { className: 'w-4 h-4' })}
                 </div>
                 
-                <h3 className="text-lg md:text-xl font-serif text-brand-dark mb-3 transition-colors duration-300 group-hover:text-brand-primary">
+                <h3 className="text-lg font-serif text-brand-dark mb-2 transition-colors duration-300 group-hover:text-brand-primary">
                   {reason.title}
                 </h3>
                 

@@ -7,19 +7,19 @@ export default function EventHighlights() {
   const highlights = [
     {
       moment: "MOMENT 01",
-      title: "CEO Forum",
-      description: "Chairmen and MDs debate the next decade of rural India — on record, off script.",
+      title: "Inaugural Session",
+      description: "Kickstart the summit with an inspiring inaugural session featuring industry leaders, policymakers, and distinguished guests who will set the stage for meaningful discussions on the future of agriculture and rural communication.",
       image: "/landing/IMG_5631.JPG",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
       )
     },
     {
       moment: "MOMENT 02",
-      title: "Marquee Panels",
-      description: "Six curated panels on marketing, media, communication, sustainability, agritech and policy.",
+      title: "Marquee Panel Discussions",
+      description: "Engage in thoughtfully curated panel discussions covering key topics such as marketing, media, communication, sustainability, agritech, innovation, and policy, with insights from renowned industry experts.",
       image: "/landing/IMG_5631.JPG",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,7 +30,7 @@ export default function EventHighlights() {
     {
       moment: "MOMENT 03",
       title: "Brand Presentations",
-      description: "Ten-minute case studies from the year's most talked-about agri campaigns.",
+      description: "Discover impactful brand stories, innovative campaigns, product launches, and successful communication strategies presented by leading organizations from the agriculture and allied sectors.",
       image: "/landing/IMG_5631.JPG",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,19 +40,8 @@ export default function EventHighlights() {
     },
     {
       moment: "MOMENT 04",
-      title: "The Awards Ceremony",
-      description: "Forty-five categories. Peer-reviewed jury. India's most credible agri-marketing honour.",
-      image: "/landing/IMG_5631.JPG",
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-        </svg>
-      )
-    },
-    {
-      moment: "MOMENT 05",
-      title: "Gala Dinner",
-      description: "A curated, black-tie networking dinner at a landmark Delhi venue.",
+      title: "Networking Lunch",
+      description: "Enjoy a relaxed networking lunch where delegates, speakers, partners, and industry professionals can connect, exchange ideas, and explore new business opportunities in an informal setting.",
       image: "/landing/IMG_5631.JPG",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,9 +50,64 @@ export default function EventHighlights() {
       )
     },
     {
+      moment: "MOMENT 05",
+      title: "CEO Forum",
+      description: "Join an exclusive leadership forum where industry leaders, founders, CEOs, and managing directors share their perspectives on emerging opportunities, business challenges, and the future of rural India.",
+      image: "/landing/IMG_5631.JPG",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+        </svg>
+      )
+    },
+    {
       moment: "MOMENT 06",
+      title: "Networking Tea",
+      description: "Take a refreshing networking break over tea and refreshments while continuing conversations, strengthening relationships, and meeting fellow participants from across the agriculture ecosystem.",
+      image: "/landing/IMG_5631.JPG",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
+        </svg>
+      )
+    },
+    {
+      moment: "MOMENT 07",
+      title: "Awards Ceremony",
+      description: "Celebrate excellence in agriculture and rural communication as outstanding brands, organizations, campaigns, and professionals are recognized for their remarkable contributions to the industry.",
+      image: "/landing/IMG_5631.JPG",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+      )
+    },
+    {
+      moment: "MOMENT 08",
+      title: "Cultural Night",
+      description: "Experience an engaging cultural evening featuring captivating performances that celebrate India's rich heritage while creating a memorable atmosphere for networking and camaraderie.",
+      image: "/landing/IMG_5631.JPG",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+        </svg>
+      )
+    },
+    {
+      moment: "MOMENT 09",
+      title: "Celebration Dinner",
+      description: "Conclude the day with an elegant networking dinner, providing the perfect opportunity to build meaningful relationships, exchange ideas, and connect with industry peers in a relaxed setting.",
+      image: "/landing/IMG_5631.JPG",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
+        </svg>
+      )
+    },
+    {
+      moment: "MOMENT 10",
       title: "Concierge Networking",
-      description: "Pre-scheduled 1:1 meetings via our matchmaking engine — no cold approaches.",
+      description: "Make valuable business connections through curated networking opportunities designed to facilitate meaningful conversations, strategic collaborations, and long-term partnerships.",
       image: "/landing/IMG_5631.JPG",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,7 +118,7 @@ export default function EventHighlights() {
   ];
 
   return (
-    <section id="highlights" className="relative w-full py-24 md:py-32 overflow-hidden">
+    <section id="highlights" className="relative w-full py-16 md:py-24 overflow-hidden">
       
       {/* Light theme background gradients */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -83,7 +127,7 @@ export default function EventHighlights() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Header */}
-        <div className="max-w-3xl mx-auto text-center flex flex-col items-center mb-16 md:mb-24">
+        <div className="max-w-3xl mx-auto text-center flex flex-col items-center mb-12 md:mb-16">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -139,8 +183,8 @@ export default function EventHighlights() {
                   />
 
                   {/* Highlight Card */}
-                  <div className="w-full md:w-[45%] lg:w-[42%]">
-                    <div className="group relative p-6 lg:p-8 bg-white/60 backdrop-blur-md border border-brand-primary/10 rounded-[1.5rem] overflow-hidden transition-all duration-500 hover:bg-white hover:border-brand-primary/30 hover:shadow-xl hover:shadow-brand-primary/5">
+                  <div className="w-full md:w-[40%] lg:w-[36%]">
+                    <div className="group relative p-5 lg:p-6 bg-white/60 backdrop-blur-md border border-brand-primary/10 rounded-[1.5rem] overflow-hidden transition-all duration-500 hover:bg-white hover:border-brand-primary/30 hover:shadow-xl hover:shadow-brand-primary/5">
                       
                       {/* Glow effect on hover */}
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: 'radial-gradient(circle at center, rgba(var(--brand-primary), 0.05) 0%, transparent 70%)' }} />
@@ -167,7 +211,7 @@ export default function EventHighlights() {
                   </div>
 
                   {/* Unique Image Block */}
-                  <div className="w-full md:w-[45%] lg:w-[42%] h-48 md:h-64 rounded-tl-[5rem] rounded-br-[5rem] rounded-tr-xl rounded-bl-xl overflow-hidden relative shadow-xl group transition-all duration-700 hover:shadow-brand-primary/20">
+                  <div className="w-full md:w-[40%] lg:w-[36%] h-40 md:h-56 rounded-tl-[5rem] rounded-br-[5rem] rounded-tr-xl rounded-bl-xl overflow-hidden relative shadow-xl group transition-all duration-700 hover:shadow-brand-primary/20">
                     <img 
                       src={item.image || "/landing/IMG_5631.JPG"} 
                       alt={item.title}

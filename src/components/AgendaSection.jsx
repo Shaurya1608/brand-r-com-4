@@ -7,37 +7,45 @@ export default function AgendaSection() {
   const agendaData = [
     {
       part: "PART 01",
-      time: "09:00 - 13:00",
+      time: "09:00 AM – 01:30 PM",
       title: "Morning",
+      subtitle: "Knowledge • Leadership • Innovation",
       items: [
-        "Registration, welcome coffee & delegate networking",
-        "Opening keynote by the Chief Guest",
-        "CEO Forum: The Next Decade of Rural India",
-        "Panel I — Marketing to Bharat: What actually converts",
-        "Panel II — The Communication Playbook for AgriTech"
+        "Delegate Registration, Welcome Tea & Networking",
+        "Grand Inaugural Ceremony & Opening Session",
+        "Visionary Keynote Addresses by Industry Leaders",
+        "Knowledge Paper & Coffee Table Book Launch",
+        "Technical Brand Presentation",
+        "Technical Panel I",
+        "Technical Brand Presentation",
+        "Technical Panel II"
       ]
     },
     {
       part: "PART 02",
-      time: "13:00 - 17:30",
+      time: "01:30 PM – 06:00 PM",
       title: "Afternoon",
+      subtitle: "Insights • Collaboration • Strategy",
       items: [
-        "Hosted lunch & curated table conversations",
-        "Panel III — Media, Measurement & Rural ROI",
-        "Panel IV — Sustainability as a Marketing Asset",
-        "Brand Case Presentations — ten campaigns, ten minutes each",
-        "Fireside chat with a global agri-CMO"
+        "Networking Lunch & Business Meetings",
+        "Technical Brand Presentation",
+        "Technical Panel III",
+        "Technical Panel IV",
+        "Networking Tea & Industry Interactions",
+        "CEO Forum – The Future of Agri & Rural Communication"
       ]
     },
     {
       part: "PART 03",
-      time: "18:30 - 22:30",
+      time: "06:00 PM – Onwards",
       title: "Evening",
+      subtitle: "Recognition • Celebration • Connections",
       items: [
-        "Cocktail reception & red-carpet arrivals",
-        "The BRAND R.COMM 2026 Awards Ceremony",
-        "Gala dinner with live curated performance",
-        "Late-night networking lounge"
+        "Cultural Performance",
+        "BRAND R.Comm Awards – Nominee Recognition",
+        "Special Live Performance",
+        "BRAND R.Comm Awards – Jury Honours",
+        "Networking Gala Dinner & Award Celebration"
       ]
     }
   ];
@@ -122,9 +130,12 @@ export default function AgendaSection() {
                 </div>
 
                 {/* Big Title */}
-                <h3 className="text-3xl font-serif text-brand-dark mb-10 group-hover:text-brand-primary transition-colors duration-300">
+                <h3 className="text-3xl font-serif text-brand-dark mb-2 group-hover:text-brand-primary transition-colors duration-300">
                   {phase.title}
                 </h3>
+                <p className="text-brand-primary/80 text-sm font-sans mb-8">
+                  {phase.subtitle}
+                </p>
 
                 {/* Timeline Items */}
                 <ul className="space-y-6 relative">
