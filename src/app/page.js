@@ -9,6 +9,7 @@ import AgendaSection from "@/components/AgendaSection";
 import SpeakersSection from "@/components/SpeakersSection";
 import JurySection from "@/components/JurySection";
 import AwardsSection from "@/components/AwardsSection";
+import LastSeasonWinnersSection from "@/components/LastSeasonWinnersSection";
 import AwardCategoriesSection from "@/components/AwardCategoriesSection";
 import WinnerBenefitsSection from "@/components/WinnerBenefitsSection";
 import RequiredDocumentsSection from "@/components/RequiredDocumentsSection";
@@ -44,10 +45,11 @@ export default function Home() {
       <GeneralSponsorshipSection />
       <DelegateRegistrationSection />
       <AwardsSection />
+      <LastSeasonWinnersSection />
       <RegistrationFlowSection />
       <PastEditionsSection />
       <TestimonialsSection />
-      <EcosystemPartnersSection />
+      {/* <EcosystemPartnersSection /> */}
       <OrganiserSection />
       {/* <FaqSection /> */}
       <ContactSection />

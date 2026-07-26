@@ -59,31 +59,39 @@ export default function WhyAttend() {
   ];
 
   return (
-    <section id="why-attend" className="relative w-full bg-brand-surface flex items-center py-16 overflow-hidden border-t border-brand-dark/5">
+    <section id="why-attend" className="relative w-full bg-brand-surface flex items-center py-12 md:py-16 overflow-hidden border-t border-brand-dark/5">
       
       {/* Decorative background element */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-primary/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
+      {/* Vertical Decorative Lines */}
+      <div className="absolute inset-0 pointer-events-none flex justify-evenly opacity-100">
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden md:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden lg:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+      </div>
+
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 text-center">
         
         {/* Header centered */}
-        <div className="max-w-4xl mx-auto mb-12 md:mb-16 flex flex-col items-center">
-          <div className="flex items-center space-x-3 mb-4">
+        <div className="max-w-4xl mx-auto mb-8 md:mb-12 flex flex-col items-center bg-brand-surface/80 backdrop-blur-md p-5 rounded-3xl z-10 relative shadow-[0_0_40px_20px_rgba(232,239,222,0.8)]">
+          <div className="flex items-center space-x-3 mb-3">
             <div className="h-px w-8 bg-brand-primary" />
             <span className="text-brand-primary tracking-[0.2em] text-[10px] font-bold uppercase">
               Why Attend
             </span>
             <div className="h-px w-8 bg-brand-primary" />
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.15] text-brand-dark">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif leading-[1.15] text-brand-dark">
             Six reasons why <br className="hidden md:block" />
             <span className="text-brand-primary italic">4 December 2026</span> is already on your calendar.
           </h2>
         </div>
 
         {/* Floating Masonry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 text-left">
           {reasons.map((reason, index) => {
             // Stagger the middle column downwards on large screens
             const isMiddleColumn = index % 3 === 1;
@@ -91,15 +99,15 @@ export default function WhyAttend() {
             return (
               <div 
                 key={index}
-                className={`group flex flex-col items-start p-5 md:p-6 bg-white/60 backdrop-blur-md border border-white/50 rounded-2xl transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:shadow-xl hover:shadow-brand-primary/10 hover:border-brand-primary/20 ${isMiddleColumn ? 'lg:translate-y-8' : ''}`}
+                className={`group flex flex-col items-start p-4 md:p-5 bg-white/60 backdrop-blur-md border border-white/50 rounded-2xl transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:shadow-xl hover:shadow-brand-primary/10 hover:border-brand-primary/20 ${isMiddleColumn ? 'lg:translate-y-6' : ''}`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Small compact icon */}
-                <div className="w-10 h-10 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-3 transition-all duration-500 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white shadow-sm">
                   {React.cloneElement(reason.icon, { className: 'w-4 h-4' })}
                 </div>
                 
-                <h3 className="text-lg font-serif text-brand-dark mb-2 transition-colors duration-300 group-hover:text-brand-primary">
+                <h3 className="text-base font-serif text-brand-dark mb-1 transition-colors duration-300 group-hover:text-brand-primary">
                   {reason.title}
                 </h3>
                 

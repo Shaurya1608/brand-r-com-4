@@ -1,9 +1,81 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const termsContent = [
+  {
+    title: "1. Eligibility",
+    content: "The BRAND R.Comm Awards 2026 are open to organizations and individuals operating in the agriculture, rural communication, and allied sectors in India. All nominations must be based on activities, campaigns, or achievements executed between January 2025 and October 2026."
+  },
+  {
+    title: "2. Authority to Receive Awards",
+    content: "Awards under the Organization/Company Categories must be received by a member of the senior management, such as the Chairman, Managing Director, Director, or an equivalent representative. If none of the authorized representatives are present during the award presentation, the award will stand automatically cancelled and will not be reissued or couriered later."
+  },
+  {
+    title: "3. Nomination Fee",
+    content: "A non-refundable nomination fee of ₹8,000 + GST per category is applicable for each nomination. Payment must be be made along with the submission of the nomination form."
+  },
+  {
+    title: "4. Multiple Nominations",
+    content: "An individual or organization may submit nominations in more than one category, provided each nomination is submitted separately with its own nomination fee and supporting documents."
+  },
+  {
+    title: "5. Withdrawal of Nomination",
+    content: "Once submitted, a nomination cannot be withdrawn, modified, or replaced under any circumstances."
+  },
+  {
+    title: "6. Non-Refundable Fee",
+    content: "The nomination fee is strictly non-refundable, irrespective of withdrawal, disqualification, or non-selection for the final awards."
+  },
+  {
+    title: "7. Sponsorship & Awards Eligibility",
+    content: "Sponsors, Co-Sponsors, and Supporting Partners of the event are not eligible to receive awards in any category. BRAND R.Comm maintains complete transparency and integrity and does not entertain paid or influenced awards."
+  },
+  {
+    title: "8. Nomination Review",
+    content: "All nominations will be reviewed by the internal team for completeness and eligibility before being submitted to the Jury Panel for evaluation."
+  },
+  {
+    title: "9. Decision of the Jury",
+    content: "The decision of the Jury shall be final and binding. No correspondence, reconsideration, or appeal regarding the jury's evaluation or final results will be entertained."
+  },
+  {
+    title: "10. Data & Documentation",
+    content: "All information, data, and supporting materials submitted with the nomination must be accurate, authentic, and verifiable. Any false or misleading information may result in immediate disqualification without any refund."
+  },
+  {
+    title: "11. Confidentiality",
+    content: "All information shared in the nomination forms will be treated as confidential and used solely for the purpose of award evaluation."
+  },
+  {
+    title: "12. Ownership of Material",
+    content: "The organizer reserves the right to use the names, logos, and submitted content of nominees for promotional and communication purposes related to BRAND R.Comm, including pre-event and post-event publicity."
+  },
+  {
+    title: "13. Event Participation",
+    content: "Attendance at the BRAND R.Comm Summit & Awards 2026 is mandatory for winners to receive their award and recognition. The organizer will not be responsible for travel, accommodation, or any related arrangements."
+  },
+  {
+    title: "14. Amendments",
+    content: "The organizers reserve the right to modify, cancel, or reschedule any aspect of the awards process or ceremony without prior notice in the event of unforeseen circumstances."
+  },
+  {
+    title: "15. Jurisdiction",
+    content: "Any dispute arising out of or relating to the BRAND R.Comm Awards 2026 shall be subject to the exclusive jurisdiction of the courts of New Delhi, India."
+  }
+];
 
 export default function AwardsSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isModalOpen]);
   const benefits = [
     "Peer-reviewed evaluation by an independent jury",
     "PR amplification if shortlisted or awarded",
@@ -19,108 +91,110 @@ export default function AwardsSection() {
   ];
 
   return (
-    <section id="awards" className="relative w-full py-16 md:py-20 overflow-hidden text-brand-dark border-t border-brand-primary/10 bg-white">
+    <section id="awards" className="relative w-full py-16 md:py-20 overflow-hidden text-brand-dark border-t border-brand-primary/10 bg-brand-surface">
       
+      {/* Background Vertical Lines */}
+      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+        <div className="w-px h-full bg-brand-primary/10"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
+        <div className="w-px h-full bg-brand-primary/10"></div>
+      </div>
+
       {/* Background Glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
         
-        {/* Centered Header */}
-        <div className="mb-12 text-center flex flex-col items-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center space-x-3 mb-6"
-          >
-            <div className="h-px w-8 bg-brand-primary/40" />
-            <span className="text-brand-primary tracking-[0.2em] text-[10px] font-bold uppercase">
-              Award Nomination
-            </span>
-            <div className="h-px w-8 bg-brand-primary/40" />
-          </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
           
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.15] text-brand-dark mb-5"
-          >
-            One entry.<br />
-            <span className="italic text-brand-primary">Ten quarters</span> of credibility.
-          </motion.h2>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-brand-dark/70 text-sm md:text-base leading-relaxed max-w-2xl mx-auto"
-          >
-            The BRAND R.COMM Awards are a peer-reviewed honour — not a paid citation. Every entry must carry senior-management approval and go through a validated screening before it reaches the jury.
-          </motion.p>
-        </div>
-
-        {/* Vertical Stack Layout */}
-        <div className="flex flex-col gap-6 lg:gap-8 max-w-4xl mx-auto">
-          
-          {/* Top Card - Nomination Details (Long Width) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="bg-white border border-brand-primary/10 rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md hover:border-brand-primary/30 transition-all duration-300 w-full"
-          >
-            <span className="text-brand-dark/60 font-mono text-[9px] tracking-[0.2em] uppercase block mb-6 font-semibold">
-              Entry Requirements
-            </span>
-
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8">
-              
-              <div className="flex-1">
-                <span className="text-brand-dark/50 font-mono text-[9px] tracking-widest uppercase block mb-2 font-semibold">
-                  Nomination Fee
-                </span>
-                <div className="text-xl md:text-3xl font-serif text-brand-dark">
-                  ₹ 10,000 <span className="text-xs md:text-sm font-sans text-brand-dark/50">+ GST</span>
-                </div>
-              </div>
-
-              <div className="w-full md:w-auto mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
-                <button
-                  className="w-full sm:w-auto px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-brand-primary-hover transition-colors shadow-sm rounded-lg whitespace-nowrap"
-                >
-                  Download Award Brochure
-                </button>
-                <button
-                  className="w-full sm:w-auto px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-brand-primary-hover transition-colors shadow-sm rounded-lg whitespace-nowrap"
-                >
-                  Nomination for Awards
-                </button>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Bottom Card - Benefits & Timeline */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="bg-white border border-brand-primary/10 rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md hover:border-brand-primary/30 transition-all duration-300 w-full"
-          >
-            <div className="max-w-2xl mx-auto">
-              <span className="text-brand-dark/60 font-mono text-[9px] tracking-[0.2em] uppercase block mb-6 font-semibold text-center">
-                Timeline
+          {/* Left Column: Content & CTAs */}
+          <div className="lg:col-span-7 flex flex-col items-start text-left">
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center space-x-3 mb-6"
+            >
+              <span className="text-brand-primary tracking-[0.2em] text-[10px] font-bold uppercase bg-brand-primary/10 px-3 py-1 rounded-full">
+                Award Nomination
               </span>
-              <div className="space-y-1">
+            </motion.div>
+            
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.1] text-brand-dark mb-6"
+            >
+              One entry.<br />
+              <span className="italic text-brand-primary">Ten quarters</span> of credibility.
+            </motion.h2>
+
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-brand-dark/70 text-base md:text-lg leading-relaxed max-w-xl mb-10"
+            >
+              The BRAND R.COMM Awards are a peer-reviewed honour — not a paid citation. Every entry must carry senior-management approval and go through a validated screening before it reaches the jury.
+            </motion.p>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-col sm:flex-row flex-wrap items-center gap-4 w-full sm:w-auto"
+            >
+              <button className="w-full sm:w-auto px-8 py-4 bg-[#f05a28] text-white text-[11px] font-bold uppercase tracking-widest rounded-xl shadow-lg hover:shadow-xl hover:bg-[#d9481a] hover:-translate-y-0.5 transition-all duration-300">
+                Nominate for Awards
+              </button>
+              <button className="w-full sm:w-auto px-8 py-4 bg-white border border-brand-primary/20 text-brand-dark text-[11px] font-bold uppercase tracking-widest rounded-xl shadow-sm hover:border-brand-primary/50 hover:bg-brand-surface transition-all duration-300">
+                Download Brochure
+              </button>
+            </motion.div>
+            
+            <motion.button 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              onClick={() => setIsModalOpen(true)}
+              className="mt-6 text-xs font-semibold text-brand-dark/40 hover:text-brand-primary transition-colors underline underline-offset-4"
+            >
+              Read Terms &amp; Conditions
+            </motion.button>
+          </div>
+
+          {/* Right Column: Timeline Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, x: 20 }}
+            whileInView={{ opacity: 1, scale: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="lg:col-span-5 w-full relative"
+          >
+            <div className="bg-white rounded-3xl p-8 md:p-10 shadow-xl border border-brand-primary/5 relative overflow-hidden group">
+              {/* Decorative Accent */}
+              <div className="absolute -top-16 -right-16 w-40 h-40 bg-brand-primary/5 rounded-full group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+              
+              <h3 className="text-xl md:text-2xl font-serif font-bold text-brand-dark mb-8 flex items-center gap-3">
+                <svg className="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                Important Dates
+              </h3>
+              
+              <div className="relative border-l-[3px] border-brand-primary/10 ml-3 space-y-8 py-2">
                 {timeline.map((item, idx) => (
-                  <div key={idx} className="flex justify-between items-center group/item hover:bg-brand-surface py-2 px-3 md:px-6 rounded-lg transition-colors">
-                    <span className="text-brand-dark/80 text-sm md:text-base">{item.label}</span>
-                    <span className="text-brand-dark/90 text-sm md:text-base font-mono tracking-wider font-semibold">{item.date}</span>
+                  <div key={idx} className="relative pl-8 hover:-translate-y-1 transition-transform duration-300">
+                    {/* Timeline Node */}
+                    <span className="absolute -left-[11.5px] top-1 w-5 h-5 rounded-full bg-white border-4 border-brand-primary shadow-sm" />
+                    
+                    <p className="text-[10px] md:text-xs font-bold text-brand-primary uppercase tracking-widest mb-1.5">{item.date}</p>
+                    <p className="text-sm md:text-base font-semibold text-brand-dark/90 leading-tight">{item.label}</p>
                   </div>
                 ))}
               </div>
@@ -129,6 +203,63 @@ export default function AwardsSection() {
 
         </div>
       </div>
+
+      {/* Terms & Conditions Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm"
+            />
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-3xl max-h-[85vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between px-8 py-6 border-b border-brand-primary/10 bg-brand-surface">
+                <h3 className="text-xl md:text-2xl font-serif text-brand-dark font-bold">Terms & Conditions</h3>
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-brand-dark hover:bg-brand-primary hover:text-white transition-colors shadow-sm"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="flex-1 overflow-y-auto px-8 py-6 bg-white">
+                <div className="space-y-6">
+                  {termsContent.map((item, idx) => (
+                    <div key={idx} className="pb-6 border-b border-brand-primary/5 last:border-0 last:pb-0">
+                      <h4 className="text-base font-bold text-brand-primary mb-2">{item.title}</h4>
+                      <p className="text-brand-dark/80 text-sm leading-relaxed">{item.content}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="px-8 py-5 border-t border-brand-primary/10 bg-brand-surface/50 flex justify-end">
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-6 py-2.5 bg-brand-dark text-white text-xs font-bold uppercase rounded hover:bg-brand-primary transition-colors shadow-sm"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

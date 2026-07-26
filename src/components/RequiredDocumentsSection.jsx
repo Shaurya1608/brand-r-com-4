@@ -89,11 +89,21 @@ export default function RequiredDocumentsSection() {
   }, [isModalOpen]);
 
   return (
-    <section className="relative w-full py-16 overflow-hidden bg-white">
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 flex flex-col items-center">
+    <section id="required-documents" className="relative w-full py-16 text-brand-dark border-t border-brand-primary/10 bg-brand-surface overflow-hidden">
+      
+      {/* Background Vertical Lines */}
+      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+        <div className="w-px h-full bg-brand-primary/10"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
+        <div className="w-px h-full bg-brand-primary/10"></div>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
         
         {/* Centered Header */}
-        <div className="text-center flex flex-col items-center max-w-2xl mb-12">
+        <div className="text-center flex flex-col items-center max-w-4xl mb-12">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -134,7 +144,7 @@ export default function RequiredDocumentsSection() {
             transition={{ delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <button className="flex items-center space-x-2 px-6 py-3 border border-brand-primary text-brand-primary hover:bg-brand-primary/10 transition-colors rounded text-xs font-bold tracking-widest uppercase">
+            <button className="flex items-center space-x-2 px-8 py-4 bg-brand-primary text-white hover:bg-brand-dark transition-colors rounded-full text-xs font-bold tracking-widest uppercase shadow-md hover:shadow-lg">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
@@ -144,7 +154,7 @@ export default function RequiredDocumentsSection() {
         </div>
 
         {/* Centered Checklist in Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 mt-8">
           {documents.map((doc, idx) => (
             <motion.div
               key={idx}
@@ -152,14 +162,14 @@ export default function RequiredDocumentsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: idx * 0.05 }}
-              className="flex items-center space-x-4 p-4 rounded-lg bg-white border border-brand-primary/10 shadow-sm hover:shadow-md hover:border-brand-primary/30 transition-all"
+              className="flex items-start space-x-4 pt-6 border-t border-brand-primary/20 hover:border-brand-primary transition-all duration-300 group"
             >
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-primary/10 flex items-center justify-center">
-                <svg className="w-3.5 h-3.5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex-shrink-0 w-6 h-6 mt-0.5 rounded-full bg-brand-primary/10 flex items-center justify-center group-hover:bg-brand-primary transition-colors duration-300">
+                <svg className="w-3.5 h-3.5 text-brand-primary group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-brand-dark/80 text-sm font-sans">{doc}</span>
+              <span className="text-brand-dark/90 text-sm font-sans leading-relaxed">{doc}</span>
             </motion.div>
           ))}
         </div>

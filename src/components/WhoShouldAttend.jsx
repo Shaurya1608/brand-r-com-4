@@ -105,7 +105,7 @@ export default function WhoShouldAttend() {
   ];
 
   return (
-    <section id="who-should-attend" className="relative w-full bg-white min-h-screen flex items-center py-20 md:py-24 overflow-hidden">
+    <section id="who-should-attend" className="relative w-full bg-white flex items-center py-12 md:py-16 overflow-hidden">
       
       {/* Decorative gradient blob */}
       <div className="absolute top-0 right-0 w-full h-full overflow-hidden pointer-events-none opacity-50">
@@ -113,41 +113,46 @@ export default function WhoShouldAttend() {
         <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-brand-primary/5 rounded-full blur-[100px] translate-x-1/2" />
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
+      {/* Vertical Decorative Lines */}
+      <div className="absolute inset-0 pointer-events-none flex justify-evenly opacity-100 z-0">
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden md:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden lg:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 bg-white/90 backdrop-blur-md rounded-[2rem] p-6 md:p-8 lg:p-10 shadow-[0_0_40px_20px_rgba(255,255,255,0.8)]">
         
         {/* Header Section */}
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center mb-16 md:mb-20">
-          <div className="flex items-center justify-center space-x-4 mb-6">
+        <div className="max-w-3xl mx-auto text-center flex flex-col items-center mb-12 md:mb-16 relative z-10">
+          <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="h-px w-10 bg-brand-primary" />
             <span className="text-brand-primary tracking-[0.2em] text-[10px] font-bold uppercase">
               Who Should Attend
             </span>
             <div className="h-px w-10 bg-brand-primary" />
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.1] text-brand-dark mb-8">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.1] text-brand-dark mb-6">
             A room built for the industry&apos;s <br className="hidden md:block" />
             <span className="italic text-brand-primary">decision-shapers.</span>
           </h2>
-          <p className="text-brand-dark/80 text-base md:text-lg leading-relaxed font-sans max-w-4xl">
+          <p className="text-brand-dark/80 text-sm md:text-base leading-relaxed font-sans max-w-4xl">
             Every seat is curated. Every conversation is measured. If you build, market, communicate, <br className="hidden md:block" /> invest in or regulate the agri-ecosystem, you belong in this room.
           </p>
         </div>
 
         {/* Ultra-compact, High-visibility Grid Layout */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8 relative z-0">
           {categories.map((category, index) => (
             <div 
               key={index}
-              className="group flex flex-col items-center justify-center text-center p-4 bg-[#f6f9f1] border border-brand-primary/20 rounded-xl shadow-sm hover:shadow-lg hover:border-brand-primary/40 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
+              className="group flex flex-col items-center text-center justify-start pt-5 border-t border-brand-primary/20 transition-all duration-500 hover:border-brand-primary"
             >
-              {/* Subtle top gradient on hover */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="text-brand-primary mb-3 bg-brand-primary/10 p-3 rounded-full group-hover:scale-110 group-hover:bg-brand-primary/20 transform transition-all duration-500">
-                {React.cloneElement(category.icon, { className: 'w-5 h-5' })}
+              <div className="w-8 h-8 rounded-full bg-brand-primary/5 text-brand-primary flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white">
+                {React.cloneElement(category.icon, { className: 'w-4 h-4' })}
               </div>
               
-              <h3 className="text-sm md:text-base font-serif text-brand-dark leading-snug font-normal">
+              <h3 className="text-sm md:text-base font-serif text-brand-dark leading-snug transition-colors duration-300 group-hover:text-brand-primary">
                 {category.title}
               </h3>
             </div>

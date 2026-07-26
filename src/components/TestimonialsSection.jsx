@@ -55,6 +55,16 @@ export default function TestimonialsSection() {
 
   return (
     <section className="relative w-full py-12 md:py-16 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-brand-surface">
+      
+      {/* Background Vertical Lines */}
+      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+        <div className="w-px h-full bg-brand-primary/10"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
+        <div className="w-px h-full bg-brand-primary/10"></div>
+      </div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Header Section */}

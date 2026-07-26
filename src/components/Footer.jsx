@@ -104,7 +104,7 @@ export default function Footer() {
   }, [isModalOpen]);
 
   return (
-    <footer className="w-full bg-[#F0F7EA] text-brand-dark pt-20 pb-10 px-6 md:px-12 relative">
+    <footer className="w-full bg-white text-brand-dark pt-20 pb-10 px-6 md:px-12 relative">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-12 lg:gap-8 mb-16">
         
         {/* Column 1: Brand */}

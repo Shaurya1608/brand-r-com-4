@@ -51,16 +51,24 @@ export default function AgendaSection() {
   ];
 
   return (
-    <section id="agenda" className="relative w-full bg-white py-24 md:py-32 overflow-hidden">
+    <section id="agenda" className="relative w-full bg-white py-12 md:py-16 overflow-hidden">
       
       {/* Background Subtle Gradients */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-brand-primary/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-white/40 rounded-full blur-[150px] translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+      {/* Vertical Decorative Lines */}
+      <div className="absolute inset-0 pointer-events-none flex justify-evenly opacity-100 z-0">
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden md:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden lg:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 bg-white/90 backdrop-blur-md rounded-[2rem] p-6 md:p-8 lg:p-10 shadow-[0_0_40px_20px_rgba(255,255,255,0.8)]">
         
         {/* Header Layout */}
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center mb-16 md:mb-24">
+        <div className="max-w-4xl mx-auto text-center flex flex-col items-center mb-12 md:mb-16 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +90,7 @@ export default function AgendaSection() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="mb-8"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.1] text-brand-dark">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.1] text-brand-dark">
               Morning ideas. Afternoon deals.<br className="hidden md:block" /> Evening honours.
             </h2>
           </motion.div>
@@ -94,14 +102,14 @@ export default function AgendaSection() {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="max-w-2xl mx-auto"
           >
-            <p className="text-brand-dark/70 text-base md:text-lg leading-relaxed font-sans">
+            <p className="text-brand-dark/70 text-sm md:text-base leading-relaxed font-sans">
               The agenda is deliberately structured — head-first in the morning, hands-first in the afternoon, heart-first in the evening.
             </p>
           </motion.div>
         </div>
 
         {/* Unique Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 relative">
           
           {/* Subtle horizontal connecting line behind the cards (Desktop) */}
           <div className="hidden md:block absolute top-[4.5rem] left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-primary/20 to-transparent pointer-events-none" />
@@ -114,31 +122,28 @@ export default function AgendaSection() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.7, delay: 0.2 + (index * 0.2), ease: "easeOut" }}
             >
-              <div className="h-full group relative bg-white/60 backdrop-blur-md border border-brand-primary/10 rounded-[1.5rem] p-8 transition-all duration-500 hover:bg-white hover:border-brand-primary/30 hover:-translate-y-2 hover:shadow-xl hover:shadow-brand-primary/5">
-                
-                {/* Top decorative gradient that reveals on hover */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-primary/0 via-brand-primary to-brand-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-t-[1.5rem]" />
+              <div className="h-full group relative pt-6 border-t border-brand-primary/20 transition-all duration-500 hover:border-brand-primary">
 
                 {/* Card Header (Part & Time) */}
-                <div className="flex justify-between items-center mb-8 pb-6 border-b border-brand-primary/10 group-hover:border-brand-primary/20 transition-colors duration-500">
-                  <span className="text-brand-primary text-xs font-mono tracking-widest uppercase">
+                <div className="flex justify-between items-center mb-6 pb-4 border-b border-brand-primary/10 group-hover:border-brand-primary/20 transition-colors duration-500">
+                  <span className="text-brand-primary text-[10px] md:text-xs font-mono tracking-widest uppercase">
                     {phase.part}
                   </span>
-                  <span className="text-brand-dark/40 text-xs font-mono tracking-widest">
+                  <span className="text-brand-dark/40 text-[10px] md:text-xs font-mono tracking-widest">
                     {phase.time}
                   </span>
                 </div>
 
                 {/* Big Title */}
-                <h3 className="text-3xl font-serif text-brand-dark mb-2 group-hover:text-brand-primary transition-colors duration-300">
+                <h3 className="text-2xl font-serif text-brand-dark mb-2 group-hover:text-brand-primary transition-colors duration-300">
                   {phase.title}
                 </h3>
-                <p className="text-brand-primary/80 text-sm font-sans mb-8">
+                <p className="text-brand-primary/80 text-xs font-sans mb-6">
                   {phase.subtitle}
                 </p>
 
                 {/* Timeline Items */}
-                <ul className="space-y-6 relative">
+                <ul className="space-y-4 relative">
                   {/* Vertical line for the timeline */}
                   <div className="absolute left-[5px] top-2 bottom-2 w-px bg-brand-primary/10 group-hover:bg-brand-primary/30 transition-colors duration-500" />
                   
@@ -146,7 +151,7 @@ export default function AgendaSection() {
                     <li key={itemIdx} className="relative pl-6">
                       {/* Timeline Dot */}
                       <span className="absolute left-0 top-2 w-2.5 h-2.5 rounded-full border-2 border-brand-surface bg-brand-primary/20 group-hover:bg-brand-primary group-hover:border-brand-primary/20 group-hover:shadow-[0_0_8px_rgba(var(--brand-primary),0.6)] transition-all duration-500" />
-                      <p className="text-brand-dark/70 text-sm leading-relaxed font-sans group-hover:text-brand-dark transition-colors duration-300">
+                      <p className="text-brand-dark/70 text-xs md:text-sm leading-relaxed font-sans group-hover:text-brand-dark transition-colors duration-300">
                         {item}
                       </p>
                     </li>

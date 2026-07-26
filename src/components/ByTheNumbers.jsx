@@ -90,35 +90,41 @@ export default function ByTheNumbers() {
   ];
 
   return (
-    <section id="about" className="relative w-full bg-brand-surface min-h-screen flex items-center py-20 border-t border-brand-dark/5 overflow-hidden">
+    <section id="about" className="relative w-full bg-brand-surface flex items-center py-12 md:py-16 border-t border-brand-dark/5 overflow-hidden">
       
       {/* Decorative background element */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/60 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
+      {/* Vertical Decorative Lines */}
+      <div className="absolute inset-0 pointer-events-none flex justify-evenly opacity-100 z-0">
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden md:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden lg:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 w-full bg-brand-surface/90 backdrop-blur-md rounded-[2rem] p-6 md:p-8 lg:p-10 shadow-[0_0_40px_20px_rgba(232,239,222,0.8)]">
         
         {/* Top Header Section */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 md:gap-12 mb-16 md:mb-20">
+        <div className="flex flex-col items-center text-center mb-12 md:mb-16 relative z-10 max-w-3xl mx-auto">
           
-          <div className="max-w-2xl">
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="h-px w-10 bg-brand-primary/70" />
-              <span className="text-brand-primary tracking-[0.2em] text-[11px] font-bold uppercase">
-                By The Numbers
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-serif leading-[1.2] text-brand-dark">
-              Three editions. <br />
-              One <span className="text-brand-primary italic font-medium">benchmark</span> for the industry.
-            </h2>
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="h-px w-8 bg-brand-primary" />
+            <span className="text-brand-primary tracking-[0.2em] text-[10px] font-bold uppercase">
+              By The Numbers
+            </span>
+            <div className="h-px w-8 bg-brand-primary" />
           </div>
+          
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.2] text-brand-dark mb-4">
+            Three editions. One <span className="text-brand-primary italic font-medium">benchmark</span> <br />
+            for the industry.
+          </h2>
 
-          <div className="max-w-md lg:pb-2">
-            <p className="text-brand-dark/70 leading-relaxed font-sans text-base">
-              Since 2023, BRAND R.COMM has grown from a curated dinner of 200 CMOs into India&apos;s most reported agriculture & rural communication summit and it is only accelerating.
-            </p>
-          </div>
+          <p className="text-brand-dark/70 leading-relaxed font-sans text-sm md:text-base max-w-2xl mx-auto">
+            Since 2023, BRAND R.COMM has grown from a curated dinner of 200 CMOs into India&apos;s most reported agriculture & rural communication summit and it is only accelerating.
+          </p>
         </div>
 
         {/* Stats Carousel (Mobile) / Grid (Desktop) */}
@@ -126,21 +132,21 @@ export default function ByTheNumbers() {
           <div 
             ref={scrollRef}
             onScroll={handleScroll}
-            className="flex overflow-x-auto px-6 scroll-pl-6 sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pb-6 sm:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            className="flex overflow-x-auto px-6 scroll-pl-6 sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 pb-6 sm:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
             {stats.map((stat, index) => (
               <div 
                 key={index} 
-                className="w-[280px] sm:w-auto flex-shrink-0 snap-start group flex flex-col items-start justify-between p-6 bg-white/40 backdrop-blur-md border border-brand-dark/5 rounded-2xl transition-all duration-500 hover:-translate-y-1 hover:bg-white/80 hover:shadow-lg hover:shadow-brand-primary/10 hover:border-brand-primary/20"
+                className="w-[200px] sm:w-auto flex-shrink-0 snap-start group flex flex-col items-center text-center justify-between pt-6 border-t border-brand-primary/20 transition-all duration-500 hover:border-brand-primary"
               >
-                <div className="w-10 h-10 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white">
-                  {stat.icon}
+                <div className="w-8 h-8 rounded-full bg-brand-primary/5 text-brand-primary flex items-center justify-center mb-5 transition-transform duration-500 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white">
+                  {React.cloneElement(stat.icon, { className: 'w-4 h-4' })}
                 </div>
                 <div>
                   <h3 className="text-3xl md:text-4xl font-serif text-brand-dark mb-2 transition-colors duration-300 group-hover:text-brand-primary">
                     {stat.number}
                   </h3>
-                  <p className="text-brand-dark/60 text-[10px] tracking-widest font-bold uppercase group-hover:text-brand-dark transition-colors duration-300">
+                  <p className="text-brand-dark/60 text-[10px] tracking-[0.2em] font-bold uppercase group-hover:text-brand-dark transition-colors duration-300">
                     {stat.label}
                   </p>
                 </div>

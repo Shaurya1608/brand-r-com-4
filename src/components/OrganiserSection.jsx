@@ -36,7 +36,17 @@ export default function OrganiserSection() {
   ];
 
   return (
-    <section className="relative w-full py-16 md:py-24 text-brand-dark overflow-hidden border-b border-brand-primary/10 bg-brand-surface">
+    <section className="relative w-full py-16 md:py-24 text-brand-dark overflow-hidden border-b border-brand-primary/10 bg-white">
+      
+      {/* Background Vertical Lines */}
+      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+        <div className="w-px h-full bg-brand-primary/10"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
+        <div className="w-px h-full bg-brand-primary/10"></div>
+      </div>
+
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12">
         
         <div className="flex flex-col items-center justify-center max-w-4xl mx-auto text-center">
@@ -112,17 +122,19 @@ export default function OrganiserSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mt-16 md:mt-24"
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 mt-20 md:mt-28 max-w-5xl mx-auto"
         >
           {services.map((service, index) => (
-            <div key={index} className="flex flex-col sm:flex-row items-start h-full bg-white p-6 md:p-8 rounded-2xl border border-brand-primary/10 hover:shadow-xl hover:shadow-brand-primary/5 hover:border-brand-primary/30 transition-all duration-300 hover:-translate-y-1 group">
-              <div className="w-12 h-12 shrink-0 rounded-xl bg-brand-primary/10 flex items-center justify-center mb-5 sm:mb-0 sm:mr-6 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">
-                {React.cloneElement(service.icon, { className: "w-6 h-6 transition-colors duration-300 text-brand-primary group-hover:text-white" })}
+            <div key={index} className="flex flex-col items-center text-center group">
+              <div className="w-10 h-10 shrink-0 flex items-center justify-center mb-5 bg-brand-surface rounded-xl border border-brand-primary/10 transition-all duration-500 group-hover:-translate-y-1.5 group-hover:bg-brand-primary/5 group-hover:border-brand-primary/30 group-hover:shadow-sm">
+                {React.cloneElement(service.icon, { className: "w-5 h-5 text-brand-primary" })}
               </div>
-              <div className="flex flex-col flex-grow">
-                <h4 className="text-lg font-bold text-brand-dark mb-2 leading-tight group-hover:text-brand-primary transition-colors duration-300">{service.title}</h4>
-                <p className="text-sm text-brand-dark/70 leading-relaxed">{service.description}</p>
-              </div>
+              <h4 className="text-xl font-serif font-bold text-brand-dark mb-3 group-hover:text-brand-primary transition-colors duration-300">
+                {service.title}
+              </h4>
+              <p className="text-sm text-brand-dark/70 leading-relaxed font-sans max-w-sm">
+                {service.description}
+              </p>
             </div>
           ))}
         </motion.div>

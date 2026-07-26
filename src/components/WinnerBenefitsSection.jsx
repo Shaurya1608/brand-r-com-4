@@ -31,28 +31,38 @@ export default function WinnerBenefitsSection() {
     {
       title: "The BRAND R.COMM Trophy",
       desc: "A hand-crafted, individually numbered trophy engraved for your team.",
-      icon: <Trophy className="w-6 h-6 text-brand-primary group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
+      icon: <Trophy className="w-6 h-6 text-brand-primary transition-colors duration-300" strokeWidth={1.5} />
     },
     {
       title: "Winner Certificate",
       desc: "Digitally signed certificate co-authenticated by the Jury Chairperson.",
-      icon: <FileSignature className="w-6 h-6 text-brand-primary group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
+      icon: <FileSignature className="w-6 h-6 text-brand-primary transition-colors duration-300" strokeWidth={1.5} />
     },
     {
       title: "Winner Badge",
       desc: "Official 'BRAND R.COMM 2026 Winner' badge for use across marketing collateral.",
-      icon: <Award className="w-6 h-6 text-brand-primary group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
+      icon: <Award className="w-6 h-6 text-brand-primary transition-colors duration-300" strokeWidth={1.5} />
     },
     {
       title: "Digital Spotlight",
       desc: "Be featured through exclusive winner creatives and social media announcements across official channels.",
-      icon: <Megaphone className="w-6 h-6 text-brand-primary group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
+      icon: <Megaphone className="w-6 h-6 text-brand-primary transition-colors duration-300" strokeWidth={1.5} />
     }
   ];
 
   return (
-    <section className="relative w-full py-16 overflow-hidden bg-brand-surface">
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
+    <section className="relative w-full py-16 md:py-24 overflow-hidden text-brand-dark border-t border-brand-primary/10 bg-white">
+      
+      {/* Background Vertical Lines */}
+      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+        <div className="w-px h-full bg-brand-primary/10"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
+        <div className="w-px h-full bg-brand-primary/10"></div>
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center">
         
         {/* Centered Header */}
         <div className="text-center flex flex-col items-center max-w-2xl mb-12">
@@ -114,9 +124,9 @@ export default function WinnerBenefitsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: idx * 0.1 }}
-              className="min-w-[85vw] sm:min-w-[300px] lg:min-w-0 snap-center bg-white rounded-3xl p-8 border border-brand-primary/10 shadow-sm hover:shadow-2xl hover:shadow-brand-primary/10 hover:-translate-y-2 transition-all duration-300 group flex flex-col items-start cursor-default"
+              className="min-w-[85vw] sm:min-w-[300px] lg:min-w-0 snap-center pt-8 border-t border-brand-primary/20 hover:border-brand-primary transition-all duration-500 group flex flex-col items-start cursor-default"
             >
-              <div className="w-14 h-14 rounded-2xl bg-brand-surface border border-brand-primary/20 flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:border-brand-primary transition-all duration-300 group-hover:scale-110 shadow-sm">
+              <div className="w-12 h-12 flex items-center justify-center mb-5 transition-transform duration-500 group-hover:-translate-y-1">
                 {benefit.icon}
               </div>
               <h3 className="text-lg md:text-xl font-serif font-bold text-brand-dark mb-3 group-hover:text-brand-primary transition-colors duration-300 leading-tight">

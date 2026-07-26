@@ -28,8 +28,17 @@ export default function DelegateRegistrationSection() {
   ];
 
   return (
-    <section id="delegates" className="relative w-full py-16 md:py-20 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-brand-surface">
+    <section id="delegates" className="relative w-full py-16 md:py-20 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-white">
       
+      {/* Background Vertical Lines */}
+      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+        <div className="w-px h-full bg-brand-primary/10"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
+        <div className="w-px h-full bg-brand-primary/10"></div>
+      </div>
+
       {/* Subtle Background Elements */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 

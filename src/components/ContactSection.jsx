@@ -19,21 +19,60 @@ const InstagramIcon = ({ size = 24, className = "" }) => (
 );
 
 export default function ContactSection() {
+  const contacts = [
+    {
+      name: "Amit BK Khare",
+      role: "FOUNDER AND MANAGING PARTNER",
+      image: "/team/Amit Khare New.png",
+      phones: ["+91 8750807676", "+91 9354342588"],
+      emails: ["amit.khare@snailintegral.com", "snailintegral@gmail.com"],
+      qr: "/qr/Amit Khare QR Code.png"
+    },
+    {
+      name: "Arpita Kaur Matharu",
+      role: "LEAD, DIGITAL MARKETING",
+      image: "/team/Arpita.png",
+      phones: ["+91 8700178106", "+91 8750807676"],
+      emails: ["info@snailintegral.com", "snailintegral@gmail.com"],
+      qr: "/qr/Arpita QR Code.png"
+    },
+    {
+      name: "Yashasvi Sharma",
+      role: "LEAD, BUSINESS SUPPORT",
+      image: "/team/Yashi sharma.png",
+      phones: ["+91 8527552425", "+91 8750807676"],
+      emails: ["marketing@snailintegral.com", "snailintegral2@gmail.com"],
+      qr: "/qr/Yashi sharma QR.png"
+    }
+  ];
+
   return (
-    <section className="relative w-full py-16 text-black overflow-hidden border-b border-black/10 bg-white">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
+    <section className="relative w-full py-16 md:py-24 text-brand-dark overflow-hidden bg-brand-surface">
+      
+      {/* Background Vertical Lines */}
+      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+        <div className="w-px h-full bg-brand-primary/10"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
+        <div className="w-px h-full bg-brand-primary/10"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         
         {/* Header */}
-        <div className="flex flex-col items-center text-center mb-12 mt-8">
+        <div className="flex flex-col items-center text-center mb-16">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-center space-x-2 mb-4 bg-brand-primary/10 py-1 px-3 md:px-4 rounded-full"
+            className="flex items-center space-x-3 mb-6"
           >
-            <span className="text-brand-primary tracking-[0.2em] text-[9px] md:text-[10px] font-bold uppercase">
+            <div className="h-px w-6 bg-brand-primary" />
+            <span className="text-brand-primary tracking-[0.2em] text-[10px] font-bold uppercase">
               Get in Touch
             </span>
+            <div className="h-px w-6 bg-brand-primary" />
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -47,100 +86,65 @@ export default function ContactSection() {
         </div>
 
         {/* Team Contacts */}
-        <div className="mb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {/* Card 1 */}
-            <div className="bg-white border border-brand-primary/10 rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow h-full">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 mb-6 bg-gray-50 shadow-sm flex items-center justify-center">
-                <img src="/team/Amit Khare New.png" alt="Amit BK Khare" className="w-full h-full object-cover object-top" />
-              </div>
-              <h3 className="text-xl font-bold text-[#0a2540] mb-1">Amit BK Khare</h3>
-              <p className="text-[#8CC63F] text-xs font-bold uppercase tracking-wide mb-4">FOUNDER AND MANAGING PARTNER</p>
-              <div className="w-full mt-auto flex flex-col gap-3 text-sm text-gray-600 text-left border-t border-gray-100 pt-6">
-                <div className="flex items-start gap-3">
-                  <Phone size={16} className="text-[#8CC63F] shrink-0 mt-1" />
-                  <div className="flex flex-col">
-                    <span>+91 8750807676</span>
-                    <span>+91 9354342588</span>
+        <div className="mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            {contacts.map((contact, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 * idx }}
+                className="bg-white rounded-[2rem] p-6 lg:p-8 flex flex-col items-center text-center hover:-translate-y-2 transition-all duration-500 group shadow-sm hover:shadow-xl hover:shadow-brand-primary/5 border border-transparent hover:border-brand-primary/10"
+              >
+                <div className="w-24 h-24 rounded-full overflow-hidden mb-4 bg-brand-surface p-1.5 shadow-sm group-hover:shadow-md transition-shadow duration-500">
+                  <img src={contact.image} alt={contact.name} className="w-full h-full object-cover object-top rounded-full" />
+                </div>
+                
+                <h3 className="text-xl font-serif font-bold text-brand-dark mb-1 group-hover:text-brand-primary transition-colors duration-300">
+                  {contact.name}
+                </h3>
+                
+                <p className="text-brand-primary text-[8px] font-bold uppercase tracking-[0.2em] mb-6">
+                  {contact.role}
+                </p>
+                
+                <div className="w-full flex flex-col gap-3 text-sm text-brand-dark/80 text-left mt-auto">
+                  <div className="flex items-center gap-3 bg-brand-surface/40 p-3 rounded-xl transition-colors group-hover:bg-brand-surface/80">
+                    <div className="w-8 h-8 shrink-0 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-sm">
+                      <Phone size={14} strokeWidth={2.5} />
+                    </div>
+                    <div className="flex flex-col font-medium text-xs">
+                      {contact.phones.map((phone, pIdx) => (
+                        <span key={pIdx}>{phone}</span>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3 bg-brand-surface/40 p-3 rounded-xl transition-colors group-hover:bg-brand-surface/80">
+                    <div className="w-8 h-8 shrink-0 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-sm">
+                      <Mail size={14} strokeWidth={2.5} />
+                    </div>
+                    <div className="flex flex-col font-medium text-[11px] md:text-xs w-full overflow-hidden">
+                      {contact.emails.map((email, eIdx) => (
+                        <a key={eIdx} href={`mailto:${email}`} className="hover:text-brand-primary transition-colors truncate block">
+                          {email}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Mail size={16} className="text-[#8CC63F] shrink-0 mt-1" />
-                  <div className="flex flex-col">
-                    <a href="mailto:amit.khare@snailintegral.com" className="hover:text-brand-primary transition-colors">amit.khare@snailintegral.com</a>
-                    <a href="mailto:snailintegral@gmail.com" className="hover:text-brand-primary transition-colors">snailintegral@gmail.com</a>
-                  </div>
-                </div>
-              </div>
-              <div className="w-full flex flex-col items-center justify-center mt-6 pt-6 border-t border-gray-100">
-                <div className="w-24 h-24 mb-3">
-                  <img src="/qr/Amit Khare QR Code.png" alt="Amit BK Khare QR" className="w-full h-full object-contain" />
-                </div>
-                <p className="text-[10px] text-gray-400 uppercase tracking-widest">Scan for contact info</p>
-              </div>
-            </div>
 
-            {/* Card 2 */}
-            <div className="bg-white border border-brand-primary/10 rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow h-full">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 mb-6 bg-gray-50 shadow-sm flex items-center justify-center">
-                <img src="/team/Arpita.png" alt="Arpita Kaur Matharu" className="w-full h-full object-cover object-top" />
-              </div>
-              <h3 className="text-xl font-bold text-[#0a2540] mb-1">Arpita Kaur Matharu</h3>
-              <p className="text-[#8CC63F] text-xs font-bold uppercase tracking-wide mb-4">LEAD, DIGITAL MARKETING</p>
-              <div className="w-full mt-auto flex flex-col gap-3 text-sm text-gray-600 text-left border-t border-gray-100 pt-6">
-                <div className="flex items-start gap-3">
-                  <Phone size={16} className="text-[#8CC63F] shrink-0 mt-1" />
-                  <div className="flex flex-col">
-                    <span>+91 8700178106</span>
-                    <span>+91 8750807676</span>
+                <div className="w-full flex flex-col items-center justify-center mt-6 pt-5 border-t border-brand-primary/10">
+                  <div className="w-16 h-16 mb-3 bg-white p-1.5 rounded-lg shadow-sm border border-brand-primary/10 group-hover:border-brand-primary/30 transition-colors">
+                    <img src={contact.qr} alt={`${contact.name} QR`} className="w-full h-full object-contain" />
                   </div>
+                  <p className="text-[8px] text-brand-dark/40 uppercase tracking-[0.2em] font-bold">
+                    Scan for contact info
+                  </p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Mail size={16} className="text-[#8CC63F] shrink-0 mt-1" />
-                  <div className="flex flex-col">
-                    <a href="mailto:info@snailintegral.com" className="hover:text-brand-primary transition-colors">info@snailintegral.com</a>
-                    <a href="mailto:snailintegral@gmail.com" className="hover:text-brand-primary transition-colors">snailintegral@gmail.com</a>
-                  </div>
-                </div>
-              </div>
-              <div className="w-full flex flex-col items-center justify-center mt-6 pt-6 border-t border-gray-100">
-                <div className="w-24 h-24 mb-3">
-                  <img src="/qr/Arpita QR Code.png" alt="Arpita Kaur Matharu QR" className="w-full h-full object-contain" />
-                </div>
-                <p className="text-[10px] text-gray-400 uppercase tracking-widest">Scan for contact info</p>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white border border-brand-primary/10 rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow h-full">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 mb-6 bg-gray-50 shadow-sm flex items-center justify-center">
-                <img src="/team/Yashi sharma.png" alt="Yashasvi Sharma" className="w-full h-full object-cover object-top" />
-              </div>
-              <h3 className="text-xl font-bold text-[#0a2540] mb-1">Yashasvi Sharma</h3>
-              <p className="text-[#8CC63F] text-xs font-bold uppercase tracking-wide mb-4">LEAD, BUSINESS SUPPORT</p>
-              <div className="w-full mt-auto flex flex-col gap-3 text-sm text-gray-600 text-left border-t border-gray-100 pt-6">
-                <div className="flex items-start gap-3">
-                  <Phone size={16} className="text-[#8CC63F] shrink-0 mt-1" />
-                  <div className="flex flex-col">
-                    <span>+91 8527552425</span>
-                    <span>+91 8750807676</span>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Mail size={16} className="text-[#8CC63F] shrink-0 mt-1" />
-                  <div className="flex flex-col">
-                    <a href="mailto:marketing@snailintegral.com" className="hover:text-brand-primary transition-colors">marketing@snailintegral.com</a>
-                    <a href="mailto:snailintegral2@gmail.com" className="hover:text-brand-primary transition-colors">snailintegral2@gmail.com</a>
-                  </div>
-                </div>
-              </div>
-              <div className="w-full flex flex-col items-center justify-center mt-6 pt-6 border-t border-gray-100">
-                <div className="w-24 h-24 mb-3">
-                  <img src="/qr/Yashi sharma QR.png" alt="Yashasvi Sharma QR" className="w-full h-full object-contain" />
-                </div>
-                <p className="text-[10px] text-gray-400 uppercase tracking-widest">Scan for contact info</p>
-              </div>
-            </div>
+              </motion.div>
+            ))}
           </div>
         </div>
 

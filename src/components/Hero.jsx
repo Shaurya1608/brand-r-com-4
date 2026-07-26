@@ -6,40 +6,38 @@ export default function Hero() {
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
 
   return (
-    <section className="relative w-full min-h-[100dvh] flex items-center justify-center pt-24 pb-20 overflow-hidden bg-[url('/landing/generated_bg.png')] bg-cover bg-center">
+    <section 
+      className="relative w-full min-h-[100dvh] flex items-center justify-center pt-24 pb-20 overflow-hidden bg-cover bg-center"
+      style={{ backgroundImage: `url('/landing/topp.png')` }}
+    >
       
-      {/* Dark overlay with pronounced light green tint */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-brand-primary/40 via-black/70 to-black/90 mix-blend-multiply" />
-      
-      {/* Background Glowing Green Orb */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-primary/20 rounded-full blur-[150px] pointer-events-none z-0" />
+      {/* Dark overlay */}
+      <div className="absolute inset-0 z-0 bg-black/75" />
 
-      {/* Text Container with Glassmorphism and pronounced green glow */}
-      <div className="relative z-10 max-w-2xl mx-auto px-6 md:px-10 pt-4 pb-6 md:pt-6 md:pb-8 w-[90%] md:w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 bg-black/5 md:bg-black/20 backdrop-blur-sm md:backdrop-blur-md rounded-[2.5rem] border border-brand-primary/20 shadow-[0_0_60px_rgba(var(--brand-primary),0.2)] shadow-brand-primary/10 mt-8 md:mt-12">
+      {/* Text Container */}
+      <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-10 pt-4 pb-6 md:pt-6 md:pb-8 w-[95%] md:w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 -mt-8 md:-mt-24">
         
         {/* Event Logo */}
-        <div className="mb-3 md:mb-4">
-          <img src="/logo/brand-r-comm-logo-2.png" alt="Brand R.Comm" className="h-16 md:h-20 lg:h-24 w-auto object-contain mx-auto" />
+        <div className="mb-2 md:mb-2 -mt-2 md:-mt-4">
+          <img src="/logo/New nrc logo.png" alt="NRC Logo" className="h-16 sm:h-20 md:h-32 lg:h-40 w-auto object-contain mx-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500" />
         </div>
 
         {/* Subtitle / Edition */}
-        <div className="flex items-center justify-center space-x-4 mb-3 md:mb-4">
-          <div className="h-px w-12 bg-brand-primary" />
-          <span className="text-white tracking-[0.2em] text-[10px] md:text-xs font-bold uppercase">
+        <div className="inline-flex items-center justify-center bg-black/40 border-t border-b border-brand-primary/80 px-4 py-1.5 md:px-5 md:py-1 mb-4 md:mb-3 backdrop-blur-sm w-full max-w-[300px] md:max-w-none">
+          <div className="hidden md:block h-px w-6 bg-brand-primary mr-3" />
+          <span className="text-white tracking-[0.15em] md:tracking-[0.2em] text-[8.5px] sm:text-[9px] md:text-[11px] font-bold uppercase text-center w-full md:w-auto">
             4th Edition • New Delhi, India
           </span>
-          <div className="h-px w-12 bg-brand-primary" />
+          <div className="hidden md:block h-px w-6 bg-brand-primary ml-3" />
         </div>
         
         {/* Main Headline */}
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.15] text-white mb-6 md:mb-8 max-w-2xl">
-          Where India&apos;s <span className="text-brand-primary italic">agri-industry</span> writes its next chapter.
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.2] text-white mb-4 md:mb-4 w-full max-w-5xl drop-shadow-2xl">
+          Where India&apos;s <span className="text-brand-primary italic font-bold">agri-industry</span><br className="sm:hidden" /> writes its next chapter.
         </h1>
         
-        
-
         {/* Call to Actions - Quick Links */}
-        <div className="flex flex-wrap justify-center gap-3 md:gap-4 w-full mt-4">
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2.5 md:gap-4 w-full max-w-xs sm:max-w-2xl mt-2 md:mt-4">
           {[
             "Become a Sponsor",
             "Benefits of Sponsors",
@@ -55,7 +53,7 @@ export default function Hero() {
                   setIsSponsorModalOpen(true);
                 }
               }}
-              className="px-4 py-2 md:px-5 md:py-2.5 text-xs md:text-sm font-medium text-white bg-white/5 backdrop-blur-sm border border-white/30 hover:bg-brand-primary hover:border-brand-primary transition-all duration-300 whitespace-nowrap rounded"
+              className={`w-full sm:w-auto px-4 py-3 md:px-5 md:py-2 text-[10px] md:text-[10px] font-bold text-white uppercase tracking-[0.1em] ${text === 'Become a Sponsor' ? 'bg-brand-primary border-brand-primary shadow-brand-primary/40' : 'bg-white/10 border-white/30'} border backdrop-blur-md rounded-full hover:bg-brand-primary hover:border-brand-primary transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5`}
             >
               {text}
             </button>
@@ -70,8 +68,8 @@ export default function Hero() {
       </div>
 
       {/* Bottom Left Context Paragraph */}
-      <div className="absolute bottom-8 left-6 md:bottom-12 md:left-12 max-w-[280px] md:max-w-[340px] hidden md:block opacity-0 animate-fade-in-up delay-500 z-10">
-        <p className="text-xs md:text-sm text-white/60 leading-relaxed font-sans font-normal border-l-2 border-brand-primary pl-4">
+      <div className="absolute bottom-8 left-6 md:bottom-12 md:left-12 max-w-[240px] md:max-w-[280px] hidden md:block opacity-0 animate-fade-in-up delay-500 z-10">
+        <p className="text-[10px] md:text-xs text-white/60 leading-relaxed font-sans font-normal border-l-2 border-brand-primary pl-3 md:pl-4">
           The BRAND R.COMM 2026 Summit & Awards is India&apos;s most decisive gathering of chairmen, marketers, agencies and policymakers shaping the future of agriculture and rural communication.
         </p>
       </div>

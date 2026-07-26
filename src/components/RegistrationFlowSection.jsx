@@ -50,13 +50,22 @@ export default function RegistrationFlowSection() {
   return (
     <section id="registration-flow" className="relative w-full py-16 md:py-20 overflow-hidden text-brand-dark border-t border-brand-primary/10 bg-brand-surface">
       
+      {/* Background Vertical Lines */}
+      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+        <div className="w-px h-full bg-brand-primary/10"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
+        <div className="w-px h-full bg-brand-primary/10"></div>
+      </div>
+
       {/* Background Glow */}
       <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none -translate-x-1/3 -translate-y-1/2" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+      <div className="relative z-10 w-11/12 max-w-6xl mx-auto flex flex-col items-center bg-white/60 backdrop-blur-md rounded-[2rem] p-6 md:p-10 shadow-sm border border-white">
         
         {/* Centered Header */}
-        <div className="mb-16 text-center flex flex-col items-center">
+        <div className="mb-16 text-center flex flex-col items-center max-w-2xl">
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +91,7 @@ export default function RegistrationFlowSection() {
         </div>
 
         {/* 8 Steps Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 md:gap-y-10">
           {steps.map((step, idx) => (
             <motion.div
               key={step.id}
@@ -90,22 +99,17 @@ export default function RegistrationFlowSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.05, duration: 0.4 }}
-              className="bg-white border border-brand-primary/10 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-brand-primary/30 hover:-translate-y-1 transition-all duration-300 relative group overflow-hidden"
+              className="pt-6 border-t border-brand-primary/20 hover:border-brand-primary transition-all duration-500 group flex flex-col items-start"
             >
-              {/* Subtle hover background accent */}
-              <div className="absolute inset-0 bg-brand-surface/0 group-hover:bg-brand-surface transition-colors duration-300 pointer-events-none z-0" />
-              
-              <div className="relative z-10">
-                <div className="text-3xl md:text-4xl font-serif text-brand-primary mb-4 opacity-80 group-hover:opacity-100 transition-opacity">
-                  {step.id}
-                </div>
-                <h3 className="text-lg font-serif text-brand-dark mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-brand-dark/60 text-sm leading-relaxed">
-                  {step.description}
-                </p>
+              <div className="text-3xl md:text-4xl font-serif text-brand-primary/50 group-hover:text-brand-primary mb-4 transition-colors duration-500">
+                {step.id}
               </div>
+              <h3 className="text-lg font-serif font-bold text-brand-dark mb-2 group-hover:text-brand-primary transition-colors duration-300">
+                {step.title}
+              </h3>
+              <p className="text-brand-dark/70 text-sm leading-relaxed font-medium">
+                {step.description}
+              </p>
             </motion.div>
           ))}
         </div>

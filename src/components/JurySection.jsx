@@ -4,61 +4,24 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 
 export default function JurySection() {
-  const scrollContainerRef = useRef(null);
-
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -400, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 400, behavior: "smooth" });
-    }
-  };
-
-  const jury = [
-    {
-      name: "Dr. Suresh Ramanathan",
-      role: "JURY CHAIRPERSON",
-      company: "Former Secretary, Ministry of Agriculture",
-      image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1740&auto=format&fit=crop"
-    },
-    {
-      name: "Prof. Neha Chatterjee",
-      role: "JURY MEMBER",
-      company: "Dean, National Institute of Agribusiness",
-      image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1887&auto=format&fit=crop"
-    },
-    {
-      name: "Rajiv Malhotra",
-      role: "JURY MEMBER",
-      company: "Independent Policy Analyst",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1887&auto=format&fit=crop"
-    },
-    {
-      name: "Ananya Roy",
-      role: "JURY MEMBER",
-      company: "CEO, Rural Insights Council",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=1770&auto=format&fit=crop"
-    },
-    {
-      name: "Dr. Kiran Patel",
-      role: "JURY MEMBER",
-      company: "Lead Editor, AgriEconomics Weekly",
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1887&auto=format&fit=crop"
-    }
-  ];
+  const members = Array.from({ length: 5 });
 
   return (
-    <section className="relative w-full bg-white py-16 md:py-24 overflow-hidden">
+    <section className="relative w-full bg-white py-12 md:py-16 overflow-hidden">
       
+      {/* Vertical Decorative Lines */}
+      <div className="absolute inset-0 pointer-events-none flex justify-evenly opacity-100 z-0">
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden md:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden lg:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+      </div>
+
       <div className="relative z-10 max-w-[90rem] mx-auto px-6 md:px-12">
         
         {/* Header Layout */}
-        <div className="flex flex-col items-center text-center mb-12 md:mb-16">
-          <div className="max-w-4xl flex flex-col items-center">
+        <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+          <div className="max-w-4xl flex flex-col items-center bg-white/80 backdrop-blur-md p-6 rounded-3xl relative z-10 shadow-[0_0_40px_20px_rgba(255,255,255,0.8)]">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -79,7 +42,7 @@ export default function JurySection() {
               transition={{ delay: 0.1 }}
               className="max-w-3xl"
             >
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-brand-dark mb-6 leading-[1.1]">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-serif text-brand-dark mb-4 leading-[1.1]">
                 An independent jury. <span className="text-brand-primary italic block sm:inline mt-2 sm:mt-0">Zero conflicts.</span>
               </h2>
             </motion.div>
@@ -89,72 +52,66 @@ export default function JurySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="max-w-2xl mt-2 mb-8"
+              className="max-w-2xl mt-2 mb-6"
             >
-              <p className="text-brand-dark/70 text-sm md:text-base leading-relaxed font-sans">
+              <p className="text-brand-dark/70 text-xs md:text-sm leading-relaxed font-sans">
                 Our jury is composed of academic chairs, former public-sector leaders and independent editors — none of whom hold active commercial ties to any nominee. Every submission is evaluated on merit alone.
               </p>
             </motion.div>
 
-            {/* Slider Controls */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="hidden lg:flex space-x-6 justify-center"
-            >
-              <button 
-                onClick={scrollLeft}
-                className="w-14 h-14 rounded-full border border-brand-primary/30 flex items-center justify-center text-brand-primary hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all shadow-sm hover:shadow-md"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button 
-                onClick={scrollRight}
-                className="w-14 h-14 rounded-full border border-brand-primary/30 flex items-center justify-center text-brand-primary hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all shadow-sm hover:shadow-md"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </motion.div>
           </div>
         </div>
 
-        {/* Carousel */}
-        <div className="relative -mx-6 md:-mx-12 px-6 md:px-12">
-          <div 
-            ref={scrollContainerRef}
-            className="flex space-x-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-12 pt-4"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {jury.map((member, idx) => (
-              <motion.div 
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="flex-none w-[200px] md:w-[240px] snap-start flex flex-col items-center text-center group cursor-pointer"
-              >
-                <div className="relative w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden mb-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border-4 border-white group-hover:border-brand-primary/20 transition-all duration-300">
-                  {/* Circular Image */}
-                  <img 
-                    src={member.image} 
-                    alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
+        {/* Chairman & Co-Chair Wireframes */}
+        <div className="flex flex-col md:flex-row justify-center items-center gap-10 md:gap-16 mt-16 mb-16">
+          {/* Chairman */}
+          <div className="w-[200px] md:w-[240px] flex flex-col items-center text-center">
+            <h3 className="text-xl md:text-2xl font-bold font-sans text-brand-dark mb-4">Chairman</h3>
+            <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden mb-4 border-[3px] border-[#7a9d46] bg-brand-primary/5 flex items-center justify-center">
+              <svg className="w-12 h-12 text-[#7a9d46]/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div className="w-full flex flex-col items-center space-y-2">
+              <div className="h-5 w-3/4 bg-brand-primary/20 rounded"></div>
+              <div className="h-4 w-5/6 bg-brand-dark/10 rounded"></div>
+              <div className="h-4 w-2/3 bg-brand-dark/10 rounded"></div>
+            </div>
+          </div>
+
+          {/* Co-Chair */}
+          <div className="w-[200px] md:w-[240px] flex flex-col items-center text-center">
+            <h3 className="text-xl md:text-2xl font-bold font-sans text-brand-dark mb-4">Co-Chair</h3>
+            <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden mb-4 border-[3px] border-[#7a9d46] bg-brand-primary/5 flex items-center justify-center">
+              <svg className="w-12 h-12 text-[#7a9d46]/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div className="w-full flex flex-col items-center space-y-2">
+              <div className="h-5 w-3/4 bg-brand-primary/20 rounded"></div>
+              <div className="h-4 w-5/6 bg-brand-dark/10 rounded"></div>
+              <div className="h-4 w-2/3 bg-brand-dark/10 rounded"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Members Wireframes */}
+        <div className="flex flex-col items-center mt-12 pb-8">
+          <h3 className="text-xl md:text-2xl font-bold font-sans text-brand-dark mb-8">Members</h3>
+          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+            {members.map((_, idx) => (
+              <div key={idx} className="w-[140px] md:w-[160px] flex flex-col items-center text-center">
+                <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-4 border-[2px] border-[#7a9d46] bg-brand-primary/5 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-[#7a9d46]/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
                 </div>
-                
-                {/* Text content moved below the circle */}
-                <div className="px-2">
-                  <h3 className="text-lg md:text-xl font-serif text-brand-dark mb-2 group-hover:text-brand-primary transition-colors">{member.name}</h3>
-                  <p className="text-brand-primary text-[9px] md:text-[10px] font-bold tracking-widest uppercase mb-1">{member.role}</p>
-                  <p className="text-brand-dark/60 text-xs font-sans">{member.company}</p>
+                <div className="w-full flex flex-col items-center space-y-2">
+                  <div className="h-4 w-3/4 bg-brand-primary/20 rounded"></div>
+                  <div className="h-3 w-full bg-brand-dark/10 rounded"></div>
+                  <div className="h-3 w-5/6 bg-brand-dark/10 rounded"></div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function EventHighlights() {
+  const [showAll, setShowAll] = useState(false);
+
   const highlights = [
     {
       moment: "MOMENT 01",
@@ -117,17 +119,27 @@ export default function EventHighlights() {
     }
   ];
 
+  const visibleHighlights = showAll ? highlights : highlights.slice(0, 1);
+
   return (
-    <section id="highlights" className="relative w-full py-16 md:py-24 overflow-hidden">
+    <section id="highlights" className={`relative w-full flex items-center py-12 md:py-16 overflow-hidden flex-col justify-center`}>
       
       {/* Light theme background gradients */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-secondary/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      
+      {/* Vertical Decorative Lines */}
+      <div className="absolute inset-0 pointer-events-none flex justify-evenly opacity-100 z-0">
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden md:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+        <div className="hidden lg:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
+      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 w-full bg-brand-surface/90 backdrop-blur-md rounded-[2rem] p-6 md:p-8 lg:p-10 shadow-[0_0_40px_20px_rgba(232,239,222,0.8)]">
         
         {/* Header */}
-        <div className="max-w-3xl mx-auto text-center flex flex-col items-center mb-12 md:mb-16">
+        <div className="max-w-3xl mx-auto text-center flex flex-col items-center mb-12 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -147,20 +159,22 @@ export default function EventHighlights() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif leading-[1.1] text-brand-dark">
-              Twelve hours engineered to compress <span className="italic text-brand-primary">a quarter.</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.1] text-brand-dark">
+              Twelve hours engineered to compress <br className="hidden md:block" />
+              <span className="italic text-brand-primary">a quarter.</span>
             </h2>
           </motion.div>
         </div>
 
         {/* Staggered Timeline Layout */}
-        <div className="relative w-full pb-16">
+        <div className="relative w-full pb-10">
           
-          {/* Solid connecting line down the middle for desktop */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-brand-primary/30 -translate-x-1/2" />
-
-          <div className="flex flex-col gap-12 md:gap-20">
-            {highlights.map((item, index) => {
+          {/* Central Timeline Line */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-brand-primary/20 -translate-x-1/2 z-0" />
+          
+          <div className="flex flex-col gap-8 md:gap-16 relative z-10">
+            <AnimatePresence>
+            {visibleHighlights.map((item, index) => {
               const isEven = index % 2 === 0;
               
               return (
@@ -182,28 +196,22 @@ export default function EventHighlights() {
                     className="hidden md:block absolute left-1/2 top-1/2 w-3 h-3 rounded-full bg-brand-primary shadow-[0_0_15px_rgba(var(--brand-primary),0.4)] -translate-x-1/2 -translate-y-1/2 z-10"
                   />
 
-                  {/* Highlight Card */}
+                  {/* Highlight Text */}
                   <div className="w-full md:w-[40%] lg:w-[36%]">
-                    <div className="group relative p-5 lg:p-6 bg-white/60 backdrop-blur-md border border-brand-primary/10 rounded-[1.5rem] overflow-hidden transition-all duration-500 hover:bg-white hover:border-brand-primary/30 hover:shadow-xl hover:shadow-brand-primary/5">
+                    <div className="group relative transition-all duration-500 pt-6 border-t border-brand-primary/20 hover:border-brand-primary">
                       
-                      {/* Glow effect on hover */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: 'radial-gradient(circle at center, rgba(var(--brand-primary), 0.05) 0%, transparent 70%)' }} />
-
                       <div className="relative z-10">
-                        <div className="flex items-center space-x-3 mb-6">
-                          <div className="w-8 h-8 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary">
-                            {item.icon}
-                          </div>
-                          <span className="text-brand-dark/50 font-mono text-[10px] tracking-[0.2em] uppercase">
+                        <div className="flex items-center space-x-3 mb-3">
+                          <span className="text-brand-dark/50 font-mono text-[9px] tracking-[0.2em] uppercase">
                             {item.moment}
                           </span>
                         </div>
                         
-                        <h3 className="text-xl lg:text-2xl font-serif text-brand-dark mb-3 group-hover:text-brand-primary transition-colors duration-300">
+                        <h3 className="text-xl md:text-2xl font-serif text-brand-dark mb-2 group-hover:text-brand-primary transition-colors duration-300">
                           {item.title}
                         </h3>
                         
-                        <p className="text-brand-dark/70 text-sm leading-relaxed font-sans">
+                        <p className="text-brand-dark/70 text-xs md:text-sm leading-relaxed font-sans">
                           {item.description}
                         </p>
                       </div>
@@ -211,7 +219,7 @@ export default function EventHighlights() {
                   </div>
 
                   {/* Unique Image Block */}
-                  <div className="w-full md:w-[40%] lg:w-[36%] h-40 md:h-56 rounded-tl-[5rem] rounded-br-[5rem] rounded-tr-xl rounded-bl-xl overflow-hidden relative shadow-xl group transition-all duration-700 hover:shadow-brand-primary/20">
+                  <div className="w-full md:w-[40%] lg:w-[36%] h-32 md:h-48 rounded-[1rem] overflow-hidden relative group transition-all duration-700 border border-brand-primary/10 hover:border-brand-primary/30">
                     <img 
                       src={item.image || "/landing/IMG_5631.JPG"} 
                       alt={item.title}
@@ -224,7 +232,19 @@ export default function EventHighlights() {
                 </motion.div>
               );
             })}
+            </AnimatePresence>
           </div>
+
+          {/* View All Button */}
+          <div className="flex justify-center mt-16 relative z-20">
+            <button 
+              onClick={() => setShowAll(!showAll)}
+              className="px-8 py-3 bg-brand-primary text-white rounded-full font-bold shadow-lg hover:shadow-brand-primary/50 hover:-translate-y-1 transition-all duration-300"
+            >
+              {showAll ? "View Less" : "View All Highlights"}
+            </button>
+          </div>
+
         </div>
 
       </div>

@@ -98,16 +98,26 @@ export default function GeneralSponsorshipSection() {
   };
 
   return (
-    <section className="relative w-full py-20 overflow-hidden bg-white">
+    <section className="relative w-full py-20 overflow-hidden bg-brand-surface">
+      
+      {/* Background Vertical Lines */}
+      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+        <div className="w-px h-full bg-brand-primary/10"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
+        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
+        <div className="w-px h-full bg-brand-primary/10"></div>
+      </div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
         
         {/* Header */}
-        <div className="text-center flex flex-col items-center max-w-3xl mb-12">
+        <div className="text-center flex flex-col items-center max-w-4xl mb-8">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-6"
+            className="mb-2"
           >
             <span className="text-brand-primary tracking-[0.2em] text-[10px] font-bold uppercase">
               General Sponsorship
@@ -119,7 +129,7 @@ export default function GeneralSponsorshipSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight text-brand-dark mb-4"
+            className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-dark mb-4"
           >
             Twelve additional ways to <span className="text-brand-primary italic">plant your brand.</span>
           </motion.h2>
