@@ -16,22 +16,26 @@ export default function OrganiserSection() {
     {
       title: "Strategy & Consulting",
       description: "Market research, brand positioning, go-to-market strategy, and business development consulting for agriculture and allied sectors.",
-      icon: <Lightbulb className="w-6 h-6 text-brand-primary" />
+      icon: <Lightbulb className="w-6 h-6 text-brand-primary" />,
+      link: "https://www.snailintegral.com/services#strategy-and-consulting"
     },
     {
       title: "Digital & Technology",
       description: "Website development, digital marketing, social media management, SEO/SEM, and technology solutions for events and brands.",
-      icon: <Code2 className="w-6 h-6 text-brand-primary" />
+      icon: <Code2 className="w-6 h-6 text-brand-primary" />,
+      link: "https://www.snailintegral.com/services#digital-and-technology"
     },
     {
       title: "Content & Creative",
       description: "Content creation, graphic design, video production, branding, and creative communication for B2B and B2C audiences.",
-      icon: <PenTool className="w-6 h-6 text-brand-primary" />
+      icon: <PenTool className="w-6 h-6 text-brand-primary" />,
+      link: "https://www.snailintegral.com/services#content-and-creative"
     },
     {
       title: "Communication & Activations",
       description: "PR, media relations, influencer engagement, on-ground activations, and experiential marketing.",
-      icon: <Megaphone className="w-6 h-6 text-brand-primary" />
+      icon: <Megaphone className="w-6 h-6 text-brand-primary" />,
+      link: "https://www.snailintegral.com/services#communication-and-activations"
     }
   ];
 
@@ -125,17 +129,23 @@ export default function OrganiserSection() {
           className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 mt-20 md:mt-28 max-w-5xl mx-auto"
         >
           {services.map((service, index) => (
-            <div key={index} className="flex flex-col items-center text-center group">
+            <a 
+              key={index}
+              href={service.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center text-center group cursor-pointer"
+            >
               <div className="w-10 h-10 shrink-0 flex items-center justify-center mb-5 bg-brand-surface rounded-xl border border-brand-primary/10 transition-all duration-500 group-hover:-translate-y-1.5 group-hover:bg-brand-primary/5 group-hover:border-brand-primary/30 group-hover:shadow-sm">
-                {React.cloneElement(service.icon, { className: "w-5 h-5 text-brand-primary" })}
+                {React.cloneElement(service.icon, { className: "w-5 h-5 text-brand-primary transition-transform duration-500 group-hover:scale-110" })}
               </div>
               <h4 className="text-xl font-serif font-bold text-brand-dark mb-3 group-hover:text-brand-primary transition-colors duration-300">
                 {service.title}
               </h4>
-              <p className="text-sm text-brand-dark/70 leading-relaxed font-sans max-w-sm">
+              <p className="text-sm text-brand-dark/70 leading-relaxed font-sans max-w-sm group-hover:text-brand-dark transition-colors duration-300">
                 {service.description}
               </p>
-            </div>
+            </a>
           ))}
         </motion.div>
 

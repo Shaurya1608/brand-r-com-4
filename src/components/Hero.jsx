@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import SponsorModal from "./SponsorModal";
+import DelegateRegistrationModal from "./DelegateRegistrationModal";
 
 export default function Hero() {
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
+  const [isDelegateModalOpen, setIsDelegateModalOpen] = useState(false);
 
   return (
     <section 
@@ -15,15 +17,15 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 bg-black/75" />
 
       {/* Text Container */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-10 pt-4 pb-6 md:pt-6 md:pb-8 w-[95%] md:w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 -mt-8 md:-mt-24">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-10 pt-4 pb-6 md:pt-6 md:pb-8 w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 mt-4 md:-mt-24">
         
         {/* Event Logo */}
-        <div className="mb-2 md:mb-2 -mt-2 md:-mt-4">
-          <img src="/logo/New nrc logo.png" alt="NRC Logo" className="h-16 sm:h-20 md:h-32 lg:h-40 w-auto object-contain mx-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500" />
+        <div className="mb-4 md:mb-2 -mt-2 md:-mt-4">
+          <img src="/logo/New nrc logo.png" alt="NRC Logo" className="h-14 sm:h-20 md:h-32 lg:h-40 w-auto object-contain mx-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500" />
         </div>
 
         {/* Subtitle / Edition */}
-        <div className="inline-flex items-center justify-center bg-black/40 border-t border-b border-brand-primary/80 px-4 py-1.5 md:px-5 md:py-1 mb-4 md:mb-3 backdrop-blur-sm w-full max-w-[300px] md:max-w-none">
+        <div className="inline-flex items-center justify-center bg-black/40 border-t border-b border-brand-primary/80 px-4 py-2 md:px-5 md:py-1 mb-4 md:mb-3 backdrop-blur-sm w-[90%] sm:w-auto max-w-[320px] md:max-w-none">
           <div className="hidden md:block h-px w-6 bg-brand-primary mr-3" />
           <span className="text-white tracking-[0.15em] md:tracking-[0.2em] text-[8.5px] sm:text-[9px] md:text-[11px] font-bold uppercase text-center w-full md:w-auto">
             4th Edition • New Delhi, India
@@ -37,7 +39,7 @@ export default function Hero() {
         </h1>
         
         {/* Call to Actions - Quick Links */}
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2.5 md:gap-4 w-full max-w-xs sm:max-w-2xl mt-2 md:mt-4">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row flex-wrap justify-center gap-2 md:gap-4 w-full max-w-[340px] sm:max-w-2xl mt-4 md:mt-6">
           {[
             "Become a Sponsor",
             "Benefits of Sponsors",
@@ -51,9 +53,11 @@ export default function Hero() {
               onClick={() => {
                 if (text === "Become a Sponsor") {
                   setIsSponsorModalOpen(true);
+                } else if (text === "Register as Delegate") {
+                  setIsDelegateModalOpen(true);
                 }
               }}
-              className={`w-full sm:w-auto px-4 py-3 md:px-5 md:py-2 text-[10px] md:text-[10px] font-bold text-white uppercase tracking-[0.1em] ${text === 'Become a Sponsor' ? 'bg-brand-primary border-brand-primary shadow-brand-primary/40' : 'bg-white/10 border-white/30'} border backdrop-blur-md rounded-full hover:bg-brand-primary hover:border-brand-primary transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5`}
+              className={`w-full sm:w-auto px-2 py-2.5 md:px-5 md:py-2 text-[9px] md:text-[10px] font-bold text-white uppercase tracking-wider md:tracking-[0.1em] leading-tight flex items-center justify-center ${text === 'Become a Sponsor' ? 'col-span-2 bg-brand-primary border-brand-primary shadow-brand-primary/40' : 'bg-white/10 border-white/30'} border backdrop-blur-md rounded-full hover:bg-brand-primary hover:border-brand-primary transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5`}
             >
               {text}
             </button>
@@ -77,6 +81,10 @@ export default function Hero() {
       <SponsorModal 
         isOpen={isSponsorModalOpen} 
         onClose={() => setIsSponsorModalOpen(false)} 
+      />
+      <DelegateRegistrationModal
+        isOpen={isDelegateModalOpen}
+        onClose={() => setIsDelegateModalOpen(false)}
       />
     </section>
   );

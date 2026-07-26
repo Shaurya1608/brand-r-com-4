@@ -94,9 +94,9 @@ export default function LastSeasonWinnersSection() {
               initial={{ opacity: 0, y: -20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-serif leading-tight text-brand-dark mb-2 whitespace-nowrap"
+              className="text-4xl md:text-5xl font-serif leading-tight text-brand-dark mb-2 whitespace-normal md:whitespace-nowrap"
             >
-              Honouring <span className="text-brand-primary italic">industry legacy.</span>
+              Honouring <span className="text-brand-primary italic">industry <br className="sm:hidden" /> legacy.</span>
             </motion.h2>
           </div>
           

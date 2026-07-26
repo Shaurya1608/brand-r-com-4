@@ -4,7 +4,49 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 
 export default function JurySection() {
-  const members = Array.from({ length: 5 });
+  const members = [
+    {
+      name: "Dr. KC Ravi",
+      lines: [
+        "Chief Sustainability Officer",
+        "Syngenta India Limited"
+      ],
+      image: "/jury/Dr. KC Ravi.png"
+    },
+    {
+      name: "Rajvir Singh Rathi",
+      lines: [
+        "Director - Agricultural Affairs",
+        "& Policy, IM - IBSL",
+        "Lead - Traits Licensing Business"
+      ],
+      image: "/jury/Rajvir.png"
+    },
+    {
+      name: "Dr. Sanjay Nagi",
+      lines: [
+        "Founder & MD,",
+        "Market Insight Consultant"
+      ],
+      image: "/jury/sanjay.png"
+    },
+    {
+      name: "Mr. Dinesh Singh",
+      lines: [
+        "Business Head-Fertilizer",
+        "Reliance Industries Limited"
+      ],
+      image: "/jury/dinesh.png"
+    },
+    {
+      name: "Dr. VV Sadamate",
+      lines: [
+        "Agri Ext. Specialist",
+        "& Former Advisor, GOI"
+      ],
+      image: "/jury/sadamate.png"
+    }
+  ];
 
   return (
     <section className="relative w-full bg-white py-12 md:py-16 overflow-hidden">
@@ -62,56 +104,91 @@ export default function JurySection() {
           </div>
         </div>
 
-        {/* Chairman & Co-Chair Wireframes */}
-        <div className="flex flex-col md:flex-row justify-center items-center gap-10 md:gap-16 mt-16 mb-16">
+        {/* Chairman & Co-Chair Enhanced */}
+        <div className="flex flex-row justify-center items-start gap-4 sm:gap-12 md:gap-20 mt-12 md:mt-16 mb-16 md:mb-20 relative px-1">
+          {/* Subtle background glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-brand-primary/10 blur-[100px] rounded-full pointer-events-none" />
+
           {/* Chairman */}
-          <div className="w-[200px] md:w-[240px] flex flex-col items-center text-center">
-            <h3 className="text-xl md:text-2xl font-bold font-sans text-brand-dark mb-4">Chairman</h3>
-            <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden mb-4 border-[3px] border-[#7a9d46] bg-brand-primary/5 flex items-center justify-center">
-              <svg className="w-12 h-12 text-[#7a9d46]/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="w-[140px] sm:w-[160px] md:w-[190px] flex flex-col items-center text-center group cursor-pointer relative z-10"
+          >
+            <div className="flex items-center space-x-2 md:space-x-3 mb-4 md:mb-5">
+              <div className="h-px w-3 md:w-5 bg-brand-primary/40" />
+              <h3 className="text-[10px] md:text-sm font-bold font-sans text-brand-primary tracking-[0.2em] uppercase">Chairman</h3>
+              <div className="h-px w-3 md:w-5 bg-brand-primary/40" />
             </div>
-            <div className="w-full flex flex-col items-center space-y-2">
-              <div className="h-5 w-3/4 bg-brand-primary/20 rounded"></div>
-              <div className="h-4 w-5/6 bg-brand-dark/10 rounded"></div>
-              <div className="h-4 w-2/3 bg-brand-dark/10 rounded"></div>
+            <div className="relative w-full aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden mb-4 md:mb-5 ring-2 ring-brand-primary/20 shadow-lg shadow-brand-dark/5 transition-all duration-500 group-hover:ring-brand-primary/50 group-hover:shadow-2xl group-hover:shadow-brand-primary/20 group-hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+              <img src="/jury/chairman.png" alt="Dr. RB Singh" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             </div>
-          </div>
+            <div className="w-full flex flex-col items-center text-center transition-transform duration-500 group-hover:-translate-y-1">
+              <h4 className="text-[16px] sm:text-[20px] md:text-[24px] font-serif font-bold text-brand-dark mb-1.5">Dr. RB Singh</h4>
+              <p className="text-[11px] sm:text-[13px] md:text-[14px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">Former Chancellor,</p>
+              <p className="text-[11px] sm:text-[13px] md:text-[14px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">CAU, Imphal</p>
+            </div>
+          </motion.div>
 
           {/* Co-Chair */}
-          <div className="w-[200px] md:w-[240px] flex flex-col items-center text-center">
-            <h3 className="text-xl md:text-2xl font-bold font-sans text-brand-dark mb-4">Co-Chair</h3>
-            <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden mb-4 border-[3px] border-[#7a9d46] bg-brand-primary/5 flex items-center justify-center">
-              <svg className="w-12 h-12 text-[#7a9d46]/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="w-[140px] sm:w-[160px] md:w-[190px] flex flex-col items-center text-center group cursor-pointer relative z-10"
+          >
+            <div className="flex items-center space-x-2 md:space-x-3 mb-4 md:mb-5">
+              <div className="h-px w-3 md:w-5 bg-brand-primary/40" />
+              <h3 className="text-[10px] md:text-sm font-bold font-sans text-brand-primary tracking-[0.2em] uppercase">Co-Chair</h3>
+              <div className="h-px w-3 md:w-5 bg-brand-primary/40" />
             </div>
-            <div className="w-full flex flex-col items-center space-y-2">
-              <div className="h-5 w-3/4 bg-brand-primary/20 rounded"></div>
-              <div className="h-4 w-5/6 bg-brand-dark/10 rounded"></div>
-              <div className="h-4 w-2/3 bg-brand-dark/10 rounded"></div>
+            <div className="relative w-full aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden mb-4 md:mb-5 ring-2 ring-brand-primary/20 shadow-lg shadow-brand-dark/5 transition-all duration-500 group-hover:ring-brand-primary/50 group-hover:shadow-2xl group-hover:shadow-brand-primary/20 group-hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+              <img src="/jury/image.png" alt="Dr. Arvind Kumar" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             </div>
-          </div>
+            <div className="w-full flex flex-col items-center text-center transition-transform duration-500 group-hover:-translate-y-1">
+              <h4 className="text-[16px] sm:text-[20px] md:text-[24px] font-serif font-bold text-brand-dark mb-1.5">Dr. Arvind Kumar</h4>
+              <p className="text-[11px] sm:text-[13px] md:text-[14px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">Former VC, RLBCAU,</p>
+              <p className="text-[11px] sm:text-[13px] md:text-[14px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">Jhansi</p>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Members Wireframes */}
-        <div className="flex flex-col items-center mt-12 pb-8">
-          <h3 className="text-xl md:text-2xl font-bold font-sans text-brand-dark mb-8">Members</h3>
-          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-            {members.map((_, idx) => (
-              <div key={idx} className="w-[140px] md:w-[160px] flex flex-col items-center text-center">
-                <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-4 border-[2px] border-[#7a9d46] bg-brand-primary/5 flex items-center justify-center">
-                  <svg className="w-8 h-8 text-[#7a9d46]/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
+        {/* Members Enhanced */}
+        <div className="flex flex-col items-center mt-12 pb-12 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center w-full mb-10"
+          >
+            <div className="h-px w-full max-w-[150px] bg-gradient-to-r from-transparent via-brand-primary/30 to-transparent mb-5" />
+            <h3 className="text-lg md:text-xl font-serif text-brand-dark/80 italic">Esteemed Members</h3>
+          </motion.div>
+
+          <div className="flex flex-wrap justify-center items-start gap-8 md:gap-12">
+            {members.map((member, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="w-[115px] md:w-[135px] flex flex-col items-center text-center group cursor-pointer"
+              >
+                <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-4 ring-1 ring-brand-primary/20 shadow-md shadow-brand-dark/5 transition-all duration-300 group-hover:ring-brand-primary/40 group-hover:shadow-xl group-hover:shadow-brand-primary/10 group-hover:-translate-y-1.5">
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                  <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
-                <div className="w-full flex flex-col items-center space-y-2">
-                  <div className="h-4 w-3/4 bg-brand-primary/20 rounded"></div>
-                  <div className="h-3 w-full bg-brand-dark/10 rounded"></div>
-                  <div className="h-3 w-5/6 bg-brand-dark/10 rounded"></div>
+                <div className="w-full flex flex-col items-center transition-transform duration-300 group-hover:-translate-y-1">
+                  <h4 className="text-[14px] md:text-[16px] font-bold text-brand-dark mb-1.5 font-serif">{member.name}</h4>
+                  {member.lines.map((line, i) => (
+                    <p key={i} className="text-[11px] md:text-[12px] text-brand-dark/60 font-medium leading-[1.3]">{line}</p>
+                  ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
