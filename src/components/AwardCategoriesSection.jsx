@@ -116,7 +116,7 @@ export default function AwardCategoriesSection() {
               className="max-w-3xl"
             >
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-dark mb-4">
-                21 categories. <span className="text-brand-primary italic">One benchmark.</span>
+                24 categories. <span className="text-brand-primary italic">One benchmark.</span>
               </h2>
             </motion.div>
 
