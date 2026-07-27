@@ -192,7 +192,7 @@ export default function GeneralSponsorshipSection() {
                   
                   <div className="flex flex-col sm:flex-row gap-4 mt-auto lg:mt-10">
                     <button className="px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-widest uppercase hover:bg-brand-dark transition-colors text-center rounded">
-                      ENQUIRE NOW
+                      GRAB NOW
                     </button>
                   </div>
                 </div>

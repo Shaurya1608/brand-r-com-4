@@ -51,13 +51,6 @@ export default function JurySection() {
   return (
     <section className="relative w-full bg-white py-12 md:py-16 overflow-hidden">
       
-      {/* Vertical Decorative Lines */}
-      <div className="absolute inset-0 pointer-events-none flex justify-evenly opacity-100 z-0">
-        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
-        <div className="w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
-        <div className="hidden md:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
-        <div className="hidden lg:block w-px h-full bg-gradient-to-b from-transparent via-brand-primary/40 to-transparent" />
-      </div>
 
       <div className="relative z-10 max-w-[90rem] mx-auto px-6 md:px-12">
         

@@ -13,52 +13,44 @@ export default function LastSeasonWinnersSection() {
       name: "DR. R. G. AGARWAL",
       title: "Chairman Emeritus",
       company: "Dhanuka Agritech LTD.",
-      image: "/Awards/IMG_6890.JPG"
+      image: "/Awards/IMG_7090.JPG"
     },
     {
       award: "GROWTH CATALYST AWARD",
       name: "MR. DINESH SINGH",
       title: "",
       company: "Reliance Industries",
-      image: "/Awards/IMG_6902.JPG"
+      image: "/Awards/IMG_7032.JPG"
     },
     {
       award: "SHAKTI AWARD",
       name: "MS. KOMAL SHAH BHUKHANWALA",
       title: "",
       company: "Sumil Industries",
-      image: "/Awards/IMG_6906.JPG"
+      image: "/Awards/IMG_7037.JPG"
     }
   ];
 
   const moreWinners = [
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6917.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6921.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6926.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6936.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6940.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6948.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6961.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6965.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6969.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6978.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6981.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6989.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6994.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_6998.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7004.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7014.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7020.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7032.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7037.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7045.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7053.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7061.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7069.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7078.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7084.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7090.JPG" },
-    { award: "CATEGORY PENDING", name: "WINNER NAME", title: "TITLE PENDING", company: "Company Pending", image: "/Awards/IMG_7109.JPG" }
+    { award: "VISIONARY ENTREPRENEUR AWARD", name: "DR. MANOJ KUMAR RUPA", title: "", company: "Capsber Agriscience", image: "/Awards/IMG_7045.JPG" },
+    { award: "PIONEER AWARD", name: "MR. DEBABRATA SARKAR", title: "", company: "MicroAlgae Solutions India", image: "/Awards/IMG_7053.JPG" },
+    { award: "CHANGEMAKER AWARD", name: "MR. MANOJ VARSHNEY", title: "", company: "IFFCO-MC Crop Sciences", image: "/Awards/IMG_7061.JPG" },
+    { award: "POLICY DRIVER AWARD", name: "MR. RAJVIR SINGH RATHI", title: "", company: "Bayer CropScience", image: "/Awards/IMG_7069.JPG" },
+    { award: "VOICE OF THE YEAR", name: "MR. ANKUR AGGARWAL", title: "", company: "Crystal Crop Protection", image: "/Awards/IMG_7078.JPG" },
+    { award: "NEXTGEN SEED AWARD", name: "SAVANNAH SEEDS PVT. LTD.", title: "", company: "", image: "/Awards/IMG_7084.JPG" },
+    { award: "SUSTAINABILITY CHAMPION AWARD", name: "ZYDEX INDUSTRIES", title: "", company: "", image: "/Awards/IMG_7020.JPG", gridClass: "lg:col-start-3 lg:col-span-2" },
+    { isHeading: true, text: "NOMINATION-BASED AWARDS: CELEBRATING CAMPAIGN AND CORPORATE EXCELLENCE", gridClass: "col-span-1 md:col-span-2 lg:col-span-6" },
+    { award: "COMPANY OF THE YEAR", name: "ARIES AGRO LIMITED", title: "", company: "", image: "/Awards/IMG_7014.JPG" },
+    { award: "EMERGING COMPANY OF THE YEAR", name: "BHARAT CERTIS AGRISCIENCE LTD.", title: "", company: "", image: "/Awards/IMG_6948.JPG" },
+    { award: "BEST RURAL ENGAGEMENT", name: "GENCREST BIO PRODUCTS", title: "", company: "", image: "/Awards/image.png" },
+    { award: "BEST PR CAMPAIGN", name: "INSECTICIDES INDIA LIMITED", title: "", company: "", image: "/Awards/IMG_6902.JPG" },
+    { award: "BEST DIGITAL MARKETING AWARD", name: "JU AGRI SCIENCES", title: "", company: "", image: "/Awards/IMG_6906.JPG" },
+    { award: "BEST BRAND CAMPAIGN (TVC)", name: "UPL SAS LIMITED", title: "", company: "", image: "/Awards/IMG_6917.JPG" },
+    { award: "BEST INTEGRATED COMMUNICATION AWARD", name: "ICL INDIA", title: "", company: "", image: "/Awards/IMG_6921.JPG" },
+    { award: "BEST OUTDOOR CAMPAIGN", name: "VARSHA BIOSCIENCE & TECHNOLOGY", title: "", company: "", image: "/Awards/IMG_6890.JPG" },
+    { award: "BEST COMMUNICATOR (MALE)", name: "MR. R.K. GOYAL", title: "", company: "VERDESIAN USA", image: "/Awards/IMG_6926.JPG" },
+    { award: "BEST COMMUNICATOR (FEMALE)", name: "MS. SARITA BAHL", title: "", company: "", image: "/Awards/IMG_6936.JPG", gridClass: "lg:col-start-2 lg:col-span-2" },
+    { award: "AI LEADERSHIP EXCELLENCE", name: "COROMANDEL INTERNATIONAL LIMITED", title: "(CROP PROTECTION CHEMICALS)", company: "", image: "/Awards/IMG_6940.JPG", gridClass: "lg:col-span-2" }
   ];
 
   const displayedWinners = showAll ? [...initialWinners, ...moreWinners] : initialWinners;
@@ -116,32 +108,57 @@ export default function LastSeasonWinnersSection() {
         {/* Winners Grid */}
         <motion.div 
           layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14 max-w-7xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-x-10 gap-y-14 max-w-7xl mx-auto"
         >
           <AnimatePresence>
-            {displayedWinners.map((winner, idx) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-                key={idx}
-                className="flex flex-col items-center group w-full pt-6 border-t border-brand-primary/20 hover:border-brand-primary transition-all duration-500"
-              >
-                {/* Banner */}
+            {displayedWinners.map((winner, idx) => {
+              const defaultGridClass = "col-span-1 md:col-span-1 lg:col-span-2";
+              const itemGridClass = winner.gridClass || defaultGridClass;
+
+              if (winner.isHeading) {
+                return (
+                  <motion.div
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    key={`heading-${idx}`}
+                    className={`${itemGridClass} text-center w-full mt-10 mb-4`}
+                  >
+                    <h3 className="text-base md:text-lg lg:text-xl font-bold text-brand-dark tracking-[0.05em] uppercase">
+                      {winner.text}
+                    </h3>
+                  </motion.div>
+                );
+              }
+
+              return (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4 }}
+                  key={idx}
+                  className={`flex flex-col items-center group w-full pt-6 border-t border-brand-primary/20 hover:border-brand-primary transition-all duration-500 ${itemGridClass}`}
+                >
+                  {/* Banner */}
                 <div className="w-full text-brand-primary text-center font-bold text-[10px] md:text-xs tracking-[0.1em] uppercase mb-4 opacity-80 group-hover:opacity-100 transition-opacity">
                   {winner.award}
                 </div>
 
                 {/* Image Wrapper */}
-                <div className="w-full aspect-video relative overflow-hidden rounded-xl shadow-sm mb-4 transition-transform duration-500 group-hover:-translate-y-1">
-                  <Image 
-                    src={winner.image} 
-                    alt={winner.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
+                <div className="w-full aspect-video relative overflow-hidden rounded-xl shadow-sm mb-4 transition-transform duration-500 group-hover:-translate-y-1 bg-brand-primary/5 flex items-center justify-center">
+                  {winner.image ? (
+                    <Image 
+                      src={winner.image} 
+                      alt={winner.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                  ) : (
+                    <span className="text-brand-primary/40 font-semibold text-xs tracking-widest uppercase">No Image</span>
+                  )}
                 </div>
 
                 {/* Name & Details */}
@@ -159,7 +176,8 @@ export default function LastSeasonWinnersSection() {
                   </p>
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </AnimatePresence>
         </motion.div>
 

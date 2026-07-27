@@ -55,6 +55,9 @@ export default function Hero() {
                   setIsSponsorModalOpen(true);
                 } else if (text === "Register as Delegate") {
                   setIsDelegateModalOpen(true);
+                } else if (text === "Nomination for Awards") {
+                  const el = document.getElementById("awards");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
                 }
               }}
               className={`w-full sm:w-auto px-2 py-2.5 md:px-5 md:py-2 text-[9px] md:text-[10px] font-bold text-white uppercase tracking-wider md:tracking-[0.1em] leading-tight flex items-center justify-center ${text === 'Become a Sponsor' ? 'col-span-2 bg-brand-primary border-brand-primary shadow-brand-primary/40' : 'bg-white/10 border-white/30'} border backdrop-blur-md rounded-full hover:bg-brand-primary hover:border-brand-primary transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5`}

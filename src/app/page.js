@@ -24,6 +24,7 @@ import OrganiserSection from "@/components/OrganiserSection";
 import FaqSection from "@/components/FaqSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
   return (
@@ -54,6 +55,7 @@ export default function Home() {
       {/* <FaqSection /> */}
       <ContactSection />
       <Footer />
+      <WhatsAppButton />
     </main>
   );
 }
