@@ -2,10 +2,14 @@
 import React, { useState } from "react";
 import SponsorModal from "./SponsorModal";
 import DelegateRegistrationModal from "./DelegateRegistrationModal";
+import TermsAndConditionsModal from "./TermsAndConditionsModal";
+import SpeakerModal from "./SpeakerModal";
 
 export default function Hero() {
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
   const [isDelegateModalOpen, setIsDelegateModalOpen] = useState(false);
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+  const [isSpeakerModalOpen, setIsSpeakerModalOpen] = useState(false);
 
   return (
     <section 
@@ -53,8 +57,14 @@ export default function Hero() {
               onClick={() => {
                 if (text === "Become a Sponsor") {
                   setIsSponsorModalOpen(true);
+                } else if (text === "Benefits of Sponsors") {
+                  const el = document.getElementById("sponsors");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
                 } else if (text === "Register as Delegate") {
-                  setIsDelegateModalOpen(true);
+                  const el = document.getElementById("delegates");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                } else if (text === "Speaker Interest") {
+                  setIsSpeakerModalOpen(true);
                 } else if (text === "Nomination for Awards") {
                   const el = document.getElementById("awards");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -80,6 +90,19 @@ export default function Hero() {
           The BRAND R.COMM 2026 Summit & Awards is India&apos;s most decisive gathering of chairmen, marketers, agencies and policymakers shaping the future of agriculture and rural communication.
         </p>
       </div>
+
+      {/* Bottom Right Terms & Conditions */}
+      <div className="absolute bottom-8 right-6 md:bottom-12 md:right-12 hidden md:block opacity-0 animate-fade-in-up delay-500 z-20">
+        <button 
+          onClick={() => setIsTermsModalOpen(true)} 
+          className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-md rounded-full text-[10px] md:text-xs text-white/90 hover:text-white font-medium tracking-wide transition-all duration-300"
+        >
+          <svg className="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Terms and Conditions
+        </button>
+      </div>
       
       <SponsorModal 
         isOpen={isSponsorModalOpen} 
@@ -88,6 +111,14 @@ export default function Hero() {
       <DelegateRegistrationModal
         isOpen={isDelegateModalOpen}
         onClose={() => setIsDelegateModalOpen(false)}
+      />
+      <TermsAndConditionsModal
+        isOpen={isTermsModalOpen}
+        onClose={() => setIsTermsModalOpen(false)}
+      />
+      <SpeakerModal
+        isOpen={isSpeakerModalOpen}
+        onClose={() => setIsSpeakerModalOpen(false)}
       />
     </section>
   );

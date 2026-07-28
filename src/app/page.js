@@ -41,15 +41,15 @@ export default function Home() {
       <JurySection />
       <AwardCategoriesSection />
       <WinnerBenefitsSection />
-      <RequiredDocumentsSection />
+      <AwardsSection />
+      <LastSeasonWinnersSection />
+      {/* <RequiredDocumentsSection /> */}
       <SponsorshipSection />
       <GeneralSponsorshipSection />
       <DelegateRegistrationSection />
-      <AwardsSection />
-      <LastSeasonWinnersSection />
-      <RegistrationFlowSection />
+      {/* <RegistrationFlowSection /> */}
       <PastEditionsSection />
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
       {/* <EcosystemPartnersSection /> */}
       <OrganiserSection />
       {/* <FaqSection /> */}

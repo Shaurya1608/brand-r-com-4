@@ -93,14 +93,7 @@ export default function AwardsSection() {
   return (
     <section id="awards" className="relative w-full py-16 md:py-20 overflow-hidden text-brand-dark border-t border-brand-primary/10 bg-brand-surface">
       
-      {/* Background Vertical Lines */}
-      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
-        <div className="w-px h-full bg-brand-primary/10"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
-        <div className="w-px h-full bg-brand-primary/10"></div>
-      </div>
+      {/* Background Vertical Lines removed */}
 
       {/* Background Glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3" />

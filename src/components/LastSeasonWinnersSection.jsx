@@ -8,6 +8,7 @@ export default function LastSeasonWinnersSection() {
   const [showAll, setShowAll] = useState(false);
 
   const initialWinners = [
+    { isHeading: true, text: "JURY-BASED AWARDS: HONOURING INDUSTRY LEADERSHIP AND LEGACY", gridClass: "col-span-1 md:col-span-2 lg:col-span-6" },
     {
       award: "LIFETIME ACHIEVEMENT AWARD",
       name: "DR. R. G. AGARWAL",
@@ -58,19 +59,12 @@ export default function LastSeasonWinnersSection() {
   return (
     <section id="last-season-winners" className="relative w-full py-16 min-h-[90vh] flex flex-col justify-center bg-white overflow-hidden">
       
-      {/* Background Vertical Lines */}
-      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
-        <div className="w-px h-full bg-brand-primary/10"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
-        <div className="w-px h-full bg-brand-primary/10"></div>
-      </div>
+      {/* Background Vertical Lines removed */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
         
         {/* Header */}
-        <div className="relative max-w-7xl mx-auto mb-10 md:mb-12 flex flex-col md:flex-row items-center justify-end px-4 min-h-[80px]">
+        <div className="relative max-w-7xl mx-auto mb-4 md:mb-6 flex flex-col md:flex-row items-center justify-end px-4 min-h-[80px]">
           <div className="text-center md:absolute md:left-1/2 md:-translate-x-1/2 mb-6 md:mb-0 w-full md:w-auto">
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
@@ -123,11 +117,27 @@ export default function LastSeasonWinnersSection() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     key={`heading-${idx}`}
-                    className={`${itemGridClass} text-center w-full mt-10 mb-4`}
+                    className={`${itemGridClass} flex items-center justify-center w-full mt-4 mb-6`}
                   >
-                    <h3 className="text-base md:text-lg lg:text-xl font-bold text-brand-dark tracking-[0.05em] uppercase">
-                      {winner.text}
-                    </h3>
+                    <div className="flex-grow h-px bg-gradient-to-r from-transparent to-brand-primary/20 hidden md:block"></div>
+                    <div className="px-4 md:px-8 text-center">
+                      <h3 className="text-xs md:text-sm font-bold tracking-widest uppercase flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
+                        {winner.text.includes(':') ? (
+                          <>
+                            <span className="text-brand-primary bg-brand-primary/10 px-4 py-1.5 rounded-full shadow-sm border border-brand-primary/10">
+                              {winner.text.split(':')[0].trim()}
+                            </span>
+                            <span className="hidden md:inline text-brand-primary/40">✦</span>
+                            <span className="text-brand-dark">
+                              {winner.text.split(':')[1].trim()}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-brand-dark">{winner.text}</span>
+                        )}
+                      </h3>
+                    </div>
+                    <div className="flex-grow h-px bg-gradient-to-l from-transparent to-brand-primary/20 hidden md:block"></div>
                   </motion.div>
                 );
               }

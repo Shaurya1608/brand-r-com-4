@@ -42,7 +42,6 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "About", href: "#about" },
-    { name: "Summit", href: "#summit" },
     { name: "Awards", href: "#awards" },
     { name: "Sponsors", href: "#sponsors" },
     { name: "Delegates", href: "#delegates" },

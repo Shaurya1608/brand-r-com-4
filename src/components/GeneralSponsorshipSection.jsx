@@ -98,16 +98,9 @@ export default function GeneralSponsorshipSection() {
   };
 
   return (
-    <section className="relative w-full py-20 overflow-hidden bg-brand-surface">
+    <section className="relative w-full py-20 overflow-hidden bg-white">
       
-      {/* Background Vertical Lines */}
-      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
-        <div className="w-px h-full bg-brand-primary/10"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
-        <div className="w-px h-full bg-brand-primary/10"></div>
-      </div>
+      {/* Background Vertical Lines removed */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
         
@@ -131,7 +124,7 @@ export default function GeneralSponsorshipSection() {
             transition={{ delay: 0.1 }}
             className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-dark mb-4"
           >
-            Twelve additional ways to <span className="text-brand-primary italic">plant your brand.</span>
+            Five additional ways to <span className="text-brand-primary italic">plant your brand.</span>
           </motion.h2>
 
           <motion.p 

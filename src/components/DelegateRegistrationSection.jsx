@@ -28,7 +28,7 @@ export default function DelegateRegistrationSection() {
   ];
 
   return (
-    <section id="delegates" className="relative w-full py-16 md:py-20 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-white">
+    <section id="delegates" className="relative w-full py-16 md:py-20 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-brand-surface">
       
       {/* Background Vertical Lines */}
       <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">

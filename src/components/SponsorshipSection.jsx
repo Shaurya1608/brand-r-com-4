@@ -233,16 +233,9 @@ export default function SponsorshipSection() {
   ];
 
   return (
-    <section className="relative w-full py-16 overflow-hidden bg-white">
+    <section id="sponsors" className="relative w-full py-16 overflow-hidden bg-brand-surface">
       
-      {/* Background Vertical Lines */}
-      <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
-        <div className="w-px h-full bg-brand-primary/10"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden sm:block"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden md:block"></div>
-        <div className="w-px h-full bg-brand-primary/10 hidden lg:block"></div>
-        <div className="w-px h-full bg-brand-primary/10"></div>
-      </div>
+      {/* Background Vertical Lines removed */}
 
       <div className="relative z-10 w-full max-w-[95%] 2xl:max-w-[1400px] mx-auto flex flex-col items-center">
         

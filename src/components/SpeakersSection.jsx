@@ -59,7 +59,7 @@ export default function SpeakersSection() {
   ];
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col justify-center bg-brand-surface py-12 md:py-16 overflow-hidden">
+    <section id="speakers" className="relative w-full min-h-screen flex flex-col justify-center bg-brand-surface py-12 md:py-16 overflow-hidden">
       
       {/* Background gradients */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary/10 rounded-full blur-[120px] pointer-events-none translate-x-1/3 -translate-y-1/3" />
@@ -109,24 +109,7 @@ export default function SpeakersSection() {
               </p>
             </motion.div>
 
-            {/* See All Button - only shown when minimized */}
-            {!showAll && (
-              <motion.button
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => setShowAll(true)}
-                className="group flex items-center space-x-2 px-6 py-2.5 bg-brand-primary text-white text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-brand-dark transition-all duration-300 rounded-full shadow-md"
-              >
-                <span>Explore All Speakers</span>
-                <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </motion.button>
-            )}
+            {/* See All Button moved below the grid */}
           </div>
         </div>
 
@@ -170,26 +153,39 @@ export default function SpeakersSection() {
           </div>
         </div>
 
-        {/* Minimize Button at bottom — shown only when all speakers are visible */}
-        {showAll && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex justify-center mt-12"
-          >
+        {/* Action Button at bottom */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex justify-center mt-12"
+        >
+          {!showAll ? (
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setShowAll(true)}
+              className="group flex items-center space-x-2 px-6 py-2.5 bg-brand-primary text-white text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-brand-dark transition-all duration-300 rounded-full shadow-md"
+            >
+              <span>Explore All Speakers</span>
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </motion.button>
+          ) : (
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowAll(false)}
               className="group flex items-center space-x-2 px-6 py-2.5 bg-brand-primary text-white text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-brand-dark transition-all duration-300 rounded-full shadow-md"
             >
-              <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 rotate-180 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
               <span>Minimize</span>
             </motion.button>
-          </motion.div>
-        )}
+          )}
+        </motion.div>
       </div>
     </section>
   );

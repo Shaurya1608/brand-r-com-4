@@ -34,7 +34,7 @@ export default function ByTheNumbers() {
       )
     },
     { 
-      number: "65+", 
+      number: "100+", 
       label: "Marquee Speakers",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,7 +43,7 @@ export default function ByTheNumbers() {
       )
     },
     { 
-      number: "45", 
+      number: "50+", 
       label: "Awards Presented",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,7 @@ export default function ByTheNumbers() {
       )
     },
     { 
-      number: "18", 
+      number: "18+", 
       label: "Curated Sessions",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,7 +70,7 @@ export default function ByTheNumbers() {
       )
     },
     { 
-      number: "12", 
+      number: "12+", 
       label: "Networking Hours",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,7 +79,7 @@ export default function ByTheNumbers() {
       )
     },
     { 
-      number: "250+", 
+      number: "500+", 
       label: "Media Coverage",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
