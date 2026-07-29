@@ -5,64 +5,88 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const termsContent = [
   {
-    title: "1. Eligibility",
-    content: "The BRAND R.Comm Awards 2026 are open to organizations and individuals operating in the agriculture, rural communication, and allied sectors in India. All nominations must be based on activities, campaigns, or achievements executed between January 2025 and October 2026."
+    title: "How to Enter - Step 1: Select an Award Category",
+    content: "Choose the most appropriate award category based on your campaign, organization, or individual achievement."
   },
   {
-    title: "2. Authority to Receive Awards",
-    content: "Awards under the Organization/Company Categories must be received by a member of the senior management, such as the Chairman, Managing Director, Director, or an equivalent representative. If none of the authorized representatives are present during the award presentation, the award will stand automatically cancelled and will not be reissued or couriered later."
+    title: "How to Enter - Step 2: Complete the Nomination Form",
+    content: "Fill in all the required details accurately and provide complete information about your nomination."
   },
   {
-    title: "3. Nomination Fee",
-    content: "A non-refundable nomination fee of ₹8,000 + GST per category is applicable for each nomination. Payment must be be made along with the submission of the nomination form."
+    title: "How to Enter - Step 3: Upload Supporting Documents",
+    content: "Attach relevant case studies, presentations, campaign reports, images, videos, or any supporting material that strengthens your nomination."
   },
   {
-    title: "4. Multiple Nominations",
-    content: "An individual or organization may submit nominations in more than one category, provided each nomination is submitted separately with its own nomination fee and supporting documents."
+    title: "How to Enter - Step 4: Pay the Nomination Fee",
+    content: "A non-refundable nomination fee of ₹8,000 + GST per category must be paid at the time of submission."
   },
   {
-    title: "5. Withdrawal of Nomination",
-    content: "Once submitted, a nomination cannot be withdrawn, modified, or replaced under any circumstances."
+    title: "How to Enter - Step 5: Submit Your Entry",
+    content: "Review your nomination carefully before submission. Once submitted, entries cannot be edited, replaced, or withdrawn."
   },
   {
-    title: "6. Non-Refundable Fee",
-    content: "The nomination fee is strictly non-refundable, irrespective of withdrawal, disqualification, or non-selection for the final awards."
+    title: "How to Enter - Step 6: Jury Evaluation",
+    content: "Eligible nominations will be reviewed by the internal screening team before being evaluated by an independent Jury Panel."
   },
   {
-    title: "7. Sponsorship & Awards Eligibility",
-    content: "Sponsors, Co-Sponsors, and Supporting Partners of the event are not eligible to receive awards in any category. BRAND R.Comm maintains complete transparency and integrity and does not entertain paid or influenced awards."
+    title: "Rules for Entry - 1",
+    content: "The awards are open to organizations and individuals from the agriculture, rural communication, and allied sectors."
   },
   {
-    title: "8. Nomination Review",
-    content: "All nominations will be reviewed by the internal team for completeness and eligibility before being submitted to the Jury Panel for evaluation."
+    title: "Rules for Entry - 2",
+    content: "All entries must represent work, campaigns, or achievements carried out between January 2025 and October 2026."
   },
   {
-    title: "9. Decision of the Jury",
-    content: "The decision of the Jury shall be final and binding. No correspondence, reconsideration, or appeal regarding the jury's evaluation or final results will be entertained."
+    title: "Rules for Entry - 3",
+    content: "Each award category requires a separate nomination form, supporting documents, and nomination fee."
   },
   {
-    title: "10. Data & Documentation",
-    content: "All information, data, and supporting materials submitted with the nomination must be accurate, authentic, and verifiable. Any false or misleading information may result in immediate disqualification without any refund."
+    title: "Rules for Entry - 4",
+    content: "The nomination fee is non-refundable under all circumstances."
   },
   {
-    title: "11. Confidentiality",
-    content: "All information shared in the nomination forms will be treated as confidential and used solely for the purpose of award evaluation."
+    title: "Rules for Entry - 5",
+    content: "Once submitted, nominations cannot be modified, replaced, or withdrawn."
   },
   {
-    title: "12. Ownership of Material",
-    content: "The organizer reserves the right to use the names, logos, and submitted content of nominees for promotional and communication purposes related to BRAND R.Comm, including pre-event and post-event publicity."
+    title: "Rules for Entry - 6",
+    content: "All information submitted must be accurate, authentic, and verifiable."
   },
   {
-    title: "13. Event Participation",
-    content: "Attendance at the BRAND R.Comm Summit & Awards 2026 is mandatory for winners to receive their award and recognition. The organizer will not be responsible for travel, accommodation, or any related arrangements."
+    title: "Rules for Entry - 7",
+    content: "Any false or misleading information may result in immediate disqualification."
   },
   {
-    title: "14. Amendments",
-    content: "The organizers reserve the right to modify, cancel, or reschedule any aspect of the awards process or ceremony without prior notice in the event of unforeseen circumstances."
+    title: "Rules for Entry - 8",
+    content: "Sponsors, Co-Sponsors, and Supporting Partners are not eligible to participate in the awards."
   },
   {
-    title: "15. Jurisdiction",
-    content: "Any dispute arising out of or relating to the BRAND R.Comm Awards 2026 shall be subject to the exclusive jurisdiction of the courts of New Delhi, India."
+    title: "Rules for Entry - 9",
+    content: "All nominations will undergo an eligibility review before being presented to the Jury."
+  },
+  {
+    title: "Rules for Entry - 10",
+    content: "The Jury's decision shall be final and binding."
+  },
+  {
+    title: "Rules for Entry - 11",
+    content: "BRAND R.Comm maintains complete transparency and does not entertain paid or influenced awards."
+  },
+  {
+    title: "Rules for Entry - 12",
+    content: "Winners must be present at the BRAND R.Comm Awards Ceremony to receive their award. Awards will not be couriered or reissued in case of absence."
+  },
+  {
+    title: "Rules for Entry - 13",
+    content: "The organizers reserve the right to amend, modify, postpone, or cancel any part of the awards process if required."
+  },
+  {
+    title: "Rules for Entry - 14",
+    content: "By submitting a nomination, participants grant BRAND R.Comm permission to use submitted names, logos, and content for promotional purposes related to the awards."
+  },
+  {
+    title: "Rules for Entry - 15",
+    content: "Any disputes arising from the awards process shall be subject to the exclusive jurisdiction of New Delhi, India."
   }
 ];
 

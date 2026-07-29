@@ -86,17 +86,7 @@ export default function LastSeasonWinnersSection() {
             </motion.h2>
           </div>
           
-          {/* See All Button */}
-          <div className="w-full flex justify-center md:justify-end md:w-auto z-10">
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowAll(!showAll)}
-              className="px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-brand-dark transition-colors text-center rounded-lg shadow-sm"
-            >
-              {showAll ? "SEE LESS" : "SEE ALL WINNERS"}
-            </motion.button>
-          </div>
+
         </div>
 
         {/* Winners Grid */}
@@ -191,32 +181,33 @@ export default function LastSeasonWinnersSection() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Minimize Button at Bottom */}
-        <AnimatePresence>
-          {showAll && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="flex justify-center mt-12"
-            >
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  setShowAll(false);
-                  document.getElementById('last-season-winners')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="px-8 py-3.5 bg-brand-primary text-white text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-brand-dark transition-colors text-center rounded-lg shadow-sm flex items-center space-x-2"
-              >
-                <span>MINIMIZE</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                </svg>
-              </motion.button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Toggle Button at Bottom */}
+        <div className="flex justify-center mt-12">
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              if (showAll) {
+                setShowAll(false);
+                document.getElementById('last-season-winners')?.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                setShowAll(true);
+              }
+            }}
+            className="px-8 py-3.5 bg-brand-primary text-white text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-brand-dark transition-colors text-center rounded-lg shadow-sm flex items-center space-x-2"
+          >
+            <span>{showAll ? "MINIMIZE" : "SEE ALL WINNERS"}</span>
+            {showAll ? (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            )}
+          </motion.button>
+        </div>
 
       </div>
     </section>
