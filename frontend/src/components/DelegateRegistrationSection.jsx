@@ -1,9 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
+import DelegateRegistrationModal from "./DelegateRegistrationModal";
 
 export default function DelegateRegistrationSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("indian");
+
+  const openModal = (type) => {
+    setModalType(type);
+    setIsModalOpen(true);
+  };
+
   const indianPricing = [
     { window: "Till 31 August 2026", fee: "₹ 5,000 + GST" },
     { window: "Till 30 September 2026", fee: "₹ 6,000 + GST" },
@@ -107,7 +116,10 @@ export default function DelegateRegistrationSection() {
               </div>
             </div>
 
-            <button className="w-full py-3 bg-brand-primary text-white text-[10px] font-bold tracking-widest uppercase rounded-lg hover:bg-brand-primary-hover transition-colors shadow-sm">
+            <button 
+              onClick={() => openModal("indian")}
+              className="w-full py-3 bg-brand-primary text-white text-[10px] font-bold tracking-widest uppercase rounded-lg hover:bg-brand-primary-hover transition-colors shadow-sm"
+            >
               Register as Indian Delegate
             </button>
           </motion.div>
@@ -145,7 +157,10 @@ export default function DelegateRegistrationSection() {
               </div>
             </div>
 
-            <button className="w-full py-3 border border-brand-primary/30 bg-transparent text-brand-primary text-[10px] font-bold tracking-widest uppercase rounded-lg hover:bg-brand-primary hover:text-white transition-colors">
+            <button 
+              onClick={() => openModal("foreign")}
+              className="w-full py-3 border border-brand-primary/30 bg-transparent text-brand-primary text-[10px] font-bold tracking-widest uppercase rounded-lg hover:bg-brand-primary hover:text-white transition-colors"
+            >
               Register as International Delegate
             </button>
           </motion.div>
@@ -181,6 +196,12 @@ export default function DelegateRegistrationSection() {
         </motion.div>
 
       </div>
+      
+      <DelegateRegistrationModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        defaultType={modalType} 
+      />
     </section>
   );
 }

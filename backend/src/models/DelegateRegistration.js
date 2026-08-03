@@ -1,0 +1,85 @@
+const mongoose = require('mongoose');
+
+const delegateRegistrationSchema = new mongoose.Schema({
+  delegateType: {
+    type: String,
+    enum: ['indian', 'foreign'],
+    required: true,
+  },
+  fullName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  designation: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  mobileNumber: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  organization: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  city: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  stateCountry: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  pinCode: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  address: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending',
+  },
+  paymentStatus: {
+    type: String,
+    enum: ['Pending', 'Paid', 'Failed'],
+    default: 'Pending',
+  },
+  registrationType: {
+    type: String,
+    enum: ['Online', 'On-Spot', 'Group'],
+    default: 'Online'
+  },
+  paymentMethod: {
+    type: String,
+    default: 'Online'
+  },
+  // Razorpay payment tracking
+  razorpayOrderId: {
+    type: String,
+  },
+  razorpayPaymentId: {
+    type: String,
+  },
+  amountPaid: {
+    type: Number, // in INR (rupees)
+  },
+  couponCode: {
+    type: String,
+  },
+}, {
+  timestamps: true 
+});
+
+module.exports = mongoose.model('DelegateRegistration', delegateRegistrationSchema);

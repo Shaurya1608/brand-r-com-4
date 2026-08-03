@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import AwardNominationModal from "./AwardNominationModal";
 
 const termsContent = [
   {
@@ -92,14 +93,15 @@ const termsContent = [
 
 export default function AwardsSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNominationModalOpen, setIsNominationModalOpen] = useState(false);
 
   useEffect(() => {
-    if (isModalOpen) {
+    if (isModalOpen || isNominationModalOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, isNominationModalOpen]);
   const benefits = [
     "Peer-reviewed evaluation by an independent jury",
     "PR amplification if shortlisted or awarded",
@@ -167,7 +169,7 @@ export default function AwardsSection() {
               transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-4 w-full sm:w-auto"
             >
-              <button className="w-full sm:w-auto px-8 py-4 bg-[#f05a28] text-white text-[11px] font-bold uppercase tracking-widest rounded-xl shadow-lg hover:shadow-xl hover:bg-[#d9481a] hover:-translate-y-0.5 transition-all duration-300">
+              <button onClick={() => setIsNominationModalOpen(true)} className="w-full sm:w-auto px-8 py-4 bg-[#f05a28] text-white text-[11px] font-bold uppercase tracking-widest rounded-xl shadow-lg hover:shadow-xl hover:bg-[#d9481a] hover:-translate-y-0.5 transition-all duration-300">
                 Nominate for Awards
               </button>
               <button className="w-full sm:w-auto px-8 py-4 bg-white border border-brand-primary/20 text-brand-dark text-[11px] font-bold uppercase tracking-widest rounded-xl shadow-sm hover:border-brand-primary/50 hover:bg-brand-surface transition-all duration-300">
@@ -277,6 +279,11 @@ export default function AwardsSection() {
           </div>
         )}
       </AnimatePresence>
+
+      <AwardNominationModal 
+        isOpen={isNominationModalOpen} 
+        onClose={() => setIsNominationModalOpen(false)} 
+      />
     </section>
   );
 }
