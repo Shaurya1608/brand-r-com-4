@@ -108,7 +108,7 @@ export default function SponsorshipsPage() {
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto overflow-y-auto max-h-[80vh] relative custom-scrollbar">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-12">
               <div className="w-8 h-8 border-4 border-[#6a9a38]/30 border-t-[#6a9a38] rounded-full animate-spin mb-4"></div>
@@ -131,51 +131,60 @@ export default function SponsorshipsPage() {
               <p className="text-sm mt-1">Try adjusting your search criteria</p>
             </div>
           ) : (
-            <table className="w-full text-left border-collapse min-w-[1000px]">
-              <thead>
-                <tr className="bg-gray-50/50 border-b border-gray-100">
-                  <th className="px-4 py-3 font-semibold text-gray-600 text-sm whitespace-nowrap">Company</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 text-sm whitespace-nowrap">Category</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 text-sm whitespace-nowrap">Contact</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 text-sm whitespace-nowrap">Total Amount</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 text-sm whitespace-nowrap">Status</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 text-sm whitespace-nowrap">Date</th>
+            <table className="w-full text-left text-sm text-gray-500 relative">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+                <tr>
+                  <th scope="col" className="px-4 py-3 font-semibold min-w-[220px] max-w-[220px] sticky left-0 z-40 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">Company Name</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">GST Number</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Category</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Contact Person</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Email</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Mobile Number</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">City</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">State/Country</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Pin Code</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Full Address</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-right">Amount</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-center">Status</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Date</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredSponsorships.map((sponsorship) => (
-                  <tr key={sponsorship._id} className="hover:bg-gray-50/50 transition-colors border-b border-gray-100">
-                    <td className="px-4 py-2.5">
-                      <div className="font-medium text-gray-900">{sponsorship.companyName}</div>
-                      <div className="text-xs text-gray-500 mt-1">GST: {sponsorship.gstNumber || 'N/A'}</div>
+                  <tr key={sponsorship._id} className="bg-white hover:bg-gray-50 transition-colors group">
+                    <td className="px-4 py-2.5 min-w-[220px] max-w-[220px] sticky left-0 z-20 bg-white group-hover:bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">
+                      <div className="font-semibold text-gray-900 truncate" title={sponsorship.companyName}>{sponsorship.companyName}</div>
                     </td>
-                    <td className="px-4 py-2.5">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                    <td className="px-4 py-2.5 whitespace-nowrap text-gray-500 font-mono text-xs">{sponsorship.gstNumber || 'N/A'}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700">
                         {sponsorship.sponsorshipCategory}
                       </span>
                     </td>
-                    <td className="px-4 py-2.5">
-                      <div className="text-sm text-gray-900">{sponsorship.contactPerson}</div>
-                      <div className="text-xs text-gray-500">{sponsorship.mobileNumber}</div>
-                      <div className="text-xs text-gray-500">{sponsorship.email}</div>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.contactPerson}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <a href={`mailto:${sponsorship.email}`} className="text-blue-600 hover:underline">{sponsorship.email}</a>
                     </td>
-                    <td className="px-4 py-2.5">
-                      <div className="text-sm font-medium text-gray-900">
-                        ₹{sponsorship.totalAmount?.toLocaleString('en-IN') || 0}
-                      </div>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.mobileNumber}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.city}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.stateCountry}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.pinCode}</td>
+                    <td className="px-4 py-2.5 min-w-[200px] max-w-[300px] truncate" title={sponsorship.address}>{sponsorship.address}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap font-semibold text-gray-900 text-right">
+                      ₹{sponsorship.totalAmount?.toLocaleString('en-IN') || 0}
                     </td>
-                    <td className="px-4 py-2.5">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                    <td className="px-4 py-2.5 whitespace-nowrap text-center">
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                         sponsorship.status === 'completed' 
-                          ? 'bg-green-50 text-green-700 border border-green-100' 
-                          : 'bg-yellow-50 text-yellow-700 border border-yellow-100'
+                          ? 'bg-green-100 text-green-700' 
+                          : 'bg-yellow-100 text-yellow-700'
                       }`}>
-                        {sponsorship.status === 'completed' ? 'Completed' : 'Pending'}
+                        {sponsorship.status}
                       </span>
                     </td>
-                    <td className="px-4 py-2.5 text-sm text-gray-500">
-                      {new Date(sponsorship.createdAt).toLocaleDateString('en-IN', {
-                        day: '2-digit', month: 'short', year: 'numeric'
+                    <td className="px-4 py-2.5 whitespace-nowrap text-gray-500">
+                      {new Date(sponsorship.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'short', day: 'numeric'
                       })}
                     </td>
                   </tr>
