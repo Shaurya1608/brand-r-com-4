@@ -70,14 +70,14 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
 
       {/* ID Card Wrapper */}
       <div 
-        className="relative bg-white rounded-2xl shadow-2xl overflow-hidden print:shadow-none print:rounded-none"
-        style={{ width: '380px', minHeight: '650px' }} // Adjusted height to prevent footer clipping
+        className="relative bg-white rounded-2xl shadow-2xl overflow-hidden print:shadow-none print:rounded-none mx-auto"
+        style={{ width: '320px', minHeight: '520px' }} // Scaled down size
       >
         {/* The Card Element we will capture for download */}
-        <div ref={cardRef} className="w-full h-full min-h-[650px] flex flex-col bg-white">
+        <div ref={cardRef} className="w-full h-full flex flex-col bg-white">
           
           {/* Header / Brand */}
-          <div className="bg-[#0f172a] text-white p-6 pb-8 text-center relative overflow-hidden flex-shrink-0 border-b-4 border-[#6a9a38]">
+          <div className="bg-[#0f172a] text-white p-5 pb-6 text-center relative overflow-hidden flex-shrink-0 border-b-4 border-[#6a9a38]">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-[0.05]" style={{
               backgroundImage: 'radial-gradient(circle at 2px 2px, #ffffff 1px, transparent 0)',
@@ -88,56 +88,56 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
               <img 
                 src="/logo/brand-r-comm-logo-2.png" 
                 alt="Brand R.Comm" 
-                className="h-24 object-contain drop-shadow-md mb-2" 
+                className="h-16 object-contain drop-shadow-md mb-2" 
               />
-              <p className="text-[11px] text-[#6a9a38] font-black uppercase tracking-[0.3em] mt-1">Global Summit 2026</p>
+              <p className="text-[9px] text-[#6a9a38] font-black uppercase tracking-[0.2em] mt-1">Global Summit 2026</p>
             </div>
           </div>
 
           {/* Attendee Info */}
-          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center pt-6">
-            <div className="mb-4 w-full">
-              <span className="block text-[9px] uppercase tracking-[0.2em] text-gray-400 mb-1">Delegate Name</span>
-              <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight max-w-[280px] mx-auto break-words leading-tight">
+          <div className="flex-1 flex flex-col items-center justify-center p-5 text-center pt-5">
+            <div className="mb-3 w-full">
+              <span className="block text-[8px] uppercase tracking-[0.2em] text-gray-400 mb-0.5">Delegate Name</span>
+              <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tight max-w-[280px] mx-auto break-words leading-tight">
                 {delegate.fullName}
               </h2>
             </div>
             
-            <div className="mb-3 w-full">
-              <span className="block text-[9px] uppercase tracking-[0.2em] text-gray-400 mb-0.5">Designation</span>
-              <p className="text-base font-semibold text-gray-600">
+            <div className="mb-2 w-full">
+              <span className="block text-[8px] uppercase tracking-[0.2em] text-gray-400 mb-0.5">Designation</span>
+              <p className="text-sm font-semibold text-gray-600">
                 {delegate.designation}
               </p>
             </div>
             
             <div className="w-full">
-              <span className="block text-[9px] uppercase tracking-[0.2em] text-[#6a9a38]/70 mb-0.5">Organization</span>
-              <p className="text-sm font-bold text-[#6a9a38] uppercase tracking-wider">
+              <span className="block text-[8px] uppercase tracking-[0.2em] text-[#6a9a38]/70 mb-0.5">Organization</span>
+              <p className="text-xs font-bold text-[#6a9a38] uppercase tracking-wider">
                 {delegate.organization}
               </p>
             </div>
           </div>
 
           {/* QR Code Section */}
-          <div className="flex-shrink-0 flex flex-col items-center justify-center pb-6">
-            <div className="bg-white p-3 rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.1)] mb-4">
+          <div className="flex-shrink-0 flex flex-col items-center justify-center pb-5">
+            <div className="bg-white p-2.5 rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.1)] mb-3">
               <QRCode 
                 value={qrData}
-                size={140}
-                level="H" // High error correction so logos can be placed or if damaged
+                size={110}
+                level="H" 
                 bgColor="#ffffff"
-                fgColor="#111827"
+                fgColor="#0f172a"
               />
             </div>
-            <p className="text-[10px] text-gray-400 font-mono">
+            <p className="text-[9px] text-gray-400 font-mono">
               ID: {delegate._id.toString().slice(-8).toUpperCase()}
             </p>
           </div>
 
           {/* Role/Category Footer */}
-          <div className="h-[72px] flex flex-col items-center justify-center bg-[#6a9a38] border-t-2 border-[#52792b]">
-            <span className="text-[9px] text-white/80 uppercase tracking-[0.3em] font-bold mb-0.5">Category</span>
-            <span className="text-xl font-black text-white uppercase tracking-[0.2em] leading-none">
+          <div className="h-[60px] flex flex-col items-center justify-center bg-[#6a9a38] border-t-2 border-[#52792b]">
+            <span className="text-[8px] text-white/80 uppercase tracking-[0.3em] font-bold mb-0.5">Category</span>
+            <span className="text-lg font-black text-white uppercase tracking-[0.2em] leading-none">
               {delegate.attendeeCategory?.replace('_', ' ') || 'DELEGATE'}
             </span>
           </div>
