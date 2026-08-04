@@ -71,6 +71,8 @@ export default function DelegatesPage() {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
+          status: editingDelegate.status,
+          paymentStatus: editingDelegate.paymentStatus,
           registrationType: editingDelegate.registrationType,
           paymentMethod: editingDelegate.paymentMethod,
           attendeeCategory: editingDelegate.attendeeCategory,
@@ -341,19 +343,29 @@ export default function DelegatesPage() {
             <form onSubmit={handleUpdateDelegate} className="p-5 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <div className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 text-gray-500 font-medium capitalize">
-                  {editingDelegate.status}
-                </div>
-                <p className="text-xs text-gray-400 mt-1">Status is handled automatically by the backend.</p>
+                <select 
+                  value={editingDelegate.status}
+                  onChange={(e) => setEditingDelegate({...editingDelegate, status: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                </select>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
-                  <div className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 text-gray-500 font-medium capitalize">
-                    {editingDelegate.paymentStatus}
-                  </div>
-                  <p className="text-xs text-gray-400 mt-1">Managed via Razorpay.</p>
+                  <select 
+                    value={editingDelegate.paymentStatus}
+                    onChange={(e) => setEditingDelegate({...editingDelegate, paymentStatus: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Failed">Failed</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>

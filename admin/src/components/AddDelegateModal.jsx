@@ -1,6 +1,27 @@
 import React, { useState } from 'react';
 import { X, User, Phone, Briefcase, Building2, MapPin, Globe, Map, Hash, Info } from 'lucide-react';
 
+// Helper for Input fields with icons
+const InputField = ({ icon: Icon, label, name, type = "text", placeholder, colSpan = 1, formData, onChange }) => (
+  <div className={`col-span-1 md:col-span-${colSpan}`}>
+    <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">{label} *</label>
+    <div className="relative group">
+      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#6a9a38] transition-colors">
+        <Icon size={18} />
+      </div>
+      <input
+        type={type}
+        name={name}
+        value={formData[name]}
+        onChange={onChange}
+        required
+        placeholder={placeholder}
+        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] transition-all"
+      />
+    </div>
+  </div>
+);
+
 export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
   const [formData, setFormData] = useState({
     delegateType: 'indian',
@@ -62,27 +83,6 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
     }
   };
 
-  // Helper for Input fields with icons
-  const InputField = ({ icon: Icon, label, name, type = "text", placeholder, colSpan = 1 }) => (
-    <div className={`col-span-1 md:col-span-${colSpan}`}>
-      <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">{label} *</label>
-      <div className="relative group">
-        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#6a9a38] transition-colors">
-          <Icon size={18} />
-        </div>
-        <input
-          type={type}
-          name={name}
-          value={formData[name]}
-          onChange={handleChange}
-          required
-          placeholder={placeholder}
-          className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] transition-all"
-        />
-      </div>
-    </div>
-  );
-
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6 bg-gray-900/60 backdrop-blur-md overflow-y-auto">
       <div 
@@ -121,8 +121,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <InputField icon={User} label="Full Name" name="fullName" placeholder="John Doe" />
-                <InputField icon={Phone} label="Mobile Number" name="mobileNumber" placeholder="+91 9876543210" />
+                <InputField icon={User} label="Full Name" name="fullName" placeholder="John Doe" formData={formData} onChange={handleChange} />
+                <InputField icon={Phone} label="Mobile Number" name="mobileNumber" placeholder="+91 9876543210" formData={formData} onChange={handleChange} />
                 
                 <div className="col-span-1 md:col-span-2">
                   <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Delegate Type *</label>
@@ -155,8 +155,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
                 <h4 className="font-semibold text-gray-800">Professional Details</h4>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <InputField icon={Briefcase} label="Designation" name="designation" placeholder="e.g. Marketing Director" />
-                <InputField icon={Building2} label="Organization" name="organization" placeholder="e.g. Acme Corp" />
+                <InputField icon={Briefcase} label="Designation" name="designation" placeholder="e.g. Marketing Director" formData={formData} onChange={handleChange} />
+                <InputField icon={Building2} label="Organization" name="organization" placeholder="e.g. Acme Corp" formData={formData} onChange={handleChange} />
               </div>
             </div>
 
@@ -168,10 +168,10 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <InputField icon={MapPin} label="Full Address" name="address" placeholder="123 Business Park..." colSpan={2} />
-                <InputField icon={Map} label="City" name="city" placeholder="New Delhi" />
-                <InputField icon={Globe} label="State / Country" name="stateCountry" placeholder="Delhi, India" />
-                <InputField icon={Hash} label="Pin Code" name="pinCode" placeholder="110001" />
+                <InputField icon={MapPin} label="Full Address" name="address" placeholder="123 Business Park..." colSpan={2} formData={formData} onChange={handleChange} />
+                <InputField icon={Map} label="City" name="city" placeholder="New Delhi" formData={formData} onChange={handleChange} />
+                <InputField icon={Globe} label="State / Country" name="stateCountry" placeholder="Delhi, India" formData={formData} onChange={handleChange} />
+                <InputField icon={Hash} label="Pin Code" name="pinCode" placeholder="110001" formData={formData} onChange={handleChange} />
               </div>
             </div>
 
