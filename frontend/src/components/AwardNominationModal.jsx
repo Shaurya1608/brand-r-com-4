@@ -29,6 +29,13 @@ export default function AwardNominationModal({ isOpen, onClose }) {
   const [success, setSuccess] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
 
+  // Payment states
+  const [submittedNominationId, setSubmittedNominationId] = useState(null);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [razorpayPaymentId, setRazorpayPaymentId] = useState("");
+  const [paymentCancelled, setPaymentCancelled] = useState(false);
+
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const categoryDropdownRef = useRef(null);
 
@@ -134,6 +141,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
       const result = await response.json();
 
       if (result.success) {
+        setSubmittedNominationId(result.data._id);
         setSuccess(true);
       } else {
         setError(result.message || "Something went wrong. Please try again.");
@@ -142,6 +150,102 @@ export default function AwardNominationModal({ isOpen, onClose }) {
       setError("Failed to connect to the server. Please try again later.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      if (typeof window !== 'undefined' && window.Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleProceedToPayment = async () => {
+    if (!submittedNominationId) return;
+    setPaymentLoading(true);
+    setError("");
+    setPaymentCancelled(false);
+
+    try {
+      // 1. Create order on backend (₹8,000 + 18% GST = ₹9,440)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/create-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nominationId: submittedNominationId,
+          amountRs: 9440,
+        }),
+      });
+      const order = await res.json();
+      if (!order.success) throw new Error(order.message || 'Failed to create payment order');
+
+      // 2. Load Razorpay JS SDK
+      const sdkLoaded = await loadRazorpayScript();
+      if (!sdkLoaded) throw new Error('Razorpay SDK could not be loaded. Check your connection.');
+
+      // 3. Open Razorpay checkout
+      const options = {
+        key: order.keyId,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'BRAND R.Comm 2026',
+        description: `Award Nomination Fee — ${formData.awardCategory || 'Category Entry'}`,
+        order_id: order.orderId,
+        handler: async (response) => {
+          try {
+            const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/verify-payment`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                nominationId: submittedNominationId,
+              }),
+            });
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) {
+              setRazorpayPaymentId(response.razorpay_payment_id);
+              setPaymentSuccess(true);
+            } else {
+              setError('Payment received but verification failed. Payment ID: ' + response.razorpay_payment_id);
+            }
+          } catch {
+            setError('Verification error. Please contact support.');
+          } finally {
+            setPaymentLoading(false);
+          }
+        },
+        prefill: {
+          name: formData.fullName,
+          email: formData.email,
+          contact: formData.mobileNumber,
+        },
+        theme: { color: '#6a9a38' },
+        modal: {
+          ondismiss: () => {
+            setPaymentCancelled(true);
+            setPaymentLoading(false);
+          },
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', (response) => {
+        setError(`Payment failed: ${response.error.description}`);
+        setPaymentLoading(false);
+      });
+      rzp.open();
+    } catch (err) {
+      setError(err.message || 'Payment initiation failed. Please try again.');
+      setPaymentLoading(false);
     }
   };
 
@@ -163,8 +267,8 @@ export default function AwardNominationModal({ isOpen, onClose }) {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="relative w-full max-w-xl bg-brand-surface rounded-[24px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] font-sans"
           >
-            {success ? (
-              <div className="relative p-8 md:p-16 flex flex-col items-center text-center bg-white h-full justify-center">
+            {paymentSuccess ? (
+              <div className="relative p-8 md:p-12 flex flex-col items-center text-center bg-white h-full justify-center">
                 <button
                   onClick={onClose}
                   className="absolute top-4 right-4 text-brand-dark/40 hover:text-brand-primary bg-brand-surface hover:bg-brand-primary/10 p-2 rounded-full transition-colors"
@@ -174,33 +278,100 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                   </svg>
                 </button>
 
-                <div className="w-20 h-20 bg-brand-primary/10 rounded-full flex items-center justify-center mb-6">
-                  <svg className="w-10 h-10 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                  <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
 
-                <h2 className="text-2xl md:text-3xl font-serif text-brand-dark font-bold mb-4 uppercase tracking-wider">
+                <h2 className="text-2xl md:text-3xl font-serif text-brand-dark font-bold mb-2 uppercase tracking-wider">
+                  Payment Successful!
+                </h2>
+                <p className="text-xs text-brand-primary font-bold uppercase tracking-widest mb-4">
+                  Confirmation Sent to {formData.email}
+                </p>
+
+                <p className="text-brand-dark/70 text-[14px] leading-relaxed max-w-md mb-6">
+                  Thank you! Your nomination fee of <strong>₹9,440</strong> (incl. 18% GST) has been received. Your nomination for <strong>{formData.awardCategory}</strong> is now confirmed and undergoing jury evaluation.
+                </p>
+
+                <div className="bg-brand-surface p-4 rounded-xl border border-brand-primary/20 w-full max-w-md mb-6 text-left space-y-2 text-xs">
+                  <div className="flex justify-between"><span className="text-gray-500 font-semibold">Payment ID:</span><span className="font-mono font-bold text-gray-900">{razorpayPaymentId}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-500 font-semibold">Nomination ID:</span><span className="font-mono font-bold text-gray-900">{submittedNominationId}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-500 font-semibold">Category:</span><span className="font-bold text-brand-primary">{formData.awardCategory}</span></div>
+                </div>
+
+                <button
+                  onClick={onClose}
+                  className="w-full max-w-sm py-3.5 bg-brand-dark hover:bg-black text-white font-mono font-bold text-[12px] uppercase tracking-widest rounded-lg transition-all shadow-md"
+                >
+                  Close & Back to Home
+                </button>
+              </div>
+            ) : success ? (
+              <div className="relative p-8 md:p-12 flex flex-col items-center text-center bg-white h-full justify-center">
+                <button
+                  onClick={onClose}
+                  className="absolute top-4 right-4 text-brand-dark/40 hover:text-brand-primary bg-brand-surface hover:bg-brand-primary/10 p-2 rounded-full transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+
+                <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+
+                <h2 className="text-xl md:text-2xl font-serif text-brand-dark font-bold mb-2 uppercase tracking-wider">
                   Details Saved Successfully
                 </h2>
 
-                <p className="text-brand-dark/70 text-[14px] leading-relaxed max-w-md mb-8">
-                  Thank you for completing your nomination details. Your nomination information has been saved successfully. Please proceed to the payment page to complete your nomination submission.
+                <p className="text-brand-dark/70 text-[13px] leading-relaxed max-w-md mb-4">
+                  Thank you for completing your nomination details. Please proceed to the payment page to complete your nomination submission.
                 </p>
+
+                {/* Amount display card */}
+                <div className="bg-brand-surface border border-brand-primary/20 rounded-xl p-4 w-full max-w-sm mb-6 text-center">
+                  <div className="text-[11px] text-gray-500 uppercase tracking-wider font-semibold mb-1">Nomination Entry Fee</div>
+                  <div className="text-2xl font-serif font-bold text-brand-dark">₹ 9,440</div>
+                  <div className="text-[10px] text-brand-primary font-medium mt-0.5">₹8,000 + 18% GST</div>
+                </div>
+
+                {error && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs w-full max-w-sm">
+                    {error}
+                  </div>
+                )}
+
+                {paymentCancelled && (
+                  <div className="mb-4 p-3 bg-amber-50 border border-amber-200 text-amber-700 rounded-lg text-xs w-full max-w-sm">
+                    Payment was cancelled. You can click below to try again anytime.
+                  </div>
+                )}
 
                 <div className="flex flex-col w-full gap-3 max-w-sm">
                   <button
-                    onClick={() => {
-                      alert("Proceeding to Payment...");
-                    }}
-                    className="w-full py-4 bg-brand-primary hover:bg-brand-primary-hover text-white font-mono font-bold text-[12px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                    onClick={handleProceedToPayment}
+                    disabled={paymentLoading}
+                    className="w-full py-3.5 bg-brand-primary hover:bg-brand-primary-hover disabled:opacity-50 text-white font-mono font-bold text-[12px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 flex items-center justify-center gap-2"
                   >
-                    Continue to Payment
+                    {paymentLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Opening Payment...</span>
+                      </>
+                    ) : (
+                      "Continue to Payment (₹9,440)"
+                    )}
                   </button>
 
                   <button
                     onClick={() => setSuccess(false)}
-                    className="w-full py-3.5 border-2 border-brand-primary/20 hover:border-brand-primary text-brand-primary bg-transparent font-mono font-bold text-[12px] uppercase tracking-widest rounded-lg transition-all hover:bg-brand-primary/5"
+                    disabled={paymentLoading}
+                    className="w-full py-3 border-2 border-brand-primary/20 hover:border-brand-primary text-brand-primary bg-transparent font-mono font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all hover:bg-brand-primary/5 disabled:opacity-50"
                   >
                     Edit Details
                   </button>

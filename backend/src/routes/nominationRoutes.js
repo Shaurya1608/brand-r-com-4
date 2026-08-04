@@ -31,6 +31,10 @@ router.post('/', upload.fields([
   { name: 'profileDocument', maxCount: 1 }
 ]), nominationController.createNomination);
 
+// Razorpay Payment Routes
+router.post('/create-order', nominationController.createOrder);
+router.post('/verify-payment', nominationController.verifyPayment);
+
 // Protected route for fetching all nominations (Admin)
 router.get('/', protect, nominationController.getNominations);
 

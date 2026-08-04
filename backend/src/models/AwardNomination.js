@@ -89,7 +89,29 @@ const awardNominationSchema = new mongoose.Schema({
     type: String,
     enum: ['pending', 'approved', 'rejected'],
     default: 'pending',
-  }
+  },
+  razorpayOrderId: {
+    type: String,
+  },
+  razorpayPaymentId: {
+    type: String,
+  },
+  amountPaid: {
+    type: Number,
+    default: 9440,
+  },
+  initialEmailSent: {
+    type: Boolean,
+    default: false,
+  },
+  paidEmailSent: {
+    type: Boolean,
+    default: false,
+  },
+  failedEmailSent: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true 
 });
