@@ -232,3 +232,24 @@ exports.verifyPayment = async (req, res) => {
   }
 };
 
+// @desc    Bulk update delegates
+// @route   PUT /api/delegates/bulk-update
+// @access  Private (Admin)
+exports.bulkUpdateDelegates = async (req, res) => {
+  try {
+    const { delegateIds, updates } = req.body;
+    if (!delegateIds || !Array.isArray(delegateIds) || delegateIds.length === 0) {
+      return res.status(400).json({ success: false, message: 'No delegates selected' });
+    }
+    
+    await DelegateRegistration.updateMany(
+      { _id: { $in: delegateIds } },
+      { $set: updates }
+    );
+    
+    res.status(200).json({ success: true, message: 'Delegates updated successfully' });
+  } catch (error) {
+    console.error('Error in bulkUpdateDelegates:', error);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};

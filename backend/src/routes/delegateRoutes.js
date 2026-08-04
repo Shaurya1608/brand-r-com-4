@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerDelegate, getDelegates, updateDelegate, createOrder, verifyPayment, verifyDelegate } = require('../controllers/delegateController');
+const { registerDelegate, getDelegates, updateDelegate, createOrder, verifyPayment, verifyDelegate, bulkUpdateDelegates } = require('../controllers/delegateController');
 const { protect } = require('../middlewares/authMiddleware');
 
 // Public: register
@@ -15,6 +15,9 @@ router.post('/verify-payment', verifyPayment);
 
 // Public: verify a delegate via QR scan
 router.get('/verify/:id', verifyDelegate);
+
+// Protected: bulk update delegates
+router.put('/bulk-update', protect, bulkUpdateDelegates);
 
 // Protected: update a delegate (status, payment, etc.)
 router.route('/:id')

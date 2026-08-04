@@ -84,6 +84,38 @@ export default function DelegatesPage() {
     return matchesSearch && matchesDelegateType && matchesRegistrationType && matchesCategory;
   });
 
+  const handleBulkUpdateCategory = async (newCategory) => {
+    if (!confirm(`Are you sure you want to change the category of ${selectedDelegates.length} delegates to ${newCategory}?`)) {
+      return;
+    }
+    
+    try {
+      const token = Cookies.get('admin_token');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/bulk-update`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          delegateIds: selectedDelegates,
+          updates: { attendeeCategory: newCategory }
+        })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        setSelectedDelegates([]);
+        fetchDelegates();
+      } else {
+        alert(data.message || 'Failed to update categories');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error updating categories');
+    }
+  };
+
   const handleUpdateDelegate = async (e) => {
     e.preventDefault();
     setUpdateLoading(true);
@@ -224,6 +256,28 @@ export default function DelegatesPage() {
             </select>
           </div>
           <div className="flex items-center gap-3">
+            {selectedDelegates.length > 0 && (
+              <div className="flex items-center gap-2 bg-[#6a9a38]/10 px-3 py-1.5 rounded-lg border border-[#6a9a38]/20">
+                <span className="text-sm font-medium text-[#6a9a38] whitespace-nowrap">{selectedDelegates.length} selected</span>
+                <select 
+                  className="text-sm border border-[#6a9a38]/30 rounded-md py-1 px-2 text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-[#6a9a38]"
+                  onChange={(e) => {
+                    if (e.target.value) handleBulkUpdateCategory(e.target.value);
+                    e.target.value = "";
+                  }}
+                  title="Change Category for selected delegates"
+                >
+                  <option value="">Set Category...</option>
+                  <option value="DELEGATE">Delegate</option>
+                  <option value="SPEAKER">Speaker</option>
+                  <option value="ORGANIZER">Organizer</option>
+                  <option value="SPONSOR">Sponsor</option>
+                  <option value="MEDIA">Media</option>
+                  <option value="AWARDEE">Awardee</option>
+                  <option value="AWARD_NOMINEE">Award Nominee</option>
+                </select>
+              </div>
+            )}
             <button 
               onClick={() => setIsAddModalOpen(true)}
               className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#6a9a38] border border-transparent rounded-lg hover:bg-[#52792b] transition-colors"
