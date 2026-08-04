@@ -68,9 +68,15 @@ export default function DelegatesPage() {
   };
 
   const filteredDelegates = delegates.filter(del => {
-    const matchesSearch = del.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          del.organization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          del.mobileNumber.includes(searchTerm);
+    const searchLower = searchTerm.toLowerCase();
+    const shortId = del._id ? del._id.toString().slice(-8).toLowerCase() : "";
+    
+    const matchesSearch = del.fullName.toLowerCase().includes(searchLower) ||
+                          del.organization.toLowerCase().includes(searchLower) ||
+                          del.mobileNumber.includes(searchTerm) ||
+                          shortId.includes(searchLower) ||
+                          (del._id && del._id.toString().toLowerCase().includes(searchLower));
+    
     const matchesDelegateType = filterDelegateType === 'all' || del.delegateType === filterDelegateType;
     const matchesRegistrationType = filterRegistrationType === 'all' || del.registrationType === filterRegistrationType;
     const matchesCategory = filterCategory === 'all' || del.attendeeCategory === filterCategory;
@@ -177,7 +183,7 @@ export default function DelegatesPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input 
                 type="text" 
-                placeholder="Search by name, org, or mobile..." 
+                placeholder="Search by name, org, mobile, or ID..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all bg-gray-50 focus:bg-white"
