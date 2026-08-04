@@ -33,11 +33,12 @@ app.use(express.json({ limit: '50mb' })); // Parse JSON bodies (all other routes
 app.use(express.urlencoded({ extended: true, limit: '50mb' })); // Parse URL-encoded bodies
 app.use(morgan('dev')); // Request logging
 
-const path = require('path');
+const { apiLimiter } = require('./middlewares/rateLimiter');
+
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-// API Routes
-app.use('/api', routes);
+// API Routes with global rate limiting
+app.use('/api', apiLimiter, routes);
 
 // Base route for health check
 app.get('/', (req, res) => {

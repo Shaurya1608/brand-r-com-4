@@ -2,15 +2,16 @@ const express = require('express');
 const router = express.Router();
 const { registerDelegate, getDelegates, updateDelegate, createOrder, verifyPayment, verifyDelegate, bulkUpdateDelegates } = require('../controllers/delegateController');
 const { protect } = require('../middlewares/authMiddleware');
+const { registrationLimiter, orderLimiter } = require('../middlewares/rateLimiter');
 
 // Public: register
 // Protected: get all
 router.route('/')
-  .post(registerDelegate)
+  .post(registrationLimiter, registerDelegate)
   .get(protect, getDelegates);
 
 // ── Payment routes (must be BEFORE /:id to avoid Express matching them as IDs)
-router.post('/create-order', createOrder);
+router.post('/create-order', orderLimiter, createOrder);
 router.post('/verify-payment', verifyPayment);
 
 // Public: verify a delegate via QR scan

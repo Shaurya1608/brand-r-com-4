@@ -5,6 +5,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
 const nominationController = require('../controllers/nominationController');
 const { protect } = require('../middlewares/authMiddleware');
+const { registrationLimiter, orderLimiter } = require('../middlewares/rateLimiter');
 
 // Configure Cloudinary
 cloudinary.config({
@@ -26,13 +27,13 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 // Public route for creating nomination with multiple file uploads
-router.post('/', upload.fields([
+router.post('/', registrationLimiter, upload.fields([
   { name: 'summaryDocument', maxCount: 1 },
   { name: 'profileDocument', maxCount: 1 }
 ]), nominationController.createNomination);
 
 // Razorpay Payment Routes
-router.post('/create-order', nominationController.createOrder);
+router.post('/create-order', orderLimiter, nominationController.createOrder);
 router.post('/verify-payment', nominationController.verifyPayment);
 
 // Protected route for fetching all nominations (Admin)
