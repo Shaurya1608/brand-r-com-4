@@ -28,7 +28,7 @@ export default function DelegatesPage() {
   const [bulkUpdateLoading, setBulkUpdateLoading] = useState(false);
 
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(25);
+  const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalFiltered, setTotalFiltered] = useState(0);
   const [stats, setStats] = useState({ total: 0, indian: 0, intl: 0, pending: 0 });
@@ -306,7 +306,7 @@ export default function DelegatesPage() {
         </div>
 
         {/* Table Container */}
-        <div className="overflow-x-auto relative">
+        <div className="overflow-x-auto overflow-y-auto max-h-[480px] relative border border-gray-100/50">
           <table className="w-full text-left text-xs text-gray-600">
             <thead className="text-[11px] font-semibold text-gray-500 uppercase bg-gray-50/80 border-b border-gray-100">
               <tr>
@@ -476,6 +476,7 @@ export default function DelegatesPage() {
                 }}
                 className="px-2 py-1 border border-gray-200 rounded text-xs text-gray-700 bg-white focus:outline-none"
               >
+                <option value={10}>10</option>
                 <option value={25}>25</option>
                 <option value={50}>50</option>
                 <option value={100}>100</option>
