@@ -327,6 +327,7 @@ export default function DelegatesPage() {
                       }`}>
                         {delegate.delegateType}
                       </span>
+                    </td>
                     <td className="px-4 py-2.5 text-right">
                       <div className="flex flex-col items-end gap-1">
                         <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
