@@ -183,6 +183,11 @@ export default function AwardNominationModal({ isOpen, onClose }) {
           amountRs: 9440,
         }),
       });
+      
+      if (!res.ok) {
+        throw new Error(`Server is deploying updates or endpoint unavailable (${res.status}). Please try again in 1 minute.`);
+      }
+
       const order = await res.json();
       if (!order.success) throw new Error(order.message || 'Failed to create payment order');
 
