@@ -422,7 +422,7 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
                     type="submit"
                     form="sponsor-form"
                     disabled={loading || !formData.sponsorshipCategory}
-                    className="px-8 py-3 bg-[#9bbb7b] hover:bg-[#86af60] text-white font-bold text-[12px] uppercase tracking-wider rounded-lg transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0"
+                    className="px-8 py-3 bg-[#6a9a38] hover:bg-[#52792b] text-white font-bold text-[12px] uppercase tracking-wider rounded-lg transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0"
                   >
                     {loading ? 'PROCESSING...' : 'SUBMIT DETAILS'}
                   </button>
