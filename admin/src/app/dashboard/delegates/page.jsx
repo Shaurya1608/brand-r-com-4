@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { UserPlus, Search, Download, QrCode, Plus } from 'lucide-react';
+import { UserPlus, Search, Download, QrCode, Plus, AlertCircle } from 'lucide-react';
 import Cookies from 'js-cookie';
 import DelegateIdCardModal from '@/components/DelegateIdCardModal';
 import AddDelegateModal from '@/components/AddDelegateModal';
@@ -22,6 +22,10 @@ export default function DelegatesPage() {
   
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedDelegates, setSelectedDelegates] = useState([]);
+  
+  const [isBulkUpdateModalOpen, setIsBulkUpdateModalOpen] = useState(false);
+  const [bulkUpdateTargetCategory, setBulkUpdateTargetCategory] = useState('');
+  const [bulkUpdateLoading, setBulkUpdateLoading] = useState(false);
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -84,11 +88,8 @@ export default function DelegatesPage() {
     return matchesSearch && matchesDelegateType && matchesRegistrationType && matchesCategory;
   });
 
-  const handleBulkUpdateCategory = async (newCategory) => {
-    if (!confirm(`Are you sure you want to change the category of ${selectedDelegates.length} delegates to ${newCategory}?`)) {
-      return;
-    }
-    
+  const handleBulkUpdateCategory = async () => {
+    setBulkUpdateLoading(true);
     try {
       const token = Cookies.get('admin_token');
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/bulk-update`, {
@@ -99,7 +100,7 @@ export default function DelegatesPage() {
         },
         body: JSON.stringify({
           delegateIds: selectedDelegates,
-          updates: { attendeeCategory: newCategory }
+          updates: { attendeeCategory: bulkUpdateTargetCategory }
         })
       });
       
@@ -107,12 +108,16 @@ export default function DelegatesPage() {
       if (data.success) {
         setSelectedDelegates([]);
         fetchDelegates();
+        setIsBulkUpdateModalOpen(false);
+        setBulkUpdateTargetCategory('');
       } else {
         alert(data.message || 'Failed to update categories');
       }
     } catch (err) {
       console.error(err);
       alert('Error updating categories');
+    } finally {
+      setBulkUpdateLoading(false);
     }
   };
 
@@ -262,7 +267,10 @@ export default function DelegatesPage() {
                 <select 
                   className="text-sm border border-[#6a9a38]/30 rounded-md py-1 px-2 text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-[#6a9a38]"
                   onChange={(e) => {
-                    if (e.target.value) handleBulkUpdateCategory(e.target.value);
+                    if (e.target.value) {
+                      setBulkUpdateTargetCategory(e.target.value);
+                      setIsBulkUpdateModalOpen(true);
+                    }
                     e.target.value = "";
                   }}
                   title="Change Category for selected delegates"
@@ -565,6 +573,42 @@ export default function DelegatesPage() {
           fetchDelegates();
         }}
       />
+      {/* Bulk Update Confirmation Modal */}
+      {isBulkUpdateModalOpen && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <AlertCircle className="text-blue-600" size={24} />
+              </div>
+              <h2 className="text-xl font-bold text-gray-900">Confirm Bulk Update</h2>
+            </div>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to change the category of <span className="font-bold text-gray-900">{selectedDelegates.length} delegates</span> to <span className="font-bold text-[#6a9a38]">{bulkUpdateTargetCategory}</span>?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button 
+                onClick={() => {
+                  setIsBulkUpdateModalOpen(false);
+                  setBulkUpdateTargetCategory('');
+                }}
+                className="px-5 py-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 text-sm font-bold rounded-lg transition-colors"
+                disabled={bulkUpdateLoading}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleBulkUpdateCategory}
+                disabled={bulkUpdateLoading}
+                className="px-5 py-2 bg-blue-600 text-white hover:bg-blue-700 text-sm font-bold rounded-lg transition-colors flex items-center gap-2"
+              >
+                {bulkUpdateLoading ? 'Updating...' : 'Yes, Update All'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
