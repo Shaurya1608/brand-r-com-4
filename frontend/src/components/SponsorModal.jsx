@@ -115,7 +115,7 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
         logoUrl
       };
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/sponsorships/create`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/sponsorships/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
