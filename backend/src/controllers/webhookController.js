@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const DelegateRegistration = require('../models/DelegateRegistration');
 const AwardNomination = require('../models/AwardNomination');
-const { sendDelegateConfirmationEmail } = require('../services/emailService');
+const { sendDelegateConfirmationEmail, sendNominationConfirmationEmail } = require('../services/emailService');
 
 // @desc    Handle Razorpay webhook events
 // @route   POST /api/webhooks/razorpay
@@ -86,6 +86,11 @@ exports.handleRazorpayWebhook = async (req, res) => {
 
       if (nomination) {
         console.log(`✅ Nomination payment captured: ${nomination.fullName} (${paymentId})`);
+        if (!nomination.paidEmailSent) {
+          sendNominationConfirmationEmail(nomination).catch(err => console.error('Webhook nomination paid email error:', err));
+          nomination.paidEmailSent = true;
+          await nomination.save();
+        }
         return;
       }
 
@@ -96,8 +101,9 @@ exports.handleRazorpayWebhook = async (req, res) => {
       const payment = event.payload.payment.entity;
       const orderId = payment.order_id;
 
+      // State Regression Protection: Only mark Failed if status is NOT already Paid
       const failedDelegate = await DelegateRegistration.findOneAndUpdate(
-        { razorpayOrderId: orderId },
+        { razorpayOrderId: orderId, paymentStatus: { $ne: 'Paid' } },
         { paymentStatus: 'Failed' },
         { new: true }
       );
@@ -108,10 +114,17 @@ exports.handleRazorpayWebhook = async (req, res) => {
         await failedDelegate.save();
       }
 
-      await AwardNomination.findOneAndUpdate(
-        { razorpayOrderId: orderId },
-        { paymentStatus: 'Failed' }
+      const failedNomination = await AwardNomination.findOneAndUpdate(
+        { razorpayOrderId: orderId, paymentStatus: { $ne: 'Paid' } },
+        { paymentStatus: 'Failed' },
+        { new: true }
       );
+
+      if (failedNomination && !failedNomination.failedEmailSent) {
+        sendNominationConfirmationEmail(failedNomination).catch(err => console.error('Webhook failed nomination email error:', err));
+        failedNomination.failedEmailSent = true;
+        await failedNomination.save();
+      }
 
       console.log(`❌ Payment failed for orderId: ${orderId}`);
     }

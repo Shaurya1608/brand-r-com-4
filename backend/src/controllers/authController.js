@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // Generate JWT token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
+    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   });
 };
 
@@ -18,14 +18,13 @@ const loginAdmin = async (req, res) => {
     const admin = await Admin.findOne({ email });
 
     if (admin && (await admin.matchPassword(password))) {
-      // Set JWT as HTTP-only cookie (Industry standard for web apps)
       const token = generateToken(admin._id);
       
       res.cookie('jwt', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'strict', // Prevent CSRF attacks
-        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Support cross-origin cookies between Vercel & Render in prod
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
       });
 
       res.json({
