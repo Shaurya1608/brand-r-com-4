@@ -3,11 +3,12 @@ const router = express.Router();
 const { registerDelegate, getDelegates, updateDelegate, createOrder, verifyPayment, verifyDelegate, bulkUpdateDelegates } = require('../controllers/delegateController');
 const { protect } = require('../middlewares/authMiddleware');
 const { registrationLimiter, orderLimiter } = require('../middlewares/rateLimiter');
+const { validateDelegateInput } = require('../middlewares/inputValidator');
 
 // Public: register
 // Protected: get all
 router.route('/')
-  .post(registrationLimiter, registerDelegate)
+  .post(registrationLimiter, validateDelegateInput, registerDelegate)
   .get(protect, getDelegates);
 
 // ── Payment routes (must be BEFORE /:id to avoid Express matching them as IDs)

@@ -3,6 +3,9 @@ const DelegateRegistration = require('../models/DelegateRegistration');
 const AwardNomination = require('../models/AwardNomination');
 const { sendDelegateConfirmationEmail, sendNominationConfirmationEmail } = require('../services/emailService');
 
+// Idempotency cache for processed webhook event IDs
+const processedEventIds = new Set();
+
 // @desc    Handle Razorpay webhook events
 // @route   POST /api/webhooks/razorpay
 // @access  Public (verified via HMAC signature)
@@ -40,7 +43,23 @@ exports.handleRazorpayWebhook = async (req, res) => {
   }
 
   const eventType = event.event;
-  console.log(`Razorpay webhook received: ${eventType}`);
+  const eventId = event.id;
+  console.log(`Razorpay webhook received: ${eventType} (Event ID: ${eventId})`);
+
+  // Idempotency Check — Ignore duplicate webhooks if event ID was already processed
+  if (eventId && processedEventIds.has(eventId)) {
+    console.log(`ℹ️ Duplicate webhook event ${eventId} received. Already processed — returning 200 OK.`);
+    return res.status(200).json({ success: true, message: 'Event already processed' });
+  }
+
+  if (eventId) {
+    processedEventIds.add(eventId);
+    // Keep in-memory cache bounded to 5,000 recent events
+    if (processedEventIds.size > 5000) {
+      const oldestId = processedEventIds.values().next().value;
+      processedEventIds.delete(oldestId);
+    }
+  }
 
   // ── 3. Respond 200 immediately — Razorpay retries on slow/non-2xx ──
   res.status(200).json({ success: true, received: true });

@@ -6,6 +6,7 @@ const cloudinary = require('cloudinary').v2;
 const nominationController = require('../controllers/nominationController');
 const { protect } = require('../middlewares/authMiddleware');
 const { registrationLimiter, orderLimiter } = require('../middlewares/rateLimiter');
+const { validateNominationInput } = require('../middlewares/inputValidator');
 
 // Configure Cloudinary
 cloudinary.config({
@@ -30,7 +31,7 @@ const upload = multer({ storage: storage });
 router.post('/', registrationLimiter, upload.fields([
   { name: 'summaryDocument', maxCount: 1 },
   { name: 'profileDocument', maxCount: 1 }
-]), nominationController.createNomination);
+]), validateNominationInput, nominationController.createNomination);
 
 // Razorpay Payment Routes
 router.post('/create-order', orderLimiter, nominationController.createOrder);
