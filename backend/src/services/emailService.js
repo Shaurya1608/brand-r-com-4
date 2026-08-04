@@ -132,12 +132,20 @@ const sendDelegateConfirmationEmail = async (delegate) => {
     </html>
     `;
 
-    const data = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: senderEmail,
       to: [delegate.email],
       subject: `🎉 Registration Confirmed: BRAND R.Comm Summit 2026 (${delegate.fullName})`,
       html: htmlContent,
     });
+
+    if (error) {
+      console.warn(`⚠️ Resend email sending warning for ${delegate.email}: ${error.message}`);
+      if (error.name === 'validation_error' && error.message.includes('testing emails')) {
+        console.warn(`💡 TIP: To send emails to any recipient, add & verify your domain at https://resend.com/domains and set RESEND_FROM_EMAIL in .env.`);
+      }
+      return { success: false, error: error.message };
+    }
 
     console.log(`✉️ Delegate confirmation email sent successfully to ${delegate.email}`);
     return { success: true, data };
