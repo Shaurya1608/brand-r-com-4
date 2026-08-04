@@ -239,9 +239,9 @@ export default function DelegatesPage() {
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-100">
+        <div className="overflow-x-auto overflow-y-auto max-h-[60vh] relative">
+          <table className="w-full text-left text-sm text-gray-500 relative">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 sticky top-0 z-10 shadow-sm">
               <tr>
                 <th scope="col" className="px-4 py-3 font-semibold w-10">
                   <input 
