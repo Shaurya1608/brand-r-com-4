@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, User, Phone, Briefcase, Building2, MapPin, Globe, Map, Hash, Info } from 'lucide-react';
+import { X, User, Phone, Briefcase, Building2, MapPin, Globe, Map, Hash, Info, Mail } from 'lucide-react';
 
 // Helper for Input fields with icons
 const InputField = ({ icon: Icon, label, name, type = "text", placeholder, colSpan = 1, formData, onChange }) => (
@@ -26,6 +26,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
   const [formData, setFormData] = useState({
     delegateType: 'indian',
     fullName: '',
+    email: '',
     designation: '',
     mobileNumber: '',
     organization: '',
@@ -122,6 +123,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <InputField icon={User} label="Full Name" name="fullName" placeholder="John Doe" formData={formData} onChange={handleChange} />
+                <InputField icon={Mail} label="Email Address" name="email" type="email" placeholder="john@example.com" formData={formData} onChange={handleChange} />
                 <InputField icon={Phone} label="Mobile Number" name="mobileNumber" placeholder="+91 9876543210" formData={formData} onChange={handleChange} />
                 
                 <div className="col-span-1 md:col-span-2">

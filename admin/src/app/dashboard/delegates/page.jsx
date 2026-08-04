@@ -76,6 +76,7 @@ export default function DelegatesPage() {
     const shortId = del._id ? del._id.toString().slice(-8).toLowerCase() : "";
     
     const matchesSearch = del.fullName.toLowerCase().includes(searchLower) ||
+                          (del.email && del.email.toLowerCase().includes(searchLower)) ||
                           del.organization.toLowerCase().includes(searchLower) ||
                           del.mobileNumber.includes(searchTerm) ||
                           shortId.includes(searchLower) ||
@@ -138,6 +139,7 @@ export default function DelegatesPage() {
           registrationType: editingDelegate.registrationType,
           paymentMethod: editingDelegate.paymentMethod,
           attendeeCategory: editingDelegate.attendeeCategory,
+          email: editingDelegate.email,
         })
       });
       
@@ -224,7 +226,7 @@ export default function DelegatesPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input 
                 type="text" 
-                placeholder="Search by name, org, mobile, or ID..." 
+                placeholder="Search by name, email, org, mobile, or ID..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all bg-gray-50 focus:bg-white"
@@ -316,6 +318,7 @@ export default function DelegatesPage() {
                 <th scope="col" className="px-4 py-3 font-semibold min-w-[100px] max-w-[100px] sticky left-[48px] z-40 bg-gray-50">Reg ID</th>
                 <th scope="col" className="px-4 py-3 font-semibold min-w-[110px] max-w-[110px] sticky left-[148px] z-40 bg-gray-50">Date</th>
                 <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap min-w-[220px] max-w-[220px] sticky left-[258px] z-40 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">Full Name</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Email</th>
                 <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Designation</th>
                 <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Organization</th>
                 <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Mobile Number</th>
@@ -380,6 +383,9 @@ export default function DelegatesPage() {
                           </span>
                         )}
                       </div>
+                    </td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <a href={`mailto:${delegate.email}`} className="text-blue-600 hover:underline">{delegate.email}</a>
                     </td>
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.designation}</td>
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.organization}</td>
@@ -467,6 +473,14 @@ export default function DelegatesPage() {
             
             <form onSubmit={handleUpdateDelegate} className="p-5 space-y-4">
               <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input 
+                  type="email"
+                  value={editingDelegate.email || ''}
+                  onChange={(e) => setEditingDelegate({...editingDelegate, email: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] mb-4"
+                />
+                
                 <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <select 
                   value={editingDelegate.status}

@@ -90,6 +90,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
 
   const [formData, setFormData] = useState({
     fullName: "",
+    email: "",
     designation: "",
     mobileNumber: "",
     organization: "",
@@ -434,6 +435,10 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       <div className="space-y-1">
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Full Name *</label>
                         <input required type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="John Doe" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Email Address *</label>
+                        <input required type="email" name="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
                       </div>
                       <div className="space-y-1">
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Designation *</label>
