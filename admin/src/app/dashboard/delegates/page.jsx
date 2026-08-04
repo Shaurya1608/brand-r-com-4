@@ -241,9 +241,9 @@ export default function DelegatesPage() {
         {/* Table */}
         <div className="overflow-x-auto overflow-y-auto max-h-[80vh] relative custom-scrollbar">
           <table className="w-full text-left text-sm text-gray-500 relative">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 sticky top-0 z-10 shadow-sm">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 sticky top-0 z-40 shadow-sm">
               <tr>
-                <th scope="col" className="px-4 py-3 font-semibold w-10">
+                <th scope="col" className="px-4 py-3 font-semibold min-w-[48px] max-w-[48px] sticky left-0 z-40 bg-gray-50">
                   <input 
                     type="checkbox" 
                     onChange={handleSelectAll} 
@@ -251,9 +251,9 @@ export default function DelegatesPage() {
                     className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
                   />
                 </th>
-                <th scope="col" className="px-4 py-3 font-semibold">Reg ID</th>
-                <th scope="col" className="px-4 py-3 font-semibold">Date</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Full Name</th>
+                <th scope="col" className="px-4 py-3 font-semibold min-w-[100px] max-w-[100px] sticky left-[48px] z-40 bg-gray-50">Reg ID</th>
+                <th scope="col" className="px-4 py-3 font-semibold min-w-[110px] max-w-[110px] sticky left-[148px] z-40 bg-gray-50">Date</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap min-w-[220px] max-w-[220px] sticky left-[258px] z-40 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">Full Name</th>
                 <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Designation</th>
                 <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Organization</th>
                 <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Mobile Number</th>
@@ -290,8 +290,8 @@ export default function DelegatesPage() {
                 </tr>
               ) : (
                 filteredDelegates.map((delegate) => (
-                  <tr key={delegate._id} className="bg-white border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                    <td className="px-4 py-2.5">
+                  <tr key={delegate._id} className="bg-white border-b border-gray-50 hover:bg-gray-50 transition-colors group">
+                    <td className="px-4 py-2.5 min-w-[48px] max-w-[48px] sticky left-0 z-20 bg-white group-hover:bg-gray-50">
                       <input 
                         type="checkbox" 
                         checked={selectedDelegates.includes(delegate._id)} 
@@ -299,18 +299,18 @@ export default function DelegatesPage() {
                         className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
                       />
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 font-medium">
+                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 font-medium min-w-[100px] max-w-[100px] sticky left-[48px] z-20 bg-white group-hover:bg-gray-50">
                       #{delegate._id.slice(-8).toUpperCase()}
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">
+                    <td className="px-4 py-2.5 whitespace-nowrap min-w-[110px] max-w-[110px] sticky left-[148px] z-20 bg-white group-hover:bg-gray-50">
                       {new Date(delegate.createdAt).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
                       })}
                     </td>
-                    <td className="px-4 py-2.5">
-                      <div className="font-semibold text-gray-900 flex items-center gap-2 whitespace-nowrap">
+                    <td className="px-4 py-2.5 min-w-[220px] max-w-[220px] sticky left-[258px] z-20 bg-white group-hover:bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">
+                      <div className="font-semibold text-gray-900 flex items-center gap-2 whitespace-nowrap overflow-hidden text-ellipsis">
                         {delegate.fullName}
                         {delegate.isManuallyCreated && (
                           <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[9px] font-bold uppercase tracking-wider rounded" title="Manually created by Admin">
