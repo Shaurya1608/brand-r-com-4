@@ -12,6 +12,8 @@ export default function SpeakersPage() {
   const [editingSpeaker, setEditingSpeaker] = useState(null);
   const [updateLoading, setUpdateLoading] = useState(false);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+
   useEffect(() => {
     fetchSpeakers();
   }, []);
@@ -19,7 +21,7 @@ export default function SpeakersPage() {
   const fetchSpeakers = async () => {
     try {
       const token = Cookies.get('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/speaker-interests`, {
+      const res = await fetch(`${API_URL}/speaker-interests`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -45,7 +47,7 @@ export default function SpeakersPage() {
     setUpdateLoading(true);
     try {
       const token = Cookies.get('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/speaker-interests/${editingSpeaker._id}`, {
+      const res = await fetch(`${API_URL}/speaker-interests/${editingSpeaker._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +73,7 @@ export default function SpeakersPage() {
     if (!confirm('Are you sure you want to delete this speaker interest?')) return;
     try {
       const token = Cookies.get('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/speaker-interests/${id}`, {
+      const res = await fetch(`${API_URL}/speaker-interests/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
