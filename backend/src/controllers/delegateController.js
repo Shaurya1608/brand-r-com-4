@@ -100,7 +100,7 @@ exports.getDelegates = async (req, res) => {
 // @access  Private/Admin
 exports.updateDelegate = async (req, res) => {
   try {
-    const { status, paymentStatus, registrationType, paymentMethod } = req.body;
+    const { status, paymentStatus, registrationType, paymentMethod, attendeeCategory } = req.body;
     
     let delegate = await DelegateRegistration.findById(req.params.id);
     if (!delegate) {
@@ -111,6 +111,7 @@ exports.updateDelegate = async (req, res) => {
     delegate.paymentStatus = paymentStatus || delegate.paymentStatus;
     delegate.registrationType = registrationType || delegate.registrationType;
     delegate.paymentMethod = paymentMethod || delegate.paymentMethod;
+    if (attendeeCategory) delegate.attendeeCategory = attendeeCategory;
 
     const updatedDelegate = await delegate.save();
 
