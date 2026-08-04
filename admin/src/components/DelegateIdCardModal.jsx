@@ -37,7 +37,7 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
   };
 
   // Generate QR data (Verification URL)
-  const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
   const qrData = `${baseUrl}/verify/delegate/${delegate._id}`;
 
   return (
