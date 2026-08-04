@@ -256,6 +256,7 @@ export default function DelegatesPage() {
                 <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Pin Code</th>
                 <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Full Address</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Type</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Category</th>
                 <th scope="col" className="px-4 py-3 font-semibold text-right">Payment</th>
                 <th scope="col" className="px-4 py-3 font-semibold text-center">Actions</th>
               </tr>
@@ -263,7 +264,7 @@ export default function DelegatesPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="14" className="px-6 py-8 text-center">
+                  <td colSpan="15" className="px-6 py-8 text-center">
                     <div className="flex justify-center items-center">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6a9a38]"></div>
                     </div>
@@ -271,13 +272,13 @@ export default function DelegatesPage() {
                 </tr>
               ) : error ? (
                 <tr>
-                  <td colSpan="14" className="px-6 py-8 text-center text-red-500">
+                  <td colSpan="15" className="px-6 py-8 text-center text-red-500">
                     {error}
                   </td>
                 </tr>
               ) : filteredDelegates.length === 0 ? (
                 <tr>
-                  <td colSpan="14" className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan="15" className="px-6 py-8 text-center text-gray-500">
                     No delegate registrations found.
                   </td>
                 </tr>
@@ -326,6 +327,11 @@ export default function DelegatesPage() {
                           : 'bg-purple-100 text-purple-700'
                       }`}>
                         {delegate.delegateType}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-700">
+                        {delegate.attendeeCategory?.replace('_', ' ') || 'DELEGATE'}
                       </span>
                     </td>
                     <td className="px-4 py-2.5 text-right">
