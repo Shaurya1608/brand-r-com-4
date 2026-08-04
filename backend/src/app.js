@@ -29,8 +29,11 @@ app.use(cookieParser()); // Parse cookies — required for JWT cookie auth
 // We apply express.raw() only to the webhook path; all other routes use express.json().
 app.use('/api/webhooks/razorpay', express.raw({ type: 'application/json' }));
 
+const mongoSanitize = require('express-mongo-sanitize');
+
 app.use(express.json({ limit: '50mb' })); // Parse JSON bodies (all other routes)
 app.use(express.urlencoded({ extended: true, limit: '50mb' })); // Parse URL-encoded bodies
+app.use(mongoSanitize()); // Prevent NoSQL query injection attacks (strips $ and . from req.body/params/query)
 app.use(morgan('dev')); // Request logging
 
 const { apiLimiter } = require('./middlewares/rateLimiter');

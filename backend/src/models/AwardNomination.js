@@ -116,4 +116,10 @@ const awardNominationSchema = new mongoose.Schema({
   timestamps: true 
 });
 
+// Database performance indexes for scaling to 50k+ records
+awardNominationSchema.index({ email: 1 });
+awardNominationSchema.index({ razorpayOrderId: 1 });
+awardNominationSchema.index({ paymentStatus: 1 });
+awardNominationSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('AwardNomination', awardNominationSchema);

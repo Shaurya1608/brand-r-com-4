@@ -113,4 +113,10 @@ const delegateRegistrationSchema = new mongoose.Schema({
   timestamps: true 
 });
 
+// Database performance indexes for scaling to 50k+ records
+delegateRegistrationSchema.index({ email: 1 });
+delegateRegistrationSchema.index({ razorpayOrderId: 1 });
+delegateRegistrationSchema.index({ paymentStatus: 1 });
+delegateRegistrationSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('DelegateRegistration', delegateRegistrationSchema);
