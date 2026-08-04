@@ -113,47 +113,47 @@ export default function SpeakerInterestModal({ isOpen, onClose }) {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Full Name *</label>
-                    <input required type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="John Doe" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
+                    <label className="text-[10px] font-bold tracking-widest uppercase text-gray-700">Full Name *</label>
+                    <input required type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="John Doe" className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-[13px] text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Designation *</label>
-                    <input required type="text" name="designation" value={formData.designation} onChange={handleChange} placeholder="e.g. CEO" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Mobile No. *</label>
-                    <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="+91" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Organization *</label>
-                    <input required type="text" name="organization" value={formData.organization} onChange={handleChange} placeholder="Company name" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
+                    <label className="text-[10px] font-bold tracking-widest uppercase text-gray-700">Designation *</label>
+                    <input required type="text" name="designation" value={formData.designation} onChange={handleChange} placeholder="e.g. CEO" className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-[13px] text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">City *</label>
-                    <input required type="text" name="city" value={formData.city} onChange={handleChange} placeholder="City" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
+                    <label className="text-[10px] font-bold tracking-widest uppercase text-gray-700">Mobile No. *</label>
+                    <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="+91" className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-[13px] text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">State/Country *</label>
-                    <input required type="text" name="stateCountry" value={formData.stateCountry} onChange={handleChange} placeholder="State / Country" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
+                    <label className="text-[10px] font-bold tracking-widest uppercase text-gray-700">Organization *</label>
+                    <input required type="text" name="organization" value={formData.organization} onChange={handleChange} placeholder="Company name" className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-[13px] text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold tracking-widest uppercase text-gray-700">City *</label>
+                    <input required type="text" name="city" value={formData.city} onChange={handleChange} placeholder="City" className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-[13px] text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold tracking-widest uppercase text-gray-700">State/Country *</label>
+                    <input required type="text" name="stateCountry" value={formData.stateCountry} onChange={handleChange} placeholder="State / Country" className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-[13px] text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-5">
                   <div className="space-y-1 w-full sm:w-[calc(50%-10px)]">
-                    <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Pin Code *</label>
-                    <input required type="text" name="pinCode" value={formData.pinCode} onChange={handleChange} placeholder="Zip code" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
+                    <label className="text-[10px] font-bold tracking-widest uppercase text-gray-700">Pin Code *</label>
+                    <input required type="text" name="pinCode" value={formData.pinCode} onChange={handleChange} placeholder="Zip code" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors" />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Address *</label>
-                  <textarea required name="address" value={formData.address} onChange={handleChange} placeholder="Complete address" rows={3} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors resize-none" />
+                  <label className="text-[10px] font-bold tracking-widest uppercase text-gray-700">Address *</label>
+                  <textarea required name="address" value={formData.address} onChange={handleChange} placeholder="Complete address" rows={3} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-colors resize-none" />
                 </div>
               </form>
             </div>
