@@ -331,14 +331,26 @@ export default function SponsorshipsPage() {
           onClick={() => setViewingLogo(null)}
         >
           <div className="relative max-w-4xl max-h-[90vh] w-full flex items-center justify-center p-4">
-            <button 
-              onClick={() => setViewingLogo(null)} 
-              className="absolute top-0 right-0 md:-right-4 p-2 text-white/70 hover:text-white bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-md transition-all"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            <div className="absolute top-0 right-0 md:-right-4 flex flex-col gap-3">
+              <button 
+                onClick={() => setViewingLogo(null)} 
+                className="p-2 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full backdrop-blur-md transition-all shadow-lg"
+                title="Close Viewer"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <a 
+                href={viewingLogo}
+                download="sponsorship_logo.png"
+                onClick={(e) => e.stopPropagation()}
+                className="p-2 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full backdrop-blur-md transition-all shadow-lg flex items-center justify-center"
+                title="Download Logo"
+              >
+                <Download size={24} />
+              </a>
+            </div>
             <img 
               src={viewingLogo} 
               alt="Company Logo Full Size" 
