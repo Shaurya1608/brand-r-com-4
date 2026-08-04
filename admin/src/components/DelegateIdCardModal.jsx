@@ -55,7 +55,7 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
         <button 
           onClick={handleDownload}
           disabled={downloading}
-          className="flex items-center gap-2 px-4 py-2 bg-[#b68936] text-white rounded-lg shadow hover:bg-[#a3792b] transition font-medium disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 bg-[#6a9a38] text-white rounded-lg shadow hover:bg-[#52792b] transition font-medium disabled:opacity-50"
         >
           <Download size={18} />
           {downloading ? 'Downloading...' : 'Download Image'}
@@ -77,24 +77,24 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
         <div ref={cardRef} className="w-full h-full flex flex-col bg-white">
           
           {/* Header / Brand */}
-          <div className="bg-[#111827] text-white p-6 pb-8 text-center relative overflow-hidden flex-shrink-0">
+          <div className="bg-white text-gray-900 p-6 pb-8 text-center relative overflow-hidden flex-shrink-0">
             {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10" style={{
-              backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+            <div className="absolute inset-0 opacity-[0.03]" style={{
+              backgroundImage: 'radial-gradient(circle at 2px 2px, #6a9a38 1px, transparent 0)',
               backgroundSize: '16px 16px'
             }}></div>
             
             <div className="relative z-10 flex flex-col items-center">
-              {/* Logo placeholder - replace src with actual logo if available */}
-              <div className="w-16 h-16 bg-white rounded-xl mb-3 flex items-center justify-center">
-                <span className="text-[#b68936] font-black text-2xl">BR</span>
-              </div>
-              <h1 className="text-xl font-bold tracking-widest text-[#b68936] uppercase mb-1">Brand R.Comm</h1>
-              <p className="text-xs text-gray-400 uppercase tracking-widest">Global Summit 2026</p>
+              <img 
+                src="/logo/brand-r-comm-logo-2.png" 
+                alt="Brand R.Comm" 
+                className="h-20 object-contain mb-3" 
+              />
+              <p className="text-xs text-[#6a9a38] font-bold uppercase tracking-widest mt-1">Global Summit 2026</p>
             </div>
             
-            {/* Curved bottom edge */}
-            <div className="absolute bottom-0 left-0 right-0 h-4 bg-white" style={{ borderTopLeftRadius: '100%', borderTopRightRadius: '100%' }}></div>
+            {/* Subtle separator */}
+            <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
           </div>
 
           {/* Attendee Info */}
@@ -105,7 +105,7 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
             <p className="text-[15px] font-bold text-gray-500 mb-1">
               {delegate.designation}
             </p>
-            <p className="text-sm font-semibold text-[#b68936]">
+            <p className="text-sm font-semibold text-[#6a9a38]">
               {delegate.organization}
             </p>
           </div>
@@ -127,9 +127,9 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
           </div>
 
           {/* Role/Category Footer */}
-          <div className="h-16 flex items-center justify-center bg-[#b68936]">
+          <div className="h-16 flex items-center justify-center bg-[#6a9a38]">
             <span className="text-xl font-black text-white uppercase tracking-[0.2em]">
-              {delegate.attendeeCategory || 'DELEGATE'}
+              {delegate.attendeeCategory?.replace('_', ' ') || 'DELEGATE'}
             </span>
           </div>
           
