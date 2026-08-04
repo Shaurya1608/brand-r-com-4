@@ -460,9 +460,9 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">State / Country *</label>
                         <input required type="text" name="stateCountry" value={formData.stateCountry} onChange={handleChange} placeholder="Maharashtra, India" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
                       </div>
-                      <div className="space-y-1 sm:col-span-2">
+                      <div className="space-y-1">
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Pin Code *</label>
-                        <input required type="text" name="pinCode" value={formData.pinCode} onChange={handleChange} placeholder="400001" className="w-full sm:w-[calc(50%-0.375rem)] px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
+                        <input required type="text" name="pinCode" value={formData.pinCode} onChange={handleChange} placeholder="400001" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
                       </div>
                       <div className="space-y-1 sm:col-span-2">
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Full Address *</label>
