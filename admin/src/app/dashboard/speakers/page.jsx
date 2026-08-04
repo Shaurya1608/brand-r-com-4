@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Mic, Search, Download, Edit, Trash2 } from 'lucide-react';
+import { Mic, Search, Download, Trash2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 export default function SpeakersPage() {
@@ -8,9 +8,6 @@ export default function SpeakersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingSpeaker, setEditingSpeaker] = useState(null);
-  const [updateLoading, setUpdateLoading] = useState(false);
 
   useEffect(() => {
     fetchSpeakers();
@@ -40,33 +37,6 @@ export default function SpeakersPage() {
     }
   };
 
-  const handleUpdateSpeaker = async (e) => {
-    e.preventDefault();
-    setUpdateLoading(true);
-    try {
-      const token = Cookies.get('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/speakers/${editingSpeaker._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ status: editingSpeaker.status })
-      });
-      const data = await res.json();
-      if (data.success) {
-        setSpeakers(speakers.map(s => s._id === editingSpeaker._id ? data.data : s));
-        setIsEditModalOpen(false);
-      } else {
-        alert(data.message || 'Update failed');
-      }
-    } catch (err) {
-      alert('Network error');
-    } finally {
-      setUpdateLoading(false);
-    }
-  };
-
   const handleDeleteSpeaker = async (id) => {
     if (!confirm('Are you sure you want to delete this speaker enquiry?')) return;
     try {
@@ -88,7 +58,7 @@ export default function SpeakersPage() {
 
   const exportToCSV = () => {
     if (speakers.length === 0) return;
-    const headers = ["Full Name", "Designation", "Organization", "Mobile Number", "City", "State/Country", "Pin Code", "Address", "Status", "Date"];
+    const headers = ["Full Name", "Designation", "Organization", "Mobile Number", "City", "State/Country", "Pin Code", "Address", "Date"];
     const rows = filteredSpeakers.map(s => [
       `"${s.fullName || ''}"`,
       `"${s.designation || ''}"`,
@@ -98,7 +68,6 @@ export default function SpeakersPage() {
       `"${s.stateCountry || ''}"`,
       `"${s.pinCode || ''}"`,
       `"${(s.address || '').replace(/"/g, '""')}"`,
-      `"${s.status || ''}"`,
       `"${new Date(s.createdAt).toLocaleDateString()}"`
     ]);
 
@@ -200,7 +169,6 @@ export default function SpeakersPage() {
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">State/Country</th>
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Pin Code</th>
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Full Address</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-center">Status</th>
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Date</th>
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-right sticky right-0 z-40 bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
                 </tr>
@@ -218,17 +186,6 @@ export default function SpeakersPage() {
                     <td className="px-4 py-2.5 whitespace-nowrap">{speaker.stateCountry}</td>
                     <td className="px-4 py-2.5 whitespace-nowrap">{speaker.pinCode}</td>
                     <td className="px-4 py-2.5 min-w-[200px] max-w-[300px] truncate" title={speaker.address}>{speaker.address}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap text-center">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        speaker.status === 'approved' 
-                          ? 'bg-green-100 text-green-700' 
-                          : speaker.status === 'rejected'
-                          ? 'bg-red-100 text-red-700'
-                          : 'bg-yellow-100 text-yellow-700'
-                      }`}>
-                        {speaker.status}
-                      </span>
-                    </td>
                     <td className="px-4 py-2.5 whitespace-nowrap text-gray-500">
                       {new Date(speaker.createdAt).toLocaleDateString('en-US', {
                         year: 'numeric', month: 'short', day: 'numeric'
@@ -236,13 +193,6 @@ export default function SpeakersPage() {
                     </td>
                     <td className="px-4 py-2.5 whitespace-nowrap text-right sticky right-0 z-20 bg-white group-hover:bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">
                       <div className="flex items-center justify-end gap-2">
-                        <button 
-                          onClick={() => { setEditingSpeaker(speaker); setIsEditModalOpen(true); }}
-                          className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                          title="Edit"
-                        >
-                          <Edit size={16} />
-                        </button>
                         <button 
                           onClick={() => handleDeleteSpeaker(speaker._id)}
                           className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
@@ -260,51 +210,6 @@ export default function SpeakersPage() {
         </div>
       </div>
 
-      {/* Edit Modal */}
-      {isEditModalOpen && editingSpeaker && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
-            <div className="p-5 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">Edit Speaker Enquiry</h3>
-              <button onClick={() => setIsEditModalOpen(false)} className="text-gray-400 hover:text-gray-600">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
-            </div>
-            
-            <form onSubmit={handleUpdateSpeaker} className="p-5 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <select 
-                  value={editingSpeaker.status}
-                  onChange={(e) => setEditingSpeaker({...editingSpeaker, status: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                </select>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4">
-                <button 
-                  type="button" 
-                  onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit" 
-                  disabled={updateLoading}
-                  className="px-4 py-2 text-sm font-medium text-white bg-[#6a9a38] rounded-lg hover:bg-[#52792b] disabled:opacity-50"
-                >
-                  {updateLoading ? 'Saving...' : 'Save Changes'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
