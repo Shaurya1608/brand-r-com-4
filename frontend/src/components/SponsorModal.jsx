@@ -99,9 +99,20 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
     setLoading(true);
     
     try {
+      let logoUrl = "";
+      if (logoFile) {
+        logoUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(logoFile);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      }
+
       const payload = {
         ...formData,
-        totalAmount: formData.basePrice * 1.18 // Including GST
+        totalAmount: formData.basePrice * 1.18, // Including GST
+        logoUrl
       };
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/sponsorships/create`, {

@@ -41,6 +41,10 @@ const sponsorshipSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  logoUrl: {
+    type: String,
+    default: ""
+  },
   basePrice: {
     type: Number,
     required: true,

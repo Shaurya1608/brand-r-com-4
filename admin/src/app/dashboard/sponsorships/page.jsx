@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Briefcase, Search, Download } from 'lucide-react';
+import { Briefcase, Search, Download, Edit, Trash2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 export default function SponsorshipsPage() {
@@ -8,6 +8,9 @@ export default function SponsorshipsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingSponsorship, setEditingSponsorship] = useState(null);
+  const [updateLoading, setUpdateLoading] = useState(false);
 
   useEffect(() => {
     fetchSponsorships();
@@ -34,6 +37,52 @@ export default function SponsorshipsPage() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUpdateSponsorship = async (e) => {
+    e.preventDefault();
+    setUpdateLoading(true);
+    try {
+      const token = Cookies.get('admin_token');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sponsorships/${editingSponsorship._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: editingSponsorship.status })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSponsorships(sponsorships.map(s => s._id === editingSponsorship._id ? data.data : s));
+        setIsEditModalOpen(false);
+      } else {
+        alert(data.message || 'Update failed');
+      }
+    } catch (err) {
+      alert('Network error');
+    } finally {
+      setUpdateLoading(false);
+    }
+  };
+
+  const handleDeleteSponsorship = async (id) => {
+    if (!confirm('Are you sure you want to delete this sponsorship?')) return;
+    try {
+      const token = Cookies.get('admin_token');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sponsorships/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSponsorships(sponsorships.filter(s => s._id !== id));
+      } else {
+        alert(data.message || 'Delete failed');
+      }
+    } catch (err) {
+      alert('Network error');
     }
   };
 
@@ -135,6 +184,7 @@ export default function SponsorshipsPage() {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 sticky top-0 z-40 shadow-sm">
                 <tr>
                   <th scope="col" className="px-4 py-3 font-semibold min-w-[220px] max-w-[220px] sticky left-0 z-40 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">Company Name</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Logo</th>
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">GST Number</th>
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Category</th>
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Contact Person</th>
@@ -147,6 +197,7 @@ export default function SponsorshipsPage() {
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-right">Amount</th>
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-center">Status</th>
                   <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Date</th>
+                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-right sticky right-0 z-40 bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -154,6 +205,15 @@ export default function SponsorshipsPage() {
                   <tr key={sponsorship._id} className="bg-white hover:bg-gray-50 transition-colors group">
                     <td className="px-4 py-2.5 min-w-[220px] max-w-[220px] sticky left-0 z-20 bg-white group-hover:bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">
                       <div className="font-semibold text-gray-900 truncate" title={sponsorship.companyName}>{sponsorship.companyName}</div>
+                    </td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      {sponsorship.logoUrl ? (
+                        <a href={sponsorship.logoUrl} target="_blank" rel="noopener noreferrer">
+                          <img src={sponsorship.logoUrl} alt="Logo" className="h-8 w-8 object-contain rounded border border-gray-200 bg-white" />
+                        </a>
+                      ) : (
+                        <span className="text-xs text-gray-400">N/A</span>
+                      )}
                     </td>
                     <td className="px-4 py-2.5 whitespace-nowrap text-gray-500 font-mono text-xs">{sponsorship.gstNumber || 'N/A'}</td>
                     <td className="px-4 py-2.5 whitespace-nowrap">
@@ -187,6 +247,24 @@ export default function SponsorshipsPage() {
                         year: 'numeric', month: 'short', day: 'numeric'
                       })}
                     </td>
+                    <td className="px-4 py-2.5 whitespace-nowrap text-right sticky right-0 z-20 bg-white group-hover:bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">
+                      <div className="flex items-center justify-end gap-2">
+                        <button 
+                          onClick={() => { setEditingSponsorship(sponsorship); setIsEditModalOpen(true); }}
+                          className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          title="Edit"
+                        >
+                          <Edit size={16} />
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteSponsorship(sponsorship._id)}
+                          className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -194,6 +272,52 @@ export default function SponsorshipsPage() {
           )}
         </div>
       </div>
+
+      {/* Edit Modal */}
+      {isEditModalOpen && editingSponsorship && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+            <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+              <h3 className="text-lg font-bold text-gray-900">Edit Sponsorship</h3>
+              <button onClick={() => setIsEditModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            <form onSubmit={handleUpdateSponsorship} className="p-5 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select 
+                  value={editingSponsorship.status}
+                  onChange={(e) => setEditingSponsorship({...editingSponsorship, status: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4">
+                <button 
+                  type="button" 
+                  onClick={() => setIsEditModalOpen(false)}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={updateLoading}
+                  className="px-4 py-2 text-sm font-medium text-white bg-[#6a9a38] rounded-lg hover:bg-[#52792b] disabled:opacity-50"
+                >
+                  {updateLoading ? 'Saving...' : 'Save Changes'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
