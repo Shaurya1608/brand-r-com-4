@@ -247,9 +247,15 @@ export default function DelegatesPage() {
                 </th>
                 <th scope="col" className="px-4 py-3 font-semibold">Reg ID</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Date</th>
-                <th scope="col" className="px-4 py-3 font-semibold">Name & Org</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Full Name</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Designation</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Organization</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Mobile Number</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">City</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">State / Country</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Pin Code</th>
+                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Full Address</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Type</th>
-                <th scope="col" className="px-4 py-3 font-semibold">Contact</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Status</th>
                 <th scope="col" className="px-4 py-3 font-semibold text-right">Payment</th>
                 <th scope="col" className="px-4 py-3 font-semibold text-center">Actions</th>
@@ -258,7 +264,7 @@ export default function DelegatesPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="9" className="px-6 py-8 text-center">
+                  <td colSpan="15" className="px-6 py-8 text-center">
                     <div className="flex justify-center items-center">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6a9a38]"></div>
                     </div>
@@ -266,13 +272,13 @@ export default function DelegatesPage() {
                 </tr>
               ) : error ? (
                 <tr>
-                  <td colSpan="9" className="px-6 py-8 text-center text-red-500">
+                  <td colSpan="15" className="px-6 py-8 text-center text-red-500">
                     {error}
                   </td>
                 </tr>
               ) : filteredDelegates.length === 0 ? (
                 <tr>
-                  <td colSpan="9" className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan="15" className="px-6 py-8 text-center text-gray-500">
                     No delegate registrations found.
                   </td>
                 </tr>
@@ -298,7 +304,7 @@ export default function DelegatesPage() {
                       })}
                     </td>
                     <td className="px-4 py-2.5">
-                      <div className="font-semibold text-gray-900 flex items-center gap-2">
+                      <div className="font-semibold text-gray-900 flex items-center gap-2 whitespace-nowrap">
                         {delegate.fullName}
                         {delegate.isManuallyCreated && (
                           <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[9px] font-bold uppercase tracking-wider rounded" title="Manually created by Admin">
@@ -306,20 +312,22 @@ export default function DelegatesPage() {
                           </span>
                         )}
                       </div>
-                      <div className="text-xs text-gray-500">{delegate.designation} at {delegate.organization}</div>
                     </td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.designation}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.organization}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.mobileNumber}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.city}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.stateCountry}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.pinCode}</td>
+                    <td className="px-4 py-2.5 min-w-[200px] truncate max-w-[300px]" title={delegate.address}>{delegate.address}</td>
                     <td className="px-4 py-2.5">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap ${
                         delegate.delegateType === 'indian' 
                           ? 'bg-blue-100 text-blue-700' 
                           : 'bg-purple-100 text-purple-700'
                       }`}>
                         {delegate.delegateType}
                       </span>
-                    </td>
-                    <td className="px-4 py-2.5">
-                      <div>{delegate.mobileNumber}</div>
-                      <div className="text-xs text-gray-400">{delegate.city}, {delegate.stateCountry}</div>
                     </td>
                     <td className="px-4 py-2.5">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
