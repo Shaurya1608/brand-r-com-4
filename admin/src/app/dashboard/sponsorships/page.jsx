@@ -11,6 +11,7 @@ export default function SponsorshipsPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingSponsorship, setEditingSponsorship] = useState(null);
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [viewingLogo, setViewingLogo] = useState(null);
 
   useEffect(() => {
     fetchSponsorships();
@@ -208,9 +209,13 @@ export default function SponsorshipsPage() {
                     </td>
                     <td className="px-4 py-2.5 whitespace-nowrap">
                       {sponsorship.logoUrl ? (
-                        <a href={sponsorship.logoUrl} target="_blank" rel="noopener noreferrer">
+                        <button 
+                          onClick={() => setViewingLogo(sponsorship.logoUrl)}
+                          className="focus:outline-none focus:ring-2 focus:ring-[#6a9a38] rounded"
+                          title="View Logo"
+                        >
                           <img src={sponsorship.logoUrl} alt="Logo" className="h-8 w-8 object-contain rounded border border-gray-200 bg-white" />
-                        </a>
+                        </button>
                       ) : (
                         <span className="text-xs text-gray-400">N/A</span>
                       )}
@@ -315,6 +320,31 @@ export default function SponsorshipsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Logo Viewer Modal */}
+      {viewingLogo && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm cursor-pointer"
+          onClick={() => setViewingLogo(null)}
+        >
+          <div className="relative max-w-4xl max-h-[90vh] w-full flex items-center justify-center p-4">
+            <button 
+              onClick={() => setViewingLogo(null)} 
+              className="absolute top-0 right-0 md:-right-4 p-2 text-white/70 hover:text-white bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-md transition-all"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <img 
+              src={viewingLogo} 
+              alt="Company Logo Full Size" 
+              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl cursor-default bg-white"
+              onClick={(e) => e.stopPropagation()} 
+            />
           </div>
         </div>
       )}
