@@ -95,17 +95,27 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
           </div>
 
           {/* Attendee Info */}
-          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center pt-8">
-            <h2 className="text-3xl font-black text-gray-900 mb-2 uppercase tracking-tight max-w-[280px] break-words leading-tight">
-              {delegate.fullName}
-            </h2>
-            <p className="text-base font-semibold text-gray-500 mb-1">
-              {delegate.designation}
-            </p>
-            <div className="h-px w-12 bg-gray-200 my-2"></div>
-            <p className="text-sm font-bold text-[#6a9a38] uppercase tracking-wider">
-              {delegate.organization}
-            </p>
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center pt-6">
+            <div className="mb-4 w-full">
+              <span className="block text-[9px] uppercase tracking-[0.2em] text-gray-400 mb-1">Delegate Name</span>
+              <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight max-w-[280px] mx-auto break-words leading-tight">
+                {delegate.fullName}
+              </h2>
+            </div>
+            
+            <div className="mb-3 w-full">
+              <span className="block text-[9px] uppercase tracking-[0.2em] text-gray-400 mb-0.5">Designation</span>
+              <p className="text-base font-semibold text-gray-600">
+                {delegate.designation}
+              </p>
+            </div>
+            
+            <div className="w-full">
+              <span className="block text-[9px] uppercase tracking-[0.2em] text-[#6a9a38]/70 mb-0.5">Organization</span>
+              <p className="text-sm font-bold text-[#6a9a38] uppercase tracking-wider">
+                {delegate.organization}
+              </p>
+            </div>
           </div>
 
           {/* QR Code Section */}
