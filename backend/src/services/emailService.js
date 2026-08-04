@@ -26,9 +26,10 @@ const sendDelegateConfirmationEmail = async (delegate) => {
     }
 
     const senderEmail = process.env.RESEND_FROM_EMAIL || 'BRAND R.Comm 2026 <onboarding@resend.dev>';
-    const formattedAmount = delegate.delegateType === 'foreign' 
-      ? `USD ${delegate.amountPaid || 0}` 
-      : `₹${(delegate.amountPaid || 0).toLocaleString('en-IN')}`;
+    const isPaid = delegate.paymentStatus === 'Paid';
+    const statusBadge = isPaid 
+      ? `<span class="badge-paid">Paid</span>`
+      : `<span style="background: #fef08a; color: #854d0e; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">Pending</span>`;
 
     const htmlContent = `
     <!DOCTYPE html>
@@ -66,7 +67,7 @@ const sendDelegateConfirmationEmail = async (delegate) => {
         <div class="content">
           <div class="greeting">Dear ${delegate.fullName},</div>
           <div class="message">
-            Congratulations! Your registration for <strong>BRAND R.Comm 2026</strong> has been successfully confirmed. We are excited to welcome you to the summit!
+            Thank you for registering for <strong>BRAND R.Comm 2026</strong>! Your registration details have been successfully received. We are excited to have you join us for the summit!
           </div>
 
           <div class="details-card">
@@ -94,7 +95,7 @@ const sendDelegateConfirmationEmail = async (delegate) => {
               </tr>
               <tr>
                 <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Payment Status:</td>
-                <td style="padding: 6px 0; text-align: right;"><span class="badge-paid">Paid</span></td>
+                <td style="padding: 6px 0; text-align: right;">${statusBadge}</td>
               </tr>
               ${delegate.razorpayPaymentId ? `
               <tr>

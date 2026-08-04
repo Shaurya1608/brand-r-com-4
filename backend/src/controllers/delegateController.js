@@ -36,6 +36,11 @@ exports.registerDelegate = async (req, res) => {
       isManuallyCreated: isManuallyCreated || false,
     });
 
+    // Send confirmation email via Resend immediately upon form submission
+    sendDelegateConfirmationEmail(newDelegate).catch(err => console.error('Error sending initial registration email:', err));
+    newDelegate.emailSent = true;
+    await newDelegate.save();
+
     res.status(201).json({
       success: true,
       data: newDelegate
