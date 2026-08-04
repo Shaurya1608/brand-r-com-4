@@ -44,6 +44,34 @@ exports.registerDelegate = async (req, res) => {
   }
 };
 
+// @desc    Verify a delegate by ID (Public)
+// @route   GET /api/delegates/verify/:id
+// @access  Public
+exports.verifyDelegate = async (req, res) => {
+  try {
+    const delegate = await DelegateRegistration.findById(req.params.id)
+      .select('fullName designation organization attendeeCategory paymentStatus status registrationType');
+    
+    if (!delegate) {
+      return res.status(404).json({
+        success: false,
+        message: 'Delegate not found or invalid ID'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: delegate
+    });
+  } catch (error) {
+    console.error('Error in verifyDelegate:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error. Please try again.'
+    });
+  }
+};
+
 // @desc    Get all delegates
 // @route   GET /api/delegates
 // @access  Private/Admin

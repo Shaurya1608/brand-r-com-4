@@ -18,16 +18,18 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'brand_r_comm_nominations',
-    allowedFormats: ['svg', 'png', 'jpg', 'jpeg', 'webp'],
-    format: async (req, file) => 'webp',
-    transformation: [{ width: 800, crop: 'limit', quality: 'auto' }]
+    allowedFormats: ['svg', 'png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx', 'ppt', 'pptx'],
+    resource_type: 'auto',
   },
 });
 
 const upload = multer({ storage: storage });
 
-// Public route for creating nomination with single file upload 'document'
-router.post('/', upload.single('document'), nominationController.createNomination);
+// Public route for creating nomination with multiple file uploads
+router.post('/', upload.fields([
+  { name: 'summaryDocument', maxCount: 1 },
+  { name: 'profileDocument', maxCount: 1 }
+]), nominationController.createNomination);
 
 // Protected route for fetching all nominations (Admin)
 router.get('/', protect, nominationController.getNominations);

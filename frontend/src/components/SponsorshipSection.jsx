@@ -2,8 +2,11 @@
 
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import SponsorModal from "./SponsorModal";
 
 export default function SponsorshipSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef(null);
 
@@ -329,7 +332,10 @@ export default function SponsorshipSection() {
                 )}
                 
                 <div className="flex flex-col sm:flex-row gap-4 mt-4 lg:mt-8">
-                  <button className="px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-widest uppercase hover:bg-brand-dark transition-colors text-center rounded">
+                  <button 
+                    onClick={() => { setSelectedCategory(tier.title); setIsModalOpen(true); }}
+                    className="px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-widest uppercase hover:bg-brand-dark transition-colors text-center rounded"
+                  >
                     GRAB NOW
                   </button>
                   <button className="px-6 py-3 border border-brand-primary/20 text-brand-dark text-[10px] font-bold tracking-widest uppercase hover:border-brand-primary transition-colors bg-white text-center rounded">
@@ -370,6 +376,11 @@ export default function SponsorshipSection() {
         </div>
 
       </div>
+      <SponsorModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        initialCategory={selectedCategory} 
+      />
     </section>
   );
 }

@@ -14,10 +14,10 @@ export default function DelegateRegistrationSection() {
   };
 
   const indianPricing = [
-    { window: "Till 31 August 2026", fee: "₹ 5,000 + GST" },
-    { window: "Till 30 September 2026", fee: "₹ 6,000 + GST" },
-    { window: "Till 31 October 2026", fee: "₹ 7,000 + GST" },
-    { window: "After 31 October", fee: "₹ 8,000 + GST" },
+    { window: "Till 31 August 2026", fee: "₹ 6,000 + GST" },
+    { window: "Till 30 September 2026", fee: "₹ 7,000 + GST" },
+    { window: "Till 31 October 2026", fee: "₹ 8,000 + GST" },
+    { window: "After 31 October", fee: "₹ 10,000 + GST" },
   ];
 
   const intlPricing = [
@@ -98,10 +98,10 @@ export default function DelegateRegistrationSection() {
             
             <div className="mb-6">
               <div className="text-3xl font-serif mb-1 text-brand-dark">
-                ₹ 8,000 <span className="text-sm text-brand-dark/40 font-sans">+ GST</span>
+                ₹ 10,000 <span className="text-sm text-brand-dark/40 font-sans">+ GST</span>
               </div>
               <p className="text-brand-dark/60 text-xs font-sans">
-                Standard price. Register early to save up to 37%.
+                Standard price. Register early to save up to 40%.
               </p>
             </div>
 

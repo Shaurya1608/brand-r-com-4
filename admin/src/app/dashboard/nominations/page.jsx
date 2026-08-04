@@ -66,57 +66,57 @@ export default function NominationsPage() {
   };
 
   return (
-    <div className="p-4 md:p-8">
+    <div className="p-4 md:p-6">
       {/* Header section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Award className="text-brand-primary" />
+          <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <Award className="text-brand-primary" size={20} />
             Award Nominations
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Manage all award nominations and view supporting documents.
           </p>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-full bg-brand-primary/10 flex items-center justify-center">
-              <Award size={16} className="text-brand-primary" />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-5">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-7 h-7 rounded-full bg-brand-primary/10 flex items-center justify-center">
+              <Award size={14} className="text-brand-primary" />
             </div>
-            <h3 className="font-medium text-gray-500 text-sm">Total Nominations</h3>
+            <h3 className="font-medium text-gray-500 text-xs">Total Nominations</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{nominations.length}</p>
+          <p className="text-xl font-bold text-gray-900">{nominations.length}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-              <Award size={16} className="text-blue-600" />
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center">
+              <Award size={14} className="text-blue-600" />
             </div>
-            <h3 className="font-medium text-gray-500 text-sm">Organizations</h3>
+            <h3 className="font-medium text-gray-500 text-xs">Organizations</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{nominations.filter(n => n.applicantType === 'Organization').length}</p>
+          <p className="text-xl font-bold text-gray-900">{nominations.filter(n => n.applicantType === 'Organization').length}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-              <Award size={16} className="text-purple-600" />
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center">
+              <Award size={14} className="text-purple-600" />
             </div>
-            <h3 className="font-medium text-gray-500 text-sm">Individuals</h3>
+            <h3 className="font-medium text-gray-500 text-xs">Individuals</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{nominations.filter(n => n.applicantType === 'Individual').length}</p>
+          <p className="text-xl font-bold text-gray-900">{nominations.filter(n => n.applicantType === 'Individual').length}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center">
-              <span className="text-yellow-600 font-bold text-sm">₹</span>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-7 h-7 rounded-full bg-yellow-100 flex items-center justify-center">
+              <span className="text-yellow-600 font-bold text-xs">₹</span>
             </div>
-            <h3 className="font-medium text-gray-500 text-sm">Pending Payments</h3>
+            <h3 className="font-medium text-gray-500 text-xs">Pending Payments</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{nominations.filter(n => n.paymentStatus === 'Pending').length}</p>
+          <p className="text-xl font-bold text-gray-900">{nominations.filter(n => n.paymentStatus === 'Pending').length}</p>
         </div>
       </div>
 
@@ -131,7 +131,7 @@ export default function NominationsPage() {
               placeholder="Search by name, org, or category..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all bg-gray-50 focus:bg-white"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all bg-gray-50 focus:bg-white"
             />
           </div>
           <button className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
@@ -145,12 +145,12 @@ export default function NominationsPage() {
           <table className="w-full text-left text-sm text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-100">
               <tr>
-                <th scope="col" className="px-6 py-4 font-semibold">Date</th>
-                <th scope="col" className="px-6 py-4 font-semibold">Applicant</th>
-                <th scope="col" className="px-6 py-4 font-semibold">Category</th>
-                <th scope="col" className="px-6 py-4 font-semibold">Organization</th>
-                <th scope="col" className="px-6 py-4 font-semibold">Document</th>
-                <th scope="col" className="px-6 py-4 font-semibold text-right">Payment</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Date</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Applicant</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Category</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Organization</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Document</th>
+                <th scope="col" className="px-4 py-3 font-semibold text-right">Payment</th>
               </tr>
             </thead>
             <tbody>
@@ -177,52 +177,53 @@ export default function NominationsPage() {
               ) : (
                 filteredNominations.map((nomination) => (
                   <tr key={nomination._id} className="bg-white border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 py-2.5 whitespace-nowrap">
                       {new Date(nomination.createdAt).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
                       })}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-2.5">
                       <div className="font-semibold text-gray-900">{nomination.fullName}</div>
-                      <div className="text-xs text-gray-500">{nomination.designation}</div>
+                      <div className="text-[11px] text-gray-500">{nomination.designation}</div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-gray-100 text-gray-700">
+                    <td className="px-4 py-2.5">
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-gray-100 text-gray-700">
                         {nomination.awardCategory}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-2.5">
                       <div className="font-medium text-gray-800">{nomination.organization}</div>
-                      <div className="text-xs text-gray-500">{nomination.applicantType}</div>
+                      <div className="text-[11px] text-gray-500">{nomination.applicantType}</div>
                     </td>
-                    <td className="px-6 py-4">
-                      {nomination.documentUrl && (
-                        <button 
-                          onClick={() => {
-                            setSelectedImage(nomination.documentUrl);
-                            setIsImageModalOpen(true);
-                          }}
-                          className="flex items-center gap-1.5 text-xs font-semibold text-brand-primary hover:text-brand-primary-hover transition-colors"
+                    <td className="px-4 py-2.5">
+                      {nomination.supportingDocument ? (
+                        <a 
+                          href={nomination.supportingDocument}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium text-brand-primary bg-brand-primary/10 rounded-md hover:bg-brand-primary/20 transition-colors"
                         >
-                          <ImageIcon size={14} />
-                          View Logo
-                        </button>
+                          <FileText size={12} />
+                          View Doc
+                        </a>
+                      ) : (
+                        <span className="text-[10px] text-gray-400">Not provided</span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-4 py-2.5 text-right">
                       <div className="flex flex-col items-end gap-1">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
                           nomination.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
                           nomination.paymentStatus === 'Failed' ? 'bg-red-100 text-red-700' :
                           'bg-yellow-100 text-yellow-700'
                         }`}>
                           {nomination.paymentStatus}
                         </span>
-                        {nomination.paymentMethod && (
-                          <span className="text-[10px] text-gray-400 font-medium">
-                            {nomination.paymentMethod}
+                        {nomination.paymentStatus === 'Paid' && nomination.amountPaid && (
+                          <span className="text-[11px] font-bold text-gray-700">
+                            ₹{nomination.amountPaid.toLocaleString('en-IN')}
                           </span>
                         )}
                       </div>

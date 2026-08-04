@@ -1,9 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import SponsorModal from "./SponsorModal";
 
 export default function GeneralSponsorshipSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const sponsorships = [
     {
       title: "Platinum Sponsor",
@@ -184,7 +187,10 @@ export default function GeneralSponsorshipSection() {
                   <div className="text-xl md:text-2xl font-serif text-brand-primary mb-4">{tier.price}</div>
                   
                   <div className="flex flex-col sm:flex-row gap-4 mt-auto lg:mt-10">
-                    <button className="px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-widest uppercase hover:bg-brand-dark transition-colors text-center rounded">
+                    <button 
+                      onClick={() => { setSelectedCategory(tier.title); setIsModalOpen(true); }}
+                      className="px-6 py-3 bg-brand-primary text-white text-[10px] font-bold tracking-widest uppercase hover:bg-brand-dark transition-colors text-center rounded"
+                    >
                       GRAB NOW
                     </button>
                   </div>
@@ -238,6 +244,11 @@ export default function GeneralSponsorshipSection() {
         </div>
 
       </div>
+      <SponsorModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        initialCategory={selectedCategory} 
+      />
     </section>
   );
 }

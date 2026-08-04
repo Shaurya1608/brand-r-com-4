@@ -17,14 +17,25 @@ exports.createNomination = async (req, res) => {
       country,
       pinCode,
       address,
+      briefSummary,
     } = req.body;
 
-    console.log("Req.file is:", req.file);
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: 'Document file is required (SVG or PNG)' });
+    console.log("Req.files is:", req.files);
+    
+    // Check for profile document
+    if (!req.files || !req.files['profileDocument'] || req.files['profileDocument'].length === 0) {
+      return res.status(400).json({ success: false, message: 'Profile document is required (PDF, PPT, or DOC)' });
     }
+    const profileDocumentUrl = req.files['profileDocument'][0].path;
 
-    const documentUrl = req.file.path;
+    // Check for summary document if text summary isn't provided
+    let summaryDocumentUrl = null;
+    if (!briefSummary || briefSummary.trim() === '') {
+      if (!req.files || !req.files['summaryDocument'] || req.files['summaryDocument'].length === 0) {
+        return res.status(400).json({ success: false, message: 'Either a brief summary or a summary document is required' });
+      }
+      summaryDocumentUrl = req.files['summaryDocument'][0].path;
+    }
 
     const newNomination = new AwardNomination({
       applicantType,
@@ -40,7 +51,9 @@ exports.createNomination = async (req, res) => {
       country,
       pinCode,
       address,
-      documentUrl,
+      briefSummary,
+      summaryDocumentUrl,
+      profileDocumentUrl,
     });
 
     const savedNomination = await newNomination.save();

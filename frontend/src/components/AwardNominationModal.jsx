@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AwardNominationModal({ isOpen, onClose }) {
@@ -19,48 +19,95 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     applicantType: "Individual",
     awardCategory: "",
     paymentMethod: "Online (Razorpay)",
+    briefSummary: "",
   });
   
-  const [documentFile, setDocumentFile] = useState(null);
+  const [summaryDocumentFile, setSummaryDocumentFile] = useState(null);
+  const [profileDocumentFile, setProfileDocumentFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
 
-  const categories = [
-    "Best Rural Marketing Campaign",
-    "Best Use of Digital in Rural",
-    "Best Agri-Tech Innovation",
-    "Rural Brand of the Year",
-    "Best CSR Initiative in Rural",
-    "Best Rural Activation",
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const categoryDropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target)) {
+        setIsCategoryDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const individualCategories = [
+    "Best Communicator Award – Male",
+    "Best Communicator Award – Female",
+    "AI Leadership Excellence Award",
+    "Marketing Leader of the Year",
+    "HR Leader of the Year"
+  ];
+
+  const organizationCategories = [
+    {
+      group: "Industry Excellence Awards",
+      options: [
+        "Seed",
+        "Crop Protection",
+        "Soil Health & Biologicals",
+        "Fertilizer & Plant Nutrition",
+        "Farm Machinery & Agri-Tech",
+        "Irrigation & Water Management",
+        "Agri Startup"
+      ]
+    },
+    "Emerging Company of the Year Award",
+    "Best Outdoor Campaign Award",
+    "Best Rural Engagement Award",
+    "Best PR Campaign Award",
+    "Best Digital Marketing Award",
+    "Best Brand Campaign (TVC) Award",
+    "Best Integrated Communication Award"
   ];
 
   const totalAmount = "₹17,700/-";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "applicantType") {
+      setFormData((prev) => ({ ...prev, [name]: value, awardCategory: "" }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleFileChange = (e) => {
+  const handleSummaryFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      if (file.type === "image/svg+xml" || file.type === "image/png") {
-        setDocumentFile(file);
-        setError("");
-      } else {
-        setDocumentFile(null);
-        setError("Only SVG or PNG files are allowed.");
-      }
-    }
+    if (file) setSummaryDocumentFile(file);
+  };
+
+  const handleProfileFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) setProfileDocumentFile(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (currentStep < 3) {
+      setCurrentStep(prev => prev + 1);
+      return;
+    }
     setError("");
 
-    if (!documentFile) {
-      setError("Please upload a supporting document (SVG or PNG).");
+    if (!formData.briefSummary && !summaryDocumentFile) {
+      setError("Please provide a brief summary or attach a file.");
+      return;
+    }
+
+    if (!profileDocumentFile) {
+      setError("Please upload a profile document.");
       return;
     }
 
@@ -76,7 +123,8 @@ export default function AwardNominationModal({ isOpen, onClose }) {
       Object.keys(formData).forEach(key => {
         data.append(key, formData[key]);
       });
-      data.append('document', documentFile);
+      if (summaryDocumentFile) data.append('summaryDocument', summaryDocumentFile);
+      if (profileDocumentFile) data.append('profileDocument', profileDocumentFile);
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations`, {
         method: "POST",
@@ -113,7 +161,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-3xl bg-brand-surface rounded-[24px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] font-sans"
+            className="relative w-full max-w-xl bg-brand-surface rounded-[24px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] font-sans"
           >
             {success ? (
               <div className="relative p-8 md:p-16 flex flex-col items-center text-center bg-white h-full justify-center">
@@ -174,145 +222,296 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                 </div>
 
                 {/* Form Body */}
-                <div className="overflow-y-auto custom-scrollbar flex-1 p-5 md:p-6">
-                  <form id="nomination-form" onSubmit={handleSubmit} className="space-y-8 max-w-2xl mx-auto">
+                <div className="overflow-y-auto custom-scrollbar flex-1 p-5 md:p-8">
+                  <form id="nomination-form" onSubmit={handleSubmit} className="space-y-6 w-full mx-auto">
 
-                    {/* Section 1: Applicant Information */}
-                    <div className="space-y-6">
-                      <div className="flex items-center gap-4 border-b border-gray-200 pb-3">
-                        <div className="w-8 h-8 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold text-sm">1</div>
-                        <h4 className="text-lg md:text-xl font-bold text-brand-dark">Applicant Information</h4>
-                      </div>
+                    {/* Stepper */}
+                    <div className="flex items-center justify-between mb-4 relative px-4">
+                      <div className="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-[2px] bg-gray-200 z-0"></div>
+                      <div className="absolute left-8 top-1/2 -translate-y-1/2 h-[2px] bg-brand-primary transition-all duration-500 ease-in-out z-0" style={{ width: `calc(${((currentStep - 1) / 2) * 100}% - 2rem)` }}></div>
                       
-                      <div className="space-y-1">
-                        <label className="text-[13px] font-bold text-brand-dark">Full Name <span className="text-red-500">*</span></label>
-                        <input required type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Enter your full name" className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark">Designation <span className="text-red-500">*</span></label>
-                          <input required type="text" name="designation" value={formData.designation} onChange={handleChange} placeholder="e.g. Marketing Head" className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                      {[1, 2, 3].map(step => (
+                        <div key={step} className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-300 ${currentStep > step ? 'bg-brand-primary text-white scale-95' : currentStep === step ? 'bg-brand-primary text-white ring-[4px] ring-brand-primary/20 shadow-md scale-110' : 'bg-white text-gray-400 border-[2px] border-gray-200'}`}>
+                          {currentStep > step ? (
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                          ) : (
+                            step
+                          )}
                         </div>
-                        <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark">Organization / Company Name <span className="text-red-500">*</span></label>
-                          <input required type="text" name="organization" value={formData.organization} onChange={handleChange} placeholder="Company name" className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark">Email Address <span className="text-red-500">*</span></label>
-                          <input required type="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@company.com" className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark">Mobile Number <span className="text-red-500">*</span></label>
-                          <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="+91 00000 00000" className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
-                        </div>
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="text-[13px] font-bold text-brand-dark">Website <span className="text-gray-400 font-normal">(Optional)</span></label>
-                        <input type="url" name="website" value={formData.website} onChange={handleChange} placeholder="https://" className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
-                      </div>
+                      ))}
                     </div>
 
-                    {/* Section 2: Address Details */}
-                    <div className="space-y-6 pt-4">
-                      <div className="flex items-center gap-4 border-b border-gray-200 pb-3">
-                        <div className="w-8 h-8 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold text-sm">2</div>
-                        <h4 className="text-lg md:text-xl font-bold text-brand-dark">Address Details</h4>
+                    {currentStep === 1 && (
+                      <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+                      {/* Section 1: Applicant Information */}
+                      <div className="space-y-5">
+                        <div className="flex items-center gap-2.5 border-b border-gray-200 pb-2.5">
+                          <h4 className="text-base md:text-lg font-bold text-brand-dark">Applicant Information</h4>
+                        </div>
+                      
+                      <div className="space-y-1">
+                        <label className="text-[12px] font-bold text-brand-dark">Full Name <span className="text-red-500">*</span></label>
+                        <input required type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Enter your full name" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                       </div>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark">City <span className="text-red-500">*</span></label>
-                          <input required type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                          <label className="text-[12px] font-bold text-brand-dark">Designation <span className="text-red-500">*</span></label>
+                          <input required type="text" name="designation" value={formData.designation} onChange={handleChange} placeholder="e.g. Marketing Head" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                         </div>
                         <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark">State <span className="text-red-500">*</span></label>
-                          <input required type="text" name="state" value={formData.state} onChange={handleChange} className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                          <label className="text-[12px] font-bold text-brand-dark">Organization / Company Name <span className="text-red-500">*</span></label>
+                          <input required type="text" name="organization" value={formData.organization} onChange={handleChange} placeholder="Company name" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                         </div>
                         <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark">Country <span className="text-red-500">*</span></label>
-                          <input required type="text" name="country" value={formData.country} onChange={handleChange} className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                          <label className="text-[12px] font-bold text-brand-dark">Email Address <span className="text-red-500">*</span></label>
+                          <input required type="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@company.com" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                         </div>
                         <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark">Pin Code <span className="text-red-500">*</span></label>
-                          <input required type="text" name="pinCode" value={formData.pinCode} onChange={handleChange} className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                          <label className="text-[12px] font-bold text-brand-dark">Mobile Number <span className="text-red-500">*</span></label>
+                          <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="+91 00000 00000" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                         </div>
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-[13px] font-bold text-brand-dark">Complete Address <span className="text-red-500">*</span></label>
-                        <textarea required name="address" value={formData.address} onChange={handleChange} placeholder="House / Street / Landmark" rows="3" className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium resize-none" />
+                        <label className="text-[12px] font-bold text-brand-dark">Website <span className="text-gray-400 font-normal">(Optional)</span></label>
+                        <input type="url" name="website" value={formData.website} onChange={handleChange} placeholder="https://" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                       </div>
-                    </div>
+                      </div>
+                      </div>
+                    )}
 
-                    {/* Section 3: Award Details */}
-                    <div className="space-y-6 pt-4">
-                      <div className="flex items-center gap-4 border-b border-gray-200 pb-3">
-                        <div className="w-8 h-8 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold text-sm">3</div>
-                        <h4 className="text-lg md:text-xl font-bold text-brand-dark">Award Details</h4>
-                      </div>
+                    {currentStep === 2 && (
+                      <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+                      {/* Section 2: Address Details */}
+                      <div className="space-y-5 pt-2">
+                        <div className="flex items-center gap-2.5 border-b border-gray-200 pb-2.5">
+                          <h4 className="text-base md:text-lg font-bold text-brand-dark">Company Details</h4>
+                        </div>
                       
-                      <div className="space-y-3">
-                        <label className="text-[13px] font-bold text-brand-dark block">Applicant Type <span className="text-red-500">*</span></label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1 md:col-span-2">
+                          <label className="text-[12px] font-bold text-brand-dark">Company Name <span className="text-red-500">*</span></label>
+                          <input required type="text" name="organization" value={formData.organization} onChange={handleChange} placeholder="Enter company name" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[12px] font-bold text-brand-dark">City <span className="text-red-500">*</span></label>
+                          <input required type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[12px] font-bold text-brand-dark">State <span className="text-red-500">*</span></label>
+                          <input required type="text" name="state" value={formData.state} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[12px] font-bold text-brand-dark">Country <span className="text-red-500">*</span></label>
+                          <input required type="text" name="country" value={formData.country} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[12px] font-bold text-brand-dark">Pin Code <span className="text-red-500">*</span></label>
+                          <input required type="text" name="pinCode" value={formData.pinCode} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-[12px] font-bold text-brand-dark">Complete Address <span className="text-red-500">*</span></label>
+                        <textarea required name="address" value={formData.address} onChange={handleChange} placeholder="House / Street / Landmark" rows="2" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium resize-none" />
+                      </div>
+                      </div>
+                      </div>
+                    )}
+
+                    {currentStep === 3 && (
+                      <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+                      {/* Section 3: Award Details */}
+                      <div className="space-y-5 pt-2">
+                        <div className="flex items-center gap-2.5 border-b border-gray-200 pb-2.5">
+                          <h4 className="text-base md:text-lg font-bold text-brand-dark">Award Details & Uploads</h4>
+                        </div>
+                      
+                      <div className="space-y-2">
+                        <label className="text-[12px] font-bold text-brand-dark block">Applicant Type <span className="text-red-500">*</span></label>
                         <div className="flex items-center gap-6">
-                          <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-brand-dark">
+                          <label className="flex items-center gap-2 cursor-pointer text-[13px] font-medium text-brand-dark">
                             <input 
                               type="radio" 
                               name="applicantType" 
                               value="Individual" 
                               checked={formData.applicantType === "Individual"}
                               onChange={handleChange}
-                              className="w-4 h-4 text-[#3b82f6] focus:ring-[#3b82f6] border-gray-300"
+                              className="w-4 h-4 text-brand-primary focus:ring-brand-primary border-gray-300"
                             />
                             Individual
                           </label>
-                          <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-brand-dark">
+                          <label className="flex items-center gap-2 cursor-pointer text-[13px] font-medium text-brand-dark">
                             <input 
                               type="radio" 
                               name="applicantType" 
                               value="Organization" 
                               checked={formData.applicantType === "Organization"}
                               onChange={handleChange}
-                              className="w-4 h-4 text-[#3b82f6] focus:ring-[#3b82f6] border-gray-300"
+                              className="w-4 h-4 text-brand-primary focus:ring-brand-primary border-gray-300"
                             />
                             Organization
                           </label>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark block">Select Award Category <span className="text-red-500">*</span></label>
-                          <select 
-                            required 
-                            name="awardCategory" 
-                            value={formData.awardCategory}
-                            onChange={handleChange}
-                            className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium appearance-none"
-                          >
-                            <option value="" disabled>Choose a category...</option>
-                            {categories.map((cat, idx) => (
-                              <option key={idx} value={cat}>{cat}</option>
-                            ))}
-                          </select>
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[13px] font-bold text-brand-dark block">Payment Mode <span className="text-red-500">*</span></label>
-                          <select 
-                            required 
-                            name="paymentMethod" 
-                            value={formData.paymentMethod}
-                            onChange={handleChange}
-                            className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium appearance-none"
-                          >
-                            <option value="Online (Razorpay)">Online (Razorpay)</option>
-                            <option value="Invoice">Invoice</option>
-                            <option value="Offline">Offline</option>
-                          </select>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1 md:col-span-2">
+                          <label className="text-[12px] font-bold text-brand-dark block mb-1">Select Award Category <span className="text-red-500">*</span></label>
+                          <div className="relative" ref={categoryDropdownRef}>
+                            <div 
+                              onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+                              className={`w-full px-3 py-2.5 text-[13px] border rounded-lg focus:outline-none transition-all cursor-pointer flex justify-between items-center ${isCategoryDropdownOpen ? 'border-brand-primary ring-2 ring-brand-primary/30 bg-white' : 'border-gray-300 bg-white hover:border-brand-primary/50'}`}
+                            >
+                              <span className={formData.awardCategory ? "text-brand-dark font-medium" : "text-gray-500 font-medium"}>
+                                {formData.awardCategory || "Choose a category..."}
+                              </span>
+                              <svg className={`w-4 h-4 text-gray-500 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+
+                            <AnimatePresence>
+                              {isCategoryDropdownOpen && (
+                                <motion.div 
+                                  initial={{ opacity: 0, y: -10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: -10 }}
+                                  transition={{ duration: 0.15 }}
+                                  className="absolute z-50 w-full mt-1.5 bg-white border border-gray-200 rounded-lg shadow-xl max-h-60 overflow-y-auto custom-scrollbar"
+                                >
+                                  {formData.applicantType === "Individual" ? (
+                                    <div className="py-1.5">
+                                      {individualCategories.map((cat, idx) => (
+                                        <div 
+                                          key={idx} 
+                                          onClick={() => {
+                                            setFormData(prev => ({ ...prev, awardCategory: cat }));
+                                            setIsCategoryDropdownOpen(false);
+                                          }}
+                                          className={`px-3 py-2.5 text-[13px] cursor-pointer hover:bg-brand-primary/10 transition-colors ${formData.awardCategory === cat ? 'bg-brand-primary/5 text-brand-primary font-bold' : 'text-brand-dark font-medium'}`}
+                                        >
+                                          {cat}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    <div className="py-1.5">
+                                      {organizationCategories.map((cat, idx) => {
+                                        if (typeof cat === 'string') {
+                                          return (
+                                            <div 
+                                              key={idx} 
+                                              onClick={() => {
+                                                setFormData(prev => ({ ...prev, awardCategory: cat }));
+                                                setIsCategoryDropdownOpen(false);
+                                              }}
+                                              className={`px-3 py-2.5 text-[13px] cursor-pointer hover:bg-brand-primary/10 transition-colors ${formData.awardCategory === cat ? 'bg-brand-primary/5 text-brand-primary font-bold' : 'text-brand-dark font-medium'}`}
+                                            >
+                                              {cat}
+                                            </div>
+                                          );
+                                        } else {
+                                          return (
+                                            <div key={idx} className="mb-2 last:mb-0">
+                                              <div className="px-3 py-2 text-[12px] font-bold text-brand-primary uppercase tracking-wider bg-brand-primary/10 flex items-center sticky top-0 z-10">
+                                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m3-4h1m-1 4h1m-5 8h8" /></svg>
+                                                {cat.group}
+                                              </div>
+                                              <div className="flex flex-col relative pt-1 pb-1 bg-brand-primary/5">
+                                                <div className="absolute left-[19px] top-0 bottom-4 w-px bg-brand-primary/20"></div>
+                                                {cat.options.map((opt, optIdx) => {
+                                                  const value = `${cat.group} - ${opt}`;
+                                                  return (
+                                                    <div 
+                                                      key={optIdx} 
+                                                      onClick={() => {
+                                                        setFormData(prev => ({ ...prev, awardCategory: value }));
+                                                        setIsCategoryDropdownOpen(false);
+                                                      }}
+                                                      className={`px-3 py-2.5 pl-10 text-[13px] cursor-pointer hover:bg-brand-primary/10 transition-colors relative flex items-center ${formData.awardCategory === value ? 'text-brand-primary font-bold' : 'text-brand-dark font-medium'}`}
+                                                    >
+                                                      <span className="w-3 h-px absolute left-[19px] bg-brand-primary/20"></span>
+                                                      <span className={`w-1.5 h-1.5 rounded-full absolute left-[29px] z-10 ring-[3px] ring-brand-primary/5 ${formData.awardCategory === value ? 'bg-brand-primary' : 'bg-brand-primary/30'}`}></span>
+                                                      {opt}
+                                                    </div>
+                                                  );
+                                                })}
+                                              </div>
+                                            </div>
+                                          );
+                                        }
+                                      })}
+                                    </div>
+                                  )}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
                         </div>
                       </div>
-                    </div>
+
+                      {/* Summary Input Block */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 mb-4">
+                        <div className="space-y-1">
+                          <label className="text-[12px] font-bold text-brand-dark">Company Name</label>
+                          <input type="text" name="organization" value={formData.organization} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[12px] font-bold text-brand-dark">Applicant Name</label>
+                          <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[12px] font-bold text-brand-dark">Contact No.</label>
+                          <input type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[12px] font-bold text-brand-dark">Email</label>
+                          <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                      </div>
+
+                      {/* Upload Section */}
+                      <div className="space-y-5 pt-3">
+                        <div>
+                          <h4 className="text-[14px] font-bold text-brand-dark mb-3">Upload Supporting Documents</h4>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <label className="text-[12px] font-bold text-brand-dark">Brief Summary <span className="text-red-500">*</span></label>
+                              <div className="relative">
+                                <label className="cursor-pointer bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[10px] uppercase tracking-wide px-3 py-1.5 rounded-full transition-colors whitespace-nowrap inline-block shadow-sm">
+                                  OR Attach File
+                                  <input type="file" onChange={handleSummaryFileChange} className="hidden" />
+                                </label>
+                                {summaryDocumentFile && <span className="absolute top-1/2 -translate-y-1/2 right-[calc(100%+10px)] text-[10px] text-gray-500 truncate max-w-[100px]">{summaryDocumentFile.name}</span>}
+                              </div>
+                            </div>
+                            <textarea 
+                              name="briefSummary" 
+                              value={formData.briefSummary} 
+                              onChange={handleChange} 
+                              placeholder="Summarize the nomination in a few sentences" 
+                              rows="2" 
+                              className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium resize-none" 
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-[12px] font-bold text-brand-dark block">Upload Profile</label>
+                          <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-brand-primary/30 hover:border-brand-primary rounded-lg cursor-pointer bg-brand-primary/5 hover:bg-brand-primary/10 transition-all">
+                            <div className="flex flex-col items-center justify-center pt-4 pb-4">
+                              <svg className="w-5 h-5 text-brand-primary mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                              <p className="text-[13px] font-bold text-brand-dark">Click to upload or drag file here</p>
+                              <p className="text-[11px] text-brand-dark/60 font-medium">PDF, PPT or DOC — max 15MB</p>
+                            </div>
+                            <input type="file" className="hidden" onChange={handleProfileFileChange} />
+                          </label>
+                          {profileDocumentFile && <p className="text-[11px] text-brand-primary font-bold text-center">Selected: {profileDocumentFile.name}</p>}
+                        </div>
+                        </div>
+                      </div>
+                      </div>
+                    )}
 
                     {/* Error Display */}
                     {error && (
@@ -323,45 +522,39 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                   </form>
                 </div>
 
-                {/* Footer with Amount and Upload */}
-                <div className="bg-white px-4 md:px-5 py-3 border-t border-gray-200 shadow-[0_-10px_15px_-3px_rgb(0,0,0,0.05)] z-10 shrink-0">
-                  <div className="max-w-2xl mx-auto">
-                    <div className="bg-[#f8f9fa] rounded-xl p-2.5 md:p-3 mb-2.5">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                        <span className="font-bold text-[13px] text-brand-dark">Total Amount:</span>
-                        <span className="font-bold text-xl md:text-2xl text-brand-primary leading-none">{totalAmount}</span>
+                {/* Footer */}
+                <div className="bg-white px-4 py-4 md:px-6 md:py-5 border-t border-brand-primary/10 shadow-[0_-4px_15px_-3px_rgb(0,0,0,0.05)] z-10 shrink-0">
+                  <div className="w-full mx-auto space-y-2.5">
+                    {currentStep === 3 && (
+                      <div className="flex items-center justify-between bg-brand-primary/5 border border-brand-primary/20 rounded-lg px-3 py-2">
+                        <span className="text-[13px] font-bold text-brand-dark">Total Amount:</span>
+                        <span className="text-lg md:text-xl font-bold text-brand-primary tracking-tight">{totalAmount}</span>
                       </div>
-                      
-                      <div className="space-y-0.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div>
-                          <label className="block text-[12px] font-bold text-brand-dark">Upload Supporting Documents</label>
-                          <p className="text-[10px] font-bold text-brand-dark/70">Company profile & logo (SVG or PNG)</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <label className="cursor-pointer px-2.5 py-1 bg-brand-primary/10 hover:bg-brand-primary/20 text-brand-primary font-semibold text-[11px] rounded border border-brand-primary/20 transition-colors whitespace-nowrap">
-                            Choose File
-                            <input 
-                              type="file" 
-                              accept=".svg,.png" 
-                              onChange={handleFileChange} 
-                              className="hidden" 
-                            />
-                          </label>
-                          <span className="text-[10px] text-gray-500 truncate max-w-[120px]">
-                            {documentFile ? documentFile.name : "No file chosen"}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                    )}
 
-                    <button 
-                      type="submit"
-                      form="nomination-form"
-                      disabled={loading}
-                      className="w-full py-2.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-mono font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0"
-                    >
-                      {loading ? 'SUBMITTING...' : 'SUBMIT DETAILS'}
-                    </button>
+                    <div className="flex items-center gap-3">
+                      {currentStep > 1 && (
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            setError("");
+                            setCurrentStep(prev => prev - 1);
+                          }}
+                          className="px-5 py-2.5 border border-gray-300 text-gray-600 font-bold text-[12px] uppercase tracking-wider rounded-lg transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                        >
+                          Back
+                        </button>
+                      )}
+                      
+                      <button 
+                        type="submit"
+                        form="nomination-form"
+                        disabled={loading}
+                        className="flex-1 py-2.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[12px] uppercase tracking-wider rounded-lg transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0"
+                      >
+                        {currentStep < 3 ? 'NEXT STEP' : (loading ? 'SUBMITTING...' : 'SUBMIT DETAILS')}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

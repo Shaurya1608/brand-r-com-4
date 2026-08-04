@@ -64,7 +64,14 @@ const awardNominationSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  documentUrl: {
+  briefSummary: {
+    type: String,
+    trim: true,
+  },
+  summaryDocumentUrl: {
+    type: String,
+  },
+  profileDocumentUrl: {
     type: String,
     required: true,
   },

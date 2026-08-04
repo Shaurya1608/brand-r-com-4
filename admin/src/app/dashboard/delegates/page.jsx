@@ -1,16 +1,22 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { UserPlus, Search, Download } from 'lucide-react';
+import { UserPlus, Search, Download, QrCode } from 'lucide-react';
 import Cookies from 'js-cookie';
+import DelegateIdCardModal from '@/components/DelegateIdCardModal';
 
 export default function DelegatesPage() {
   const [delegates, setDelegates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterDelegateType, setFilterDelegateType] = useState('all');
+  const [filterRegistrationType, setFilterRegistrationType] = useState('all');
   const [editingDelegate, setEditingDelegate] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
+  
+  const [selectedDelegateForQr, setSelectedDelegateForQr] = useState(null);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
   useEffect(() => {
     fetchDelegates();
@@ -40,11 +46,15 @@ export default function DelegatesPage() {
     }
   };
 
-  const filteredDelegates = delegates.filter(del => 
-    del.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    del.organization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    del.mobileNumber.includes(searchTerm)
-  );
+  const filteredDelegates = delegates.filter(del => {
+    const matchesSearch = del.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          del.organization.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          del.mobileNumber.includes(searchTerm);
+    const matchesDelegateType = filterDelegateType === 'all' || del.delegateType === filterDelegateType;
+    const matchesRegistrationType = filterRegistrationType === 'all' || del.registrationType === filterRegistrationType;
+    
+    return matchesSearch && matchesDelegateType && matchesRegistrationType;
+  });
 
   const handleUpdateDelegate = async (e) => {
     e.preventDefault();
@@ -62,6 +72,7 @@ export default function DelegatesPage() {
           paymentStatus: editingDelegate.paymentStatus,
           registrationType: editingDelegate.registrationType,
           paymentMethod: editingDelegate.paymentMethod,
+          attendeeCategory: editingDelegate.attendeeCategory,
         })
       });
       
@@ -81,57 +92,57 @@ export default function DelegatesPage() {
   };
 
   return (
-    <div className="p-4 md:p-8">
+    <div className="p-4 md:p-6">
       {/* Header section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <UserPlus className="text-[#6a9a38]" />
+          <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <UserPlus className="text-[#6a9a38]" size={20} />
             Delegate Registrations
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Manage all delegate registrations for Brand R.Comm 2026.
           </p>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-full bg-[#6a9a38]/10 flex items-center justify-center">
-              <UserPlus size={16} className="text-[#6a9a38]" />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-5">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-7 h-7 rounded-full bg-[#6a9a38]/10 flex items-center justify-center">
+              <UserPlus size={14} className="text-[#6a9a38]" />
             </div>
-            <h3 className="font-medium text-gray-500 text-sm">Total Registrations</h3>
+            <h3 className="font-medium text-gray-500 text-xs">Total Registrations</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{delegates.length}</p>
+          <p className="text-xl font-bold text-gray-900">{delegates.length}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-              <UserPlus size={16} className="text-blue-600" />
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center">
+              <UserPlus size={14} className="text-blue-600" />
             </div>
-            <h3 className="font-medium text-gray-500 text-sm">Indian Delegates</h3>
+            <h3 className="font-medium text-gray-500 text-xs">Indian Delegates</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{delegates.filter(d => d.delegateType === 'indian').length}</p>
+          <p className="text-xl font-bold text-gray-900">{delegates.filter(d => d.delegateType === 'indian').length}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-              <UserPlus size={16} className="text-purple-600" />
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center">
+              <UserPlus size={14} className="text-purple-600" />
             </div>
-            <h3 className="font-medium text-gray-500 text-sm">Intl Delegates</h3>
+            <h3 className="font-medium text-gray-500 text-xs">Intl Delegates</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{delegates.filter(d => d.delegateType === 'foreign').length}</p>
+          <p className="text-xl font-bold text-gray-900">{delegates.filter(d => d.delegateType === 'foreign').length}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center">
-              <span className="text-yellow-600 font-bold text-sm">₹</span>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-7 h-7 rounded-full bg-yellow-100 flex items-center justify-center">
+              <span className="text-yellow-600 font-bold text-xs">₹</span>
             </div>
-            <h3 className="font-medium text-gray-500 text-sm">Pending Payments</h3>
+            <h3 className="font-medium text-gray-500 text-xs">Pending Payments</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{delegates.filter(d => d.paymentStatus === 'Pending').length}</p>
+          <p className="text-xl font-bold text-gray-900">{delegates.filter(d => d.paymentStatus === 'Pending').length}</p>
         </div>
       </div>
 
@@ -139,15 +150,36 @@ export default function DelegatesPage() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Table Controls */}
         <div className="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="relative max-w-sm w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-            <input 
-              type="text" 
-              placeholder="Search by name, org, or mobile..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all bg-gray-50 focus:bg-white"
-            />
+          <div className="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
+            <div className="relative w-full md:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+              <input 
+                type="text" 
+                placeholder="Search by name, org, or mobile..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all bg-gray-50 focus:bg-white"
+              />
+            </div>
+            <select
+              value={filterDelegateType}
+              onChange={(e) => setFilterDelegateType(e.target.value)}
+              className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all"
+            >
+              <option value="all">All Delegate Types</option>
+              <option value="indian">Indian</option>
+              <option value="foreign">Foreign</option>
+            </select>
+            <select
+              value={filterRegistrationType}
+              onChange={(e) => setFilterRegistrationType(e.target.value)}
+              className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all"
+            >
+              <option value="all">All Registration Types</option>
+              <option value="Online">Online</option>
+              <option value="On-Spot">On-Spot</option>
+              <option value="Group">Group</option>
+            </select>
           </div>
           <button className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
             <Download size={16} />
@@ -160,13 +192,13 @@ export default function DelegatesPage() {
           <table className="w-full text-left text-sm text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-100">
               <tr>
-                <th scope="col" className="px-6 py-4 font-semibold">Date</th>
-                <th scope="col" className="px-6 py-4 font-semibold">Name & Org</th>
-                <th scope="col" className="px-6 py-4 font-semibold">Type</th>
-                <th scope="col" className="px-6 py-4 font-semibold">Contact</th>
-                <th scope="col" className="px-6 py-4 font-semibold">Status</th>
-                <th scope="col" className="px-6 py-4 font-semibold text-right">Payment</th>
-                <th scope="col" className="px-6 py-4 font-semibold text-center">Actions</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Date</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Name & Org</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Type</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Contact</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Status</th>
+                <th scope="col" className="px-4 py-3 font-semibold text-right">Payment</th>
+                <th scope="col" className="px-4 py-3 font-semibold text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -193,18 +225,18 @@ export default function DelegatesPage() {
               ) : (
                 filteredDelegates.map((delegate) => (
                   <tr key={delegate._id} className="bg-white border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 py-2.5 whitespace-nowrap">
                       {new Date(delegate.createdAt).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
                       })}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-2.5">
                       <div className="font-semibold text-gray-900">{delegate.fullName}</div>
                       <div className="text-xs text-gray-500">{delegate.designation} at {delegate.organization}</div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-2.5">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                         delegate.delegateType === 'indian' 
                           ? 'bg-blue-100 text-blue-700' 
@@ -213,11 +245,11 @@ export default function DelegatesPage() {
                         {delegate.delegateType}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-2.5">
                       <div>{delegate.mobileNumber}</div>
                       <div className="text-xs text-gray-400">{delegate.city}, {delegate.stateCountry}</div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-2.5">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                         delegate.status === 'approved' ? 'bg-green-100 text-green-700' :
                         delegate.status === 'rejected' ? 'bg-red-100 text-red-700' :
@@ -226,7 +258,7 @@ export default function DelegatesPage() {
                         {delegate.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-4 py-2.5 text-right">
                       <div className="flex flex-col items-end gap-1">
                         <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                           delegate.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
@@ -247,16 +279,28 @@ export default function DelegatesPage() {
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-center">
-                      <button 
-                        onClick={() => {
-                          setEditingDelegate(delegate);
-                          setIsEditModalOpen(true);
-                        }}
-                        className="text-xs font-medium text-brand-primary hover:text-brand-primary-hover underline"
-                      >
-                        Edit
-                      </button>
+                    <td className="px-4 py-2.5 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <button 
+                          onClick={() => {
+                            setSelectedDelegateForQr(delegate);
+                            setIsQrModalOpen(true);
+                          }}
+                          className="text-[#6a9a38] hover:text-[#52792b] transition-colors p-1"
+                          title="Show QR Code"
+                        >
+                          <QrCode size={16} />
+                        </button>
+                        <button 
+                          onClick={() => {
+                            setEditingDelegate(delegate);
+                            setIsEditModalOpen(true);
+                          }}
+                          className="text-gray-400 hover:text-gray-900 transition-colors text-xs underline"
+                        >
+                          Edit
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -318,17 +362,34 @@ export default function DelegatesPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Registration Type</label>
-                <select 
-                  value={editingDelegate.registrationType || 'Online'}
-                  onChange={(e) => setEditingDelegate({...editingDelegate, registrationType: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] text-blue-600 bg-blue-50/30"
-                >
-                  <option value="Online">Online</option>
-                  <option value="On-Spot">On-Spot</option>
-                  <option value="Group">Group</option>
-                </select>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Registration Type</label>
+                  <select 
+                    value={editingDelegate.registrationType || 'Online'}
+                    onChange={(e) => setEditingDelegate({...editingDelegate, registrationType: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] text-blue-600 bg-blue-50/30"
+                  >
+                    <option value="Online">Online</option>
+                    <option value="On-Spot">On-Spot</option>
+                    <option value="Group">Group</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Attendee Category</label>
+                  <select 
+                    value={editingDelegate.attendeeCategory || 'DELEGATE'}
+                    onChange={(e) => setEditingDelegate({...editingDelegate, attendeeCategory: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                  >
+                    <option value="DELEGATE">Delegate</option>
+                    <option value="SPEAKER">Speaker</option>
+                    <option value="ORGANIZER">Organizer</option>
+                    <option value="SPONSOR">Sponsor</option>
+                    <option value="MEDIA">Media</option>
+                    <option value="AWARDEE">Awardee</option>
+                  </select>
+                </div>
               </div>
 
               <div className="pt-4 flex items-center justify-start gap-3 border-t border-gray-100 mt-6">
@@ -351,6 +412,13 @@ export default function DelegatesPage() {
           </div>
         </div>
       )}
+
+      {/* QR Code / ID Card Modal */}
+      <DelegateIdCardModal 
+        isOpen={isQrModalOpen}
+        onClose={() => setIsQrModalOpen(false)}
+        delegate={selectedDelegateForQr}
+      />
     </div>
   );
 }

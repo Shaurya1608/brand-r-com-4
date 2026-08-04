@@ -136,7 +136,36 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     }
   };
 
-  const totalAmount = delegateType === "indian" ? pricingTier.amount : "USD 250 + Tax";
+  // Amount calculations
+  const baseRs = pricingTier.amountRs;
+  const taxableRs = couponApplied ? baseRs * 0.8 : baseRs;
+  const gstRs = Math.round(taxableRs * 0.18);
+  const finalRs = taxableRs + gstRs;
+
+  const baseUsd = 250;
+  const taxableUsd = couponApplied ? baseUsd * 0.8 : baseUsd;
+  const taxUsd = Math.round(taxableUsd * 0.18);
+  const finalUsd = taxableUsd + taxUsd;
+
+  const finalAmountForApi = delegateType === 'indian' ? finalRs : finalUsd;
+  
+  const formatINR = (val) => new Intl.NumberFormat('en-IN').format(val);
+  
+  const finalAmountString = delegateType === 'indian' 
+    ? `₹ ${formatINR(finalRs)}` 
+    : `USD ${finalUsd}`;
+
+  const totalAmountDisplay = (
+    <div className="flex flex-col items-end">
+      <div className="flex items-center gap-1.5 text-[12px] font-sans font-medium text-brand-dark/75 mb-0.5 tracking-wide">
+        {couponApplied && <span className="line-through text-brand-dark/40">{delegateType === "indian" ? `₹ ${formatINR(baseRs)}` : `USD ${baseUsd}`}</span>}
+        <span>{delegateType === "indian" ? `₹ ${formatINR(taxableRs)}` : `USD ${taxableUsd}`}</span>
+        <span className="text-brand-dark/40">+</span>
+        <span className="text-brand-primary font-bold">{delegateType === "indian" ? `₹ ${formatINR(gstRs)}` : `USD ${taxUsd}`} (18% GST)</span>
+      </div>
+      <span className="font-serif font-bold text-3xl text-brand-dark">{finalAmountString}</span>
+    </div>
+  );
 
   // ── Razorpay checkout handler ──────────────────────────────────────────────
   const handleProceedToPayment = async () => {
@@ -152,7 +181,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           delegateId: registeredDelegateId,
-          amountRs: delegateType === 'indian' ? pricingTier.amountRs : 250,
+          amountRs: finalAmountForApi,
         }),
       });
       const order = await res.json();
@@ -273,7 +302,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       </div>
                       <div className="flex justify-between text-[13px]">
                         <span className="text-brand-dark/60 font-medium">Amount Paid</span>
-                        <span className="font-bold text-brand-primary">{totalAmount}</span>
+                        <span className="font-bold text-brand-primary">{finalAmountString}</span>
                       </div>
                       <div className="flex justify-between text-[13px]">
                         <span className="text-brand-dark/60 font-medium">Payment ID</span>
@@ -336,7 +365,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                         disabled={paymentLoading}
                         className="w-full py-3.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-mono font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
                       >
-                        {paymentLoading ? 'Opening Payment...' : `Proceed To Payment — ${totalAmount}`}
+                        {paymentLoading ? 'Opening Payment...' : `Proceed To Payment — ${finalAmountString}`}
                       </button>
                       <button
                         onClick={() => setSuccess(false)}
@@ -436,24 +465,63 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       </div>
                     </div>
 
-                    {/* Coupon Code */}
-                    <div className="pt-1 border-t border-brand-primary/10">
-                      <label className="flex items-start gap-2.5 cursor-pointer group">
-                        <div className="mt-0.5 flex-shrink-0">
-                          <input
-                            type="checkbox"
-                            checked={couponApplied}
-                            onChange={(e) => setCouponApplied(e.target.checked)}
-                            className="w-4 h-4 rounded border-brand-primary/30 text-brand-primary accent-brand-primary cursor-pointer"
-                          />
+                    {/* Coupon Code - Interactive Offer Card */}
+                    <div className="pt-4 mt-2 border-t border-brand-primary/10">
+                      <div 
+                        onClick={() => setCouponApplied(!couponApplied)}
+                        className={`relative overflow-hidden cursor-pointer transition-all duration-300 rounded-xl border p-4 ${
+                          couponApplied 
+                            ? 'bg-brand-primary/5 border-brand-primary/50 shadow-[0_0_15px_rgba(106,154,56,0.1)]' 
+                            : 'bg-white border-brand-primary/15 hover:border-brand-primary/40 hover:bg-brand-primary/[0.02] hover:shadow-sm'
+                        }`}
+                      >
+                        {/* Decorative bg element */}
+                        {couponApplied && (
+                          <div className="absolute top-0 right-0 w-24 h-24 bg-brand-primary/10 rounded-bl-[100px] -z-10 translate-x-4 -translate-y-4" />
+                        )}
+
+                        <div className="flex items-start gap-3.5 relative z-10">
+                          {/* Custom Checkbox */}
+                          <div className="flex-shrink-0 mt-0.5">
+                            <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all duration-200 ${
+                              couponApplied 
+                                ? 'bg-brand-primary border-brand-primary text-white scale-110 shadow-sm' 
+                                : 'border-brand-primary/30 bg-white text-transparent group-hover:border-brand-primary/50'
+                            }`}>
+                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                          </div>
+                          
+                          {/* Card Content */}
+                          <div className="flex-1">
+                            <div className="flex flex-wrap items-center gap-2 mb-1">
+                              <h4 className={`text-[13px] font-bold transition-colors ${couponApplied ? 'text-brand-primary' : 'text-brand-dark'}`}>
+                                Apply Industry Partner Discount
+                              </h4>
+                              <span className={`inline-flex items-center justify-center px-2 py-0.5 rounded text-[10px] font-bold tracking-widest uppercase border transition-colors ${
+                                couponApplied 
+                                  ? 'bg-brand-primary/10 text-brand-primary border-brand-primary/20' 
+                                  : 'bg-brand-surface text-brand-dark/60 border-brand-primary/10'
+                              }`}>
+                                #IAP2026
+                              </span>
+                            </div>
+                            <p className="text-[12px] text-brand-dark/75 leading-relaxed mb-2">
+                              Check this box to apply your exclusive association partner code and instantly receive an <strong className="text-brand-dark font-extrabold bg-brand-primary/10 px-1 rounded">extra 20% OFF</strong> your registration fee.
+                            </p>
+                            <div className="flex items-start gap-1.5 pt-2 border-t border-brand-primary/10">
+                              <svg className="w-3 h-3 text-brand-primary/60 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              <p className="text-[10px] text-brand-dark/50 leading-snug">
+                                Note: The organizing team may request valid proof of association or affiliation during the registration verification process.
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <span className="text-[13px] text-brand-dark font-medium leading-snug group-hover:text-brand-primary transition-colors">
-                          Coupon Code: <span className="font-bold">#IAP2026</span>
-                        </span>
-                      </label>
-                      <p className="mt-2 text-[11px] text-brand-dark/55 leading-relaxed">
-                        Note: Industry Partners may apply the coupon code to avail the applicable registration discount. The organizing team may request valid proof of association or affiliation during the registration verification process.
-                      </p>
+                      </div>
                     </div>
 
                     {error && <p className="text-red-500 text-[10px] font-bold text-center mt-2">{error}</p>}
@@ -464,7 +532,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                 <div className="bg-white px-5 py-5 border-t border-brand-primary/10 shadow-[0_-4px_6px_-1px_rgb(0,0,0,0.02)] z-10 relative">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                     <span className="font-bold text-[11px] tracking-widest uppercase text-brand-dark">Total Fee</span>
-                    <span className="font-serif font-bold text-2xl text-brand-dark">{totalAmount}</span>
+                    <div className="flex items-center justify-end">{totalAmountDisplay}</div>
                   </div>
                   <button 
                     type="submit"
