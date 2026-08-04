@@ -71,10 +71,10 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
       {/* ID Card Wrapper */}
       <div 
         className="relative bg-white rounded-2xl shadow-2xl overflow-hidden print:shadow-none print:rounded-none"
-        style={{ width: '380px', height: '600px' }} // Standard portrait badge ratio approx
+        style={{ width: '380px', minHeight: '650px' }} // Adjusted height to prevent footer clipping
       >
         {/* The Card Element we will capture for download */}
-        <div ref={cardRef} className="w-full h-full flex flex-col bg-white">
+        <div ref={cardRef} className="w-full h-full min-h-[650px] flex flex-col bg-white">
           
           {/* Header / Brand */}
           <div className="bg-[#0f172a] text-white p-6 pb-8 text-center relative overflow-hidden flex-shrink-0 border-b-4 border-[#6a9a38]">
