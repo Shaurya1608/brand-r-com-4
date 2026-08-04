@@ -23,7 +23,13 @@ app.use(cors({
   credentials: true, // Allow cookies to be sent cross-origin
 }));
 app.use(cookieParser()); // Parse cookies — required for JWT cookie auth
-app.use(express.json()); // Parse JSON bodies
+
+// ── Raw body for Razorpay webhook (MUST be before express.json()) ──
+// Razorpay signature verification requires the exact raw request body as a Buffer.
+// We apply express.raw() only to the webhook path; all other routes use express.json().
+app.use('/api/webhooks/razorpay', express.raw({ type: 'application/json' }));
+
+app.use(express.json()); // Parse JSON bodies (all other routes)
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(morgan('dev')); // Request logging
 
