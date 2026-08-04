@@ -30,11 +30,28 @@ app.use(cookieParser()); // Parse cookies — required for JWT cookie auth
 // We apply express.raw() only to the webhook path; all other routes use express.json().
 app.use('/api/webhooks/razorpay', express.raw({ type: 'application/json' }));
 
-const mongoSanitize = require('express-mongo-sanitize');
+// Express 5 compatible NoSQL query sanitizer (strips $ and . keys without reassigning req.query getter)
+const sanitizeNoSQL = (obj) => {
+  if (!obj || typeof obj !== 'object') return;
+  for (const key of Object.keys(obj)) {
+    if (key.startsWith('$') || key.includes('.')) {
+      delete obj[key];
+    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+      sanitizeNoSQL(obj[key]);
+    }
+  }
+};
+
+const mongoSanitizeMiddleware = (req, res, next) => {
+  if (req.body) sanitizeNoSQL(req.body);
+  if (req.params) sanitizeNoSQL(req.params);
+  if (req.query) sanitizeNoSQL(req.query);
+  next();
+};
 
 app.use(express.json({ limit: '50mb' })); // Parse JSON bodies (all other routes)
 app.use(express.urlencoded({ extended: true, limit: '50mb' })); // Parse URL-encoded bodies
-app.use(mongoSanitize()); // Prevent NoSQL query injection attacks (strips $ and . from req.body/params/query)
+app.use(mongoSanitizeMiddleware); // Prevent NoSQL query injection attacks (Express 5 safe)
 app.use(morgan('dev')); // Request logging
 
 const { apiLimiter } = require('./middlewares/rateLimiter');

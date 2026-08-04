@@ -4,6 +4,7 @@
  * Automatically bypasses rate limits using x-load-test-secret header.
  */
 
+process.env.ENABLE_LOAD_TEST_MODE = 'true';
 const autocannon = require('autocannon');
 
 const TARGET_URL = process.env.TEST_TARGET_URL || 'http://localhost:5001';
@@ -60,8 +61,9 @@ const runFullSuite = async () => {
     // 1. Health check baseline
     await runStage(50, 5, 'Stage 1 — Health Check Baseline (50 Concurrency)', '/api/health');
 
-    // 2. Delegate registration load test (50 -> 100 -> 250 -> 500)
+    // 2. Delegate registration load test (50 -> 100 -> 250)
     const delegateBody = {
+      delegateType: 'indian',
       fullName: 'Load Test Delegate',
       email: 'loadtest@example.com',
       mobileNumber: '+919876543210',
@@ -70,6 +72,8 @@ const runFullSuite = async () => {
       city: 'Delhi',
       stateCountry: 'India',
       pinCode: '110037',
+      address: '123 Test Street, Aerocity',
+      attendeeCategory: 'DELEGATE',
     };
 
     await runStage(50, 5, 'Stage 2 — Delegate Registration (50 Concurrency)', '/api/delegates', 'POST', delegateBody);

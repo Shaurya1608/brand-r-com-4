@@ -13,6 +13,8 @@ router.use('/delegates', delegateRoutes);
 router.use('/nominations', nominationRoutes);
 router.use('/webhooks', webhookRoutes);
 router.use('/sponsorships', sponsorshipRoutes);
-router.use('/speakers', speakerRoutes);
+router.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', timestamp: new Date() });
+});
 
 module.exports = router;
