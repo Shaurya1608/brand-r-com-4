@@ -77,10 +77,10 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
         <div ref={cardRef} className="w-full h-full flex flex-col bg-white">
           
           {/* Header / Brand */}
-          <div className="bg-white text-gray-900 p-6 pb-8 text-center relative overflow-hidden flex-shrink-0">
+          <div className="bg-[#0f172a] text-white p-6 pb-8 text-center relative overflow-hidden flex-shrink-0 border-b-4 border-[#6a9a38]">
             {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-[0.03]" style={{
-              backgroundImage: 'radial-gradient(circle at 2px 2px, #6a9a38 1px, transparent 0)',
+            <div className="absolute inset-0 opacity-[0.05]" style={{
+              backgroundImage: 'radial-gradient(circle at 2px 2px, #ffffff 1px, transparent 0)',
               backgroundSize: '16px 16px'
             }}></div>
             
@@ -88,24 +88,22 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
               <img 
                 src="/logo/brand-r-comm-logo-2.png" 
                 alt="Brand R.Comm" 
-                className="h-20 object-contain mb-3" 
+                className="h-24 object-contain drop-shadow-md mb-2" 
               />
-              <p className="text-xs text-[#6a9a38] font-bold uppercase tracking-widest mt-1">Global Summit 2026</p>
+              <p className="text-[11px] text-[#6a9a38] font-black uppercase tracking-[0.3em] mt-1">Global Summit 2026</p>
             </div>
-            
-            {/* Subtle separator */}
-            <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
           </div>
 
           {/* Attendee Info */}
-          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center -mt-2">
-            <h2 className="text-2xl font-black text-gray-900 mb-1 max-w-[280px] break-words">
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center pt-8">
+            <h2 className="text-3xl font-black text-gray-900 mb-2 uppercase tracking-tight max-w-[280px] break-words leading-tight">
               {delegate.fullName}
             </h2>
-            <p className="text-[15px] font-bold text-gray-500 mb-1">
+            <p className="text-base font-semibold text-gray-500 mb-1">
               {delegate.designation}
             </p>
-            <p className="text-sm font-semibold text-[#6a9a38]">
+            <div className="h-px w-12 bg-gray-200 my-2"></div>
+            <p className="text-sm font-bold text-[#6a9a38] uppercase tracking-wider">
               {delegate.organization}
             </p>
           </div>
