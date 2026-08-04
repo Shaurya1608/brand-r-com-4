@@ -169,6 +169,10 @@ export default function DelegatesPage() {
             Manage all delegate registrations for Brand R.Comm 2026.
           </p>
         </div>
+        <button className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors shadow-sm self-start md:self-auto">
+          <Download size={16} />
+          Export CSV
+        </button>
       </div>
 
       {/* Stats Cards */}
@@ -292,10 +296,6 @@ export default function DelegatesPage() {
             >
               <Plus size={16} />
               Add Delegate
-            </button>
-            <button className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-              <Download size={16} />
-              Export CSV
             </button>
           </div>
         </div>
