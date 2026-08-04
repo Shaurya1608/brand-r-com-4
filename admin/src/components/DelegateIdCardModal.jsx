@@ -135,8 +135,9 @@ export default function DelegateIdCardModal({ isOpen, onClose, delegate }) {
           </div>
 
           {/* Role/Category Footer */}
-          <div className="h-16 flex items-center justify-center bg-[#6a9a38]">
-            <span className="text-xl font-black text-white uppercase tracking-[0.2em]">
+          <div className="h-[72px] flex flex-col items-center justify-center bg-[#6a9a38] border-t-2 border-[#52792b]">
+            <span className="text-[9px] text-white/80 uppercase tracking-[0.3em] font-bold mb-0.5">Category</span>
+            <span className="text-xl font-black text-white uppercase tracking-[0.2em] leading-none">
               {delegate.attendeeCategory?.replace('_', ' ') || 'DELEGATE'}
             </span>
           </div>
