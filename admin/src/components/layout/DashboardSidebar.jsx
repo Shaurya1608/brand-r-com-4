@@ -68,7 +68,7 @@ export default function DashboardSidebar() {
           </div>
         </div>
 
-        <nav className="flex-1 px-2 md:px-4 py-5 space-y-1 md:space-y-1.5 overflow-y-auto relative z-10">
+        <nav className="flex-1 pl-3 md:pl-6 pr-0 py-6 space-y-1.5 overflow-y-auto relative z-10">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -76,15 +76,25 @@ export default function DashboardSidebar() {
               <Link 
                 key={item.name} 
                 href={item.href}
-                className={`flex items-center justify-center md:justify-start gap-3 px-0 md:px-4 py-2.5 md:py-2.5 rounded-full text-[12px] font-medium transition-all duration-200 group ${
+                className={`flex items-center justify-center md:justify-start gap-3.5 pl-0 md:pl-5 py-3 rounded-l-full text-[13px] font-medium transition-all duration-300 group relative ${
                   isActive 
-                    ? 'bg-white text-[#6a9a38] shadow-sm transform md:scale-[1.02]' 
-                    : 'text-white/80 hover:bg-white/10 hover:text-white'
+                    ? 'bg-gray-50 text-[#6a9a38] shadow-[-4px_4px_15px_rgba(0,0,0,0.05)]' 
+                    : 'text-white/80 hover:bg-white/15 hover:text-white mr-3 md:mr-6 rounded-r-full'
                 }`}
                 title={item.name}
               >
-                <Icon size={16} className={`${isActive ? 'text-[#6a9a38]' : 'text-white/70'} group-hover:scale-110 transition-transform`} />
-                <span className="hidden md:block">{item.name}</span>
+                <div className="flex items-center justify-center md:justify-start w-full gap-3.5">
+                  <Icon size={18} className={`${isActive ? 'text-[#6a9a38]' : 'text-white/70'} transition-transform duration-300 group-hover:scale-110`} />
+                  <span className="hidden md:block tracking-wide">{item.name}</span>
+                </div>
+                {isActive && (
+                  <>
+                    {/* Top inner curve illusion */}
+                    <div className="hidden md:block absolute -top-5 right-0 w-5 h-5 bg-transparent rounded-br-xl shadow-[5px_5px_0_0_#f9fafb]"></div>
+                    {/* Bottom inner curve illusion */}
+                    <div className="hidden md:block absolute -bottom-5 right-0 w-5 h-5 bg-transparent rounded-tr-xl shadow-[5px_-5px_0_0_#f9fafb]"></div>
+                  </>
+                )}
               </Link>
             );
           })}
