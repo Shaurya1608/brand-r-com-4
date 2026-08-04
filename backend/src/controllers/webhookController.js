@@ -65,9 +65,9 @@ exports.handleRazorpayWebhook = async (req, res) => {
 
       if (delegate) {
         console.log(`✅ Delegate payment captured: ${delegate.fullName} (${paymentId})`);
-        if (!delegate.emailSent) {
-          sendDelegateConfirmationEmail(delegate).catch(err => console.error('Webhook email error:', err));
-          delegate.emailSent = true;
+        if (!delegate.paidEmailSent) {
+          sendDelegateConfirmationEmail(delegate).catch(err => console.error('Webhook paid email error:', err));
+          delegate.paidEmailSent = true;
           await delegate.save();
         }
         return;
@@ -96,10 +96,17 @@ exports.handleRazorpayWebhook = async (req, res) => {
       const payment = event.payload.payment.entity;
       const orderId = payment.order_id;
 
-      await DelegateRegistration.findOneAndUpdate(
+      const failedDelegate = await DelegateRegistration.findOneAndUpdate(
         { razorpayOrderId: orderId },
-        { paymentStatus: 'Failed' }
+        { paymentStatus: 'Failed' },
+        { new: true }
       );
+
+      if (failedDelegate && !failedDelegate.failedEmailSent) {
+        sendDelegateConfirmationEmail(failedDelegate).catch(err => console.error('Webhook failed email error:', err));
+        failedDelegate.failedEmailSent = true;
+        await failedDelegate.save();
+      }
 
       await AwardNomination.findOneAndUpdate(
         { razorpayOrderId: orderId },

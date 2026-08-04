@@ -9,7 +9,7 @@ const getResendInstance = () => {
 };
 
 /**
- * Send delegate registration confirmation email via Resend
+ * Send delegate registration & payment status update email via Resend
  * @param {Object} delegate - The delegate database object
  */
 const sendDelegateConfirmationEmail = async (delegate) => {
@@ -27,9 +27,25 @@ const sendDelegateConfirmationEmail = async (delegate) => {
 
     const senderEmail = process.env.RESEND_FROM_EMAIL || 'BRAND R.Comm 2026 <onboarding@resend.dev>';
     const isPaid = delegate.paymentStatus === 'Paid';
-    const statusBadge = isPaid 
-      ? `<span class="badge-paid">Paid</span>`
-      : `<span style="background: #fef08a; color: #854d0e; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">Pending</span>`;
+    const isFailed = delegate.paymentStatus === 'Failed';
+
+    let subject = `🎉 Registration Received: BRAND R.Comm Summit 2026 (${delegate.fullName})`;
+    let messageText = `Thank you for registering for <strong>BRAND R.Comm 2026</strong>! Your registration details have been successfully received. We are excited to have you join us for the summit.`;
+    let statusBadge = `<span style="background: #fef08a; color: #854d0e; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">Pending</span>`;
+
+    if (isPaid) {
+      subject = `✅ Payment Confirmed: BRAND R.Comm Summit 2026 (${delegate.fullName})`;
+      messageText = `Great news! Your payment for <strong>BRAND R.Comm 2026</strong> has been successfully verified. Your delegate pass is fully confirmed!`;
+      statusBadge = `<span style="background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">Paid</span>`;
+    } else if (isFailed) {
+      subject = `⚠️ Payment Failed: BRAND R.Comm Summit 2026 (${delegate.fullName})`;
+      messageText = `Your payment attempt for <strong>BRAND R.Comm 2026</strong> could not be completed. Your registration details remain safely saved with us as pending.`;
+      statusBadge = `<span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">Failed</span>`;
+    }
+
+    const formattedAmount = delegate.delegateType === 'foreign' 
+      ? `USD ${delegate.amountPaid || 0}` 
+      : `₹${(delegate.amountPaid || 0).toLocaleString('en-IN')}`;
 
     const htmlContent = `
     <!DOCTYPE html>
@@ -37,7 +53,7 @@ const sendDelegateConfirmationEmail = async (delegate) => {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Registration Confirmed - BRAND R.Comm 2026</title>
+      <title>${subject}</title>
       <style>
         body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 0; color: #1a1a1a; }
         .container { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
@@ -49,7 +65,6 @@ const sendDelegateConfirmationEmail = async (delegate) => {
         .message { font-size: 15px; line-height: 1.6; color: #4a5568; margin-bottom: 24px; }
         .details-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
         .details-card h3 { margin-top: 0; margin-bottom: 16px; font-size: 15px; color: #6a9a38; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #6a9a38; padding-bottom: 8px; display: inline-block; }
-        .badge-paid { background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block; }
         .event-info { background: #1a202c; color: #ffffff; padding: 20px; border-radius: 12px; margin-bottom: 24px; text-align: center; }
         .event-info h4 { margin: 0 0 8px; font-size: 16px; color: #a3e635; text-transform: uppercase; }
         .event-info p { margin: 4px 0; font-size: 13px; color: #cbd5e1; }
@@ -67,7 +82,7 @@ const sendDelegateConfirmationEmail = async (delegate) => {
         <div class="content">
           <div class="greeting">Dear ${delegate.fullName},</div>
           <div class="message">
-            Thank you for registering for <strong>BRAND R.Comm 2026</strong>! Your registration details have been successfully received. We are excited to have you join us for the summit!
+            ${messageText}
           </div>
 
           <div class="details-card">
@@ -135,7 +150,7 @@ const sendDelegateConfirmationEmail = async (delegate) => {
     const { data, error } = await resend.emails.send({
       from: senderEmail,
       to: [delegate.email],
-      subject: `🎉 Registration Confirmed: BRAND R.Comm Summit 2026 (${delegate.fullName})`,
+      subject: subject,
       html: htmlContent,
     });
 
@@ -147,10 +162,10 @@ const sendDelegateConfirmationEmail = async (delegate) => {
       return { success: false, error: error.message };
     }
 
-    console.log(`✉️ Delegate confirmation email sent successfully to ${delegate.email}`);
+    console.log(`✉️ Delegate email (${delegate.paymentStatus}) sent successfully to ${delegate.email}`);
     return { success: true, data };
   } catch (error) {
-    console.error('❌ Error sending delegate confirmation email via Resend:', error);
+    console.error('❌ Error sending delegate email via Resend:', error);
     return { success: false, error: error.message };
   }
 };

@@ -36,10 +36,13 @@ exports.registerDelegate = async (req, res) => {
       isManuallyCreated: isManuallyCreated || false,
     });
 
-    // Send confirmation email via Resend immediately upon form submission
-    sendDelegateConfirmationEmail(newDelegate).catch(err => console.error('Error sending initial registration email:', err));
-    newDelegate.emailSent = true;
-    await newDelegate.save();
+    // Send initial registration email via Resend immediately upon form submission
+    if (!newDelegate.initialEmailSent) {
+      sendDelegateConfirmationEmail(newDelegate).catch(err => console.error('Error sending initial registration email:', err));
+      newDelegate.initialEmailSent = true;
+      newDelegate.emailSent = true;
+      await newDelegate.save();
+    }
 
     res.status(201).json({
       success: true,
@@ -124,9 +127,13 @@ exports.updateDelegate = async (req, res) => {
 
     const updatedDelegate = await delegate.save();
 
-    if (updatedDelegate.paymentStatus === 'Paid' && !updatedDelegate.emailSent) {
-      sendDelegateConfirmationEmail(updatedDelegate).catch(err => console.error('Error sending email:', err));
-      updatedDelegate.emailSent = true;
+    if (updatedDelegate.paymentStatus === 'Paid' && !updatedDelegate.paidEmailSent) {
+      sendDelegateConfirmationEmail(updatedDelegate).catch(err => console.error('Error sending paid email:', err));
+      updatedDelegate.paidEmailSent = true;
+      await updatedDelegate.save();
+    } else if (updatedDelegate.paymentStatus === 'Failed' && !updatedDelegate.failedEmailSent) {
+      sendDelegateConfirmationEmail(updatedDelegate).catch(err => console.error('Error sending failed email:', err));
+      updatedDelegate.failedEmailSent = true;
       await updatedDelegate.save();
     }
 
@@ -236,10 +243,10 @@ exports.verifyPayment = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Delegate not found' });
     }
 
-    // Send confirmation email via Resend if not already sent
-    if (!delegate.emailSent) {
-      sendDelegateConfirmationEmail(delegate).catch(err => console.error('Error sending confirmation email:', err));
-      delegate.emailSent = true;
+    // Send paid confirmation email via Resend if not already sent
+    if (!delegate.paidEmailSent) {
+      sendDelegateConfirmationEmail(delegate).catch(err => console.error('Error sending paid confirmation email:', err));
+      delegate.paidEmailSent = true;
       await delegate.save();
     }
 

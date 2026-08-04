@@ -97,6 +97,18 @@ const delegateRegistrationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  initialEmailSent: {
+    type: Boolean,
+    default: false,
+  },
+  paidEmailSent: {
+    type: Boolean,
+    default: false,
+  },
+  failedEmailSent: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true 
 });
