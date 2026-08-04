@@ -1,9 +1,20 @@
 const rateLimit = require('express-rate-limit');
 
+// Bypass function for safe Phase 8 load testing (when header or ENV is present)
+const skipIfLoadTesting = (req) => {
+  if (process.env.ENABLE_LOAD_TEST_MODE === 'true') return true;
+  const secretHeader = req.headers['x-load-test-secret'];
+  if (secretHeader && secretHeader === (process.env.LOAD_TEST_SECRET || 'brandrcomm_loadtest_2026')) {
+    return true;
+  }
+  return false;
+};
+
 // General API rate limiter (protects overall server load)
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 300, // 300 requests per 15 mins per IP
+  skip: skipIfLoadTesting,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -16,6 +27,7 @@ const apiLimiter = rateLimit({
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 10, // Max 10 login attempts per 15 mins per IP
+  skip: skipIfLoadTesting,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -28,6 +40,7 @@ const authLimiter = rateLimit({
 const registrationLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 20, // Max 20 submissions per 15 mins per IP
+  skip: skipIfLoadTesting,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -40,6 +53,7 @@ const registrationLimiter = rateLimit({
 const orderLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 15, // Max 15 order attempts per 15 mins per IP
+  skip: skipIfLoadTesting,
   standardHeaders: true,
   legacyHeaders: false,
   message: {

@@ -1,6 +1,10 @@
 const { Resend } = require('resend');
 
 const getResendInstance = () => {
+  if (process.env.ENABLE_LOAD_TEST_MODE === 'true') {
+    console.log('🧪 Load Test Mode active: Mocking Resend email sending (0 API calls sent).');
+    return null;
+  }
   if (!process.env.RESEND_API_KEY) {
     console.warn('⚠️ RESEND_API_KEY is missing in environment variables.');
     return null;

@@ -1,10 +1,8 @@
 const crypto = require('crypto');
 const DelegateRegistration = require('../models/DelegateRegistration');
 const AwardNomination = require('../models/AwardNomination');
+const ProcessedWebhookEvent = require('../models/ProcessedWebhookEvent');
 const { sendDelegateConfirmationEmail, sendNominationConfirmationEmail } = require('../services/emailService');
-
-// Idempotency cache for processed webhook event IDs
-const processedEventIds = new Set();
 
 // @desc    Handle Razorpay webhook events
 // @route   POST /api/webhooks/razorpay
@@ -46,19 +44,15 @@ exports.handleRazorpayWebhook = async (req, res) => {
   const eventId = event.id;
   console.log(`Razorpay webhook received: ${eventType} (Event ID: ${eventId})`);
 
-  // Idempotency Check — Ignore duplicate webhooks if event ID was already processed
-  if (eventId && processedEventIds.has(eventId)) {
-    console.log(`ℹ️ Duplicate webhook event ${eventId} received. Already processed — returning 200 OK.`);
-    return res.status(200).json({ success: true, message: 'Event already processed' });
-  }
-
+  // Idempotency Check via MongoDB — Ignore duplicate webhooks across server restarts or multi-instance pods
   if (eventId) {
-    processedEventIds.add(eventId);
-    // Keep in-memory cache bounded to 5,000 recent events
-    if (processedEventIds.size > 5000) {
-      const oldestId = processedEventIds.values().next().value;
-      processedEventIds.delete(oldestId);
+    const existingEvent = await ProcessedWebhookEvent.findOne({ eventId });
+    if (existingEvent) {
+      console.log(`ℹ️ Duplicate webhook event ${eventId} received. Already processed — returning 200 OK.`);
+      return res.status(200).json({ success: true, message: 'Event already processed' });
     }
+    // Save to DB (TTL index will automatically purge it after 7 days)
+    await ProcessedWebhookEvent.create({ eventId, eventType }).catch(err => console.error('Error saving webhook event ID:', err.message));
   }
 
   // ── 3. Respond 200 immediately — Razorpay retries on slow/non-2xx ──
