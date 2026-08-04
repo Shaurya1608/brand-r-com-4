@@ -85,17 +85,79 @@ exports.verifyDelegate = async (req, res) => {
   }
 };
 
-// @desc    Get all delegates
+// @desc    Get all delegates (with Pagination, Search & Stats)
 // @route   GET /api/delegates
 // @access  Private/Admin
 exports.getDelegates = async (req, res) => {
   try {
-    const delegates = await DelegateRegistration.find().sort({ createdAt: -1 });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 25;
+    const search = req.query.search ? req.query.search.trim() : '';
+    const delegateType = req.query.delegateType;
+    const registrationType = req.query.registrationType;
+    const attendeeCategory = req.query.attendeeCategory;
+    const fetchAll = req.query.all === 'true'; // For CSV export
+
+    // Build Mongo search query
+    let query = {};
+
+    if (search) {
+      const searchRegex = new RegExp(search, 'i');
+      query.$or = [
+        { fullName: searchRegex },
+        { email: searchRegex },
+        { organization: searchRegex },
+        { mobileNumber: searchRegex },
+        { designation: searchRegex },
+      ];
+    }
+
+    if (delegateType && delegateType !== 'all') {
+      query.delegateType = delegateType;
+    }
+
+    if (registrationType && registrationType !== 'all') {
+      query.registrationType = registrationType;
+    }
+
+    if (attendeeCategory && attendeeCategory !== 'all') {
+      query.attendeeCategory = attendeeCategory;
+    }
+
+    // Compute Overall Stats concurrently for high performance
+    const [totalCount, indianCount, intlCount, pendingCount] = await Promise.all([
+      DelegateRegistration.countDocuments(),
+      DelegateRegistration.countDocuments({ delegateType: 'indian' }),
+      DelegateRegistration.countDocuments({ delegateType: 'foreign' }),
+      DelegateRegistration.countDocuments({ paymentStatus: 'Pending' }),
+    ]);
+
+    const filteredTotal = await DelegateRegistration.countDocuments(query);
+
+    let delegatesQuery = DelegateRegistration.find(query).sort({ createdAt: -1 });
+
+    if (!fetchAll) {
+      delegatesQuery = delegatesQuery.skip((page - 1) * limit).limit(limit);
+    }
+
+    const delegates = await delegatesQuery;
 
     res.status(200).json({
       success: true,
       count: delegates.length,
-      data: delegates
+      total: filteredTotal,
+      stats: {
+        total: totalCount,
+        indian: indianCount,
+        intl: intlCount,
+        pending: pendingCount,
+      },
+      pagination: fetchAll ? null : {
+        page,
+        limit,
+        totalPages: Math.ceil(filteredTotal / limit),
+      },
+      data: delegates,
     });
   } catch (error) {
     console.error('Error in getDelegates:', error);

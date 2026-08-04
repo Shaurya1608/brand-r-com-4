@@ -27,9 +27,15 @@ export default function DelegatesPage() {
   const [bulkUpdateTargetCategory, setBulkUpdateTargetCategory] = useState('');
   const [bulkUpdateLoading, setBulkUpdateLoading] = useState(false);
 
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(25);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalFiltered, setTotalFiltered] = useState(0);
+  const [stats, setStats] = useState({ total: 0, indian: 0, intl: 0, pending: 0 });
+
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setSelectedDelegates(filteredDelegates.map(d => d._id));
+      setSelectedDelegates(delegates.map(d => d._id));
     } else {
       setSelectedDelegates([]);
     }
@@ -45,12 +51,22 @@ export default function DelegatesPage() {
 
   useEffect(() => {
     fetchDelegates();
-  }, []);
+  }, [page, limit, searchTerm, filterDelegateType, filterRegistrationType, filterCategory]);
 
   const fetchDelegates = async () => {
+    setLoading(true);
     try {
       const token = Cookies.get('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates`, {
+      const params = new URLSearchParams({
+        page,
+        limit,
+        search: searchTerm,
+        delegateType: filterDelegateType,
+        registrationType: filterRegistrationType,
+        attendeeCategory: filterCategory,
+      });
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates?${params.toString()}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -59,7 +75,14 @@ export default function DelegatesPage() {
       const data = await res.json();
       
       if (data.success) {
-        setDelegates(data.data);
+        setDelegates(data.data || []);
+        if (data.stats) setStats(data.stats);
+        if (data.pagination) {
+          setTotalPages(data.pagination.totalPages || 1);
+          setTotalFiltered(data.total || 0);
+        } else {
+          setTotalFiltered(data.data ? data.data.length : 0);
+        }
       } else {
         setError(data.message || 'Failed to fetch delegates');
       }
@@ -70,24 +93,6 @@ export default function DelegatesPage() {
       setLoading(false);
     }
   };
-
-  const filteredDelegates = delegates.filter(del => {
-    const searchLower = searchTerm.toLowerCase();
-    const shortId = del._id ? del._id.toString().slice(-8).toLowerCase() : "";
-    
-    const matchesSearch = del.fullName.toLowerCase().includes(searchLower) ||
-                          (del.email && del.email.toLowerCase().includes(searchLower)) ||
-                          del.organization.toLowerCase().includes(searchLower) ||
-                          del.mobileNumber.includes(searchTerm) ||
-                          shortId.includes(searchLower) ||
-                          (del._id && del._id.toString().toLowerCase().includes(searchLower));
-    
-    const matchesDelegateType = filterDelegateType === 'all' || del.delegateType === filterDelegateType;
-    const matchesRegistrationType = filterRegistrationType === 'all' || del.registrationType === filterRegistrationType;
-    const matchesCategory = filterCategory === 'all' || del.attendeeCategory === filterCategory;
-    
-    return matchesSearch && matchesDelegateType && matchesRegistrationType && matchesCategory;
-  });
 
   const handleBulkUpdateCategory = async () => {
     setBulkUpdateLoading(true);
@@ -186,7 +191,7 @@ export default function DelegatesPage() {
             </div>
             <h3 className="font-medium text-gray-500 text-xs">Total Registrations</h3>
           </div>
-          <p className="text-xl font-bold text-gray-900">{delegates.length}</p>
+          <p className="text-xl font-bold text-gray-900">{stats.total || delegates.length}</p>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
           <div className="flex items-center gap-2 mb-1.5">
@@ -195,7 +200,7 @@ export default function DelegatesPage() {
             </div>
             <h3 className="font-medium text-gray-500 text-xs">Indian Delegates</h3>
           </div>
-          <p className="text-xl font-bold text-gray-900">{delegates.filter(d => d.delegateType === 'indian').length}</p>
+          <p className="text-xl font-bold text-gray-900">{stats.indian}</p>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
           <div className="flex items-center gap-2 mb-1.5">
@@ -204,7 +209,7 @@ export default function DelegatesPage() {
             </div>
             <h3 className="font-medium text-gray-500 text-xs">Intl Delegates</h3>
           </div>
-          <p className="text-xl font-bold text-gray-900">{delegates.filter(d => d.delegateType === 'foreign').length}</p>
+          <p className="text-xl font-bold text-gray-900">{stats.intl}</p>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
           <div className="flex items-center gap-2 mb-1.5">
@@ -213,7 +218,7 @@ export default function DelegatesPage() {
             </div>
             <h3 className="font-medium text-gray-500 text-xs">Pending Payments</h3>
           </div>
-          <p className="text-xl font-bold text-gray-900">{delegates.filter(d => d.paymentStatus === 'Pending').length}</p>
+          <p className="text-xl font-bold text-gray-900">{stats.pending}</p>
         </div>
       </div>
 
@@ -223,138 +228,131 @@ export default function DelegatesPage() {
         <div className="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
             <div className="relative w-full md:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search by name, email, org, mobile, or ID..." 
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+              <input
+                type="text"
+                placeholder="Search by name, email, org, mobile..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all bg-gray-50 focus:bg-white"
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full pl-9 pr-4 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
               />
             </div>
+
             <select
               value={filterDelegateType}
-              onChange={(e) => setFilterDelegateType(e.target.value)}
-              className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all"
+              onChange={(e) => {
+                setFilterDelegateType(e.target.value);
+                setPage(1);
+              }}
+              className="px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] text-gray-700 bg-white"
             >
               <option value="all">All Delegate Types</option>
-              <option value="indian">Indian</option>
-              <option value="foreign">Foreign</option>
+              <option value="indian">Indian Delegates</option>
+              <option value="foreign">Intl Delegates</option>
             </select>
+
             <select
               value={filterRegistrationType}
-              onChange={(e) => setFilterRegistrationType(e.target.value)}
-              className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all"
+              onChange={(e) => {
+                setFilterRegistrationType(e.target.value);
+                setPage(1);
+              }}
+              className="px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] text-gray-700 bg-white"
             >
               <option value="all">All Registration Types</option>
               <option value="Online">Online</option>
               <option value="On-Spot">On-Spot</option>
               <option value="Group">Group</option>
             </select>
+
             <select
               value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all"
+              onChange={(e) => {
+                setFilterCategory(e.target.value);
+                setPage(1);
+              }}
+              className="px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] text-gray-700 bg-white"
             >
               <option value="all">All Categories</option>
               <option value="DELEGATE">Delegate</option>
               <option value="SPEAKER">Speaker</option>
-              <option value="ORGANIZER">Organizer</option>
               <option value="SPONSOR">Sponsor</option>
-              <option value="MEDIA">Media</option>
-              <option value="AWARDEE">Awardee</option>
-              <option value="AWARD_NOMINEE">Award Nominee</option>
+              <option value="VIP">VIP</option>
+              <option value="ORGANIZER">Organizer</option>
             </select>
           </div>
-          <div className="flex items-center gap-3">
+
+          <div className="flex items-center gap-2 self-end md:self-auto">
             {selectedDelegates.length > 0 && (
-              <div className="flex items-center gap-2 bg-[#6a9a38]/10 px-3 py-1.5 rounded-lg border border-[#6a9a38]/20">
-                <span className="text-sm font-medium text-[#6a9a38] whitespace-nowrap">{selectedDelegates.length} selected</span>
-                <select 
-                  className="text-sm border border-[#6a9a38]/30 rounded-md py-1 px-2 text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-[#6a9a38]"
-                  onChange={(e) => {
-                    if (e.target.value) {
-                      setBulkUpdateTargetCategory(e.target.value);
-                      setIsBulkUpdateModalOpen(true);
-                    }
-                    e.target.value = "";
-                  }}
-                  title="Change Category for selected delegates"
-                >
-                  <option value="">Set Category...</option>
-                  <option value="DELEGATE">Delegate</option>
-                  <option value="SPEAKER">Speaker</option>
-                  <option value="ORGANIZER">Organizer</option>
-                  <option value="SPONSOR">Sponsor</option>
-                  <option value="MEDIA">Media</option>
-                  <option value="AWARDEE">Awardee</option>
-                  <option value="AWARD_NOMINEE">Award Nominee</option>
-                </select>
-              </div>
+              <button
+                onClick={() => setIsBulkUpdateModalOpen(true)}
+                className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold text-white bg-[#6a9a38] rounded-lg hover:bg-[#58822d] transition-colors shadow-sm"
+              >
+                <UserPlus size={14} />
+                Assign Category ({selectedDelegates.length})
+              </button>
             )}
-            <button 
+            <button
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#6a9a38] border border-transparent rounded-lg hover:bg-[#52792b] transition-colors whitespace-nowrap"
+              className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold text-white bg-[#6a9a38] rounded-lg hover:bg-[#58822d] transition-colors shadow-sm"
             >
-              <Plus size={16} />
+              <Plus size={14} />
               Add Delegate
             </button>
           </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto overflow-y-auto max-h-[80vh] relative custom-scrollbar">
-          <table className="w-full text-left text-sm text-gray-500 relative">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+        {/* Table Container */}
+        <div className="overflow-x-auto relative">
+          <table className="w-full text-left text-xs text-gray-600">
+            <thead className="text-[11px] font-semibold text-gray-500 uppercase bg-gray-50/80 border-b border-gray-100">
               <tr>
-                <th scope="col" className="px-4 py-3 font-semibold min-w-[48px] max-w-[48px] sticky left-0 z-40 bg-gray-50">
+                <th className="px-4 py-3 min-w-[48px] max-w-[48px] sticky left-0 z-30 bg-gray-50/90">
                   <input 
                     type="checkbox" 
                     onChange={handleSelectAll} 
-                    checked={filteredDelegates.length > 0 && selectedDelegates.length === filteredDelegates.length} 
+                    checked={delegates.length > 0 && selectedDelegates.length === delegates.length} 
                     className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
                   />
                 </th>
-                <th scope="col" className="px-4 py-3 font-semibold min-w-[100px] max-w-[100px] sticky left-[48px] z-40 bg-gray-50">Reg ID</th>
-                <th scope="col" className="px-4 py-3 font-semibold min-w-[110px] max-w-[110px] sticky left-[148px] z-40 bg-gray-50">Date</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap min-w-[220px] max-w-[220px] sticky left-[258px] z-40 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">Full Name</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Email</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Designation</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Organization</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Mobile Number</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">City</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">State / Country</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Pin Code</th>
-                <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Full Address</th>
-                <th scope="col" className="px-4 py-3 font-semibold">Type</th>
-                <th scope="col" className="px-4 py-3 font-semibold">Category</th>
-                <th scope="col" className="px-4 py-3 font-semibold text-right">Payment</th>
-                <th scope="col" className="px-4 py-3 font-semibold text-center">Actions</th>
+                <th className="px-4 py-3 min-w-[100px] max-w-[100px] sticky left-[48px] z-30 bg-gray-50/90">Reg ID</th>
+                <th className="px-4 py-3 min-w-[110px] max-w-[110px] sticky left-[148px] z-30 bg-gray-50/90">Date</th>
+                <th className="px-4 py-3 min-w-[220px] max-w-[220px] sticky left-[258px] z-30 bg-gray-50/90 shadow-[1px_0_0_0_#e5e7eb]">Full Name</th>
+                <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">Designation</th>
+                <th className="px-4 py-3">Organization</th>
+                <th className="px-4 py-3">Mobile Number</th>
+                <th className="px-4 py-3">City</th>
+                <th className="px-4 py-3">State / Country</th>
+                <th className="px-4 py-3">Pin Code</th>
+                <th className="px-4 py-3 min-w-[200px]">Address</th>
+                <th className="px-4 py-3">Type</th>
+                <th className="px-4 py-3">Category</th>
+                <th className="px-4 py-3 text-right">Payment</th>
+                <th className="px-4 py-3 text-center">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td colSpan="15" className="px-6 py-8 text-center">
-                    <div className="flex justify-center items-center">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6a9a38]"></div>
+                  <td colSpan="16" className="px-6 py-12 text-center text-gray-500">
+                    <div className="flex flex-col items-center justify-center gap-2">
+                      <div className="w-6 h-6 border-2 border-[#6a9a38] border-t-transparent rounded-full animate-spin"></div>
+                      <span>Loading delegate registrations...</span>
                     </div>
                   </td>
                 </tr>
-              ) : error ? (
+              ) : delegates.length === 0 ? (
                 <tr>
-                  <td colSpan="15" className="px-6 py-8 text-center text-red-500">
-                    {error}
-                  </td>
-                </tr>
-              ) : filteredDelegates.length === 0 ? (
-                <tr>
-                  <td colSpan="15" className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan="16" className="px-6 py-8 text-center text-gray-500">
                     No delegate registrations found.
                   </td>
                 </tr>
               ) : (
-                filteredDelegates.map((delegate) => (
+                delegates.map((delegate) => (
                   <tr key={delegate._id} className="bg-white border-b border-gray-50 hover:bg-gray-50 transition-colors group">
                     <td className="px-4 py-2.5 min-w-[48px] max-w-[48px] sticky left-0 z-20 bg-white group-hover:bg-gray-50">
                       <input 
@@ -456,7 +454,53 @@ export default function DelegatesPage() {
                 ))
               )}
             </tbody>
-          </table>
+        </div>
+
+        {/* Pagination Bar */}
+        <div className="p-4 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-gray-500 bg-gray-50/50">
+          <div>
+            Showing <span className="font-semibold text-gray-900">{totalFiltered === 0 ? 0 : (page - 1) * limit + 1}</span> to{' '}
+            <span className="font-semibold text-gray-900">{Math.min(page * limit, totalFiltered)}</span> of{' '}
+            <span className="font-semibold text-gray-900">{totalFiltered}</span> registrations
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span>Rows per page:</span>
+              <select
+                value={limit}
+                onChange={(e) => {
+                  setLimit(Number(e.target.value));
+                  setPage(1);
+                }}
+                className="px-2 py-1 border border-gray-200 rounded text-xs text-gray-700 bg-white focus:outline-none"
+              >
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setPage(p => Math.max(p - 1, 1))}
+                disabled={page === 1}
+                className="px-3 py-1 border border-gray-200 rounded-md bg-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 font-medium text-gray-700"
+              >
+                Previous
+              </button>
+              <span className="px-3 py-1 font-semibold text-gray-700">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+                disabled={page >= totalPages}
+                className="px-3 py-1 border border-gray-200 rounded-md bg-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 font-medium text-gray-700"
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
