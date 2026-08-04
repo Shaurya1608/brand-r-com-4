@@ -38,7 +38,7 @@ export default function DashboardSidebar() {
     { name: 'Delegates', href: '/dashboard/delegates', icon: Users },
     { name: 'Nominations', href: '/dashboard/nominations', icon: Award },
     { name: 'Sponsorships', href: '/dashboard/sponsorships', icon: FileText },
-    { name: 'Speakers', href: '/dashboard/speakers', icon: Mic },
+    { name: 'Speaker Interest', href: '/dashboard/speakers', icon: Mic },
   ];
 
   return (

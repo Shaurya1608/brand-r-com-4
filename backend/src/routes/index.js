@@ -6,13 +6,13 @@ const delegateRoutes = require('./delegateRoutes');
 const nominationRoutes = require('./nominationRoutes');
 const webhookRoutes = require('./webhookRoutes');
 const sponsorshipRoutes = require('./sponsorshipRoutes');
-const speakerInterestRoutes = require('./speakerInterestRoutes');
+const speakerRoutes = require('./speakerRoutes');
 
 router.use('/auth', authRoutes);
 router.use('/delegates', delegateRoutes);
 router.use('/nominations', nominationRoutes);
 router.use('/webhooks', webhookRoutes);
 router.use('/sponsorships', sponsorshipRoutes);
-router.use('/speaker-interests', speakerInterestRoutes);
+router.use('/speakers', speakerRoutes);
 
 module.exports = router;

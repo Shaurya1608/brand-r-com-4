@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function SpeakerModal({ isOpen, onClose }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     designation: "",
@@ -21,6 +22,7 @@ export default function SpeakerModal({ isOpen, onClose }) {
       document.body.style.overflow = "hidden";
       // Reset state when opened
       setIsSubmitted(false);
+      setLoading(false);
       setFormData({
         fullName: "",
         designation: "",
@@ -41,9 +43,29 @@ export default function SpeakerModal({ isOpen, onClose }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setLoading(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/speakers/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsSubmitted(true);
+      } else {
+        alert(data.message || 'Failed to submit enquiry. Please try again.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Network error. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleClose = () => {
@@ -204,9 +226,10 @@ export default function SpeakerModal({ isOpen, onClose }) {
                     <div className="pt-2">
                       <button 
                         type="submit"
-                        className="w-full bg-brand-primary hover:bg-[#7ab036] text-white font-bold text-[11px] py-2.5 rounded-lg uppercase tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                        disabled={loading}
+                        className="w-full bg-brand-primary hover:bg-[#7ab036] text-white font-bold text-[11px] py-2.5 rounded-lg uppercase tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-50"
                       >
-                        Submit Enquiry
+                        {loading ? "SUBMITTING..." : "SUBMIT ENQUIRY"}
                       </button>
                     </div>
                   </form>
