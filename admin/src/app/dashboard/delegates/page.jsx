@@ -454,6 +454,7 @@ export default function DelegatesPage() {
                 ))
               )}
             </tbody>
+          </table>
         </div>
 
         {/* Pagination Bar */}
