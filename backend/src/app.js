@@ -10,11 +10,16 @@ const app = express();
 
 // Middleware
 app.use(helmet()); // Security headers
+// Build allowed origins: always include localhost for dev + production URLs from .env
+const allowedOrigins = [
+  'http://localhost:3000',           // frontend dev
+  'http://localhost:3001',           // admin dev
+  process.env.FRONTEND_URL,          // frontend production
+  process.env.ADMIN_URL,             // admin production
+].filter(Boolean);                   // remove undefined/empty values
+
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || 'http://localhost:3000',
-    process.env.ADMIN_URL    || 'http://localhost:3001',
-  ],
+  origin: allowedOrigins,
   credentials: true, // Allow cookies to be sent cross-origin
 }));
 app.use(cookieParser()); // Parse cookies — required for JWT cookie auth
