@@ -1,4 +1,5 @@
 const DelegateRegistration = require('../models/DelegateRegistration');
+const { sendDelegateConfirmationEmail } = require('../services/emailService');
 
 // @desc    Register a new delegate
 // @route   POST /api/delegates
@@ -118,6 +119,12 @@ exports.updateDelegate = async (req, res) => {
 
     const updatedDelegate = await delegate.save();
 
+    if (updatedDelegate.paymentStatus === 'Paid' && !updatedDelegate.emailSent) {
+      sendDelegateConfirmationEmail(updatedDelegate).catch(err => console.error('Error sending email:', err));
+      updatedDelegate.emailSent = true;
+      await updatedDelegate.save();
+    }
+
     res.status(200).json({
       success: true,
       data: updatedDelegate
@@ -222,6 +229,13 @@ exports.verifyPayment = async (req, res) => {
 
     if (!delegate) {
       return res.status(404).json({ success: false, message: 'Delegate not found' });
+    }
+
+    // Send confirmation email via Resend if not already sent
+    if (!delegate.emailSent) {
+      sendDelegateConfirmationEmail(delegate).catch(err => console.error('Error sending confirmation email:', err));
+      delegate.emailSent = true;
+      await delegate.save();
     }
 
     res.status(200).json({

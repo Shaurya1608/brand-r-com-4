@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const DelegateRegistration = require('../models/DelegateRegistration');
 const AwardNomination = require('../models/AwardNomination');
+const { sendDelegateConfirmationEmail } = require('../services/emailService');
 
 // @desc    Handle Razorpay webhook events
 // @route   POST /api/webhooks/razorpay
@@ -64,6 +65,11 @@ exports.handleRazorpayWebhook = async (req, res) => {
 
       if (delegate) {
         console.log(`✅ Delegate payment captured: ${delegate.fullName} (${paymentId})`);
+        if (!delegate.emailSent) {
+          sendDelegateConfirmationEmail(delegate).catch(err => console.error('Webhook email error:', err));
+          delegate.emailSent = true;
+          await delegate.save();
+        }
         return;
       }
 
