@@ -12,6 +12,7 @@ export default function DelegatesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDelegateType, setFilterDelegateType] = useState('all');
   const [filterRegistrationType, setFilterRegistrationType] = useState('all');
+  const [filterCategory, setFilterCategory] = useState('all');
   const [editingDelegate, setEditingDelegate] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -72,8 +73,9 @@ export default function DelegatesPage() {
                           del.mobileNumber.includes(searchTerm);
     const matchesDelegateType = filterDelegateType === 'all' || del.delegateType === filterDelegateType;
     const matchesRegistrationType = filterRegistrationType === 'all' || del.registrationType === filterRegistrationType;
+    const matchesCategory = filterCategory === 'all' || del.attendeeCategory === filterCategory;
     
-    return matchesSearch && matchesDelegateType && matchesRegistrationType;
+    return matchesSearch && matchesDelegateType && matchesRegistrationType && matchesCategory;
   });
 
   const handleUpdateDelegate = async (e) => {
@@ -199,6 +201,20 @@ export default function DelegatesPage() {
               <option value="Online">Online</option>
               <option value="On-Spot">On-Spot</option>
               <option value="Group">Group</option>
+            </select>
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+              className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all"
+            >
+              <option value="all">All Categories</option>
+              <option value="DELEGATE">Delegate</option>
+              <option value="SPEAKER">Speaker</option>
+              <option value="ORGANIZER">Organizer</option>
+              <option value="SPONSOR">Sponsor</option>
+              <option value="MEDIA">Media</option>
+              <option value="AWARDEE">Awardee</option>
+              <option value="AWARD_NOMINEE">Award Nominee</option>
             </select>
           </div>
           <div className="flex items-center gap-3">
