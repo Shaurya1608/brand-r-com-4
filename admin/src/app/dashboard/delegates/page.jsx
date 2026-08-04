@@ -20,6 +20,23 @@ export default function DelegatesPage() {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [selectedDelegates, setSelectedDelegates] = useState([]);
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedDelegates(filteredDelegates.map(d => d._id));
+    } else {
+      setSelectedDelegates([]);
+    }
+  };
+
+  const handleSelect = (id) => {
+    if (selectedDelegates.includes(id)) {
+      setSelectedDelegates(selectedDelegates.filter(d => d !== id));
+    } else {
+      setSelectedDelegates([...selectedDelegates, id]);
+    }
+  };
 
   useEffect(() => {
     fetchDelegates();
@@ -204,6 +221,15 @@ export default function DelegatesPage() {
           <table className="w-full text-left text-sm text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-100">
               <tr>
+                <th scope="col" className="px-4 py-3 font-semibold w-10">
+                  <input 
+                    type="checkbox" 
+                    onChange={handleSelectAll} 
+                    checked={filteredDelegates.length > 0 && selectedDelegates.length === filteredDelegates.length} 
+                    className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
+                  />
+                </th>
+                <th scope="col" className="px-4 py-3 font-semibold">Reg ID</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Date</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Name & Org</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Type</th>
@@ -216,7 +242,7 @@ export default function DelegatesPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-8 text-center">
+                  <td colSpan="9" className="px-6 py-8 text-center">
                     <div className="flex justify-center items-center">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6a9a38]"></div>
                     </div>
@@ -224,19 +250,30 @@ export default function DelegatesPage() {
                 </tr>
               ) : error ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-8 text-center text-red-500">
+                  <td colSpan="9" className="px-6 py-8 text-center text-red-500">
                     {error}
                   </td>
                 </tr>
               ) : filteredDelegates.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan="9" className="px-6 py-8 text-center text-gray-500">
                     No delegate registrations found.
                   </td>
                 </tr>
               ) : (
                 filteredDelegates.map((delegate) => (
                   <tr key={delegate._id} className="bg-white border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                    <td className="px-4 py-2.5">
+                      <input 
+                        type="checkbox" 
+                        checked={selectedDelegates.includes(delegate._id)} 
+                        onChange={() => handleSelect(delegate._id)} 
+                        className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
+                      />
+                    </td>
+                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 font-medium">
+                      #{delegate._id.slice(-8).toUpperCase()}
+                    </td>
                     <td className="px-4 py-2.5 whitespace-nowrap">
                       {new Date(delegate.createdAt).toLocaleDateString('en-US', {
                         year: 'numeric',
