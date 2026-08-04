@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { UserPlus, Search, Download, QrCode } from 'lucide-react';
+import { UserPlus, Search, Download, QrCode, Plus } from 'lucide-react';
 import Cookies from 'js-cookie';
 import DelegateIdCardModal from '@/components/DelegateIdCardModal';
+import AddDelegateModal from '@/components/AddDelegateModal';
 
 export default function DelegatesPage() {
   const [delegates, setDelegates] = useState([]);
@@ -17,6 +18,8 @@ export default function DelegatesPage() {
   
   const [selectedDelegateForQr, setSelectedDelegateForQr] = useState(null);
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useEffect(() => {
     fetchDelegates();
@@ -68,8 +71,6 @@ export default function DelegatesPage() {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          status: editingDelegate.status,
-          paymentStatus: editingDelegate.paymentStatus,
           registrationType: editingDelegate.registrationType,
           paymentMethod: editingDelegate.paymentMethod,
           attendeeCategory: editingDelegate.attendeeCategory,
@@ -181,10 +182,19 @@ export default function DelegatesPage() {
               <option value="Group">Group</option>
             </select>
           </div>
-          <button className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-            <Download size={16} />
-            Export CSV
-          </button>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsAddModalOpen(true)}
+              className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#6a9a38] border border-transparent rounded-lg hover:bg-[#52792b] transition-colors"
+            >
+              <Plus size={16} />
+              Add Delegate
+            </button>
+            <button className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+              <Download size={16} />
+              Export CSV
+            </button>
+          </div>
         </div>
 
         {/* Table */}
@@ -233,7 +243,14 @@ export default function DelegatesPage() {
                       })}
                     </td>
                     <td className="px-4 py-2.5">
-                      <div className="font-semibold text-gray-900">{delegate.fullName}</div>
+                      <div className="font-semibold text-gray-900 flex items-center gap-2">
+                        {delegate.fullName}
+                        {delegate.isManuallyCreated && (
+                          <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[9px] font-bold uppercase tracking-wider rounded" title="Manually created by Admin">
+                            Manual
+                          </span>
+                        )}
+                      </div>
                       <div className="text-xs text-gray-500">{delegate.designation} at {delegate.organization}</div>
                     </td>
                     <td className="px-4 py-2.5">
@@ -324,29 +341,19 @@ export default function DelegatesPage() {
             <form onSubmit={handleUpdateDelegate} className="p-5 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <select 
-                  value={editingDelegate.status}
-                  onChange={(e) => setEditingDelegate({...editingDelegate, status: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                </select>
+                <div className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 text-gray-500 font-medium capitalize">
+                  {editingDelegate.status}
+                </div>
+                <p className="text-xs text-gray-400 mt-1">Status is handled automatically by the backend.</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
-                  <select 
-                    value={editingDelegate.paymentStatus}
-                    onChange={(e) => setEditingDelegate({...editingDelegate, paymentStatus: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Failed">Failed</option>
-                  </select>
+                  <div className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 text-gray-500 font-medium capitalize">
+                    {editingDelegate.paymentStatus}
+                  </div>
+                  <p className="text-xs text-gray-400 mt-1">Managed via Razorpay.</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
@@ -419,6 +426,15 @@ export default function DelegatesPage() {
         isOpen={isQrModalOpen}
         onClose={() => setIsQrModalOpen(false)}
         delegate={selectedDelegateForQr}
+      />
+
+      {/* Add Delegate Modal */}
+      <AddDelegateModal 
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onDelegateAdded={() => {
+          fetchDelegates();
+        }}
       />
     </div>
   );

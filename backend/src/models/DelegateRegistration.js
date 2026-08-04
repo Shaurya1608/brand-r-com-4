@@ -83,6 +83,10 @@ const delegateRegistrationSchema = new mongoose.Schema({
   couponCode: {
     type: String,
   },
+  isManuallyCreated: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true 
 });

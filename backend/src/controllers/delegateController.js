@@ -16,6 +16,7 @@ exports.registerDelegate = async (req, res) => {
       pinCode,
       address,
       couponCode,
+      isManuallyCreated,
     } = req.body;
 
     const newDelegate = await DelegateRegistration.create({
@@ -29,6 +30,7 @@ exports.registerDelegate = async (req, res) => {
       pinCode,
       address,
       couponCode: couponCode || null,
+      isManuallyCreated: isManuallyCreated || false,
     });
 
     res.status(201).json({
