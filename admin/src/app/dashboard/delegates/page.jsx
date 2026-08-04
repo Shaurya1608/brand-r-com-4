@@ -327,7 +327,7 @@ export default function DelegatesPage() {
                 <select 
                   value={editingDelegate.status}
                   onChange={(e) => setEditingDelegate({...editingDelegate, status: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
                 >
                   <option value="pending">Pending</option>
                   <option value="approved">Approved</option>
@@ -341,7 +341,7 @@ export default function DelegatesPage() {
                   <select 
                     value={editingDelegate.paymentStatus}
                     onChange={(e) => setEditingDelegate({...editingDelegate, paymentStatus: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
                   >
                     <option value="Pending">Pending</option>
                     <option value="Paid">Paid</option>
@@ -353,7 +353,7 @@ export default function DelegatesPage() {
                   <select 
                     value={editingDelegate.paymentMethod || 'Online'}
                     onChange={(e) => setEditingDelegate({...editingDelegate, paymentMethod: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
                   >
                     <option value="Online">Online</option>
                     <option value="Online (Razorpay)">Online (Razorpay)</option>
@@ -380,7 +380,7 @@ export default function DelegatesPage() {
                   <select 
                     value={editingDelegate.attendeeCategory || 'DELEGATE'}
                     onChange={(e) => setEditingDelegate({...editingDelegate, attendeeCategory: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
                   >
                     <option value="DELEGATE">Delegate</option>
                     <option value="SPEAKER">Speaker</option>
@@ -388,6 +388,7 @@ export default function DelegatesPage() {
                     <option value="SPONSOR">Sponsor</option>
                     <option value="MEDIA">Media</option>
                     <option value="AWARDEE">Awardee</option>
+                    <option value="AWARD_NOMINEE">Award Nominee</option>
                   </select>
                 </div>
               </div>
@@ -396,7 +397,7 @@ export default function DelegatesPage() {
                 <button 
                   type="submit" 
                   disabled={updateLoading}
-                  className="px-5 py-2 bg-[#b68936] hover:bg-[#a3792b] text-white text-sm font-bold rounded-lg transition-colors shadow-sm disabled:opacity-50"
+                  className="px-5 py-2 bg-[#6a9a38] hover:bg-[#52792b] text-white text-sm font-bold rounded-lg transition-colors shadow-sm disabled:opacity-50"
                 >
                   {updateLoading ? 'Saving...' : 'Save Changes'}
                 </button>

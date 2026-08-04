@@ -67,7 +67,7 @@ const delegateRegistrationSchema = new mongoose.Schema({
   },
   attendeeCategory: {
     type: String,
-    enum: ['DELEGATE', 'SPEAKER', 'ORGANIZER', 'SPONSOR', 'MEDIA', 'AWARDEE'],
+    enum: ['DELEGATE', 'SPEAKER', 'ORGANIZER', 'SPONSOR', 'MEDIA', 'AWARDEE', 'AWARD_NOMINEE'],
     default: 'DELEGATE'
   },
   // Razorpay payment tracking
