@@ -292,7 +292,7 @@ export default function DelegatesPage() {
             )}
             <button 
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#6a9a38] border border-transparent rounded-lg hover:bg-[#52792b] transition-colors"
+              className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#6a9a38] border border-transparent rounded-lg hover:bg-[#52792b] transition-colors whitespace-nowrap"
             >
               <Plus size={16} />
               Add Delegate
