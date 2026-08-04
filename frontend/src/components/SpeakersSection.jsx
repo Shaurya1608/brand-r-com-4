@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import SpeakerInterestModal from "./SpeakerInterestModal";
 
 export default function SpeakersSection() {
   const [showAll, setShowAll] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const speakers = [
     { name: "Shri Parshottam Rupala", designation: "Hon'ble Former Union", company: "Cabinet Minister, GOI", image: "/Speaker photos/Shri Parshottam Rupala.png", imageClass: "object-top scale-125 translate-y-2 group-hover:scale-[1.35]" },
@@ -158,8 +160,16 @@ export default function SpeakersSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex justify-center mt-12"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12"
         >
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setIsModalOpen(true)}
+            className="group flex items-center justify-center space-x-2 px-8 py-3 bg-[#6a9a38] text-white text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-[#52792b] transition-all duration-300 rounded-full shadow-[0_8px_16px_rgba(106,154,56,0.2)] hover:shadow-[0_12px_20px_rgba(106,154,56,0.3)] w-full sm:w-auto"
+          >
+            <span>Express Interest to Speak</span>
+          </motion.button>
           {!showAll ? (
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -187,6 +197,15 @@ export default function SpeakersSection() {
           )}
         </motion.div>
       </div>
+      
+      <AnimatePresence>
+        {isModalOpen && (
+          <SpeakerInterestModal 
+            isOpen={isModalOpen} 
+            onClose={() => setIsModalOpen(false)} 
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

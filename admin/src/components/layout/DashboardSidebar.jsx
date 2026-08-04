@@ -10,7 +10,8 @@ import {
   Settings, 
   LogOut,
   AlertTriangle,
-  UserPlus
+  UserPlus,
+  Mic
 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -37,6 +38,7 @@ export default function DashboardSidebar() {
     { name: 'Delegates', href: '/dashboard/delegates', icon: Users },
     { name: 'Nominations', href: '/dashboard/nominations', icon: Award },
     { name: 'Sponsorships', href: '/dashboard/sponsorships', icon: FileText },
+    { name: 'Speakers', href: '/dashboard/speakers', icon: Mic },
   ];
 
   return (
