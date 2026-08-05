@@ -21,7 +21,7 @@ const sanitizeString = (str, maxLen = 200) => {
 
 // Delegate registration input validator
 const validateDelegateInput = (req, res, next) => {
-  const { fullName, email, mobileNumber, organization, designation, city, stateCountry, pinCode } = req.body;
+  const { fullName, email, mobileNumber, organization, designation, city, stateCountry, pinCode, gstNumber } = req.body;
 
   if (!fullName || typeof fullName !== 'string' || fullName.trim().length < 2 || fullName.length > 150) {
     return res.status(400).json({ success: false, message: 'Please provide a valid full name (2-150 characters).' });
@@ -52,6 +52,7 @@ const validateDelegateInput = (req, res, next) => {
   if (city) req.body.city = sanitizeString(city, 100);
   if (stateCountry) req.body.stateCountry = sanitizeString(stateCountry, 100);
   if (pinCode) req.body.pinCode = sanitizeString(pinCode, 20);
+  if (gstNumber) req.body.gstNumber = sanitizeString(gstNumber, 50).toUpperCase();
 
   next();
 };

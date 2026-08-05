@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { X, User, Phone, Briefcase, Building2, MapPin, Globe, Map, Hash, Info, Mail } from 'lucide-react';
 
 // Helper for Input fields with icons
-const InputField = ({ icon: Icon, label, name, type = "text", placeholder, colSpan = 1, formData, onChange }) => (
+const InputField = ({ icon: Icon, label, name, type = "text", placeholder, colSpan = 1, required = true, formData, onChange }) => (
   <div className={`col-span-1 md:col-span-${colSpan}`}>
-    <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">{label} *</label>
+    <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">{label} {required && '*'}</label>
     <div className="relative group">
       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#6a9a38] transition-colors">
         <Icon size={18} />
@@ -14,7 +14,7 @@ const InputField = ({ icon: Icon, label, name, type = "text", placeholder, colSp
         name={name}
         value={formData[name]}
         onChange={onChange}
-        required
+        required={required}
         placeholder={placeholder}
         className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] transition-all"
       />
@@ -33,6 +33,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
     city: '',
     stateCountry: '',
     pinCode: '',
+    gstNumber: '',
     address: ''
   });
   
@@ -65,12 +66,14 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
         setFormData({
           delegateType: 'indian',
           fullName: '',
+          email: '',
           designation: '',
           mobileNumber: '',
           organization: '',
           city: '',
           stateCountry: '',
           pinCode: '',
+          gstNumber: '',
           address: ''
         });
       } else {
@@ -174,6 +177,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
                 <InputField icon={Map} label="City" name="city" placeholder="New Delhi" formData={formData} onChange={handleChange} />
                 <InputField icon={Globe} label="State / Country" name="stateCountry" placeholder="Delhi, India" formData={formData} onChange={handleChange} />
                 <InputField icon={Hash} label="Pin Code" name="pinCode" placeholder="110001" formData={formData} onChange={handleChange} />
+                <InputField icon={Hash} label="Company GST No. (Optional)" name="gstNumber" placeholder="27AAAAA0000A1Z5" required={false} formData={formData} onChange={handleChange} />
               </div>
             </div>
 

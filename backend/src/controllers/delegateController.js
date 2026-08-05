@@ -16,6 +16,7 @@ exports.registerDelegate = async (req, res) => {
       city,
       stateCountry,
       pinCode,
+      gstNumber,
       address,
       couponCode,
       isManuallyCreated,
@@ -31,6 +32,7 @@ exports.registerDelegate = async (req, res) => {
       city,
       stateCountry,
       pinCode,
+      gstNumber: gstNumber ? gstNumber.trim().toUpperCase() : '',
       address,
       couponCode: couponCode || null,
       isManuallyCreated: isManuallyCreated || false,
@@ -109,6 +111,7 @@ exports.getDelegates = async (req, res) => {
         { organization: searchRegex },
         { mobileNumber: searchRegex },
         { designation: searchRegex },
+        { gstNumber: searchRegex },
       ];
     }
 

@@ -145,6 +145,7 @@ export default function DelegatesPage() {
           paymentMethod: editingDelegate.paymentMethod,
           attendeeCategory: editingDelegate.attendeeCategory,
           email: editingDelegate.email,
+          gstNumber: editingDelegate.gstNumber,
         })
       });
       
@@ -163,6 +164,50 @@ export default function DelegatesPage() {
     }
   };
 
+  const handleExportCSV = async () => {
+    try {
+      const token = Cookies.get('admin_token');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates?all=true`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (!data.success || !data.data) return alert('Failed to export CSV');
+
+      const headers = ["Reg ID", "Full Name", "Email", "Designation", "Organization", "Mobile Number", "City", "State/Country", "Pin Code", "Company GST No", "Address", "Delegate Type", "Category", "Payment Status", "Payment ID", "Date"];
+      
+      const rows = data.data.map(d => [
+        `"#${d._id.slice(-8).toUpperCase()}"`,
+        `"${(d.fullName || '').replace(/"/g, '""')}"`,
+        `"${(d.email || '').replace(/"/g, '""')}"`,
+        `"${(d.designation || '').replace(/"/g, '""')}"`,
+        `"${(d.organization || '').replace(/"/g, '""')}"`,
+        `"${(d.mobileNumber || '').replace(/"/g, '""')}"`,
+        `"${(d.city || '').replace(/"/g, '""')}"`,
+        `"${(d.stateCountry || '').replace(/"/g, '""')}"`,
+        `"${(d.pinCode || '').replace(/"/g, '""')}"`,
+        `"${(d.gstNumber || '').replace(/"/g, '""')}"`,
+        `"${(d.address || '').replace(/"/g, '""')}"`,
+        `"${d.delegateType || ''}"`,
+        `"${d.attendeeCategory || 'DELEGATE'}"`,
+        `"${d.paymentStatus || ''}"`,
+        `"${d.razorpayPaymentId || ''}"`,
+        `"${new Date(d.createdAt).toLocaleDateString('en-IN')}"`
+      ]);
+
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `delegates_export_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error(err);
+      alert('Error exporting CSV');
+    }
+  };
+
   return (
     <div className="p-4 md:p-6">
       {/* Header section */}
@@ -176,7 +221,7 @@ export default function DelegatesPage() {
             Manage all delegate registrations for Brand R.Comm 2026.
           </p>
         </div>
-        <button className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors shadow-sm self-start md:self-auto">
+        <button onClick={handleExportCSV} className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors shadow-sm self-start md:self-auto">
           <Download size={16} />
           Export CSV
         </button>
@@ -328,6 +373,7 @@ export default function DelegatesPage() {
                 <th className="px-4 py-3">City</th>
                 <th className="px-4 py-3">State / Country</th>
                 <th className="px-4 py-3">Pin Code</th>
+                <th className="px-4 py-3 min-w-[140px]">GST No.</th>
                 <th className="px-4 py-3 min-w-[200px]">Address</th>
                 <th className="px-4 py-3">Type</th>
                 <th className="px-4 py-3">Category</th>
@@ -391,6 +437,7 @@ export default function DelegatesPage() {
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.city}</td>
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.stateCountry}</td>
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.pinCode}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap font-mono text-[11px] uppercase font-medium text-gray-700">{delegate.gstNumber || '-'}</td>
                     <td className="px-4 py-2.5 min-w-[200px] truncate max-w-[300px]" title={delegate.address}>{delegate.address}</td>
                     <td className="px-4 py-2.5">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap ${
@@ -519,13 +566,27 @@ export default function DelegatesPage() {
             
             <form onSubmit={handleUpdateDelegate} className="p-5 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input 
-                  type="email"
-                  value={editingDelegate.email || ''}
-                  onChange={(e) => setEditingDelegate({...editingDelegate, email: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] mb-4"
-                />
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input 
+                      type="email"
+                      value={editingDelegate.email || ''}
+                      onChange={(e) => setEditingDelegate({...editingDelegate, email: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Company GST No.</label>
+                    <input 
+                      type="text"
+                      placeholder="e.g. 27AAAAA0000A1Z5"
+                      value={editingDelegate.gstNumber || ''}
+                      onChange={(e) => setEditingDelegate({...editingDelegate, gstNumber: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 uppercase focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                    />
+                  </div>
+                </div>
                 
                 <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <select 

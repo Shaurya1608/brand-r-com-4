@@ -47,6 +47,11 @@ const delegateRegistrationSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  gstNumber: {
+    type: String,
+    trim: true,
+    default: '',
+  },
   address: {
     type: String,
     required: true,
