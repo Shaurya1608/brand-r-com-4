@@ -10,6 +10,13 @@ export default function LastSeasonWinnersSection() {
   const initialWinners = [
     { isHeading: true, text: "JURY-BASED AWARDS: HONOURING INDUSTRY LEADERSHIP AND LEGACY", gridClass: "col-span-1 md:col-span-2 lg:col-span-6" },
     {
+      award: "LIFETIME ACHIEVEMENT AWARD 2024",
+      name: "Dr. RB SINGH",
+      title: "",
+      company: "",
+      image: "/Awards/LIFETIME ACHIEVEMENT AWARD 2024-Dr. RB SINGH.jpeg"
+    },
+    {
       award: "LIFETIME ACHIEVEMENT AWARD",
       name: "DR. R. G. AGARWAL",
       title: "Chairman Emeritus",
@@ -41,7 +48,15 @@ export default function LastSeasonWinnersSection() {
     { award: "NEXTGEN SEED AWARD", name: "SAVANNAH SEEDS PVT. LTD.", title: "", company: "", image: "/Awards/IMG_7084.JPG" },
     { award: "SUSTAINABILITY CHAMPION AWARD", name: "ZYDEX INDUSTRIES", title: "", company: "", image: "/Awards/IMG_7020.JPG", gridClass: "lg:col-start-3 lg:col-span-2" },
     { isHeading: true, text: "NOMINATION-BASED AWARDS: CELEBRATING CAMPAIGN AND CORPORATE EXCELLENCE", gridClass: "col-span-1 md:col-span-2 lg:col-span-6" },
-    { award: "COMPANY OF THE YEAR", name: "ARIES AGRO LIMITED", title: "", company: "", image: "/Awards/IMG_7014.JPG" },
+    { award: "DIGITAL MARKETING AWARD 2024", name: "ARIES AGRO LIMITED", title: "", company: "", image: "/others/Aries Agro.JPG.jpeg" },
+    { award: "RURAL ENGAGEMENT AWARD 2024", name: "CROP CARE FEDERATION OF INDIA", title: "", company: "", image: "/others/Crop Care Federation.JPG.jpeg" },
+    { award: "INTEGRATED COMMUNICATION AWARD 2024", name: "CROPLIFE INDIA", title: "", company: "", image: "/others/CropLife India.JPG.jpeg" },
+    { award: "PR CAMPAIGN AWARD 2024", name: "IPL", title: "", company: "", image: "/others/IPL.jpeg" },
+    { award: "BRAND CAMPAIGN (TVC) AWARD 2024", name: "KRISHAJ", title: "", company: "", image: "/others/Krishi Rasayan.JPG.jpeg" },
+    { award: "EMERGING PARTICIPANT FOR RURAL ENGAGEMENT AWARD 2024", name: "DHANESHA", title: "", company: "", image: "/others/Dhanesha Crop Science.JPG.jpeg" },
+    { award: "RURAL ENGAGEMENT AWARD 2024", name: "PARLE BIO CARE", title: "", company: "", image: "/others/PARLE BIO CARE.jpeg" },
+    { award: "INTEGRATED COMMUNICATION AWARD 2024", name: "SYNGENTA", title: "", company: "", image: "/others/Syngenta.JPG.jpeg" },
+    { award: "COMPANY OF THE YEAR", name: "ARIES AGRO LIMITED", title: "", company: "", image: "/Awards/Company of the year 2025 - Aries agro limited.JPG" },
     { award: "EMERGING COMPANY OF THE YEAR", name: "BHARAT CERTIS AGRISCIENCE LTD.", title: "", company: "", image: "/Awards/IMG_6948.JPG" },
     { award: "BEST RURAL ENGAGEMENT", name: "GENCREST BIO PRODUCTS", title: "", company: "", image: "/Awards/image.png" },
     { award: "BEST PR CAMPAIGN", name: "INSECTICIDES INDIA LIMITED", title: "", company: "", image: "/Awards/IMG_6902.JPG" },
@@ -50,8 +65,8 @@ export default function LastSeasonWinnersSection() {
     { award: "BEST INTEGRATED COMMUNICATION AWARD", name: "ICL INDIA", title: "", company: "", image: "/Awards/IMG_6921.JPG" },
     { award: "BEST OUTDOOR CAMPAIGN", name: "VARSHA BIOSCIENCE & TECHNOLOGY", title: "", company: "", image: "/Awards/IMG_6890.JPG" },
     { award: "BEST COMMUNICATOR (MALE)", name: "MR. R.K. GOYAL", title: "", company: "VERDESIAN USA", image: "/Awards/IMG_6926.JPG" },
-    { award: "BEST COMMUNICATOR (FEMALE)", name: "MS. SARITA BAHL", title: "", company: "", image: "/Awards/IMG_6936.JPG", gridClass: "lg:col-start-2 lg:col-span-2" },
-    { award: "AI LEADERSHIP EXCELLENCE", name: "COROMANDEL INTERNATIONAL LIMITED", title: "(CROP PROTECTION CHEMICALS)", company: "", image: "/Awards/IMG_6940.JPG", gridClass: "lg:col-span-2" }
+    { award: "BEST COMMUNICATOR (FEMALE)", name: "MS. SARITA BAHL", title: "", company: "", image: "/Awards/IMG_6936.JPG" },
+    { award: "AI LEADERSHIP EXCELLENCE", name: "COROMANDEL INTERNATIONAL LIMITED", title: "(CROP PROTECTION CHEMICALS)", company: "", image: "/Awards/IMG_6940.JPG", gridClass: "lg:col-start-3 lg:col-span-2" }
   ];
 
   const displayedWinners = showAll ? [...initialWinners, ...moreWinners] : initialWinners;
@@ -97,7 +112,11 @@ export default function LastSeasonWinnersSection() {
           <AnimatePresence>
             {displayedWinners.map((winner, idx) => {
               const defaultGridClass = "col-span-1 md:col-span-1 lg:col-span-2";
-              const itemGridClass = winner.gridClass || defaultGridClass;
+              let itemGridClass = winner.gridClass || defaultGridClass;
+              
+              if (!showAll && idx === displayedWinners.length - 1) {
+                itemGridClass = "col-span-1 md:col-span-1 lg:col-start-3 lg:col-span-2";
+              }
 
               if (winner.isHeading) {
                 return (
@@ -144,7 +163,7 @@ export default function LastSeasonWinnersSection() {
                 >
                   {/* Banner */}
                 <div className="w-full text-brand-primary text-center font-bold text-[10px] md:text-xs tracking-[0.1em] uppercase mb-4 opacity-80 group-hover:opacity-100 transition-opacity">
-                  {winner.award}
+                  {winner.award.includes('202') ? winner.award : `${winner.award} 2025`}
                 </div>
 
                 {/* Image Wrapper */}
@@ -154,6 +173,8 @@ export default function LastSeasonWinnersSection() {
                       src={winner.image} 
                       alt={winner.name}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      quality={75}
                       className="object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   ) : (

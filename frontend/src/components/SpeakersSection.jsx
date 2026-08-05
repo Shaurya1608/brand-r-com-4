@@ -128,7 +128,7 @@ export default function SpeakersSection() {
                 {/* Minimal Image Container */}
                 <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden mb-5 border-[3px] border-transparent group-hover:border-brand-primary/20 bg-brand-primary/5 transition-all duration-500 flex items-center justify-center">
                   {speaker.image ? (
-                    <Image src={speaker.image} alt={speaker.name} fill className={`object-cover transition-transform duration-700 ${speaker.imageClass || 'group-hover:scale-110'}`} />
+                    <Image src={speaker.image} alt={speaker.name} fill sizes="150px" quality={75} className={`object-cover transition-transform duration-700 ${speaker.imageClass || 'group-hover:scale-110'}`} />
                   ) : (
                     <svg className="w-10 h-10 text-brand-primary/20 transition-transform duration-500 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

@@ -54,7 +54,8 @@ export default function AwardCategoriesSection() {
             "Fertilizer & Plant Nutrition",
             "Farm Machinery & Agri-Tech",
             "Irrigation & Water Management",
-            "Agri Startup"
+            "Agri Startup",
+            "Research & Development (R&D)"
           ]
         },
         { title: "Emerging Company of the Year Award" },
@@ -116,7 +117,7 @@ export default function AwardCategoriesSection() {
               className="max-w-3xl"
             >
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-dark mb-4">
-                24 categories. <span className="text-brand-primary italic">One benchmark.</span>
+                32 categories. <span className="text-brand-primary italic">One benchmark.</span>
               </h2>
             </motion.div>
 

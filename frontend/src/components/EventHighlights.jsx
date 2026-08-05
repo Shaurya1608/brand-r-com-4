@@ -97,6 +97,28 @@ export default function EventHighlights() {
     },
     {
       moment: "MOMENT 09",
+      title: "An Evening of Stories & Inspiration",
+      description: "Experience an unforgettable evening with Internationally acclaimed poet and storyteller Mr. Rakesh Tiwari, whose powerful storytelling, poetry, and life experiences create a memorable journey of inspiration, emotions, laughter, and meaningful human connections.",
+      image: "/BRC Images/An Evening of Stories & Inspiration.jpeg",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      )
+    },
+    {
+      moment: "MOMENT 10",
+      title: "Stories by Mehak Mirza Prabhu",
+      description: "Experience an Inspiring storytelling session by renowned author and storyteller Mehak Mirza Prabhu, where heartfelt narratives, powerful emotions, and timeless life lessons come together to create meaningful conversations and unforgettable memories.",
+      image: "/BRC Images/Stories by Mehak Mirza Prabhu.jpeg",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      )
+    },
+    {
+      moment: "MOMENT 11",
       title: "Celebration Dinner",
       description: "Conclude the day with an elegant networking dinner, providing the perfect opportunity to build meaningful relationships, exchange ideas, and connect with industry peers in a relaxed setting.",
       image: "/BRC Images/Lunch.JPG",
@@ -107,7 +129,7 @@ export default function EventHighlights() {
       )
     },
     {
-      moment: "MOMENT 10",
+      moment: "MOMENT 12",
       title: "Concierge Networking",
       description: "Make valuable business connections through curated networking opportunities designed to facilitate meaningful conversations, strategic collaborations, and long-term partnerships.",
       image: "/BRC Images/Networking.JPG",

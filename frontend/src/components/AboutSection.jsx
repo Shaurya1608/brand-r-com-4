@@ -69,6 +69,8 @@ export default function AboutSection() {
             alt="BRAND R.COMM Conference" 
             fill
             className="object-cover"
+            sizes="100vw"
+            quality={75}
           />
         </div>
 

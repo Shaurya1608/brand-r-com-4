@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const termsContent = [
   {
     title: "1. Eligibility",
-    content: "The BRAND R.Comm Awards 2026 are open to organizations and individuals operating in the agriculture, rural communication, and allied sectors in India. All nominations must be based on activities, campaigns, or achievements executed between January 2025 and October 2026."
+    content: "The BRAND R.Comm Awards 2026 are open to organizations and individuals operating in the agriculture, rural communication, and allied sectors in India. All nominations must be based on activities, campaigns, or achievements."
   },
   {
     title: "2. Authority to Receive Awards",
@@ -14,7 +14,7 @@ const termsContent = [
   },
   {
     title: "3. Nomination Fee",
-    content: "A non-refundable nomination fee of ₹8,000 + GST per category is applicable for each nomination. Payment must be be made along with the submission of the nomination form."
+    content: "A non-refundable nomination fee of INR 12,000 + GST per category is applicable for each nomination. Payment must be made along with the submission of the nomination form."
   },
   {
     title: "4. Multiple Nominations",
@@ -29,40 +29,48 @@ const termsContent = [
     content: "The nomination fee is strictly non-refundable, irrespective of withdrawal, disqualification, or non-selection for the final awards."
   },
   {
-    title: "7. Sponsorship & Awards Eligibility",
-    content: "Sponsors, Co-Sponsors, and Supporting Partners of the event are not eligible to receive awards in any category. BRAND R.Comm maintains complete transparency and integrity and does not entertain paid or influenced awards."
+    title: "7. Award Winners' Complimentary Delegate Passes",
+    content: "Corporate/ Individual Award Winners: Two (02) complimentary delegate passes shall be provided. One pass is intended for the official award recipient, and one additional pass is for another representative of the winning organization. These complimentary registrations are valid only for the designated event and are non-transferable."
   },
   {
-    title: "8. Nomination Review",
-    content: "All nominations will be reviewed by the internal team for completeness and eligibility before being submitted to the Jury Panel for evaluation."
+    title: "8. Complimentary Delegate Pass for Non-Winning Participants",
+    content: "Companies or individuals whose nominations are evaluated but are not selected as Award Winners shall be entitled to one (01) complimentary delegate pass to attend the BRAND R.Comm Summit & Awards 2026, subject to prior registration and confirmation by the organizers."
   },
   {
-    title: "9. Decision of the Jury",
+    title: "9. Sponsorship & Awards Eligibility",
+    content: "Sponsors, Co-Sponsors or sponsors in any category, of the event are not eligible to receive awards in any category. BRAND R.Comm maintains complete transparency and integrity and does not entertain paid or influenced awards."
+  },
+  {
+    title: "10. Nomination Review",
+    content: "All nominations will be reviewed by the external team (Market Research Agency Or Knowledge Partner) or Equivalent for completeness and eligibility before being submitted to the Jury Panel for evaluation."
+  },
+  {
+    title: "11. Decision of the Jury",
     content: "The decision of the Jury shall be final and binding. No correspondence, reconsideration, or appeal regarding the jury's evaluation or final results will be entertained."
   },
   {
-    title: "10. Data & Documentation",
+    title: "12. Data & Documentation",
     content: "All information, data, and supporting materials submitted with the nomination must be accurate, authentic, and verifiable. Any false or misleading information may result in immediate disqualification without any refund."
   },
   {
-    title: "11. Confidentiality",
+    title: "13. Confidentiality",
     content: "All information shared in the nomination forms will be treated as confidential and used solely for the purpose of award evaluation."
   },
   {
-    title: "12. Ownership of Material",
+    title: "14. Ownership of Material",
     content: "The organizer reserves the right to use the names, logos, and submitted content of nominees for promotional and communication purposes related to BRAND R.Comm, including pre-event and post-event publicity."
   },
   {
-    title: "13. Event Participation",
+    title: "15. Event Participation",
     content: "Attendance at the BRAND R.Comm Summit & Awards 2026 is mandatory for winners to receive their award and recognition. The organizer will not be responsible for travel, accommodation, or any related arrangements."
   },
   {
-    title: "14. Amendments",
+    title: "16. Amendments",
     content: "The organizers reserve the right to modify, cancel, or reschedule any aspect of the awards process or ceremony without prior notice in the event of unforeseen circumstances."
   },
   {
-    title: "15. Jurisdiction",
-    content: "Any dispute arising out of or relating to the BRAND R.Comm Awards 2026 shall be subject to the exclusive jurisdiction of the courts of New Delhi, India."
+    title: "17. Jurisdiction",
+    content: "Any dispute arising out of or relating to the BRAND R.Comm Awards 2026 shall be subject to the exclusive jurisdiction of the courts of Uttar Pradesh, India."
   }
 ];
 

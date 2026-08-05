@@ -19,7 +19,7 @@ const termsContent = [
   },
   {
     title: "How to Enter - Step 4: Pay the Nomination Fee",
-    content: "A non-refundable nomination fee of ₹8,000 + GST per category must be paid at the time of submission."
+    content: "A non-refundable nomination fee of INR 12,000 + GST per category must be paid at the time of submission. The nomination fee is designed not only for the independent evaluation and jury process but also to facilitate meaningful participation in the BRAND R.Comm Summit & Awards, enabling organizations and professionals to network, learn, and engage with industry leaders irrespective of the award outcome."
   },
   {
     title: "How to Enter - Step 5: Submit Your Entry",
@@ -27,7 +27,15 @@ const termsContent = [
   },
   {
     title: "How to Enter - Step 6: Jury Evaluation",
-    content: "Eligible nominations will be reviewed by the internal screening team before being evaluated by an independent Jury Panel."
+    content: "Eligible nominations will be reviewed by the external team (Market Research Agency Or Knowledge Partner) or Equivalent before being evaluated by an independent Jury Panel."
+  },
+  {
+    title: "How to Enter - Step 7: Award Winners' Complimentary Delegate Passes",
+    content: "Corporate/ Individual Award Winners: Two (02) complimentary delegate passes shall be provided. One pass is intended for the official award recipient, and one additional pass is for another representative of the winning organization. These complimentary registrations are valid only for the designated event and are non-transferable."
+  },
+  {
+    title: "How to Enter - Step 8: Complimentary Delegate Pass for Non-Winning Participants",
+    content: "Companies or individuals whose nominations are evaluated but are not selected as Award Winners shall be entitled to one (01) complimentary delegate pass to attend the BRAND R.Comm Summit & Awards 2026, subject to prior registration and confirmation by the organizers."
   },
   {
     title: "Rules for Entry - 1",
@@ -35,7 +43,7 @@ const termsContent = [
   },
   {
     title: "Rules for Entry - 2",
-    content: "All entries must represent work, campaigns, or achievements carried out between January 2025 and October 2026."
+    content: "All entries must represent work, campaigns, or achievements carried out between January 2025 and December 2026 OR FY25-26."
   },
   {
     title: "Rules for Entry - 3",
@@ -59,11 +67,11 @@ const termsContent = [
   },
   {
     title: "Rules for Entry - 8",
-    content: "Sponsors, Co-Sponsors, and Supporting Partners are not eligible to participate in the awards."
+    content: "Sponsors, Co-Sponsors, or sponsors in any category are not eligible to participate in the awards."
   },
   {
     title: "Rules for Entry - 9",
-    content: "All nominations will undergo an eligibility review before being presented to the Jury."
+    content: "All nominations will undergo an eligibility review by external agency before being presented to the Jury."
   },
   {
     title: "Rules for Entry - 10",
@@ -87,7 +95,7 @@ const termsContent = [
   },
   {
     title: "Rules for Entry - 15",
-    content: "Any disputes arising from the awards process shall be subject to the exclusive jurisdiction of New Delhi, India."
+    content: "Any disputes arising from the awards process shall be subject to the exclusive jurisdiction of Uttar Pradesh, India."
   }
 ];
 

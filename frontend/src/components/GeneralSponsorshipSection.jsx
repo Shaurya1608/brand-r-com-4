@@ -180,8 +180,8 @@ export default function GeneralSponsorshipSection() {
               >
                 <div className="flex-1 lg:max-w-md flex flex-col">
                   <div className="flex items-center space-x-3 mb-6 text-brand-dark/40 text-[10px] font-mono tracking-widest uppercase">
-                    <span>SPONSOR TIER</span>
-                  </div>
+                    <span>SPONSOR TIER - MULTIPLE</span>
+                  </div>  
                   
                   <h3 className="text-3xl md:text-4xl font-serif text-brand-dark mb-2">{tier.title}</h3>
                   <div className="text-xl md:text-2xl font-serif text-brand-primary mb-4">{tier.price}</div>

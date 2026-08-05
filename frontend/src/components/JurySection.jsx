@@ -45,6 +45,15 @@ export default function JurySection() {
         "& Former Advisor, GOI"
       ],
       image: "/jury/sadamate.png"
+    },
+    {
+      name: "Surender Makhija",
+      lines: [
+        "Strategic Advisor & Sr.",
+        "Vice President, Jain",
+        "Irrigation Systems Ltd."
+      ],
+      image: "/jury/Surender Makhija.webp"
     }
   ];
 

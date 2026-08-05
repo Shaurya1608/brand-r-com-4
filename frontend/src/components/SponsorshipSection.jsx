@@ -88,7 +88,7 @@ export default function SponsorshipSection() {
     },
     {
       eyebrow: "CATEGORY",
-      slots: "MULTIPLE",
+      slots: "1 SLOT",
       title: "Award Sponsor",
       price: "INR 5,00,000/- + GST",
       features: [
@@ -156,7 +156,7 @@ export default function SponsorshipSection() {
     },
     {
       eyebrow: "HOSPITALITY",
-      slots: "MULTIPLE",
+      slots: "1 SLOT",
       title: "Lunch Sponsor",
       price: "₹3,50,000 + GST",
       features: [

@@ -72,6 +72,7 @@ export default function PastEditionsSection() {
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                quality={75}
               />
             </motion.div>
           ))}
@@ -94,6 +95,7 @@ export default function PastEditionsSection() {
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-80"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                quality={75}
               />
             </div>
             <div className="absolute inset-0 bg-white/40 group-hover:bg-white/20 transition-colors duration-500" />
