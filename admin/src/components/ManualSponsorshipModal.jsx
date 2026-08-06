@@ -412,7 +412,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 bg-[#6b471c] hover:bg-[#583915] text-white text-sm font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-[0.99] disabled:opacity-50 cursor-pointer"
+                className="w-full py-3.5 bg-[#5e8e33] hover:bg-[#4d7828] text-white text-sm font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-[0.99] disabled:opacity-50 cursor-pointer"
               >
                 {loading ? 'Submitting Sponsorship...' : 'SUBMIT ENQUIRY'}
               </button>
