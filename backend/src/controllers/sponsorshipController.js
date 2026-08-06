@@ -1,4 +1,5 @@
 const Sponsorship = require('../models/Sponsorship');
+const DelegateRegistration = require('../models/DelegateRegistration');
 
 // @desc    Create a new sponsorship booking
 // @route   POST /api/sponsorships/create
@@ -49,12 +50,60 @@ const createSponsorship = async (req, res) => {
 const getSponsorships = async (req, res) => {
   try {
     const sponsorships = await Sponsorship.find().sort({ createdAt: -1 });
+    const sponsorshipIds = sponsorships.map(s => s._id);
+
+    // Count delegates linked to each sponsorship
+    const delegateCounts = await DelegateRegistration.aggregate([
+      { $match: { sponsorshipId: { $in: sponsorshipIds } } },
+      { $group: { _id: "$sponsorshipId", count: { $sum: 1 } } }
+    ]);
+
+    const countMap = {};
+    delegateCounts.forEach(c => {
+      countMap[c._id.toString()] = c.count;
+    });
+
+    const dataWithCounts = sponsorships.map(s => {
+      const doc = s.toObject();
+      doc.delegatesCount = countMap[s._id.toString()] || 0;
+      return doc;
+    });
+
     res.status(200).json({
       success: true,
-      data: sponsorships
+      data: dataWithCounts
     });
   } catch (error) {
     console.error('Error fetching sponsorships:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// @desc    Get delegates linked to a sponsorship
+// @route   GET /api/sponsorships/:id/delegates
+// @access  Private (Admin)
+const getSponsorshipDelegates = async (req, res) => {
+  try {
+    const sponsorship = await Sponsorship.findById(req.params.id);
+    if (!sponsorship) {
+      return res.status(404).json({ success: false, message: 'Sponsorship not found' });
+    }
+
+    const delegates = await DelegateRegistration.find({
+      $or: [
+        { sponsorshipId: sponsorship._id },
+        { sponsorshipCompany: { $regex: new RegExp('^' + sponsorship.companyName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$', 'i') } },
+        { organization: { $regex: new RegExp('^' + sponsorship.companyName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$', 'i') }, attendeeCategory: 'SPONSOR' }
+      ]
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: delegates.length,
+      data: delegates
+    });
+  } catch (error) {
+    console.error('Error fetching sponsorship delegates:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
@@ -104,6 +153,7 @@ const deleteSponsorship = async (req, res) => {
 module.exports = {
   createSponsorship,
   getSponsorships,
+  getSponsorshipDelegates,
   updateSponsorship,
   deleteSponsorship
 };

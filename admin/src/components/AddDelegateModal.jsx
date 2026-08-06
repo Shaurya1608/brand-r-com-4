@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Info } from 'lucide-react';
 
-export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
+export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, presetSponsorship = null }) {
   const [formData, setFormData] = useState({
     delegateType: 'indian',
     fullName: '',
@@ -19,10 +19,32 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
     paymentStatus: 'Paid',
     attendeeCategory: 'DELEGATE',
     applyCoupon: false,
+    sponsorshipId: null,
+    sponsorshipCompany: '',
   });
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (isOpen && presetSponsorship) {
+      setFormData(prev => ({
+        ...prev,
+        organization: presetSponsorship.companyName || prev.organization,
+        gstNumber: presetSponsorship.gstNumber || prev.gstNumber,
+        city: presetSponsorship.city || prev.city,
+        stateCountry: presetSponsorship.stateCountry || prev.stateCountry,
+        pinCode: presetSponsorship.pinCode || prev.pinCode,
+        address: presetSponsorship.address || prev.address,
+        attendeeCategory: 'SPONSOR',
+        paymentMethod: 'Free',
+        paymentStatus: 'Paid',
+        registeredBy: 'Sponsor Member',
+        sponsorshipId: presetSponsorship._id,
+        sponsorshipCompany: presetSponsorship.companyName,
+      }));
+    }
+  }, [isOpen, presetSponsorship]);
 
   if (!isOpen) return null;
 

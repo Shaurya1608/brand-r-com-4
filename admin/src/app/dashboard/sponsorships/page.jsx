@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Briefcase, Search, Download, Edit, Trash2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 
+import AddDelegateModal from '@/components/AddDelegateModal';
+import SponsorshipDelegatesModal from '@/components/SponsorshipDelegatesModal';
+
 export default function SponsorshipsPage() {
   const [sponsorships, setSponsorships] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,6 +15,12 @@ export default function SponsorshipsPage() {
   const [editingSponsorship, setEditingSponsorship] = useState(null);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [viewingLogo, setViewingLogo] = useState(null);
+
+  const [isAddDelegateModalOpen, setIsAddDelegateModalOpen] = useState(false);
+  const [selectedSponsorshipForAddDelegate, setSelectedSponsorshipForAddDelegate] = useState(null);
+
+  const [isViewDelegatesModalOpen, setIsViewDelegatesModalOpen] = useState(false);
+  const [selectedSponsorshipForViewDelegates, setSelectedSponsorshipForViewDelegates] = useState(null);
 
   const [filterRegistrationType, setFilterRegistrationType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
@@ -516,20 +525,49 @@ export default function SponsorshipsPage() {
                     </td>
                     {/* 18. Action */}
                     <td className="px-3.5 py-3 whitespace-nowrap text-center sticky right-0 z-20 bg-white group-hover:bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">
-                      <div className="flex items-center justify-center gap-1.5">
+                      <div className="flex items-center justify-center gap-2">
+                        {/* Pencil Edit Icon in Cream Pill */}
                         <button 
                           onClick={() => { setEditingSponsorship(sponsorship); setIsEditModalOpen(true); }}
-                          className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                          title="Edit Status"
+                          className="p-1.5 text-gray-800 bg-[#fdf8ee] border border-amber-200/80 hover:bg-amber-100/60 rounded-full transition-colors shadow-sm cursor-pointer"
+                          title="Edit Sponsorship"
                         >
-                          <Edit size={15} />
+                          <Edit size={14} className="text-gray-800" />
                         </button>
+
+                        {/* Red Pill "Add Delegate" Button (Exact Match to User Screenshot) */}
+                        <button
+                          onClick={() => {
+                            setSelectedSponsorshipForAddDelegate(sponsorship);
+                            setIsAddDelegateModalOpen(true);
+                          }}
+                          className="px-3 py-1 text-[11px] font-extrabold text-white bg-[#c22026] hover:bg-[#a8191e] rounded-full transition-all shadow-sm active:scale-95 cursor-pointer whitespace-nowrap"
+                        >
+                          Add Delegate
+                        </button>
+
+                        {/* View Linked Delegates Badge / Button */}
+                        <button
+                          onClick={() => {
+                            setSelectedSponsorshipForViewDelegates(sponsorship);
+                            setIsViewDelegatesModalOpen(true);
+                          }}
+                          className={`px-2.5 py-1 text-[11px] font-bold rounded-full transition-colors cursor-pointer whitespace-nowrap border ${
+                            (sponsorship.delegatesCount || 0) > 0
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
+                              : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-gray-100'
+                          }`}
+                          title="View linked delegates for this sponsor"
+                        >
+                          Delegates ({sponsorship.delegatesCount || 0})
+                        </button>
+
                         <button 
                           onClick={() => handleDeleteSponsorship(sponsorship._id)}
-                          className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                           title="Delete"
                         >
-                          <Trash2 size={15} />
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </td>
@@ -540,6 +578,29 @@ export default function SponsorshipsPage() {
           )}
         </div>
       </div>
+
+      {/* Add Delegate Modal for Sponsor */}
+      <AddDelegateModal 
+        isOpen={isAddDelegateModalOpen}
+        onClose={() => {
+          setIsAddDelegateModalOpen(false);
+          setSelectedSponsorshipForAddDelegate(null);
+        }}
+        presetSponsorship={selectedSponsorshipForAddDelegate}
+        onDelegateAdded={() => {
+          fetchSponsorships();
+        }}
+      />
+
+      {/* View Linked Delegates Modal */}
+      <SponsorshipDelegatesModal
+        isOpen={isViewDelegatesModalOpen}
+        onClose={() => {
+          setIsViewDelegatesModalOpen(false);
+          setSelectedSponsorshipForViewDelegates(null);
+        }}
+        sponsorship={selectedSponsorshipForViewDelegates}
+      />
 
       {/* Edit Modal */}
       {isEditModalOpen && editingSponsorship && (

@@ -113,6 +113,8 @@ exports.registerDelegate = async (req, res) => {
       paymentMethod,
       attendeeCategory,
       registeredBy,
+      sponsorshipId,
+      sponsorshipCompany,
     } = req.body;
 
     const cleanEmail = (email && typeof email === 'string') ? email.trim().toLowerCase() : '';
@@ -209,6 +211,8 @@ exports.registerDelegate = async (req, res) => {
         paymentMethod: paymentMethod || 'Online',
         attendeeCategory: attendeeCategory || 'DELEGATE',
         registeredBy: registeredBy || '',
+        sponsorshipId: sponsorshipId || null,
+        sponsorshipCompany: sponsorshipCompany || '',
         totalAmount: pricing.totalAmount,
         amountPaid: isPaid ? pricing.totalAmount : 0,
         amountDue: isPaid ? 0 : pricing.totalAmount,

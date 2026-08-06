@@ -118,6 +118,15 @@ const delegateRegistrationSchema = new mongoose.Schema({
   couponCode: {
     type: String,
   },
+  sponsorshipId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Sponsorship',
+    default: null,
+  },
+  sponsorshipCompany: {
+    type: String,
+    default: '',
+  },
   isManuallyCreated: {
     type: Boolean,
     default: false,
