@@ -9,7 +9,10 @@ import { motion, AnimatePresence } from "framer-motion";
  * of the user's local timezone.
  */
 function getISTDate() {
-  const now = new Date();
+  let now = new Date();
+  if (process.env.NODE_ENV !== 'production' && process.env.NEXT_PUBLIC_PRICING_TEST_DATE) {
+    now = new Date(process.env.NEXT_PUBLIC_PRICING_TEST_DATE);
+  }
   // Format parts in IST
   const parts = new Intl.DateTimeFormat('en-IN', {
     timeZone: 'Asia/Kolkata',

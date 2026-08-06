@@ -4,7 +4,12 @@ const crypto = require('crypto');
 
 // Returns the current date/time in IST (UTC+5:30)
 function getISTDate() {
-  const now = new Date();
+  // Safe development/test date override (Strictly disabled in production)
+  let now = new Date();
+  if (process.env.NODE_ENV !== 'production' && process.env.PRICING_TEST_DATE) {
+    now = new Date(process.env.PRICING_TEST_DATE);
+  }
+
   const parts = new Intl.DateTimeFormat('en-IN', {
     timeZone: 'Asia/Kolkata',
     year: 'numeric',

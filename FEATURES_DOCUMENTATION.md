@@ -155,8 +155,7 @@ To send professional confirmation receipts instantly upon registration submissio
 
 ## 📝 Revision Log
 
-| Date | Feature / Change | Component / API | Developer / Agent |
-| :--- | :--- | :--- | :--- |
+| **2026-08-06** | PRICING_TEST_DATE Dev Simulation Testing Mode | `delegateController.js`, `DelegateRegistrationModal.jsx` | Antigravity AI |
 | **2026-08-06** | Initial creation of Master Feature Documentation | System-wide | Antigravity AI |
 | **2026-08-06** | Dynamic IST Pricing & Hashed Resume Tokens | `delegateController.js`, `DelegateRegistration.js` | Antigravity AI |
 | **2026-08-06** | Financial Accounting (`totalAmount`, `amountPaid`, `amountDue`) | `DelegateRegistration.js` | Antigravity AI |
