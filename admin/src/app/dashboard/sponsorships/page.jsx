@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Briefcase, Search, Download, Edit, Trash2 } from 'lucide-react';
+import { Briefcase, Search, Download, Edit, Trash2, Plus } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 import AddDelegateModal from '@/components/AddDelegateModal';
@@ -242,13 +242,16 @@ export default function SponsorshipsPage() {
           </p>
         </div>
 
-        {/* Green Top Action Button (Exact Match to User Wireframe) */}
+        {/* Premium Top Action Button */}
         <div>
           <button
             onClick={() => setIsManualSponsorshipModalOpen(true)}
-            className="px-5 py-2.5 bg-[#5e8e33] hover:bg-[#4d7828] text-white text-xs font-extrabold uppercase tracking-wider rounded-full shadow-md transition-all active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-2.5 px-5 sm:px-6 py-3 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-2xl shadow-md shadow-[#5e8e33]/25 hover:shadow-lg hover:shadow-[#5e8e33]/35 hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 active:scale-95 cursor-pointer border border-white/20"
           >
-            ADD SPONSORSHIP VIA MANUAL REGISTRATION
+            <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+              <Plus size={13} className="stroke-[3]" />
+            </div>
+            <span className="whitespace-nowrap">ADD SPONSORSHIP VIA MANUAL REGISTRATION</span>
           </button>
         </div>
       </div>
