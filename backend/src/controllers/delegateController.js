@@ -6,8 +6,9 @@ const crypto = require('crypto');
 function getISTDate() {
   // Safe development/test date override (Strictly disabled in production)
   let now = new Date();
-  if (process.env.NODE_ENV !== 'production' && process.env.PRICING_TEST_DATE) {
-    now = new Date(process.env.PRICING_TEST_DATE);
+  const testDate = process.env.PRICING_TEST_DATE || process.env.NEXT_PUBLIC_PRICING_TEST_DATE;
+  if (process.env.NODE_ENV !== 'production' && testDate) {
+    now = new Date(testDate);
   }
 
   const parts = new Intl.DateTimeFormat('en-IN', {

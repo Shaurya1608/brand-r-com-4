@@ -10,8 +10,9 @@ import { motion, AnimatePresence } from "framer-motion";
  */
 function getISTDate() {
   let now = new Date();
-  if (process.env.NODE_ENV !== 'production' && process.env.NEXT_PUBLIC_PRICING_TEST_DATE) {
-    now = new Date(process.env.NEXT_PUBLIC_PRICING_TEST_DATE);
+  const testDate = process.env.NEXT_PUBLIC_PRICING_TEST_DATE || process.env.PRICING_TEST_DATE;
+  if (process.env.NODE_ENV !== 'production' && testDate) {
+    now = new Date(testDate);
   }
   // Format parts in IST
   const parts = new Intl.DateTimeFormat('en-IN', {
