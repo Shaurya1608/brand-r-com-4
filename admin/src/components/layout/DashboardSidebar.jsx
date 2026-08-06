@@ -107,20 +107,6 @@ export default function DashboardSidebar() {
               </Link>
             );
           })}
-
-          {/* Light Green Event Info Widget */}
-          <div className="hidden md:block mt-6 p-3 bg-white/80 backdrop-blur-xs rounded-xl border border-[#5e8e33]/20 shadow-2xs space-y-1">
-            <div className="flex items-center gap-1.5 text-[#5e8e33]">
-              <Calendar size={13} />
-              <span className="text-[10px] font-black uppercase tracking-wider">Summit 2026</span>
-            </div>
-            <p className="text-[11px] font-bold text-gray-900">
-              Brand R.Comm Awards
-            </p>
-            <p className="text-[10px] text-gray-600 font-medium">
-              Oct 24-25, 2026 • New Delhi
-            </p>
-          </div>
         </nav>
 
         {/* Bottom Light Green Profile Footer */}
