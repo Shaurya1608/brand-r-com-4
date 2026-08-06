@@ -1,6 +1,21 @@
 const DelegateRegistration = require('../models/DelegateRegistration');
 const { sendDelegateConfirmationEmail } = require('../services/emailService');
 
+const crypto = require('crypto');
+
+// Helper to compute delegate pricing
+const calculateDelegatePricing = (type, coupon) => {
+  if (type === 'foreign') {
+    const total = coupon ? 200 : 250;
+    return { totalAmount: total, amountDue: total };
+  }
+  const baseRs = 4800; // Early bird price
+  const taxableRs = coupon ? baseRs * 0.8 : baseRs;
+  const gstRs = Math.round(taxableRs * 0.18);
+  const totalRs = taxableRs + gstRs;
+  return { totalAmount: totalRs, amountDue: totalRs };
+};
+
 // @desc    Register a new delegate
 // @route   POST /api/delegates
 // @access  Public
@@ -36,13 +51,17 @@ exports.registerDelegate = async (req, res) => {
       });
     }
 
+    const pricing = calculateDelegatePricing(delegateType, couponCode);
+    const initialStatus = paymentStatus || 'Pending';
+    const isPaid = initialStatus === 'Paid';
+
     // Check if delegate already registered by Email OR Mobile Number
     if (!isManuallyCreated && (cleanEmail || cleanMobile)) {
       const queryOr = [];
       if (cleanEmail) queryOr.push({ email: cleanEmail });
       if (cleanMobile) queryOr.push({ mobileNumber: cleanMobile });
 
-      const existingDelegate = await DelegateRegistration.findOne({ $or: queryOr });
+      let existingDelegate = await DelegateRegistration.findOne({ $or: queryOr });
 
       if (existingDelegate) {
         // Update existing record with latest user input
@@ -59,6 +78,22 @@ exports.registerDelegate = async (req, res) => {
         if (gstNumber) existingDelegate.gstNumber = gstNumber.trim().toUpperCase();
         if (couponCode) existingDelegate.couponCode = couponCode;
 
+        // Financial fields accounting
+        existingDelegate.totalAmount = pricing.totalAmount;
+        if (existingDelegate.paymentStatus === 'Paid') {
+          existingDelegate.amountPaid = pricing.totalAmount;
+          existingDelegate.amountDue = 0;
+        } else {
+          existingDelegate.amountPaid = 0;
+          existingDelegate.amountDue = pricing.totalAmount;
+        }
+
+        // Generate unguessable payment token for secure email resumption
+        if (!existingDelegate.paymentToken) {
+          existingDelegate.paymentToken = crypto.randomBytes(32).toString('hex');
+          existingDelegate.paymentTokenExpires = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+        }
+
         await existingDelegate.save();
 
         return res.status(200).json({
@@ -72,6 +107,8 @@ exports.registerDelegate = async (req, res) => {
         });
       }
     }
+
+    const secureToken = crypto.randomBytes(32).toString('hex');
 
     let newDelegate;
     try {
@@ -89,10 +126,15 @@ exports.registerDelegate = async (req, res) => {
         address,
         couponCode: couponCode || null,
         isManuallyCreated: isManuallyCreated || false,
-        paymentStatus: paymentStatus || 'Pending',
+        paymentStatus: initialStatus,
         paymentMethod: paymentMethod || 'Online',
         attendeeCategory: attendeeCategory || 'DELEGATE',
         registeredBy: registeredBy || '',
+        totalAmount: pricing.totalAmount,
+        amountPaid: isPaid ? pricing.totalAmount : 0,
+        amountDue: isPaid ? 0 : pricing.totalAmount,
+        paymentToken: secureToken,
+        paymentTokenExpires: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
       });
     } catch (createError) {
       // Catch MongoDB E11000 duplicate key error in case of simultaneous concurrent requests
@@ -450,7 +492,11 @@ exports.createOrder = async (req, res) => {
 
     // Store the order ID so we can verify it later
     delegate.razorpayOrderId = order.id;
-    delegate.amountPaid = amountRs;
+    delegate.totalAmount = amountRs;
+    if (delegate.paymentStatus !== 'Paid') {
+      delegate.amountPaid = 0;
+      delegate.amountDue = amountRs;
+    }
     await delegate.save();
 
     res.status(200).json({
@@ -494,20 +540,19 @@ exports.verifyPayment = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Payment verification failed: invalid signature' });
     }
 
-    // Signature valid — update the delegate record
-    const delegate = await DelegateRegistration.findByIdAndUpdate(
-      delegateId,
-      {
-        paymentStatus: 'Paid',
-        paymentMethod: 'Online (Razorpay)',
-        razorpayPaymentId: razorpay_payment_id,
-      },
-      { new: true }
-    );
-
+    // Signature valid — update the delegate record & financial accounting fields
+    const delegate = await DelegateRegistration.findById(delegateId);
     if (!delegate) {
       return res.status(404).json({ success: false, message: 'Delegate not found' });
     }
+
+    const paidAmt = delegate.totalAmount || 5664;
+    delegate.paymentStatus = 'Paid';
+    delegate.paymentMethod = 'Online (Razorpay)';
+    delegate.razorpayPaymentId = razorpay_payment_id;
+    delegate.amountPaid = paidAmt;
+    delegate.amountDue = 0;
+    await delegate.save();
 
     // Send paid confirmation email via Resend if not already sent
     if (!delegate.paidEmailSent) {
@@ -524,6 +569,77 @@ exports.verifyPayment = async (req, res) => {
   } catch (error) {
     console.error('Error in verifyPayment:', error);
     res.status(500).json({ success: false, message: 'Payment verification server error' });
+  }
+};
+
+// ─── Secure Resume Payment Token Handler ──────────────────────────────────────
+// @desc    Resume payment for an existing registration using a secure unguessable token
+// @route   GET /api/delegates/resume-payment/:token
+// @access  Public
+exports.resumePayment = async (req, res) => {
+  try {
+    const { token } = req.params;
+    if (!token) {
+      return res.status(400).json({ success: false, message: 'Payment token is required' });
+    }
+
+    const delegate = await DelegateRegistration.findOne({ paymentToken: token });
+
+    if (!delegate) {
+      return res.status(404).json({
+        success: false,
+        message: 'Invalid or expired payment link. Please search your registration or contact support.'
+      });
+    }
+
+    if (delegate.paymentTokenExpires && delegate.paymentTokenExpires < new Date()) {
+      return res.status(400).json({
+        success: false,
+        message: 'This payment link has expired. Please contact support or request a new payment link.'
+      });
+    }
+
+    // Mask name and email for privacy
+    const maskName = (nameStr) => {
+      if (!nameStr) return '';
+      const parts = nameStr.trim().split(/\s+/);
+      if (parts.length === 1) return parts[0];
+      return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+    };
+
+    const maskEmail = (emailStr) => {
+      if (!emailStr || !emailStr.includes('@')) return '***@***.com';
+      const [local, domain] = emailStr.split('@');
+      const visible = local.slice(0, 2);
+      return `${visible}***@${domain}`;
+    };
+
+    const maskMobile = (phoneStr) => {
+      if (!phoneStr) return '******0000';
+      const digits = phoneStr.replace(/\D/g, '');
+      if (digits.length < 4) return '******';
+      return `******${digits.slice(-4)}`;
+    };
+
+    res.status(200).json({
+      success: true,
+      data: {
+        _id: delegate._id,
+        registrationId: delegate._id.toString().slice(-8).toUpperCase(),
+        fullName: maskName(delegate.fullName),
+        rawFullName: delegate.fullName,
+        email: maskEmail(delegate.email),
+        mobileNumber: maskMobile(delegate.mobileNumber),
+        delegateType: delegate.delegateType,
+        paymentStatus: delegate.paymentStatus,
+        totalAmount: delegate.totalAmount || (delegate.delegateType === 'indian' ? 5664 : 250),
+        amountPaid: delegate.amountPaid || 0,
+        amountDue: delegate.paymentStatus === 'Paid' ? 0 : (delegate.amountDue || delegate.totalAmount || 5664),
+      }
+    });
+  } catch (error) {
+    console.error('Error in resumePayment:', error);
+    res.status(500).json({ success: false, message: 'Server error retrieving payment session.' });
   }
 };
 

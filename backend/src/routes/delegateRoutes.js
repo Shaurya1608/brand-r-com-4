@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerDelegate, getDelegates, updateDelegate, createOrder, verifyPayment, verifyDelegate, bulkUpdateDelegates, lookupDelegate } = require('../controllers/delegateController');
+const { registerDelegate, getDelegates, updateDelegate, createOrder, verifyPayment, verifyDelegate, bulkUpdateDelegates, lookupDelegate, resumePayment } = require('../controllers/delegateController');
 const { protect } = require('../middlewares/authMiddleware');
 const { registrationLimiter, orderLimiter } = require('../middlewares/rateLimiter');
 const { validateDelegateInput } = require('../middlewares/inputValidator');
@@ -13,6 +13,9 @@ router.route('/')
 
 // Public: Lookup existing registration by email/mobile/regID
 router.get('/lookup', lookupDelegate);
+
+// Public: Resume payment via secure token
+router.get('/resume-payment/:token', resumePayment);
 
 // ── Payment routes (must be BEFORE /:id to avoid Express matching them as IDs)
 router.post('/create-order', orderLimiter, createOrder);

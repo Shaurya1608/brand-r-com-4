@@ -73,6 +73,27 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   React.useEffect(() => {
     if (isOpen) {
       setDelegateType(defaultType);
+      
+      // Auto-resume payment session if secure token is present in URL
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        if (token) {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/resume-payment/${token}`)
+            .then(res => res.json())
+            .then(data => {
+              if (data.success && data.data) {
+                setRegisteredDelegateId(data.data._id);
+                setExistingData(data.data);
+                setIsExistingRecord(true);
+                setIsAlreadyPaid(data.data.paymentStatus === 'Paid');
+                if (data.data.delegateType) setDelegateType(data.data.delegateType);
+                setSuccess(true);
+              }
+            })
+            .catch(err => console.error('Error loading payment token:', err));
+        }
+      }
     }
   }, [isOpen, defaultType]);
 

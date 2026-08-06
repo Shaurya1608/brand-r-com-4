@@ -85,15 +85,35 @@ const delegateRegistrationSchema = new mongoose.Schema({
     enum: ['DELEGATE', 'SPEAKER', 'ORGANIZER', 'SPONSOR', 'MEDIA', 'AWARDEE', 'AWARD_NOMINEE'],
     default: 'DELEGATE'
   },
+  // Financial & Accounting tracking
+  totalAmount: {
+    type: Number,
+    default: 0,
+  },
+  amountPaid: {
+    type: Number, // in INR or USD
+    default: 0,
+  },
+  amountDue: {
+    type: Number,
+    default: 0,
+  },
+
+  // Secure payment token for resume payment links in email
+  paymentToken: {
+    type: String,
+    sparse: true,
+  },
+  paymentTokenExpires: {
+    type: Date,
+  },
+
   // Razorpay payment tracking
   razorpayOrderId: {
     type: String,
   },
   razorpayPaymentId: {
     type: String,
-  },
-  amountPaid: {
-    type: Number, // in INR (rupees)
   },
   couponCode: {
     type: String,
