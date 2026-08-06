@@ -201,17 +201,17 @@ export default function DashboardHome() {
 
   return (
     <div className="p-4 md:p-6 lg:p-8 max-w-[1500px] mx-auto space-y-6">
-      {/* Header section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white p-6 rounded-2xl shadow-xl relative overflow-hidden">
+      {/* Light Industry-Standard Header section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-emerald-50/90 via-white to-green-50/60 border border-[#5e8e33]/25 text-gray-900 p-6 rounded-2xl shadow-xs relative overflow-hidden">
         <div className="relative z-10">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 bg-[#5e8e33] text-white text-[10px] font-black uppercase tracking-wider rounded-full shadow-xs">Live Executive Panel</span>
-            <span className="text-xs text-gray-400 font-mono">• Updated Realtime</span>
+            <span className="px-2.5 py-0.5 bg-[#5e8e33] text-white text-[10px] font-black uppercase tracking-wider rounded-full shadow-2xs">Live Executive Panel</span>
+            <span className="text-xs text-gray-500 font-mono font-medium">• Updated Realtime</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-black tracking-tight mt-1">
+          <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mt-1">
             Brand R.Comm Awards 2026 🏆
           </h1>
-          <p className="text-xs md:text-sm text-gray-300 mt-1 max-w-2xl font-medium">
+          <p className="text-xs md:text-sm text-gray-600 mt-1 max-w-2xl font-medium">
             Executive control panel for nominations, delegates, sponsorships, and speaker enquiries.
           </p>
         </div>
@@ -220,7 +220,7 @@ export default function DashboardHome() {
           <button
             onClick={fetchDashboardData}
             disabled={loading}
-            className="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors cursor-pointer"
+            className="p-2.5 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 rounded-xl transition-all shadow-2xs cursor-pointer"
             title="Refresh Realtime Stats"
           >
             <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
@@ -228,7 +228,7 @@ export default function DashboardHome() {
 
           <button
             onClick={exportSystemSummaryCSV}
-            className="px-4 py-2.5 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2 cursor-pointer"
+            className="px-4 py-2.5 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-xs active:scale-95 flex items-center gap-2 cursor-pointer"
           >
             <Download size={14} />
             <span>Export Report</span>
@@ -409,13 +409,13 @@ export default function DashboardHome() {
 
               <button
                 onClick={() => setIsDelegateModalOpen(true)}
-                className="w-full p-3.5 bg-gray-900 hover:bg-black text-white rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-between text-xs font-black uppercase tracking-wider cursor-pointer group"
+                className="w-full p-3.5 bg-blue-50/80 hover:bg-blue-100/80 text-blue-900 border border-blue-200/80 rounded-xl transition-all shadow-2xs active:scale-95 flex items-center justify-between text-xs font-black uppercase tracking-wider cursor-pointer group"
               >
                 <div className="flex items-center gap-2">
-                  <Users size={16} />
+                  <Users size={16} className="text-blue-600" />
                   <span>+ Add Delegate</span>
                 </div>
-                <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform text-blue-600" />
               </button>
 
               <button

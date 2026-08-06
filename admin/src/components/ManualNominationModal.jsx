@@ -154,19 +154,19 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl max-w-3xl w-full my-6 shadow-2xl overflow-hidden relative flex flex-col max-h-[90vh]">
         {/* Modal Header */}
-        <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white p-5 px-6 relative flex items-center justify-between border-b border-gray-800">
+        <div className="bg-[#5e8e33]/10 border-b border-[#5e8e33]/20 text-gray-900 p-5 px-6 relative flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
               <Award className="text-[#5e8e33]" size={22} />
-              <h2 className="text-lg font-black tracking-tight">Manual Awards / Nominations Registration 🏆</h2>
+              <h2 className="text-lg font-black tracking-tight text-gray-900">Manual Awards / Nominations Registration 🏆</h2>
             </div>
-            <p className="text-xs text-gray-400 mt-0.5 font-medium">
+            <p className="text-xs text-gray-600 mt-0.5 font-medium">
               BRAND R.Comm Awards 2026 — OFFICIAL NOMINATION FORM
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-full bg-gray-200/70 hover:bg-gray-300 text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
