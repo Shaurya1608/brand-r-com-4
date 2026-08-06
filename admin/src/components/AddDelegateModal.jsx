@@ -24,6 +24,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
   });
   
   const [successData, setSuccessData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!isOpen) {
