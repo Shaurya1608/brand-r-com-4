@@ -58,6 +58,10 @@ const sponsorshipSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
+  registeredBy: {
+    type: String,
+    default: ""
+  },
   basePrice: {
     type: Number,
     required: true,

@@ -9,7 +9,7 @@ const createSponsorship = async (req, res) => {
     const { 
       companyName, gstNumber, contactPerson, designation, email, 
       mobileNumber, city, stateCountry, pinCode, 
-      address, sponsorshipCategory, sponsorshipTier, registrationType, basePrice, totalAmount, logoUrl
+      address, sponsorshipCategory, sponsorshipTier, registrationType, registeredBy, basePrice, totalAmount, logoUrl
     } = req.body;
 
     // Create sponsorship record
@@ -27,10 +27,11 @@ const createSponsorship = async (req, res) => {
       sponsorshipCategory,
       sponsorshipTier,
       registrationType: registrationType || 'Online Registration',
-      basePrice,
-      totalAmount,
+      registeredBy: registeredBy || '',
+      basePrice: basePrice || 0,
+      totalAmount: totalAmount || 0,
       logoUrl,
-      status: 'pending' // For now, we just save it as pending
+      status: 'completed'
     });
 
     res.status(201).json({

@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 
 import AddDelegateModal from '@/components/AddDelegateModal';
 import SponsorshipDelegatesModal from '@/components/SponsorshipDelegatesModal';
+import ManualSponsorshipModal from '@/components/ManualSponsorshipModal';
 
 export default function SponsorshipsPage() {
   const [sponsorships, setSponsorships] = useState([]);
@@ -21,6 +22,8 @@ export default function SponsorshipsPage() {
 
   const [isViewDelegatesModalOpen, setIsViewDelegatesModalOpen] = useState(false);
   const [selectedSponsorshipForViewDelegates, setSelectedSponsorshipForViewDelegates] = useState(null);
+
+  const [isManualSponsorshipModalOpen, setIsManualSponsorshipModalOpen] = useState(false);
 
   const [filterRegistrationType, setFilterRegistrationType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
@@ -237,6 +240,16 @@ export default function SponsorshipsPage() {
           <p className="text-xs text-gray-500 mt-1">
             Manage all sponsorship bookings for Brand R.Comm 2026.
           </p>
+        </div>
+
+        {/* Green Top Action Button (Exact Match to User Wireframe) */}
+        <div>
+          <button
+            onClick={() => setIsManualSponsorshipModalOpen(true)}
+            className="px-5 py-2.5 bg-[#5e8e33] hover:bg-[#4d7828] text-white text-xs font-extrabold uppercase tracking-wider rounded-full shadow-md transition-all active:scale-95 cursor-pointer"
+          >
+            ADD SPONSORSHIP VIA MANUAL REGISTRATION
+          </button>
         </div>
       </div>
 
@@ -600,6 +613,13 @@ export default function SponsorshipsPage() {
           setSelectedSponsorshipForViewDelegates(null);
         }}
         sponsorship={selectedSponsorshipForViewDelegates}
+      />
+
+      {/* Manual Sponsorship Booking Modal */}
+      <ManualSponsorshipModal
+        isOpen={isManualSponsorshipModalOpen}
+        onClose={() => setIsManualSponsorshipModalOpen(false)}
+        onSponsorshipAdded={() => fetchSponsorships()}
       />
 
       {/* Edit Modal */}
