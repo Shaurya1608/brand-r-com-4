@@ -620,15 +620,9 @@ export default function DelegatesPage() {
 
                     {/* Reg. Type */}
                     <td className="px-4 py-2.5 whitespace-nowrap">
-                      {delegate.sponsorshipId || delegate.sponsorshipCompany ? (
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
-                          Sponsorship Page
-                        </span>
-                      ) : (
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200/50">
-                          {delegate.registrationType || 'Online'}
-                        </span>
-                      )}
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200/50">
+                        {delegate.registrationType || 'Online'}
+                      </span>
                     </td>
 
                     {/* Amount */}
