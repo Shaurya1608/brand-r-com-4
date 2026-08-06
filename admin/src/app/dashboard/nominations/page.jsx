@@ -487,19 +487,45 @@ export default function NominationsPage() {
 
                       {/* 16. Payment & Type */}
                       <td className="px-3 py-2 whitespace-nowrap">
-                        <div className="space-y-0.5">
-                          <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider inline-block ${
-                            nomination.paymentStatus === 'Paid' 
-                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
-                              : nomination.paymentStatus === 'Failed' 
-                              ? 'bg-rose-50 text-rose-800 border border-rose-200' 
-                              : 'bg-amber-50 text-amber-800 border border-amber-200'
-                          }`}>
-                            {nomination.paymentStatus || 'Pending'}
-                          </span>
-                          <p className="text-[9px] text-gray-400 font-medium">
-                            {nomination.paymentMethod || 'Online (Razorpay)'}
-                          </p>
+                        <div className="space-y-1 flex flex-col">
+                          <div className="flex items-center gap-1">
+                            <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider inline-block ${
+                              nomination.paymentStatus === 'Paid' 
+                                ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
+                                : nomination.paymentStatus === 'Failed' 
+                                ? 'bg-rose-50 text-rose-800 border border-rose-200' 
+                                : 'bg-amber-50 text-amber-800 border border-amber-200'
+                            }`}>
+                              {nomination.paymentStatus || 'Pending'}
+                            </span>
+                            <span className="text-[9px] text-gray-400 font-medium">
+                              ({nomination.paymentMethod || 'Online (Razorpay)'})
+                            </span>
+                          </div>
+                          {nomination.paymentStatus !== 'Paid' && (
+                            <button
+                              onClick={async () => {
+                                try {
+                                  const token = Cookies.get('admin_token');
+                                  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/${nomination._id}/payment-link`, {
+                                    headers: { 'Authorization': `Bearer ${token}` }
+                                  });
+                                  const data = await res.json();
+                                  if (data.success && data.paymentUrl) {
+                                    navigator.clipboard.writeText(data.paymentUrl);
+                                    alert('Shareable Payment Link copied to clipboard!');
+                                  } else {
+                                    alert(data.message || 'Failed to generate payment link');
+                                  }
+                                } catch (err) {
+                                  alert('Error generating payment link');
+                                }
+                              }}
+                              className="inline-flex items-center gap-1 text-[10px] font-extrabold text-[#5e8e33] hover:text-[#4c7727] bg-[#5e8e33]/10 hover:bg-[#5e8e33]/20 px-2 py-0.5 rounded-full transition-all border border-[#5e8e33]/20 cursor-pointer w-fit"
+                            >
+                              Copy Payment Link
+                            </button>
+                          )}
                         </div>
                       </td>
 

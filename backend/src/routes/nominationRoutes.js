@@ -40,6 +40,9 @@ router.get('/resume-payment/:token', nominationController.resumePayment);
 router.post('/create-order', orderLimiter, nominationController.createOrder);
 router.post('/verify-payment', nominationController.verifyPayment);
 
+// Protected route for generating shareable payment link (Admin)
+router.get('/:id/payment-link', protect, nominationController.getNominationPaymentLink);
+
 // Protected route for fetching all nominations (Admin)
 router.get('/', protect, nominationController.getNominations);
 router.put('/:id', protect, nominationController.updateNomination);

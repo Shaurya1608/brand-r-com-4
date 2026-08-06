@@ -29,6 +29,8 @@ function PaymentContent() {
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
+  const [isNomination, setIsNomination] = useState(false);
+
   useEffect(() => {
     if (!token) {
       setError("Missing payment token. Please check your link or contact support.");
@@ -36,16 +38,32 @@ function PaymentContent() {
       return;
     }
 
+    // Try Delegate payment session first
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/resume-payment/${token}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) {
           setDelegateData(data.data);
+          setIsNomination(false);
           if (data.data.paymentStatus === "Paid") {
             setPaymentSuccess(true);
           }
+          setLoading(false);
         } else {
-          setError(data.message || "Invalid or expired payment link.");
+          // Fallback to Nomination payment session
+          return fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/resume-payment/${token}`)
+            .then((nRes) => nRes.json())
+            .then((nData) => {
+              if (nData.success && nData.data) {
+                setDelegateData(nData.data);
+                setIsNomination(true);
+                if (nData.data.paymentStatus === "Paid") {
+                  setPaymentSuccess(true);
+                }
+              } else {
+                setError(nData.message || data.message || "Invalid or expired payment link.");
+              }
+            });
         }
       })
       .catch((err) => {
@@ -67,15 +85,16 @@ function PaymentContent() {
         return;
       }
 
+      const endpointPrefix = isNomination ? 'nominations' : 'delegates';
+      const orderPayload = isNomination 
+        ? { nominationId: delegateData._id, amount: delegateData.totalAmount || 9440 }
+        : { delegateId: delegateData._id, amount: delegateData.totalAmount, currency: delegateData.delegateType === "foreign" ? "USD" : "INR" };
+
       // Create order via backend
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/create-order`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${endpointPrefix}/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          delegateId: delegateData._id,
-          amount: delegateData.totalAmount,
-          currency: delegateData.delegateType === "foreign" ? "USD" : "INR",
-        }),
+        body: JSON.stringify(orderPayload),
       });
 
       const orderData = await res.json();
@@ -88,21 +107,20 @@ function PaymentContent() {
       const options = {
         key: orderData.keyId,
         amount: orderData.amount,
-        currency: orderData.currency,
+        currency: orderData.currency || "INR",
         name: "BRAND R.Comm 2026",
-        description: `Delegate Payment - ${delegateData.registrationId}`,
+        description: isNomination ? `Award Nomination Payment - #${delegateData.nominationId || delegateData.registrationId}` : `Delegate Payment - ${delegateData.registrationId}`,
         order_id: orderData.orderId,
         handler: async function (response) {
           try {
-            const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/verify-payment`, {
+            const verifyPayload = isNomination 
+              ? { razorpay_order_id: response.razorpay_order_id, razorpay_payment_id: response.razorpay_payment_id, razorpay_signature: response.razorpay_signature, nominationId: delegateData._id }
+              : { razorpay_order_id: response.razorpay_order_id, razorpay_payment_id: response.razorpay_payment_id, razorpay_signature: response.razorpay_signature, delegateId: delegateData._id };
+
+            const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${endpointPrefix}/verify-payment`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                delegateId: delegateData._id,
-              }),
+              body: JSON.stringify(verifyPayload),
             });
 
             const verifyData = await verifyRes.json();

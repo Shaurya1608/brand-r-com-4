@@ -56,30 +56,70 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
 
   const [profileFile, setProfileFile] = useState(null);
   const [summaryFile, setSummaryFile] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [successData, setSuccessData] = useState(null);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsCategoryOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    if (!isOpen) {
+      setSuccessData(null);
+      setError(null);
+      setCopiedLink(false);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'applicantType') {
-      setFormData(prev => ({ ...prev, [name]: value, awardCategory: '' }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+    setFormData(prev => {
+      let next = { ...prev };
+      if (name === 'applicantType') {
+        next = { ...next, [name]: value, awardCategory: '' };
+      } else {
+        next = { ...next, [name]: value };
+      }
+      if (name === 'paymentMethod') {
+        if (value === 'Online' || value === 'Online (Razorpay)') {
+          next.paymentStatus = 'Pending';
+        } else if (value === 'Cash' || value === 'CASH' || value === 'Free') {
+          next.paymentStatus = 'Paid';
+        }
+      }
+      return next;
+    });
+  };
+
+  const handleCloseAndReset = () => {
+    setSuccessData(null);
+    setCopiedLink(false);
+    onClose();
+    setFormData({
+      applicantType: 'Individual',
+      awardCategory: '',
+      fullName: '',
+      designation: '',
+      organization: '',
+      email: '',
+      mobileNumber: '',
+      website: '',
+      city: '',
+      state: '',
+      country: 'India',
+      pinCode: '',
+      address: '',
+      gstNumber: '',
+      briefSummary: '',
+      paymentMethod: 'Online (Razorpay)',
+      paymentStatus: 'Pending',
+      registeredBy: '',
+    });
+  };
+
+  const handleCopyPaymentLink = (url) => {
+    if (!url) return;
+    navigator.clipboard.writeText(url);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 3000);
   };
 
   const handleSubmit = async (e) => {
@@ -132,6 +172,8 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
       const result = await res.json();
 
       if (result.success) {
+        let finalNomination = result.data;
+
         if (formData.paymentStatus || formData.registeredBy) {
           const updateRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/${result.data._id}`, {
             method: 'PUT',
@@ -145,11 +187,33 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
               registrationType: 'Manual Registration',
             })
           });
-          await updateRes.json();
+          const updateData = await updateRes.json();
+          if (updateData.success) {
+            finalNomination = updateData.data;
+          }
         }
 
+        let paymentUrl = '';
+        if (formData.paymentStatus === 'Pending') {
+          const linkRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/${finalNomination._id}/payment-link`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const linkData = await linkRes.json();
+          if (linkData.success) {
+            paymentUrl = linkData.paymentUrl;
+          }
+        }
+
+        setSuccessData({
+          isExisting: result.isExisting,
+          fullName: finalNomination.fullName || formData.fullName,
+          nominationId: `NOM-${finalNomination._id.slice(-5).toUpperCase()}`,
+          awardCategory: finalNomination.awardCategory || formData.awardCategory,
+          paymentStatus: formData.paymentMethod === 'Cash' || formData.paymentMethod === 'CASH' ? 'Paid' : (finalNomination.paymentStatus || formData.paymentStatus || 'Pending'),
+          paymentUrl: paymentUrl
+        });
+
         onNominationAdded && onNominationAdded();
-        onClose();
       } else {
         setError(result.message || 'Failed to submit manual nomination');
       }
@@ -171,22 +235,102 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           <div>
             <div className="flex items-center gap-2">
               <Award className="text-[#5e8e33]" size={22} />
-              <h2 className="text-lg font-black tracking-tight text-gray-900">Manual Awards / Nominations Registration 🏆</h2>
+              <h2 className="text-lg font-black tracking-tight text-gray-900">
+                {successData ? 'Nomination Registration Submitted 🏆' : 'Manual Awards / Nominations Registration 🏆'}
+              </h2>
             </div>
             <p className="text-xs text-gray-600 mt-0.5 font-medium">
               BRAND R.Comm Awards 2026 — OFFICIAL NOMINATION FORM
             </p>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleCloseAndReset}
             className="p-1.5 rounded-full bg-gray-200/70 hover:bg-gray-300 text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
         </div>
 
-        {/* Form Body */}
-        <form onSubmit={handleSubmit} className="overflow-y-auto p-5 sm:p-6 space-y-6 custom-scrollbar flex-1 text-xs">
+        {/* Body */}
+        <div className="overflow-y-auto p-5 sm:p-6 space-y-6 custom-scrollbar flex-1 text-xs">
+          {successData ? (
+            /* In-Modal Success Screen */
+            <div className="flex flex-col items-center text-center py-4 space-y-4">
+              <div className={`w-16 h-16 ${successData.paymentStatus === 'Pending' ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'} rounded-full flex items-center justify-center shadow-xs`}>
+                {successData.paymentStatus === 'Pending' ? (
+                  <Info size={32} />
+                ) : (
+                  <Check size={32} />
+                )}
+              </div>
+
+              <h3 className="text-xl md:text-2xl font-serif font-black text-gray-900 tracking-wide uppercase">
+                {successData.paymentStatus === 'Pending' ? 'Nomination Saved — Payment Pending' : 'Nomination Confirmed & Paid!'}
+              </h3>
+
+              <p className="text-gray-600 text-xs md:text-sm max-w-md font-medium leading-relaxed">
+                {successData.paymentStatus === 'Pending'
+                  ? `Nomination details saved! Share the online payment link below with ${successData.fullName} to complete payment.`
+                  : `Nomination for ${successData.fullName} has been registered and confirmed.`
+                }
+              </p>
+
+              <div className="w-full max-w-md bg-gray-50 border border-gray-200/80 rounded-xl p-4 text-left space-y-2 font-sans shadow-2xs">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-500 font-bold uppercase tracking-wider">Nomination ID</span>
+                  <span className="font-mono font-black text-gray-900 text-sm">{successData.nominationId}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-500 font-medium">Nominee Name</span>
+                  <span className="font-bold text-gray-900">{successData.fullName}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-500 font-medium">Award Category</span>
+                  <span className="font-bold text-[#5e8e33] uppercase">{successData.awardCategory}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs pt-1 border-t border-gray-200">
+                  <span className="text-gray-500 font-medium">Payment Status</span>
+                  <span className={`font-extrabold uppercase px-2 py-0.5 rounded-full text-[10px] ${
+                    successData.paymentStatus === 'Pending' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                  }`}>
+                    {successData.paymentStatus === 'Pending' ? '🟠 Pending (₹9,440 Due)' : '🟢 Paid'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Shareable Online Payment Link Box */}
+              {successData.paymentStatus === 'Pending' && successData.paymentUrl && (
+                <div className="w-full max-w-md bg-amber-50/80 border border-amber-200 rounded-2xl p-4 space-y-2 text-left">
+                  <span className="text-[11px] font-extrabold text-amber-900 uppercase tracking-wider block">Shareable Payment Link</span>
+                  <p className="text-[11px] text-amber-800 leading-tight">Send this link to the nominee via WhatsApp, Email, or SMS to pay online:</p>
+                  
+                  <div className="flex items-center gap-2 pt-1">
+                    <input
+                      type="text"
+                      readOnly
+                      value={successData.paymentUrl}
+                      className="w-full px-3 py-2 bg-white border border-amber-300 rounded-xl text-xs font-mono text-gray-800 focus:outline-none select-all"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleCopyPaymentLink(successData.paymentUrl)}
+                      className="px-4 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm shrink-0 cursor-pointer"
+                    >
+                      {copiedLink ? '✓ Copied!' : 'Copy Link'}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <button
+                onClick={handleCloseAndReset}
+                className="w-full max-w-md py-3 bg-gray-900 hover:bg-gray-800 text-white font-mono font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-md active:scale-95 cursor-pointer mt-2"
+              >
+                Done
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-bold flex items-center gap-2">
               <Info size={16} className="flex-shrink-0" />
@@ -642,7 +786,9 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
               )}
             </button>
           </div>
-        </form>
+          </form>
+          )}
+        </div>
       </div>
     </div>
   );

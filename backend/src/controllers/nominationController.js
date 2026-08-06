@@ -403,3 +403,34 @@ exports.deleteNomination = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
+
+// @desc    Get or generate shareable payment link for a nomination (Admin)
+// @route   GET /api/nominations/:id/payment-link
+// @access  Private (Admin)
+exports.getNominationPaymentLink = async (req, res) => {
+  try {
+    const nomination = await AwardNomination.findById(req.params.id);
+    if (!nomination) {
+      return res.status(404).json({ success: false, message: 'Nomination not found' });
+    }
+
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
+
+    nomination.resumeTokenHash = tokenHash;
+    nomination.paymentTokenExpires = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+    await nomination.save();
+
+    const frontendUrl = process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
+    const paymentUrl = `${frontendUrl}/pay?token=${rawToken}`;
+
+    res.status(200).json({
+      success: true,
+      paymentUrl,
+      rawToken
+    });
+  } catch (error) {
+    console.error('Error in getNominationPaymentLink:', error);
+    res.status(500).json({ success: false, message: 'Server error generating payment link.' });
+  }
+};
