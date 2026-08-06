@@ -13,6 +13,11 @@ export default function SponsorshipsPage() {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [viewingLogo, setViewingLogo] = useState(null);
 
+  const [filterRegistrationType, setFilterRegistrationType] = useState('all');
+  const [filterCategory, setFilterCategory] = useState('all');
+  const [filterTier, setFilterTier] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
+
   useEffect(() => {
     fetchSponsorships();
   }, []);
@@ -39,6 +44,95 @@ export default function SponsorshipsPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleResetFilters = () => {
+    setSearchTerm('');
+    setFilterRegistrationType('all');
+    setFilterCategory('all');
+    setFilterTier('all');
+    setSortBy('newest');
+  };
+
+  const handleExportCSV = () => {
+    if (filteredSponsorships.length === 0) return alert('No data to export');
+
+    const headers = ["S.No.", "Reg. ID", "Reg. Date & Time", "Reg. Type", "Company Name", "GST No.", "Sponsorship Category", "Sponsorship Tier", "Contact Person", "Designation", "Mobile number", "Email", "City", "State/Country", "Pincode", "Address", "Amount", "Status"];
+
+    const rows = filteredSponsorships.map((s, index) => [
+      `"${index + 1}"`,
+      `"#${s._id.slice(-8).toUpperCase()}"`,
+      `"${new Date(s.createdAt).toLocaleString('en-IN')}"`,
+      `"${s.registrationType || 'Online Registration'}"`,
+      `"${s.companyName || ''}"`,
+      `"${s.gstNumber || 'N/A'}"`,
+      `"${s.sponsorshipCategory || ''}"`,
+      `"${s.sponsorshipTier || s.sponsorshipCategory || 'Standard'}"`,
+      `"${s.contactPerson || ''}"`,
+      `"${s.designation || 'N/A'}"`,
+      `"${s.mobileNumber || ''}"`,
+      `"${s.email || ''}"`,
+      `"${s.city || ''}"`,
+      `"${s.stateCountry || ''}"`,
+      `"${s.pinCode || ''}"`,
+      `"${s.address || ''}"`,
+      `"${s.totalAmount || 0}"`,
+      `"${s.status || ''}"`
+    ]);
+
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `sponsorships_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleExportXLS = () => {
+    if (filteredSponsorships.length === 0) return alert('No data to export');
+
+    let tableHtml = `<table border="1"><thead><tr>
+      <th>S.No.</th><th>Reg. ID</th><th>Reg. Date & Time</th><th>Reg. Type</th>
+      <th>Company Name</th><th>GST No.</th><th>Sponsorship Category</th><th>Sponsorship Tier</th>
+      <th>Contact Person</th><th>Designation</th><th>Mobile number</th><th>Email</th>
+      <th>City</th><th>State/Country</th><th>Pincode</th><th>Address</th><th>Amount</th><th>Status</th>
+    </tr></thead><tbody>`;
+
+    filteredSponsorships.forEach((s, idx) => {
+      tableHtml += `<tr>
+        <td>${idx + 1}</td>
+        <td>#${s._id.slice(-8).toUpperCase()}</td>
+        <td>${new Date(s.createdAt).toLocaleString('en-IN')}</td>
+        <td>${s.registrationType || 'Online Registration'}</td>
+        <td>${s.companyName || ''}</td>
+        <td>${s.gstNumber || 'N/A'}</td>
+        <td>${s.sponsorshipCategory || ''}</td>
+        <td>${s.sponsorshipTier || s.sponsorshipCategory || 'Standard'}</td>
+        <td>${s.contactPerson || ''}</td>
+        <td>${s.designation || 'N/A'}</td>
+        <td>${s.mobileNumber || ''}</td>
+        <td>${s.email || ''}</td>
+        <td>${s.city || ''}</td>
+        <td>${s.stateCountry || ''}</td>
+        <td>${s.pinCode || ''}</td>
+        <td>${s.address || ''}</td>
+        <td>₹${s.totalAmount || 0}</td>
+        <td>${s.status || ''}</td>
+      </tr>`;
+    });
+
+    tableHtml += `</tbody></table>`;
+
+    const blob = new Blob([tableHtml], { type: 'application/vnd.ms-excel;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `sponsorships_export_${new Date().toISOString().slice(0, 10)}.xls`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleUpdateSponsorship = async (e) => {
@@ -87,20 +181,40 @@ export default function SponsorshipsPage() {
     }
   };
 
-  const filteredSponsorships = sponsorships.filter(s => {
-    const term = searchTerm.toLowerCase();
-    return (
-      (s.companyName || '').toLowerCase().includes(term) ||
-      (s.contactPerson || '').toLowerCase().includes(term) ||
-      (s.designation || '').toLowerCase().includes(term) ||
-      (s.sponsorshipCategory || '').toLowerCase().includes(term) ||
-      (s.sponsorshipTier || '').toLowerCase().includes(term) ||
-      (s.email || '').toLowerCase().includes(term) ||
-      (s.mobileNumber || '').toLowerCase().includes(term) ||
-      (s.city || '').toLowerCase().includes(term) ||
-      (s.gstNumber || '').toLowerCase().includes(term)
-    );
-  });
+  const filteredSponsorships = sponsorships
+    .filter(s => {
+      const term = searchTerm.toLowerCase();
+      const matchesSearch = (
+        (s.companyName || '').toLowerCase().includes(term) ||
+        (s.contactPerson || '').toLowerCase().includes(term) ||
+        (s.designation || '').toLowerCase().includes(term) ||
+        (s.sponsorshipCategory || '').toLowerCase().includes(term) ||
+        (s.sponsorshipTier || '').toLowerCase().includes(term) ||
+        (s.email || '').toLowerCase().includes(term) ||
+        (s.mobileNumber || '').toLowerCase().includes(term) ||
+        (s.city || '').toLowerCase().includes(term) ||
+        (s.gstNumber || '').toLowerCase().includes(term)
+      );
+
+      const matchesRegType = filterRegistrationType === 'all' || 
+        (filterRegistrationType === 'Online Registration' && (s.registrationType === 'Online Registration' || !s.registrationType)) ||
+        (filterRegistrationType === 'Manual Registration' && s.registrationType === 'Manual Registration');
+
+      const matchesCategory = filterCategory === 'all' || 
+        (s.sponsorshipCategory || '').toLowerCase().includes(filterCategory.toLowerCase());
+
+      const matchesTier = filterTier === 'all' || 
+        (s.sponsorshipTier || '').toLowerCase().includes(filterTier.toLowerCase()) ||
+        (s.sponsorshipCategory || '').toLowerCase().includes(filterTier.toLowerCase());
+
+      return matchesSearch && matchesRegType && matchesCategory && matchesTier;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'oldest') {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      }
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
 
   return (
     <div className="p-4 md:p-6">
@@ -152,17 +266,110 @@ export default function SponsorshipsPage() {
 
       {/* Main Content Area */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        {/* Table Controls */}
-        <div className="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="relative max-w-sm w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-            <input 
-              type="text" 
-              placeholder="Search by company, person, or category..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] transition-all bg-gray-50 focus:bg-white"
-            />
+        {/* Table Controls & Filter Bar (Matching Design Wireframe) */}
+        <div className="p-4 md:p-5 border-b border-gray-100 flex flex-col gap-4">
+          <div className="flex flex-wrap items-center gap-2.5">
+            {/* 1. Search Box */}
+            <div className="relative min-w-[200px] max-w-xs">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
+              <input 
+                type="text" 
+                placeholder="Search name, company, email" 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 text-xs font-medium border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-900 bg-white shadow-sm"
+              />
+            </div>
+
+            {/* 2. All Registration type */}
+            <select
+              value={filterRegistrationType}
+              onChange={(e) => setFilterRegistrationType(e.target.value)}
+              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
+            >
+              <option value="all">All Registration type</option>
+              <option value="Online Registration">Online Registration</option>
+              <option value="Manual Registration">Manual Registration</option>
+            </select>
+
+            {/* 3. Sponsorship Category */}
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
+            >
+              <option value="all">Sponsorship Category</option>
+              <option value="Exclusive">Exclusive</option>
+              <option value="General">General</option>
+            </select>
+
+            {/* 4. Sponsorship Tier */}
+            <select
+              value={filterTier}
+              onChange={(e) => setFilterTier(e.target.value)}
+              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
+            >
+              <option value="all">Sponsorship Tier</option>
+              <option value="Presented By">Presented By</option>
+              <option value="Powered By">Powered By</option>
+              <option value="Award Sponsor">Award Sponsor</option>
+              <option value="Coffee Table Book Sponsor">Coffee Table Book Sponsor</option>
+              <option value="Lanyard Sponsor">Lanyard Sponsor</option>
+              <option value="Kit Sponsor">Kit Sponsor</option>
+              <option value="Lunch Sponsor">Lunch Sponsor</option>
+              <option value="Gala Dinner Sponsor">Gala Dinner Sponsor</option>
+              <option value="Agenda Sponsor">Agenda Sponsor</option>
+              <option value="Badge Sponsor">Badge Sponsor</option>
+              <option value="Memento Sponsor">Memento Sponsor</option>
+            </select>
+
+            {/* 5. Reset Filters Button */}
+            <button
+              onClick={handleResetFilters}
+              className="px-4 py-2 text-xs font-bold border border-gray-300 hover:border-gray-400 rounded-xl bg-white hover:bg-gray-50 text-gray-800 transition-colors shadow-sm cursor-pointer"
+            >
+              Reset Filters
+            </button>
+
+            {/* Right Group: Export & Sort by */}
+            <div className="flex items-center gap-2 ml-auto">
+              {/* 6. Export Dropdown */}
+              <div className="relative group">
+                <button
+                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-gray-800 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors shadow-sm"
+                >
+                  <Download size={14} />
+                  <span>Export</span>
+                  <svg className="w-3.5 h-3.5 text-gray-500 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className="absolute right-0 top-full mt-1 w-28 bg-white border border-gray-200 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all z-50 overflow-hidden">
+                  <button
+                    onClick={handleExportCSV}
+                    className="w-full px-4 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-[#6a9a38]/10 hover:text-[#6a9a38] transition-colors cursor-pointer"
+                  >
+                    CSV
+                  </button>
+                  <button
+                    onClick={handleExportXLS}
+                    className="w-full px-4 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-[#6a9a38]/10 hover:text-[#6a9a38] transition-colors border-t border-gray-100 cursor-pointer"
+                  >
+                    XLS
+                  </button>
+                </div>
+              </div>
+
+              {/* 7. Sort by Dropdown */}
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
+              >
+                <option value="newest">Sort by: New to old</option>
+                <option value="oldest">Sort by: Old to New</option>
+              </select>
+            </div>
           </div>
         </div>
 
