@@ -78,6 +78,16 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     if (isOpen) {
       setDelegateType(defaultType);
       
+      // Fetch dynamic active pricing tier from backend server (uses PRICING_TEST_DATE if set in backend/.env)
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/pricing-tier`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.pricingTier) {
+            setPricingTier(data.pricingTier);
+          }
+        })
+        .catch(err => console.error('Error fetching pricing tier from backend:', err));
+
       // Auto-resume payment session if secure token is present in URL
       if (typeof window !== 'undefined') {
         const urlParams = new URLSearchParams(window.location.search);

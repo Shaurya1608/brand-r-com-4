@@ -68,6 +68,28 @@ const calculateDelegatePricing = (type, coupon) => {
   };
 };
 
+// @desc    Get active delegate pricing tier based on server IST date (Public)
+// @route   GET /api/delegates/pricing-tier
+// @access  Public
+exports.getPricingTier = async (req, res) => {
+  try {
+    const pricing = calculateDelegatePricing('indian', false);
+    res.status(200).json({
+      success: true,
+      pricingTier: {
+        label: pricing.tierName,
+        amountRs: pricing.baseAmount,
+        amount: `₹ ${new Intl.NumberFormat('en-IN').format(pricing.baseAmount)} + GST`,
+        gstRs: pricing.gstAmount,
+        totalRs: pricing.totalAmount
+      }
+    });
+  } catch (error) {
+    console.error('Error in getPricingTier:', error);
+    res.status(500).json({ success: false, message: 'Server error retrieving pricing tier.' });
+  }
+};
+
 // @desc    Register a new delegate
 // @route   POST /api/delegates
 // @access  Public

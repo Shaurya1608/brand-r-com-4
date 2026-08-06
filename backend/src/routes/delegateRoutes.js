@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerDelegate, getDelegates, updateDelegate, createOrder, verifyPayment, verifyDelegate, bulkUpdateDelegates, lookupDelegate, resumePayment } = require('../controllers/delegateController');
+const { registerDelegate, getDelegates, updateDelegate, createOrder, verifyPayment, verifyDelegate, bulkUpdateDelegates, lookupDelegate, resumePayment, getPricingTier } = require('../controllers/delegateController');
 const { protect } = require('../middlewares/authMiddleware');
 const { registrationLimiter, orderLimiter } = require('../middlewares/rateLimiter');
 const { validateDelegateInput } = require('../middlewares/inputValidator');
@@ -10,6 +10,9 @@ const { validateDelegateInput } = require('../middlewares/inputValidator');
 router.route('/')
   .post(registrationLimiter, validateDelegateInput, registerDelegate)
   .get(protect, getDelegates);
+
+// Public: Get active pricing tier from server date
+router.get('/pricing-tier', getPricingTier);
 
 // Public: Lookup existing registration by email/mobile/regID
 router.get('/lookup', lookupDelegate);
