@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
-import { X, Info, Upload, Check, Award, Building2, User, Mail, Phone, MapPin, Globe, CreditCard, ShieldCheck } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { X, Info, Upload, Check, Award, Building2, User, Mail, Phone, MapPin, Globe, CreditCard, ChevronDown } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 const INDIVIDUAL_CATEGORIES = [
@@ -12,14 +12,17 @@ const INDIVIDUAL_CATEGORIES = [
   "HR Leader of the Year"
 ];
 
-const ORGANIZATION_CATEGORIES = [
-  "Industry Excellence Awards - Seed",
-  "Industry Excellence Awards - Crop Protection",
-  "Industry Excellence Awards - Soil Health & Biologicals",
-  "Industry Excellence Awards - Fertilizer & Plant Nutrition",
-  "Industry Excellence Awards - Farm Machinery & Agri-Tech",
-  "Industry Excellence Awards - Irrigation & Water Management",
-  "Industry Excellence Awards - Agri Startup",
+const INDUSTRY_EXCELLENCE_OPTIONS = [
+  "Seed",
+  "Crop Protection",
+  "Soil Health & Biologicals",
+  "Fertilizer & Plant Nutrition",
+  "Farm Machinery & Agri-Tech",
+  "Irrigation & Water Management",
+  "Agri Startup"
+];
+
+const OTHER_ORGANIZATION_CATEGORIES = [
   "Emerging Company of the Year Award",
   "Best Outdoor Campaign Award",
   "Best Rural Engagement Award",
@@ -55,6 +58,18 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
   const [summaryFile, setSummaryFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsCategoryOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   if (!isOpen) return null;
 
@@ -132,10 +147,6 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
       setLoading(false);
     }
   };
-
-  const availableCategories = formData.applicantType === 'Individual' 
-    ? INDIVIDUAL_CATEGORIES 
-    : ORGANIZATION_CATEGORIES;
 
   const inputStyle = "w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-semibold text-gray-900 placeholder:text-gray-500 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] transition-all bg-gray-50/70 focus:bg-white shadow-2xs";
 
@@ -382,21 +393,91 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                 </div>
               </div>
 
-              {/* Award Category Select */}
+              {/* Award Category Select with Optgroup / Custom Dropdown matching Website */}
               <div>
                 <label className="block font-bold text-gray-800 text-xs mb-1.5">Select Award Category <span className="text-red-500">*</span></label>
-                <select
-                  name="awardCategory"
-                  value={formData.awardCategory}
-                  onChange={handleChange}
-                  required
-                  className={inputStyle}
-                >
-                  <option value="" className="text-gray-500">Choose a category...</option>
-                  {availableCategories.map((cat, idx) => (
-                    <option key={idx} value={cat} className="text-gray-900 font-semibold">{cat}</option>
-                  ))}
-                </select>
+                
+                <div className="relative" ref={dropdownRef}>
+                  <div
+                    onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                    className={`${inputStyle} cursor-pointer flex items-center justify-between`}
+                  >
+                    <span className={formData.awardCategory ? "text-gray-900 font-bold" : "text-gray-500 font-normal"}>
+                      {formData.awardCategory || "Choose a category..."}
+                    </span>
+                    <ChevronDown size={16} className={`text-gray-500 transition-transform ${isCategoryOpen ? 'rotate-180' : ''}`} />
+                  </div>
+
+                  {isCategoryOpen && (
+                    <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-2xl max-h-60 overflow-y-auto custom-scrollbar p-1 text-xs">
+                      {formData.applicantType === 'Individual' ? (
+                        <div className="space-y-0.5">
+                          {INDIVIDUAL_CATEGORIES.map((cat, idx) => (
+                            <div
+                              key={idx}
+                              onClick={() => {
+                                setFormData(prev => ({ ...prev, awardCategory: cat }));
+                                setIsCategoryOpen(false);
+                              }}
+                              className={`px-3 py-2 rounded-lg cursor-pointer transition-colors ${
+                                formData.awardCategory === cat ? 'bg-[#5e8e33]/15 text-[#5e8e33] font-black' : 'text-gray-800 hover:bg-gray-100 font-semibold'
+                              }`}
+                            >
+                              {cat}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          {/* Group: Industry Excellence Awards */}
+                          <div className="rounded-lg overflow-hidden border border-gray-100">
+                            <div className="px-3 py-1.5 bg-[#5e8e33]/10 text-[#5e8e33] font-black text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+                              <Award size={13} />
+                              <span>Industry Excellence Awards</span>
+                            </div>
+                            <div className="p-1 bg-gray-50/50 space-y-0.5 pl-3 border-l-2 border-[#5e8e33]/30 ml-2 my-1">
+                              {INDUSTRY_EXCELLENCE_OPTIONS.map((opt, optIdx) => {
+                                const fullVal = `Industry Excellence Awards - ${opt}`;
+                                return (
+                                  <div
+                                    key={optIdx}
+                                    onClick={() => {
+                                      setFormData(prev => ({ ...prev, awardCategory: fullVal }));
+                                      setIsCategoryOpen(false);
+                                    }}
+                                    className={`px-3 py-1.5 rounded-lg cursor-pointer transition-colors text-[11px] ${
+                                      formData.awardCategory === fullVal ? 'bg-[#5e8e33]/20 text-[#5e8e33] font-black' : 'text-gray-700 hover:bg-gray-200/70 font-semibold'
+                                    }`}
+                                  >
+                                    {opt}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          {/* Other Organization Categories */}
+                          <div className="space-y-0.5">
+                            {OTHER_ORGANIZATION_CATEGORIES.map((cat, idx) => (
+                              <div
+                                key={idx}
+                                onClick={() => {
+                                  setFormData(prev => ({ ...prev, awardCategory: cat }));
+                                  setIsCategoryOpen(false);
+                                }}
+                                className={`px-3 py-2 rounded-lg cursor-pointer transition-colors ${
+                                  formData.awardCategory === cat ? 'bg-[#5e8e33]/15 text-[#5e8e33] font-black' : 'text-gray-800 hover:bg-gray-100 font-semibold'
+                                }`}
+                              >
+                                {cat}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Brief Summary */}
