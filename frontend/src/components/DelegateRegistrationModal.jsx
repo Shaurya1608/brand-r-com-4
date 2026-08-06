@@ -155,10 +155,29 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     setError('');
 
     // Email & Mobile format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email || !emailRegex.test(String(formData.email).trim().toLowerCase())) {
+    const cleanEmail = String(formData.email || '').trim().toLowerCase();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
       setError('Please enter a valid email address (e.g. name@company.com)');
       return;
+    }
+
+    const emailTypos = [
+      { bad: '@gmail.co', correct: '@gmail.com' },
+      { bad: '@gmail.con', correct: '@gmail.com' },
+      { bad: '@gamil.com', correct: '@gmail.com' },
+      { bad: '@gmai.com', correct: '@gmail.com' },
+      { bad: '@yahoo.co', correct: '@yahoo.com' },
+      { bad: '@yahoo.con', correct: '@yahoo.com' },
+      { bad: '@hotmail.co', correct: '@hotmail.com' },
+      { bad: '@outlook.co', correct: '@outlook.com' }
+    ];
+
+    for (const typo of emailTypos) {
+      if (cleanEmail.endsWith(typo.bad)) {
+        setError(`Did you mean ${cleanEmail.replace(typo.bad, typo.correct)}? Please check your email address.`);
+        return;
+      }
     }
 
     const mobileDigits = String(formData.mobileNumber || '').replace(/\D/g, '');

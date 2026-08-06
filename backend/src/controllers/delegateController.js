@@ -120,12 +120,32 @@ exports.registerDelegate = async (req, res) => {
     const cleanEmail = (email && typeof email === 'string') ? email.trim().toLowerCase() : '';
     const cleanMobile = (mobileNumber && typeof mobileNumber === 'string') ? mobileNumber.trim() : '';
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!cleanEmail || !emailRegex.test(cleanEmail)) {
       return res.status(400).json({
         success: false,
         message: 'Please provide a valid email address (e.g. name@company.com).'
       });
+    }
+
+    const emailTypos = [
+      { bad: '@gmail.co', correct: '@gmail.com' },
+      { bad: '@gmail.con', correct: '@gmail.com' },
+      { bad: '@gamil.com', correct: '@gmail.com' },
+      { bad: '@gmai.com', correct: '@gmail.com' },
+      { bad: '@yahoo.co', correct: '@yahoo.com' },
+      { bad: '@yahoo.con', correct: '@yahoo.com' },
+      { bad: '@hotmail.co', correct: '@hotmail.com' },
+      { bad: '@outlook.co', correct: '@outlook.com' }
+    ];
+
+    for (const typo of emailTypos) {
+      if (cleanEmail.endsWith(typo.bad)) {
+        return res.status(400).json({
+          success: false,
+          message: `Did you mean ${cleanEmail.replace(typo.bad, typo.correct)}? Please check your email address.`
+        });
+      }
     }
 
     const mobileDigits = cleanMobile.replace(/\D/g, '');
