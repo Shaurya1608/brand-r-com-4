@@ -81,6 +81,15 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   const [success, setSuccess] = useState(false);
   const [couponApplied, setCouponApplied] = useState(false);
 
+  // Existing record & Lookup states
+  const [isExistingRecord, setIsExistingRecord] = useState(false);
+  const [isAlreadyPaid, setIsAlreadyPaid] = useState(false);
+  const [existingData, setExistingData] = useState(null);
+  const [isLookupMode, setIsLookupMode] = useState(false);
+  const [lookupQuery, setLookupQuery] = useState('');
+  const [lookupLoading, setLookupLoading] = useState(false);
+  const [lookupError, setLookupError] = useState('');
+
   // Payment flow state
   const [registeredDelegateId, setRegisteredDelegateId] = useState(null);
   const [paymentLoading, setPaymentLoading] = useState(false);
@@ -127,6 +136,15 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
 
       if (data.success) {
         setRegisteredDelegateId(data.data._id);
+        if (data.isExisting) {
+          setIsExistingRecord(true);
+          setIsAlreadyPaid(data.alreadyPaid);
+          setExistingData(data.data);
+        } else {
+          setIsExistingRecord(false);
+          setIsAlreadyPaid(false);
+          setExistingData(null);
+        }
         setSuccess(true);
       } else {
         setError(data.message || 'Something went wrong. Please try again.');
@@ -135,6 +153,46 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
       setError('Failed to connect to the server. Please try again later.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleLookupSubmit = async (e) => {
+    e.preventDefault();
+    if (!lookupQuery.trim()) return;
+    setLookupLoading(true);
+    setLookupError('');
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/lookup?query=${encodeURIComponent(lookupQuery.trim())}`);
+      const data = await res.json();
+      if (data.success && data.data) {
+        setRegisteredDelegateId(data.data._id);
+        setExistingData(data.data);
+        setIsExistingRecord(true);
+        setIsAlreadyPaid(data.data.paymentStatus === 'Paid');
+        setFormData({
+          fullName: data.data.fullName || '',
+          email: data.data.email || '',
+          designation: data.data.designation || '',
+          mobileNumber: data.data.mobileNumber || '',
+          organization: data.data.organization || '',
+          city: data.data.city || '',
+          stateCountry: data.data.stateCountry || '',
+          pinCode: data.data.pinCode || '',
+          gstNumber: data.data.gstNumber || '',
+          address: data.data.address || '',
+        });
+        if (data.data.delegateType) setDelegateType(data.data.delegateType);
+        if (data.data.couponCode) setCouponApplied(true);
+        setSuccess(true);
+      } else {
+        setLookupError(data.message || 'No existing registration found with those details.');
+      }
+    } catch (err) {
+      console.error(err);
+      setLookupError('Error connecting to server. Please try again.');
+    } finally {
+      setLookupLoading(false);
     }
   };
 
@@ -294,30 +352,35 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                   </svg>
                 </button>
 
-                {paymentSuccess ? (
-                  // ── Payment confirmed ──────────────────────────────────────
+                {paymentSuccess || isAlreadyPaid ? (
+                  // ── Payment confirmed / Already Registered ─────────────────
                   <>
-                    <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mb-5">
-                      <svg className="w-8 h-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-5">
+                      <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-serif text-brand-dark font-bold mb-3">Payment Successful!</h2>
+                    <h2 className="text-2xl md:text-3xl font-serif text-brand-dark font-bold mb-3">
+                      {isAlreadyPaid ? 'Already Registered & Confirmed!' : 'Payment Successful!'}
+                    </h2>
                     <p className="text-brand-dark/70 text-[14px] leading-relaxed max-w-sm mb-4">
-                      Your delegate registration for <strong className="font-bold text-brand-dark">BRAND R.Comm 2026</strong> is now confirmed.
+                      {isAlreadyPaid 
+                        ? `We found an existing confirmed registration for ${existingData?.fullName || formData.fullName}. Your registration is active.`
+                        : `Your delegate registration for BRAND R.Comm 2026 is now confirmed.`
+                      }
                     </p>
                     <div className="w-full max-w-sm bg-brand-surface/50 border border-brand-primary/10 rounded-xl p-4 mb-6 text-left space-y-2">
                       <div className="flex justify-between text-[13px]">
                         <span className="text-brand-dark/60 font-medium">Name</span>
-                        <span className="font-semibold text-brand-dark">{formData.fullName}</span>
+                        <span className="font-semibold text-brand-dark">{existingData?.fullName || formData.fullName}</span>
                       </div>
                       <div className="flex justify-between text-[13px]">
-                        <span className="text-brand-dark/60 font-medium">Amount Paid</span>
-                        <span className="font-bold text-brand-primary">{finalAmountString}</span>
+                        <span className="text-brand-dark/60 font-medium">Registration ID</span>
+                        <span className="font-mono text-[11px] font-bold text-brand-primary">#{registeredDelegateId?.slice(-8).toUpperCase()}</span>
                       </div>
                       <div className="flex justify-between text-[13px]">
-                        <span className="text-brand-dark/60 font-medium">Payment ID</span>
-                        <span className="font-mono text-[11px] text-brand-dark/70 break-all">{razorpayPaymentId}</span>
+                        <span className="text-brand-dark/60 font-medium">Status</span>
+                        <span className="font-bold text-emerald-700 uppercase text-[11px]">Paid & Confirmed</span>
                       </div>
                     </div>
                     <button
@@ -326,6 +389,55 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                     >
                       Close
                     </button>
+                  </>
+                ) : isExistingRecord ? (
+                  // ── Existing Registration Found (Payment Pending) ───────────
+                  <>
+                    <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-5">
+                      <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                      </svg>
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-serif text-brand-dark font-bold mb-2">Existing Registration Found!</h2>
+                    <span className="px-3 py-1 bg-amber-100 text-amber-800 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full mb-4">
+                      Is this you? Payment Due
+                    </span>
+                    <p className="text-brand-dark/70 text-[14px] leading-relaxed max-w-sm mb-4">
+                      We found your existing registration for <strong className="font-bold text-brand-dark">{existingData?.fullName || formData.fullName}</strong> ({existingData?.email || formData.email}).
+                    </p>
+
+                    <div className="w-full max-w-sm bg-amber-50/50 border border-amber-200/80 rounded-xl p-4 mb-6 text-left space-y-2">
+                      <div className="flex justify-between text-[13px]">
+                        <span className="text-brand-dark/60 font-medium">Reg. ID</span>
+                        <span className="font-mono font-bold text-brand-dark">#{registeredDelegateId?.slice(-8).toUpperCase()}</span>
+                      </div>
+                      <div className="flex justify-between text-[13px]">
+                        <span className="text-brand-dark/60 font-medium">Payment Status</span>
+                        <span className="font-bold text-amber-700 uppercase tracking-wider text-[11px]">Pending Due</span>
+                      </div>
+                      <div className="flex justify-between text-[13px]">
+                        <span className="text-brand-dark/60 font-medium">Total Amount Due</span>
+                        <span className="font-bold text-brand-primary">{finalAmountString}</span>
+                      </div>
+                    </div>
+
+                    {error && <p className="text-red-500 text-[12px] font-bold text-center mb-4">{error}</p>}
+
+                    <div className="flex flex-col w-full gap-3 max-w-sm">
+                      <button
+                        onClick={handleProceedToPayment}
+                        disabled={paymentLoading}
+                        className="w-full py-3.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-mono font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg disabled:opacity-70"
+                      >
+                        {paymentLoading ? 'Opening Payment Gateway...' : `Proceed To Payment (${finalAmountString})`}
+                      </button>
+                      <button
+                        onClick={() => { setSuccess(false); setIsExistingRecord(false); }}
+                        className="w-full py-2.5 border border-gray-300 text-gray-600 font-mono font-bold text-[10px] uppercase tracking-widest rounded-lg hover:bg-gray-50 transition-colors"
+                      >
+                        Submit New Details
+                      </button>
+                    </div>
                   </>
                 ) : paymentCancelled ? (
                   // ── Payment cancelled — registration still pending ──────────

@@ -26,12 +26,50 @@ exports.registerDelegate = async (req, res) => {
       registeredBy,
     } = req.body;
 
+    const cleanEmail = email ? email.trim().toLowerCase() : '';
+    const cleanMobile = mobileNumber ? mobileNumber.trim() : '';
+
+    // Check if delegate already registered by Email OR Mobile Number
+    if (!isManuallyCreated && (cleanEmail || cleanMobile)) {
+      const queryOr = [];
+      if (cleanEmail) queryOr.push({ email: cleanEmail });
+      if (cleanMobile) queryOr.push({ mobileNumber: cleanMobile });
+
+      const existingDelegate = await DelegateRegistration.findOne({ $or: queryOr });
+
+      if (existingDelegate) {
+        // Update existing record with latest user input
+        existingDelegate.delegateType = delegateType || existingDelegate.delegateType;
+        existingDelegate.fullName = fullName || existingDelegate.fullName;
+        existingDelegate.designation = designation || existingDelegate.designation;
+        existingDelegate.organization = organization || existingDelegate.organization;
+        existingDelegate.city = city || existingDelegate.city;
+        existingDelegate.stateCountry = stateCountry || existingDelegate.stateCountry;
+        existingDelegate.pinCode = pinCode || existingDelegate.pinCode;
+        existingDelegate.address = address || existingDelegate.address;
+        if (gstNumber) existingDelegate.gstNumber = gstNumber.trim().toUpperCase();
+        if (couponCode) existingDelegate.couponCode = couponCode;
+
+        await existingDelegate.save();
+
+        return res.status(200).json({
+          success: true,
+          isExisting: true,
+          alreadyPaid: existingDelegate.paymentStatus === 'Paid',
+          message: existingDelegate.paymentStatus === 'Paid'
+            ? 'You are already registered and your payment is confirmed!'
+            : 'Existing registration found! Please complete your pending payment.',
+          data: existingDelegate
+        });
+      }
+    }
+
     const newDelegate = await DelegateRegistration.create({
       delegateType,
       fullName,
-      email,
+      email: cleanEmail,
       designation,
-      mobileNumber,
+      mobileNumber: cleanMobile,
       organization,
       city,
       stateCountry,
@@ -64,6 +102,59 @@ exports.registerDelegate = async (req, res) => {
       success: false,
       message: 'Server Error. Please try again.'
     });
+  }
+};
+
+// @desc    Lookup an existing delegate by email, mobile number, or registration ID (Public)
+// @route   GET /api/delegates/lookup?query=...
+// @access  Public
+exports.lookupDelegate = async (req, res) => {
+  try {
+    const { query } = req.query;
+    if (!query) {
+      return res.status(400).json({ success: false, message: 'Please provide email, mobile number, or registration ID' });
+    }
+
+    const cleanQuery = query.trim();
+    const searchRegex = new RegExp(cleanQuery, 'i');
+
+    let delegate = null;
+
+    if (cleanQuery.length === 24) {
+      delegate = await DelegateRegistration.findById(cleanQuery);
+    }
+
+    if (!delegate) {
+      const allDelegates = await DelegateRegistration.find({
+        $or: [
+          { email: cleanQuery.toLowerCase() },
+          { mobileNumber: cleanQuery },
+          { fullName: searchRegex }
+        ]
+      }).sort({ createdAt: -1 });
+
+      if (allDelegates.length > 0) {
+        delegate = allDelegates[0];
+      } else {
+        const matchedById = await DelegateRegistration.find().sort({ createdAt: -1 });
+        delegate = matchedById.find(d => d._id.toString().slice(-8).toUpperCase() === cleanQuery.toUpperCase());
+      }
+    }
+
+    if (!delegate) {
+      return res.status(404).json({
+        success: false,
+        message: 'No existing registration found matching your details.'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: delegate
+    });
+  } catch (error) {
+    console.error('Error in lookupDelegate:', error);
+    res.status(500).json({ success: false, message: 'Server error looking up registration.' });
   }
 };
 
