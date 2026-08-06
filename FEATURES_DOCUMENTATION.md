@@ -167,8 +167,22 @@ Event organizers and team members dealing directly with attendees need real-time
 
 ---
 
+## 9. Award Nomination Security, Duplicate Locking & Pay Later Resumption
+
+### ❓ Why It Was Implemented
+Brings the exact same enterprise security, duplicate prevention, payment recovery, and team notification architecture to Award Nominations, while keeping the entry fee fixed at **₹9,440** (₹8,000 + 18% GST) without date-based tier shifts.
+
+### 🛠️ How It Works
+- **Duplicate Prevention**: Canonical email/mobile matching prevents duplicate nomination entries in MongoDB.
+- **SHA-256 Hashed Resume Links**: Generates unguessable payment resumption links (`?nominationToken=...`) with 14-day expiry. Token is permanently nullified upon payment completion.
+- **Timing-Safe Payment Signature Verification**: Uses `crypto.timingSafeEqual` HMAC checks.
+- **Automated Dual Email Alerts**: Dispatches attendee confirmation email + internal team notifications to `info@snailintegral.com`, `marketing@snailintegral.com`, and `snailintegral@gmail.com`.
+
+---
+
 ## 📝 Revision Log
 
+| **2026-08-06** | Award Nomination Security, Hashed Resume Tokens & Duplicate Prevention | `nominationController.js`, `AwardNomination.js`, `AwardNominationModal.jsx` | Antigravity AI |
 | **2026-08-06** | Multi-Recipient Team Notification System (`ADMIN_NOTIFICATION_EMAILS`) | `emailService.js` | Antigravity AI |
 | **2026-08-06** | PRICING_TEST_DATE Dev Simulation Testing Mode | `delegateController.js`, `DelegateRegistrationModal.jsx` | Antigravity AI |
 | **2026-08-06** | Initial creation of Master Feature Documentation | System-wide | Antigravity AI |

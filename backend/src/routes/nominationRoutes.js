@@ -33,6 +33,9 @@ router.post('/', registrationLimiter, upload.fields([
   { name: 'profileDocument', maxCount: 1 }
 ]), validateNominationInput, nominationController.createNomination);
 
+// Public route for resuming nomination payment via secure token
+router.get('/resume-payment/:token', nominationController.resumePayment);
+
 // Razorpay Payment Routes
 router.post('/create-order', orderLimiter, nominationController.createOrder);
 router.post('/verify-payment', nominationController.verifyPayment);

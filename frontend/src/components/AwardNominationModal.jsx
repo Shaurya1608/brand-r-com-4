@@ -35,9 +35,35 @@ export default function AwardNominationModal({ isOpen, onClose }) {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [razorpayPaymentId, setRazorpayPaymentId] = useState("");
   const [paymentCancelled, setPaymentCancelled] = useState(false);
+  const [isExistingRecord, setIsExistingRecord] = useState(false);
+  const [existingData, setExistingData] = useState(null);
 
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const categoryDropdownRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Auto-resume payment session if secure token is present in URL
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('nominationToken') || urlParams.get('token');
+        if (token) {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/resume-payment/${token}`)
+            .then(res => res.json())
+            .then(data => {
+              if (data.success && data.data) {
+                setSubmittedNominationId(data.data._id);
+                setExistingData(data.data);
+                setIsExistingRecord(true);
+                setSuccess(true);
+                if (data.alreadyPaid) setPaymentSuccess(true);
+              }
+            })
+            .catch(err => console.error('Error resuming nomination session:', err));
+        }
+      }
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -142,6 +168,11 @@ export default function AwardNominationModal({ isOpen, onClose }) {
 
       if (result.success) {
         setSubmittedNominationId(result.data._id);
+        if (result.isExisting) {
+          setIsExistingRecord(true);
+          setExistingData(result.data);
+          if (result.alreadyPaid) setPaymentSuccess(true);
+        }
         setSuccess(true);
       } else {
         setError(result.message || "Something went wrong. Please try again.");
@@ -324,19 +355,40 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                   </svg>
                 </button>
 
-                <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
+                {isExistingRecord ? (
+                  <>
+                    <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-4">
+                      <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                      </svg>
+                    </div>
+                    <h2 className="text-xl md:text-2xl font-serif text-brand-dark font-bold mb-1 uppercase tracking-wider">
+                      Existing Nomination Found!
+                    </h2>
+                    <span className="px-3 py-1 bg-amber-100 text-amber-800 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full mb-3">
+                      Is this you? Entry Fee Pending
+                    </span>
+                    <p className="text-brand-dark/70 text-[13px] leading-relaxed max-w-sm mb-4">
+                      It looks like you've already submitted a nomination. You can complete your pending payment below without re-submitting.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mb-4">
+                      <svg className="w-8 h-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
 
-                <h2 className="text-xl md:text-2xl font-serif text-brand-dark font-bold mb-2 uppercase tracking-wider">
-                  Details Saved Successfully
-                </h2>
+                    <h2 className="text-xl md:text-2xl font-serif text-brand-dark font-bold mb-2 uppercase tracking-wider">
+                      Details Saved Successfully
+                    </h2>
 
-                <p className="text-brand-dark/70 text-[13px] leading-relaxed max-w-md mb-4">
-                  Thank you for completing your nomination details. Please proceed to the payment page to complete your nomination submission.
-                </p>
+                    <p className="text-brand-dark/70 text-[13px] leading-relaxed max-w-md mb-4">
+                      Thank you for completing your nomination details. Please proceed to the payment page to complete your nomination submission.
+                    </p>
+                  </>
+                )}
 
                 {/* Amount display card */}
                 <div className="bg-brand-surface border border-brand-primary/20 rounded-xl p-4 w-full max-w-sm mb-6 text-center">

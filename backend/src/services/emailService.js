@@ -281,7 +281,7 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
  * Send award nomination registration & payment status update email via Resend
  * @param {Object} nomination - The nomination database object
  */
-const sendNominationConfirmationEmail = async (nomination) => {
+const sendNominationConfirmationEmail = async (nomination, rawToken = null) => {
   try {
     if (!nomination || !nomination.email) {
       console.error('Cannot send nomination email: Missing recipient email address.');
@@ -312,7 +312,10 @@ const sendNominationConfirmationEmail = async (nomination) => {
       statusBadge = `<span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">Failed</span>`;
     }
 
-    const formattedAmount = `₹${(nomination.amountPaid || 9440).toLocaleString('en-IN')}`;
+    const formattedAmount = `₹${(nomination.amountPaid || nomination.totalAmount || 9440).toLocaleString('en-IN')}`;
+
+    const tokenParam = rawToken ? `?nominationToken=${rawToken}` : '';
+    const resumeUrl = `${process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app'}${tokenParam}`;
 
     const htmlContent = `
     <!DOCTYPE html>
@@ -393,6 +396,14 @@ const sendNominationConfirmationEmail = async (nomination) => {
               ` : ''}
             </table>
           </div>
+
+          ${!isPaid ? `
+          <div style="text-align: center; margin: 28px 0;">
+            <a href="${resumeUrl}" style="background-color: #6a9a38; color: #ffffff; padding: 14px 28px; font-size: 14px; font-weight: 700; border-radius: 8px; text-decoration: none; display: inline-block; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(106, 154, 56, 0.3);">
+              Complete Your Payment →
+            </a>
+          </div>
+          ` : ''}
 
           <div class="event-info">
             <h4>🏆 Awards Ceremony</h4>

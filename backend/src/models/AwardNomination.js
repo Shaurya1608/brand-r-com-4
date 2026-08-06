@@ -98,7 +98,24 @@ const awardNominationSchema = new mongoose.Schema({
   },
   amountPaid: {
     type: Number,
+    default: 0,
+  },
+  totalAmount: {
+    type: Number,
     default: 9440,
+  },
+  amountDue: {
+    type: Number,
+    default: 9440,
+  },
+  resumeTokenHash: {
+    type: String,
+    default: null,
+    index: true,
+  },
+  paymentTokenExpires: {
+    type: Date,
+    default: null,
   },
   initialEmailSent: {
     type: Boolean,
