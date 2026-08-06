@@ -242,14 +242,14 @@ export default function SponsorshipsPage() {
           </p>
         </div>
 
-        {/* Premium Top Action Button */}
+        {/* Compact Top Action Button */}
         <div>
           <button
             onClick={() => setIsManualSponsorshipModalOpen(true)}
-            className="inline-flex items-center gap-2.5 px-5 sm:px-6 py-3 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-2xl shadow-md shadow-[#5e8e33]/25 hover:shadow-lg hover:shadow-[#5e8e33]/35 hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 active:scale-95 cursor-pointer border border-white/20"
+            className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-[11px] font-black uppercase tracking-wider rounded-xl shadow-sm shadow-[#5e8e33]/20 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 active:scale-95 cursor-pointer"
           >
-            <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-              <Plus size={13} className="stroke-[3]" />
+            <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+              <Plus size={11} className="stroke-[3]" />
             </div>
             <span className="whitespace-nowrap">ADD SPONSORSHIP VIA MANUAL REGISTRATION</span>
           </button>
