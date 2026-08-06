@@ -45,6 +45,27 @@ function getIndianPricingTier() {
 }
 
 /**
+ * Pricing tiers (International delegates) — based on IST date:
+ *  ≤ 31 Aug 2026  →  USD 175 + Tax   (Early Bird)
+ *   1–30 Sep 2026 →  USD 200 + Tax   (Standard)
+ *   1–31 Oct 2026 →  USD 225 + Tax   (Late)
+ *  ≥  1 Nov 2026  →  USD 250 + Tax   (On-Spot)
+ */
+function getIntlPricingTier() {
+  const { year, month } = getISTDate();
+
+  if (year < 2026 || (year === 2026 && month <= 8)) {
+    return { label: 'Early Bird', amount: 'USD 175 + Tax', amountUsd: 175 };
+  } else if (year === 2026 && month === 9) {
+    return { label: 'Standard',   amount: 'USD 200 + Tax', amountUsd: 200 };
+  } else if (year === 2026 && month === 10) {
+    return { label: 'Late',       amount: 'USD 225 + Tax', amountUsd: 225 };
+  } else {
+    return { label: 'On-Spot',   amount: 'USD 250 + Tax', amountUsd: 250 };
+  }
+}
+
+/**
  * Dynamically loads the Razorpay checkout script.
  * Resolves true when ready, false on error.
  */
@@ -65,8 +86,12 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
 
   // Recalculate pricing every 60 s so it updates at midnight IST without a reload
   const [pricingTier, setPricingTier] = useState(getIndianPricingTier);
+  const [intlPricingTier, setIntlPricingTier] = useState(getIntlPricingTier);
   useEffect(() => {
-    const interval = setInterval(() => setPricingTier(getIndianPricingTier()), 60_000);
+    const interval = setInterval(() => {
+      setPricingTier(getIndianPricingTier());
+      setIntlPricingTier(getIntlPricingTier());
+    }, 60_000);
     return () => clearInterval(interval);
   }, []);
   
@@ -144,28 +169,37 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   const gstRs = Math.round(taxableRs * 0.18);
   const finalRs = taxableRs + gstRs;
 
-  const baseUsd = 250;
-  const taxableUsd = couponApplied ? baseUsd * 0.8 : baseUsd;
-  const taxUsd = Math.round(taxableUsd * 0.18);
-  const finalUsd = taxableUsd + taxUsd;
+  const baseUsd = intlPricingTier.amountUsd;
+  const taxableUsd = couponApplied ? Math.round(baseUsd * 0.8) : baseUsd;
 
-  const finalAmountForApi = delegateType === 'indian' ? finalRs : finalUsd;
+  const finalAmountForApi = delegateType === 'indian' ? finalRs : taxableUsd;
   
   const formatINR = (val) => new Intl.NumberFormat('en-IN').format(val);
   
   const finalAmountString = delegateType === 'indian' 
     ? `₹ ${formatINR(finalRs)}` 
-    : `USD ${finalUsd}`;
+    : `USD ${taxableUsd} + Tax`;
 
-  const totalAmountDisplay = (
+  const totalAmountDisplay = delegateType === 'indian' ? (
     <div className="flex flex-col items-end">
       <div className="flex items-center gap-1.5 text-[12px] font-sans font-medium text-brand-dark/75 mb-0.5 tracking-wide">
-        {couponApplied && <span className="line-through text-brand-dark/40">{delegateType === "indian" ? `₹ ${formatINR(baseRs)}` : `USD ${baseUsd}`}</span>}
-        <span>{delegateType === "indian" ? `₹ ${formatINR(taxableRs)}` : `USD ${taxableUsd}`}</span>
+        {couponApplied && <span className="line-through text-brand-dark/40">{`₹ ${formatINR(baseRs)}`}</span>}
+        <span>{`₹ ${formatINR(taxableRs)}`}</span>
         <span className="text-brand-dark/40">+</span>
-        <span className="text-brand-primary font-bold">{delegateType === "indian" ? `₹ ${formatINR(gstRs)}` : `USD ${taxUsd}`} (18% GST)</span>
+        <span className="text-brand-primary font-bold">{`₹ ${formatINR(gstRs)} (18% GST)`}</span>
       </div>
-      <span className="font-serif font-bold text-3xl text-brand-dark">{finalAmountString}</span>
+      <span className="font-serif font-bold text-3xl text-brand-dark">{`₹ ${formatINR(finalRs)}`}</span>
+    </div>
+  ) : (
+    <div className="flex flex-col items-end">
+      {couponApplied && (
+        <div className="text-[12px] font-sans font-medium text-brand-dark/40 line-through mb-0.5 tracking-wide">
+          USD {baseUsd} + Tax
+        </div>
+      )}
+      <span className="font-serif font-bold text-3xl text-brand-dark">
+        USD {taxableUsd} <span className="text-lg font-sans font-medium text-brand-dark/60">+ Tax</span>
+      </span>
     </div>
   );
 
