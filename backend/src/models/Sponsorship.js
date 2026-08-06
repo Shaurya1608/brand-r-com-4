@@ -37,6 +37,19 @@ const sponsorshipSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  designation: {
+    type: String,
+    default: "",
+  },
+  registrationType: {
+    type: String,
+    enum: ['Online Registration', 'Manual Registration'],
+    default: 'Online Registration',
+  },
+  sponsorshipTier: {
+    type: String,
+    default: "",
+  },
   sponsorshipCategory: {
     type: String,
     required: true,

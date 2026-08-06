@@ -87,11 +87,20 @@ export default function SponsorshipsPage() {
     }
   };
 
-  const filteredSponsorships = sponsorships.filter(s => 
-    s.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    s.contactPerson.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    s.sponsorshipCategory.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredSponsorships = sponsorships.filter(s => {
+    const term = searchTerm.toLowerCase();
+    return (
+      (s.companyName || '').toLowerCase().includes(term) ||
+      (s.contactPerson || '').toLowerCase().includes(term) ||
+      (s.designation || '').toLowerCase().includes(term) ||
+      (s.sponsorshipCategory || '').toLowerCase().includes(term) ||
+      (s.sponsorshipTier || '').toLowerCase().includes(term) ||
+      (s.email || '').toLowerCase().includes(term) ||
+      (s.mobileNumber || '').toLowerCase().includes(term) ||
+      (s.city || '').toLowerCase().includes(term) ||
+      (s.gstNumber || '').toLowerCase().includes(term)
+    );
+  });
 
   return (
     <div className="p-4 md:p-6">
@@ -181,92 +190,139 @@ export default function SponsorshipsPage() {
               <p className="text-sm mt-1">Try adjusting your search criteria</p>
             </div>
           ) : (
-            <table className="w-full text-left text-sm text-gray-500 relative">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+            <table className="w-full text-left text-xs text-gray-600 relative border-collapse">
+              <thead className="text-[11px] font-extrabold text-gray-800 uppercase bg-gray-50/90 border-b border-gray-200 sticky top-0 z-40 shadow-sm tracking-wider">
                 <tr>
-                  <th scope="col" className="px-4 py-3 font-semibold min-w-[220px] max-w-[220px] sticky left-0 z-40 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">Company Name</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Logo</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">GST Number</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Category</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Contact Person</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Email</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Mobile Number</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">City</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">State/Country</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Pin Code</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Full Address</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-right">Amount</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-center">Status</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Date</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-right sticky right-0 z-40 bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
+                  <th scope="col" className="px-3.5 py-3.5 min-w-[50px] max-w-[50px] sticky left-0 z-40 bg-gray-50 whitespace-nowrap text-center">S.No.</th>
+                  <th scope="col" className="px-3.5 py-3.5 min-w-[100px] max-w-[100px] sticky left-[50px] z-40 bg-gray-50 whitespace-nowrap shadow-[1px_0_0_0_#e5e7eb]">Reg. ID</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Reg. Date & Time</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Reg. Type</th>
+                  <th scope="col" className="px-3.5 py-3.5 min-w-[180px] max-w-[220px]">Company Name</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">GST No.</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Sponsorship Category</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Sponsorship Tier</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center">Company Logo</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Contact Person</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Designation</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Mobile number</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Email</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">City</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">State/Country</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Pincode</th>
+                  <th scope="col" className="px-3.5 py-3.5 min-w-[200px] max-w-[280px]">Address</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center sticky right-0 z-40 bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
-                {filteredSponsorships.map((sponsorship) => (
-                  <tr key={sponsorship._id} className="bg-white hover:bg-gray-50 transition-colors group">
-                    <td className="px-4 py-2.5 min-w-[220px] max-w-[220px] sticky left-0 z-20 bg-white group-hover:bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">
-                      <div className="font-semibold text-gray-900 truncate" title={sponsorship.companyName}>{sponsorship.companyName}</div>
+              <tbody className="divide-y divide-gray-100 bg-white font-medium">
+                {filteredSponsorships.map((sponsorship, index) => (
+                  <tr key={sponsorship._id} className="bg-white hover:bg-gray-50 transition-colors group text-[12px]">
+                    {/* 1. S.No. */}
+                    <td className="px-3.5 py-3 min-w-[50px] max-w-[50px] sticky left-0 z-20 bg-white group-hover:bg-gray-50 font-bold text-gray-700 text-center">
+                      {String(index + 1).padStart(2, '0')}
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">
-                      {sponsorship.logoUrl ? (
-                        <button 
-                          onClick={() => setViewingLogo(sponsorship.logoUrl)}
-                          className="focus:outline-none focus:ring-2 focus:ring-[#6a9a38] rounded"
-                          title="View Logo"
-                        >
-                          <img src={sponsorship.logoUrl} alt="Logo" className="h-8 w-8 object-contain rounded border border-gray-200 bg-white" />
-                        </button>
-                      ) : (
-                        <span className="text-xs text-gray-400">N/A</span>
-                      )}
+                    {/* 2. Reg. ID */}
+                    <td className="px-3.5 py-3 min-w-[100px] max-w-[100px] sticky left-[50px] z-20 bg-white group-hover:bg-gray-50 font-mono font-bold text-brand-dark shadow-[1px_0_0_0_#e5e7eb]">
+                      #{sponsorship._id.slice(-8).toUpperCase()}
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap text-gray-500 font-mono text-xs">{sponsorship.gstNumber || 'N/A'}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700">
+                    {/* 3. Reg. Date & Time */}
+                    <td className="px-3.5 py-3 whitespace-nowrap text-gray-600 font-mono text-[11px]">
+                      {new Date(sponsorship.createdAt).toLocaleString('en-IN', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit', hour12: true
+                      })}
+                    </td>
+                    {/* 4. Reg. Type */}
+                    <td className="px-3.5 py-3 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${
+                        sponsorship.registrationType === 'Manual Registration' 
+                          ? 'bg-purple-100 text-purple-800 border border-purple-200' 
+                          : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                      }`}>
+                        {sponsorship.registrationType || 'Online Registration'}
+                      </span>
+                    </td>
+                    {/* 5. Company Name */}
+                    <td className="px-3.5 py-3 min-w-[180px] max-w-[220px] font-bold text-gray-900 truncate" title={sponsorship.companyName}>
+                      {sponsorship.companyName}
+                    </td>
+                    {/* 6. GST No. */}
+                    <td className="px-3.5 py-3 whitespace-nowrap text-gray-600 font-mono text-[11px]">
+                      {sponsorship.gstNumber || 'N/A'}
+                    </td>
+                    {/* 7. Sponsorship Category */}
+                    <td className="px-3.5 py-3 whitespace-nowrap">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-200">
                         {sponsorship.sponsorshipCategory}
                       </span>
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.contactPerson}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">
-                      <a href={`mailto:${sponsorship.email}`} className="text-blue-600 hover:underline">{sponsorship.email}</a>
+                    {/* 8. Sponsorship Tier */}
+                    <td className="px-3.5 py-3 whitespace-nowrap font-semibold text-gray-800">
+                      {sponsorship.sponsorshipTier || sponsorship.sponsorshipCategory || 'Standard'}
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.mobileNumber}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.city}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.stateCountry}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">{sponsorship.pinCode}</td>
-                    <td className="px-4 py-2.5 min-w-[200px] max-w-[300px] truncate" title={sponsorship.address}>{sponsorship.address}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap font-semibold text-gray-900 text-right">
-                      ₹{sponsorship.totalAmount?.toLocaleString('en-IN') || 0}
+                    {/* 9. Company Logo */}
+                    <td className="px-3.5 py-3 whitespace-nowrap text-center">
+                      {sponsorship.logoUrl ? (
+                        <button 
+                          onClick={() => setViewingLogo(sponsorship.logoUrl)}
+                          className="focus:outline-none focus:ring-2 focus:ring-[#6a9a38] rounded p-0.5 inline-block hover:scale-105 transition-transform"
+                          title="View Logo"
+                        >
+                          <img src={sponsorship.logoUrl} alt="Logo" className="h-7 w-12 object-contain rounded border border-gray-200 bg-white" />
+                        </button>
+                      ) : (
+                        <span className="text-[11px] text-gray-400 font-mono">N/A</span>
+                      )}
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap text-center">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        sponsorship.status === 'completed' 
-                          ? 'bg-green-100 text-green-700' 
-                          : 'bg-yellow-100 text-yellow-700'
-                      }`}>
-                        {sponsorship.status}
-                      </span>
+                    {/* 10. Contact Person */}
+                    <td className="px-3.5 py-3 whitespace-nowrap font-semibold text-gray-900">
+                      {sponsorship.contactPerson}
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap text-gray-500">
-                      {new Date(sponsorship.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric', month: 'short', day: 'numeric'
-                      })}
+                    {/* 11. Designation */}
+                    <td className="px-3.5 py-3 whitespace-nowrap text-gray-700">
+                      {sponsorship.designation || 'N/A'}
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap text-right sticky right-0 z-20 bg-white group-hover:bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">
-                      <div className="flex items-center justify-end gap-2">
+                    {/* 12. Mobile number */}
+                    <td className="px-3.5 py-3 whitespace-nowrap text-gray-800 font-mono">
+                      {sponsorship.mobileNumber}
+                    </td>
+                    {/* 13. Email */}
+                    <td className="px-3.5 py-3 whitespace-nowrap">
+                      <a href={`mailto:${sponsorship.email}`} className="text-blue-600 hover:underline font-mono">
+                        {sponsorship.email}
+                      </a>
+                    </td>
+                    {/* 14. City */}
+                    <td className="px-3.5 py-3 whitespace-nowrap text-gray-700">
+                      {sponsorship.city}
+                    </td>
+                    {/* 15. State/Country */}
+                    <td className="px-3.5 py-3 whitespace-nowrap text-gray-700">
+                      {sponsorship.stateCountry}
+                    </td>
+                    {/* 16. Pincode */}
+                    <td className="px-3.5 py-3 whitespace-nowrap text-gray-700 font-mono">
+                      {sponsorship.pinCode}
+                    </td>
+                    {/* 17. Address */}
+                    <td className="px-3.5 py-3 min-w-[200px] max-w-[280px] text-gray-600 truncate" title={sponsorship.address}>
+                      {sponsorship.address}
+                    </td>
+                    {/* 18. Action */}
+                    <td className="px-3.5 py-3 whitespace-nowrap text-center sticky right-0 z-20 bg-white group-hover:bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">
+                      <div className="flex items-center justify-center gap-1.5">
                         <button 
                           onClick={() => { setEditingSponsorship(sponsorship); setIsEditModalOpen(true); }}
                           className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                          title="Edit"
+                          title="Edit Status"
                         >
-                          <Edit size={16} />
+                          <Edit size={15} />
                         </button>
                         <button 
                           onClick={() => handleDeleteSponsorship(sponsorship._id)}
                           className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={15} />
                         </button>
                       </div>
                     </td>

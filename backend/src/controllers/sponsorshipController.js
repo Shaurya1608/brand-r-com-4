@@ -6,9 +6,9 @@ const Sponsorship = require('../models/Sponsorship');
 const createSponsorship = async (req, res) => {
   try {
     const { 
-      companyName, gstNumber, contactPerson, email, 
+      companyName, gstNumber, contactPerson, designation, email, 
       mobileNumber, city, stateCountry, pinCode, 
-      address, sponsorshipCategory, basePrice, totalAmount, logoUrl
+      address, sponsorshipCategory, sponsorshipTier, registrationType, basePrice, totalAmount, logoUrl
     } = req.body;
 
     // Create sponsorship record
@@ -16,6 +16,7 @@ const createSponsorship = async (req, res) => {
       companyName,
       gstNumber,
       contactPerson,
+      designation,
       email,
       mobileNumber,
       city,
@@ -23,6 +24,8 @@ const createSponsorship = async (req, res) => {
       pinCode,
       address,
       sponsorshipCategory,
+      sponsorshipTier,
+      registrationType: registrationType || 'Online Registration',
       basePrice,
       totalAmount,
       logoUrl,
