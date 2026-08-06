@@ -173,25 +173,30 @@ export default function DelegatesPage() {
       const data = await res.json();
       if (!data.success || !data.data) return alert('Failed to export CSV');
 
-      const headers = ["Reg ID", "Full Name", "Email", "Designation", "Organization", "Mobile Number", "City", "State/Country", "Pin Code", "Company GST No", "Address", "Delegate Type", "Category", "Payment Status", "Payment ID", "Date"];
+      const headers = ["S.No.", "Reg. ID", "Reg. Date & Time", "Delegate TYPE", "Company GST No.", "Attendee Category", "Name", "Designation", "Organization", "Mobile number", "Email", "City", "State/Country", "Pincode", "Address", "Reg. Type", "Amount", "Payment Status", "Payment Method", "Payment ID", "Coupon Registration"];
       
-      const rows = data.data.map(d => [
+      const rows = data.data.map((d, index) => [
+        `"${index + 1}"`,
         `"#${d._id.slice(-8).toUpperCase()}"`,
+        `"${new Date(d.createdAt).toLocaleString('en-IN')}"`,
+        `"${d.delegateType || ''}"`,
+        `"${(d.gstNumber || '').replace(/"/g, '""')}"`,
+        `"${d.attendeeCategory || 'DELEGATE'}"`,
         `"${(d.fullName || '').replace(/"/g, '""')}"`,
-        `"${(d.email || '').replace(/"/g, '""')}"`,
         `"${(d.designation || '').replace(/"/g, '""')}"`,
         `"${(d.organization || '').replace(/"/g, '""')}"`,
         `"${(d.mobileNumber || '').replace(/"/g, '""')}"`,
+        `"${(d.email || '').replace(/"/g, '""')}"`,
         `"${(d.city || '').replace(/"/g, '""')}"`,
         `"${(d.stateCountry || '').replace(/"/g, '""')}"`,
         `"${(d.pinCode || '').replace(/"/g, '""')}"`,
-        `"${(d.gstNumber || '').replace(/"/g, '""')}"`,
         `"${(d.address || '').replace(/"/g, '""')}"`,
-        `"${d.delegateType || ''}"`,
-        `"${d.attendeeCategory || 'DELEGATE'}"`,
+        `"${d.registrationType || 'Online'}"`,
+        `"${d.amountPaid ? (d.delegateType === 'foreign' ? `USD ${d.amountPaid}` : `INR ${d.amountPaid}`) : (d.delegateType === 'foreign' ? 'USD 250 + Tax' : 'INR 7080')}"`,
         `"${d.paymentStatus || ''}"`,
+        `"${d.paymentMethod || 'Online'}"`,
         `"${d.razorpayPaymentId || ''}"`,
-        `"${new Date(d.createdAt).toLocaleDateString('en-IN')}"`
+        `"${d.couponCode || '-'}"`
       ]);
 
       const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
@@ -363,28 +368,32 @@ export default function DelegatesPage() {
                     className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
                   />
                 </th>
-                <th className="px-4 py-3 min-w-[100px] max-w-[100px] sticky left-[48px] z-30 bg-gray-50/90">Reg ID</th>
-                <th className="px-4 py-3 min-w-[110px] max-w-[110px] sticky left-[148px] z-30 bg-gray-50/90">Date</th>
-                <th className="px-4 py-3 min-w-[220px] max-w-[220px] sticky left-[258px] z-30 bg-gray-50/90 shadow-[1px_0_0_0_#e5e7eb]">Full Name</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Designation</th>
-                <th className="px-4 py-3">Organization</th>
-                <th className="px-4 py-3">Mobile Number</th>
-                <th className="px-4 py-3">City</th>
-                <th className="px-4 py-3">State / Country</th>
-                <th className="px-4 py-3">Pin Code</th>
-                <th className="px-4 py-3 min-w-[140px]">GST No.</th>
+                <th className="px-4 py-3 whitespace-nowrap">S.No.</th>
+                <th className="px-4 py-3 min-w-[100px] max-w-[100px] sticky left-[48px] z-30 bg-gray-50/90">Reg. ID</th>
+                <th className="px-4 py-3 min-w-[150px] whitespace-nowrap">Reg. Date & Time</th>
+                <th className="px-4 py-3 whitespace-nowrap">Delegate TYPE</th>
+                <th className="px-4 py-3 min-w-[140px] whitespace-nowrap">Company GST No.</th>
+                <th className="px-4 py-3 whitespace-nowrap">Attendee Category</th>
+                <th className="px-4 py-3 min-w-[180px] whitespace-nowrap">Name</th>
+                <th className="px-4 py-3 whitespace-nowrap">Designation</th>
+                <th className="px-4 py-3 whitespace-nowrap">Organization</th>
+                <th className="px-4 py-3 whitespace-nowrap">Mobile number</th>
+                <th className="px-4 py-3 whitespace-nowrap">Email</th>
+                <th className="px-4 py-3 whitespace-nowrap">City</th>
+                <th className="px-4 py-3 whitespace-nowrap">State/Country</th>
+                <th className="px-4 py-3 whitespace-nowrap">Pincode</th>
                 <th className="px-4 py-3 min-w-[200px]">Address</th>
-                <th className="px-4 py-3">Type</th>
-                <th className="px-4 py-3">Category</th>
-                <th className="px-4 py-3 text-right">Payment</th>
-                <th className="px-4 py-3 text-center">Actions</th>
+                <th className="px-4 py-3 whitespace-nowrap">Reg. Type</th>
+                <th className="px-4 py-3 whitespace-nowrap text-right">Amount</th>
+                <th className="px-4 py-3 whitespace-nowrap">Payment & Type</th>
+                <th className="px-4 py-3 whitespace-nowrap">Coupon Registration</th>
+                <th className="px-4 py-3 text-center sticky right-0 z-30 bg-gray-50/90 shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td colSpan="16" className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan="21" className="px-6 py-12 text-center text-gray-500">
                     <div className="flex flex-col items-center justify-center gap-2">
                       <div className="w-6 h-6 border-2 border-[#6a9a38] border-t-transparent rounded-full animate-spin"></div>
                       <span>Loading delegate registrations...</span>
@@ -393,13 +402,14 @@ export default function DelegatesPage() {
                 </tr>
               ) : delegates.length === 0 ? (
                 <tr>
-                  <td colSpan="16" className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan="21" className="px-6 py-8 text-center text-gray-500">
                     No delegate registrations found.
                   </td>
                 </tr>
               ) : (
-                delegates.map((delegate) => (
+                delegates.map((delegate, index) => (
                   <tr key={delegate._id} className="bg-white border-b border-gray-50 hover:bg-gray-50 transition-colors group">
+                    {/* Checkbox */}
                     <td className="px-4 py-2.5 min-w-[48px] max-w-[48px] sticky left-0 z-20 bg-white group-hover:bg-gray-50">
                       <input 
                         type="checkbox" 
@@ -408,17 +418,54 @@ export default function DelegatesPage() {
                         className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
                       />
                     </td>
+
+                    {/* S.No. */}
+                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500">
+                      {(page - 1) * limit + index + 1}
+                    </td>
+
+                    {/* Reg. ID */}
                     <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 font-medium min-w-[100px] max-w-[100px] sticky left-[48px] z-20 bg-white group-hover:bg-gray-50">
                       #{delegate._id.slice(-8).toUpperCase()}
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap min-w-[110px] max-w-[110px] sticky left-[148px] z-20 bg-white group-hover:bg-gray-50">
-                      {new Date(delegate.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
+
+                    {/* Reg. Date & Time */}
+                    <td className="px-4 py-2.5 whitespace-nowrap text-xs text-gray-600">
+                      {new Date(delegate.createdAt).toLocaleString('en-IN', {
+                        day: '2-digit',
                         month: 'short',
-                        day: 'numeric'
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
                       })}
                     </td>
-                    <td className="px-4 py-2.5 min-w-[220px] max-w-[220px] sticky left-[258px] z-20 bg-white group-hover:bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">
+
+                    {/* Delegate TYPE */}
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                        delegate.delegateType === 'indian' 
+                          ? 'bg-blue-100 text-blue-700' 
+                          : 'bg-purple-100 text-purple-700'
+                      }`}>
+                        {delegate.delegateType}
+                      </span>
+                    </td>
+
+                    {/* Company GST No. */}
+                    <td className="px-4 py-2.5 whitespace-nowrap font-mono text-[11px] uppercase font-medium text-gray-700">
+                      {delegate.gstNumber || '-'}
+                    </td>
+
+                    {/* Attendee Category */}
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-700">
+                        {delegate.attendeeCategory?.replace('_', ' ') || 'DELEGATE'}
+                      </span>
+                    </td>
+
+                    {/* Name */}
+                    <td className="px-4 py-2.5 min-w-[180px]">
                       <div className="font-semibold text-gray-900 flex items-center gap-2 whitespace-nowrap overflow-hidden text-ellipsis">
                         {delegate.fullName}
                         {delegate.isManuallyCreated && (
@@ -428,53 +475,84 @@ export default function DelegatesPage() {
                         )}
                       </div>
                     </td>
+
+                    {/* Designation */}
+                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.designation}</td>
+
+                    {/* Organization */}
+                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.organization}</td>
+
+                    {/* Mobile number */}
+                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.mobileNumber}</td>
+
+                    {/* Email */}
                     <td className="px-4 py-2.5 whitespace-nowrap">
                       <a href={`mailto:${delegate.email}`} className="text-blue-600 hover:underline">{delegate.email}</a>
                     </td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.designation}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.organization}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.mobileNumber}</td>
+
+                    {/* City */}
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.city}</td>
+
+                    {/* State/Country */}
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.stateCountry}</td>
+
+                    {/* Pincode */}
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.pinCode}</td>
-                    <td className="px-4 py-2.5 whitespace-nowrap font-mono text-[11px] uppercase font-medium text-gray-700">{delegate.gstNumber || '-'}</td>
+
+                    {/* Address */}
                     <td className="px-4 py-2.5 min-w-[200px] truncate max-w-[300px]" title={delegate.address}>{delegate.address}</td>
-                    <td className="px-4 py-2.5">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap ${
-                        delegate.delegateType === 'indian' 
-                          ? 'bg-blue-100 text-blue-700' 
-                          : 'bg-purple-100 text-purple-700'
-                      }`}>
-                        {delegate.delegateType}
-                      </span>
-                    </td>
+
+                    {/* Reg. Type */}
                     <td className="px-4 py-2.5 whitespace-nowrap">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-700">
-                        {delegate.attendeeCategory?.replace('_', ' ') || 'DELEGATE'}
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200/50">
+                        {delegate.registrationType || 'Online'}
                       </span>
                     </td>
-                    <td className="px-4 py-2.5 text-right">
-                      <div className="flex flex-col items-end gap-1">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                          delegate.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
-                          delegate.paymentStatus === 'Failed' ? 'bg-red-100 text-red-700' :
-                          'bg-yellow-100 text-yellow-700'
-                        }`}>
-                          {delegate.paymentStatus}
-                        </span>
-                        {delegate.paymentStatus === 'Paid' && delegate.amountPaid && (
-                          <span className="text-[12px] font-bold text-gray-700">
-                            ₹{delegate.amountPaid.toLocaleString('en-IN')}
+
+                    {/* Amount */}
+                    <td className="px-4 py-2.5 whitespace-nowrap text-right font-semibold text-gray-800">
+                      {delegate.amountPaid 
+                        ? (delegate.delegateType === 'foreign' ? `USD ${delegate.amountPaid}` : `₹${delegate.amountPaid.toLocaleString('en-IN')}`)
+                        : (delegate.delegateType === 'foreign' ? 'USD 250 + Tax' : '₹7,080')
+                      }
+                    </td>
+
+                    {/* Payment & Type */}
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <div className="flex flex-col gap-0.5">
+                        <div className="flex items-center gap-1.5">
+                          <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                            delegate.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
+                            delegate.paymentStatus === 'Failed' ? 'bg-red-100 text-red-700' :
+                            'bg-yellow-100 text-yellow-700'
+                          }`}>
+                            {delegate.paymentStatus}
                           </span>
-                        )}
+                          <span className="text-[10px] text-gray-500 font-medium">
+                            ({delegate.paymentMethod || 'Online'})
+                          </span>
+                        </div>
                         {delegate.razorpayPaymentId && (
                           <span className="text-[9px] text-gray-400 font-mono tracking-tight">
-                            {delegate.razorpayPaymentId}
+                            ID: {delegate.razorpayPaymentId}
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="px-4 py-2.5 text-center">
+
+                    {/* Coupon Registration */}
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      {delegate.couponCode ? (
+                        <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold font-mono rounded">
+                          {delegate.couponCode}
+                        </span>
+                      ) : (
+                        <span className="text-gray-400">-</span>
+                      )}
+                    </td>
+
+                    {/* Actions */}
+                    <td className="px-4 py-2.5 text-center sticky right-0 z-20 bg-white group-hover:bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">
                       <div className="flex items-center justify-center gap-2">
                         <button 
                           onClick={() => {
