@@ -43,31 +43,39 @@ export default function DashboardSidebar() {
 
   return (
     <>
-      <aside className="w-16 md:w-56 bg-[#6a9a38] text-white flex flex-col h-screen sticky top-0 shadow-lg relative overflow-hidden transition-all duration-300 z-40">
-        {/* Decorative background elements */}
-        <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
-        <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none hidden md:block"></div>
+      <aside className="w-16 md:w-60 bg-gradient-to-b from-[#5e8e33] via-[#527d29] to-[#456b21] text-white flex flex-col h-screen sticky top-0 shadow-2xl relative overflow-hidden transition-all duration-300 z-40 font-sans border-r border-white/10">
+        {/* Subtle decorative background gradient glows */}
+        <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-white/15 via-white/5 to-transparent pointer-events-none"></div>
+        <div className="absolute top-1/4 -right-16 w-40 h-40 bg-white/10 rounded-full blur-3xl pointer-events-none hidden md:block"></div>
+        <div className="absolute bottom-10 -left-10 w-32 h-32 bg-black/10 rounded-full blur-2xl pointer-events-none hidden md:block"></div>
 
-        {/* Logo Area */}
-        <div className="h-16 flex items-center justify-center md:justify-start px-0 md:px-5 relative z-10 border-b border-white/10">
-          <div className="hidden md:flex items-center gap-3">
-            <img 
-              src="/logo/New%20nrc%20logo.png" 
-              alt="Brand R.Comm Logo" 
-              className="h-7 w-auto brightness-0 invert" 
-            />
-            <div className="flex flex-col">
-              <span className="text-[14px] font-bold leading-tight tracking-wide">Brand R.Comm</span>
-              <span className="text-[10px] text-white/70 font-medium uppercase tracking-wider">Admin Panel</span>
+        {/* Logo & Header Area */}
+        <div className="p-3 md:p-4 relative z-10">
+          <div className="hidden md:flex items-center gap-3 p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-sm">
+            <div className="w-9 h-9 rounded-xl bg-white p-1.5 flex items-center justify-center flex-shrink-0 shadow-xs">
+              <img 
+                src="/logo/New%20nrc%20logo.png" 
+                alt="Brand R.Comm Logo" 
+                className="h-full w-auto object-contain" 
+              />
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[13px] font-black text-white leading-tight tracking-tight truncate">Brand R.Comm</span>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="text-[9px] text-amber-300 font-extrabold uppercase tracking-widest">ADMIN PANEL</span>
+              </div>
             </div>
           </div>
+
           {/* Mobile icon logo */}
-          <div className="md:hidden flex items-center justify-center">
+          <div className="md:hidden flex items-center justify-center h-12 w-12 mx-auto bg-white/10 rounded-2xl border border-white/20 shadow-xs">
             <Award size={22} className="text-white" />
           </div>
         </div>
 
-        <nav className="flex-1 pl-3 md:pl-6 pr-0 py-6 space-y-1.5 overflow-y-auto relative z-10">
+        {/* Navigation Items */}
+        <nav className="flex-1 px-2.5 md:px-4 py-3 space-y-2 overflow-y-auto custom-scrollbar relative z-10">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -75,36 +83,48 @@ export default function DashboardSidebar() {
               <Link 
                 key={item.name} 
                 href={item.href}
-                className={`flex items-center justify-center md:justify-start gap-3.5 pl-0 md:pl-5 py-3 rounded-l-full text-[13px] font-medium transition-all duration-300 group relative ${
+                className={`flex items-center justify-center md:justify-start gap-3.5 px-3 md:px-4 py-3 rounded-2xl text-[13px] font-bold transition-all duration-200 group relative ${
                   isActive 
-                    ? 'bg-gray-50 text-[#6a9a38] shadow-[-4px_4px_15px_rgba(0,0,0,0.05)]' 
-                    : 'text-white/80 hover:bg-white/15 hover:text-white mr-3 md:mr-6 rounded-r-full'
+                    ? 'bg-white text-[#5e8e33] shadow-lg shadow-black/10 scale-[1.02]' 
+                    : 'text-white/80 hover:bg-white/15 hover:text-white'
                 }`}
                 title={item.name}
               >
-                <div className="flex items-center justify-center md:justify-start w-full gap-3.5">
-                  <Icon size={18} className={`${isActive ? 'text-[#6a9a38]' : 'text-white/70'} transition-transform duration-300 group-hover:scale-110`} />
-                  <span className="hidden md:block tracking-wide">{item.name}</span>
+                <div className={`p-1.5 rounded-xl transition-colors ${
+                  isActive ? 'bg-[#5e8e33]/10 text-[#5e8e33]' : 'text-white/70 group-hover:text-white'
+                }`}>
+                  <Icon size={18} className="transition-transform duration-200 group-hover:scale-110" />
                 </div>
+                
+                <span className="hidden md:block tracking-wide flex-1">{item.name}</span>
+
                 {isActive && (
-                  <>
-                    {/* Top inner curve illusion */}
-                    <div className="hidden md:block absolute -top-5 right-0 w-5 h-5 bg-transparent rounded-br-xl shadow-[5px_5px_0_0_#f9fafb]"></div>
-                    {/* Bottom inner curve illusion */}
-                    <div className="hidden md:block absolute -bottom-5 right-0 w-5 h-5 bg-transparent rounded-tr-xl shadow-[5px_-5px_0_0_#f9fafb]"></div>
-                  </>
+                  <div className="hidden md:block w-1.5 h-5 bg-[#5e8e33] rounded-full"></div>
                 )}
               </Link>
             );
           })}
         </nav>
 
-        {/* Logout Area */}
-        <div className="p-2 md:p-4 border-t border-white/10 relative z-10">
+        {/* Bottom Profile & Sign Out Area */}
+        <div className="p-3 md:p-4 border-t border-white/15 relative z-10 bg-black/10 backdrop-blur-xs">
+          <div className="hidden md:flex items-center gap-3 p-2.5 mb-2 bg-white/10 rounded-2xl border border-white/15">
+            <div className="relative">
+              <div className="w-8 h-8 rounded-full bg-white text-[#5e8e33] font-black text-xs flex items-center justify-center shadow-xs">
+                N
+              </div>
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-[#5e8e33] rounded-full"></span>
+            </div>
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="text-[12px] font-extrabold text-white truncate">Administrator</span>
+              <span className="text-[10px] text-white/70 font-medium truncate">Snail Integral</span>
+            </div>
+          </div>
+
           <button 
             onClick={() => setShowLogoutModal(true)}
             title="Sign Out"
-            className="flex w-full items-center justify-center md:justify-start gap-3 px-0 md:px-4 py-2.5 rounded-full text-[12px] font-medium text-white/80 hover:bg-red-500 hover:text-white hover:shadow-sm transition-all duration-200 group"
+            className="flex w-full items-center justify-center md:justify-start gap-3 px-3 md:px-4 py-2.5 rounded-2xl text-[12px] font-bold text-white/90 hover:bg-red-500 hover:text-white hover:shadow-md transition-all duration-200 group cursor-pointer"
           >
             <LogOut size={16} className="group-hover:scale-110 transition-transform" />
             <span className="hidden md:block">Sign Out</span>
