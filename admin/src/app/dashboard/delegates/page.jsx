@@ -368,13 +368,13 @@ export default function DelegatesPage() {
                     className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
                   />
                 </th>
-                <th className="px-4 py-3 whitespace-nowrap">S.No.</th>
-                <th className="px-4 py-3 min-w-[100px] max-w-[100px] sticky left-[48px] z-30 bg-gray-50/90">Reg. ID</th>
+                <th className="px-4 py-3 min-w-[50px] max-w-[50px] sticky left-[48px] z-30 bg-gray-50/90 whitespace-nowrap">S.No.</th>
+                <th className="px-4 py-3 min-w-[100px] max-w-[100px] sticky left-[98px] z-30 bg-gray-50/90">Reg. ID</th>
+                <th className="px-4 py-3 min-w-[180px] max-w-[180px] sticky left-[198px] z-30 bg-gray-50/90 shadow-[1px_0_0_0_#e5e7eb] whitespace-nowrap">Name</th>
                 <th className="px-4 py-3 min-w-[150px] whitespace-nowrap">Reg. Date & Time</th>
                 <th className="px-4 py-3 whitespace-nowrap">Delegate TYPE</th>
                 <th className="px-4 py-3 min-w-[140px] whitespace-nowrap">Company GST No.</th>
                 <th className="px-4 py-3 whitespace-nowrap">Attendee Category</th>
-                <th className="px-4 py-3 min-w-[180px] whitespace-nowrap">Name</th>
                 <th className="px-4 py-3 whitespace-nowrap">Designation</th>
                 <th className="px-4 py-3 whitespace-nowrap">Organization</th>
                 <th className="px-4 py-3 whitespace-nowrap">Mobile number</th>
@@ -420,13 +420,25 @@ export default function DelegatesPage() {
                     </td>
 
                     {/* S.No. */}
-                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500">
+                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 min-w-[50px] max-w-[50px] sticky left-[48px] z-20 bg-white group-hover:bg-gray-50">
                       {(page - 1) * limit + index + 1}
                     </td>
 
                     {/* Reg. ID */}
-                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 font-medium min-w-[100px] max-w-[100px] sticky left-[48px] z-20 bg-white group-hover:bg-gray-50">
+                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 font-medium min-w-[100px] max-w-[100px] sticky left-[98px] z-20 bg-white group-hover:bg-gray-50">
                       #{delegate._id.slice(-8).toUpperCase()}
+                    </td>
+
+                    {/* Name (Sticky Fixed) */}
+                    <td className="px-4 py-2.5 min-w-[180px] max-w-[180px] sticky left-[198px] z-20 bg-white group-hover:bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">
+                      <div className="font-semibold text-gray-900 flex items-center gap-2 whitespace-nowrap overflow-hidden text-ellipsis">
+                        {delegate.fullName}
+                        {delegate.isManuallyCreated && (
+                          <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[9px] font-bold uppercase tracking-wider rounded" title="Manually created by Admin">
+                            Manual
+                          </span>
+                        )}
+                      </div>
                     </td>
 
                     {/* Reg. Date & Time */}
@@ -462,18 +474,6 @@ export default function DelegatesPage() {
                       <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-700">
                         {delegate.attendeeCategory?.replace('_', ' ') || 'DELEGATE'}
                       </span>
-                    </td>
-
-                    {/* Name */}
-                    <td className="px-4 py-2.5 min-w-[180px]">
-                      <div className="font-semibold text-gray-900 flex items-center gap-2 whitespace-nowrap overflow-hidden text-ellipsis">
-                        {delegate.fullName}
-                        {delegate.isManuallyCreated && (
-                          <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[9px] font-bold uppercase tracking-wider rounded" title="Manually created by Admin">
-                            Manual
-                          </span>
-                        )}
-                      </div>
                     </td>
 
                     {/* Designation */}
