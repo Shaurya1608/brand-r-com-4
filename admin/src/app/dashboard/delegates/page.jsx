@@ -15,6 +15,7 @@ export default function DelegatesPage() {
   const [filterRegistrationSource, setFilterRegistrationSource] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterPaymentMethod, setFilterPaymentMethod] = useState('all');
+  const [filterCoupon, setFilterCoupon] = useState('all');
 
   const [editingDelegate, setEditingDelegate] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -59,12 +60,13 @@ export default function DelegatesPage() {
     setFilterRegistrationSource('all');
     setFilterCategory('all');
     setFilterPaymentMethod('all');
+    setFilterCoupon('all');
     setPage(1);
   };
 
   useEffect(() => {
     fetchDelegates();
-  }, [page, limit, searchTerm, filterDelegateType, filterRegistrationSource, filterCategory, filterPaymentStatus, filterPaymentMethod]);
+  }, [page, limit, searchTerm, filterDelegateType, filterRegistrationSource, filterCategory, filterPaymentStatus, filterPaymentMethod, filterCoupon]);
 
   const fetchDelegates = async () => {
     setLoading(true);
@@ -79,6 +81,7 @@ export default function DelegatesPage() {
         attendeeCategory: filterCategory,
         paymentStatus: filterPaymentStatus,
         paymentMethod: filterPaymentMethod,
+        hasCoupon: filterCoupon,
       });
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates?${params.toString()}`, {
@@ -383,6 +386,20 @@ export default function DelegatesPage() {
               <option value="Offline">CASH / Offline</option>
               <option value="UPI">UPI</option>
               <option value="Free">Free</option>
+            </select>
+
+            {/* 7. All Coupon Registrations */}
+            <select
+              value={filterCoupon}
+              onChange={(e) => {
+                setFilterCoupon(e.target.value);
+                setPage(1);
+              }}
+              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
+            >
+              <option value="all">All Coupon Registrations</option>
+              <option value="yes">With Coupon (#IAP2026)</option>
+              <option value="no">Without Coupon</option>
             </select>
 
             {/* 7. Reset Filters Button */}

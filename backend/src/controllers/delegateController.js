@@ -109,6 +109,7 @@ exports.getDelegates = async (req, res) => {
     const paymentStatus = req.query.paymentStatus;
     const paymentMethod = req.query.paymentMethod;
     const registrationSource = req.query.registrationSource;
+    const hasCoupon = req.query.hasCoupon;
     const fetchAll = req.query.all === 'true'; // For CSV export
 
     // Build Mongo search query
@@ -123,6 +124,7 @@ exports.getDelegates = async (req, res) => {
         { mobileNumber: searchRegex },
         { designation: searchRegex },
         { gstNumber: searchRegex },
+        { couponCode: searchRegex },
       ];
     }
 
@@ -152,6 +154,16 @@ exports.getDelegates = async (req, res) => {
       } else if (registrationSource === 'online') {
         query.isManuallyCreated = false;
       }
+    }
+
+    if (hasCoupon === 'yes') {
+      query.couponCode = { $exists: true, $ne: null, $ne: '' };
+    } else if (hasCoupon === 'no') {
+      query.$or = [
+        { couponCode: { $exists: false } },
+        { couponCode: null },
+        { couponCode: '' }
+      ];
     }
 
     // Compute Overall Stats concurrently for high performance
