@@ -10,9 +10,12 @@ export default function DelegatesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterPaymentStatus, setFilterPaymentStatus] = useState('all');
   const [filterDelegateType, setFilterDelegateType] = useState('all');
-  const [filterRegistrationType, setFilterRegistrationType] = useState('all');
+  const [filterRegistrationSource, setFilterRegistrationSource] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
+  const [filterPaymentMethod, setFilterPaymentMethod] = useState('all');
+
   const [editingDelegate, setEditingDelegate] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -49,9 +52,19 @@ export default function DelegatesPage() {
     }
   };
 
+  const handleResetFilters = () => {
+    setSearchTerm('');
+    setFilterPaymentStatus('all');
+    setFilterDelegateType('all');
+    setFilterRegistrationSource('all');
+    setFilterCategory('all');
+    setFilterPaymentMethod('all');
+    setPage(1);
+  };
+
   useEffect(() => {
     fetchDelegates();
-  }, [page, limit, searchTerm, filterDelegateType, filterRegistrationType, filterCategory]);
+  }, [page, limit, searchTerm, filterDelegateType, filterRegistrationSource, filterCategory, filterPaymentStatus, filterPaymentMethod]);
 
   const fetchDelegates = async () => {
     setLoading(true);
@@ -62,8 +75,10 @@ export default function DelegatesPage() {
         limit,
         search: searchTerm,
         delegateType: filterDelegateType,
-        registrationType: filterRegistrationType,
+        registrationSource: filterRegistrationSource,
         attendeeCategory: filterCategory,
+        paymentStatus: filterPaymentStatus,
+        paymentMethod: filterPaymentMethod,
       });
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates?${params.toString()}`, {
@@ -274,84 +289,129 @@ export default function DelegatesPage() {
 
       {/* Main Content Area */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        {/* Table Controls */}
-        <div className="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
-            <div className="relative w-full md:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+        {/* Table Controls & Filter Bar */}
+        <div className="p-4 md:p-5 border-b border-gray-100 flex flex-col gap-4">
+          <div className="flex flex-wrap items-center gap-2.5">
+            {/* 1. Search Box */}
+            <div className="relative flex-1 min-w-[200px] max-w-xs">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
               <input
                 type="text"
-                placeholder="Search by name, email, org, mobile..."
+                placeholder="Search name, company, email..."
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
                   setPage(1);
                 }}
-                className="w-full pl-9 pr-4 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
+                className="w-full pl-9 pr-4 py-2 text-xs font-medium border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-900 bg-white shadow-sm"
               />
             </div>
 
+            {/* 2. All payment status */}
+            <select
+              value={filterPaymentStatus}
+              onChange={(e) => {
+                setFilterPaymentStatus(e.target.value);
+                setPage(1);
+              }}
+              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
+            >
+              <option value="all">All payment status</option>
+              <option value="Paid">Paid</option>
+              <option value="Pending">Pending</option>
+              <option value="Failed">Failed / Invitee</option>
+            </select>
+
+            {/* 3. All Delegate type */}
             <select
               value={filterDelegateType}
               onChange={(e) => {
                 setFilterDelegateType(e.target.value);
                 setPage(1);
               }}
-              className="px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] text-gray-700 bg-white"
+              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
             >
-              <option value="all">All Delegate Types</option>
-              <option value="indian">Indian Delegates</option>
-              <option value="foreign">Intl Delegates</option>
+              <option value="all">All Delegate type</option>
+              <option value="indian">Indian</option>
+              <option value="foreign">International</option>
             </select>
 
+            {/* 4. All Registration type */}
             <select
-              value={filterRegistrationType}
+              value={filterRegistrationSource}
               onChange={(e) => {
-                setFilterRegistrationType(e.target.value);
+                setFilterRegistrationSource(e.target.value);
                 setPage(1);
               }}
-              className="px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] text-gray-700 bg-white"
+              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
             >
-              <option value="all">All Registration Types</option>
-              <option value="Online">Online</option>
-              <option value="On-Spot">On-Spot</option>
-              <option value="Group">Group</option>
+              <option value="all">All Registration type</option>
+              <option value="online">Online Registration</option>
+              <option value="manual">Manual Registration</option>
             </select>
 
+            {/* 5. Attendee Category */}
             <select
               value={filterCategory}
               onChange={(e) => {
                 setFilterCategory(e.target.value);
                 setPage(1);
               }}
-              className="px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] text-gray-700 bg-white"
+              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
             >
-              <option value="all">All Categories</option>
-              <option value="DELEGATE">Delegate</option>
-              <option value="SPEAKER">Speaker</option>
-              <option value="SPONSOR">Sponsor</option>
-              <option value="VIP">VIP</option>
-              <option value="ORGANIZER">Organizer</option>
+              <option value="all">Attendee Category</option>
+              <option value="DELEGATE">DELEGATE</option>
+              <option value="SPEAKER">SPEAKER</option>
+              <option value="ORGANIZER">ORGANIZER</option>
+              <option value="MEDIA">MEDIA</option>
+              <option value="SPONSOR">SPONSOR</option>
+              <option value="AWARDEE">AWARDEE</option>
+              <option value="AWARD_NOMINEE">AWARD NOMINEE</option>
             </select>
-          </div>
 
-          <div className="flex items-center gap-2 self-end md:self-auto">
-            {selectedDelegates.length > 0 && (
-              <button
-                onClick={() => setIsBulkUpdateModalOpen(true)}
-                className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold text-white bg-[#6a9a38] rounded-lg hover:bg-[#58822d] transition-colors shadow-sm"
-              >
-                <UserPlus size={14} />
-                Assign Category ({selectedDelegates.length})
-              </button>
-            )}
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold text-white bg-[#6a9a38] rounded-lg hover:bg-[#58822d] transition-colors shadow-sm"
+            {/* 6. All payment type */}
+            <select
+              value={filterPaymentMethod}
+              onChange={(e) => {
+                setFilterPaymentMethod(e.target.value);
+                setPage(1);
+              }}
+              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
             >
-              <Plus size={14} />
-              Add Delegate
+              <option value="all">All payment type</option>
+              <option value="Online (Razorpay)">Online (Razorpay)</option>
+              <option value="Offline">CASH / Offline</option>
+              <option value="UPI">UPI</option>
+              <option value="Free">Free</option>
+            </select>
+
+            {/* 7. Reset Filters Button */}
+            <button
+              onClick={handleResetFilters}
+              className="px-4 py-2 text-xs font-bold border border-gray-300 hover:border-gray-400 rounded-xl bg-white hover:bg-gray-50 text-gray-800 transition-colors shadow-sm cursor-pointer"
+            >
+              Reset Filters
             </button>
+
+            {/* Action buttons aligned to right */}
+            <div className="flex items-center gap-2 ml-auto">
+              {selectedDelegates.length > 0 && (
+                <button
+                  onClick={() => setIsBulkUpdateModalOpen(true)}
+                  className="flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-[#6a9a38] rounded-xl hover:bg-[#58822d] transition-colors shadow-sm"
+                >
+                  <UserPlus size={14} />
+                  Assign Category ({selectedDelegates.length})
+                </button>
+              )}
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className="flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-[#6a9a38] rounded-xl hover:bg-[#58822d] transition-colors shadow-sm"
+              >
+                <Plus size={14} />
+                Add Delegate
+              </button>
+            </div>
           </div>
         </div>
 

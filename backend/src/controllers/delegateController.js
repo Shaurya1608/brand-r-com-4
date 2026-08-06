@@ -98,6 +98,9 @@ exports.getDelegates = async (req, res) => {
     const delegateType = req.query.delegateType;
     const registrationType = req.query.registrationType;
     const attendeeCategory = req.query.attendeeCategory;
+    const paymentStatus = req.query.paymentStatus;
+    const paymentMethod = req.query.paymentMethod;
+    const registrationSource = req.query.registrationSource;
     const fetchAll = req.query.all === 'true'; // For CSV export
 
     // Build Mongo search query
@@ -125,6 +128,22 @@ exports.getDelegates = async (req, res) => {
 
     if (attendeeCategory && attendeeCategory !== 'all') {
       query.attendeeCategory = attendeeCategory;
+    }
+
+    if (paymentStatus && paymentStatus !== 'all') {
+      query.paymentStatus = paymentStatus;
+    }
+
+    if (paymentMethod && paymentMethod !== 'all') {
+      query.paymentMethod = paymentMethod;
+    }
+
+    if (registrationSource && registrationSource !== 'all') {
+      if (registrationSource === 'manual') {
+        query.isManuallyCreated = true;
+      } else if (registrationSource === 'online') {
+        query.isManuallyCreated = false;
+      }
     }
 
     // Compute Overall Stats concurrently for high performance
