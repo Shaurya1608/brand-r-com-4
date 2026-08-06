@@ -256,8 +256,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
                 </div>
               </div>
 
-              {/* Shareable Online Payment Link Box */}
-              {successData.paymentUrl && (
+              {/* Shareable Online Payment Link Box (Only when Payment is Pending) */}
+              {successData.paymentStatus === 'Pending' && successData.paymentUrl && (
                 <div className="w-full max-w-md bg-amber-50/80 border border-amber-200 rounded-2xl p-4 space-y-2 text-left">
                   <span className="text-[11px] font-extrabold text-amber-900 uppercase tracking-wider block">Shareable Payment Link</span>
                   <p className="text-[11px] text-amber-800 leading-tight">Send this link to the customer via WhatsApp, Email, or SMS to pay online:</p>
