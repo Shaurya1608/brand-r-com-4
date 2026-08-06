@@ -184,6 +184,13 @@ exports.registerDelegate = async (req, res) => {
         existingDelegate.address = address || existingDelegate.address;
         if (gstNumber) existingDelegate.gstNumber = gstNumber.trim().toUpperCase();
         if (couponCode) existingDelegate.couponCode = couponCode;
+        if (sponsorshipId) existingDelegate.sponsorshipId = sponsorshipId;
+        if (sponsorshipCompany) existingDelegate.sponsorshipCompany = sponsorshipCompany;
+        if (attendeeCategory) existingDelegate.attendeeCategory = attendeeCategory;
+        if (paymentStatus) existingDelegate.paymentStatus = paymentStatus;
+        if (paymentMethod) existingDelegate.paymentMethod = paymentMethod;
+        if (registeredBy) existingDelegate.registeredBy = registeredBy;
+        if (isManuallyCreated) existingDelegate.isManuallyCreated = true;
 
         // Financial fields accounting
         existingDelegate.totalAmount = pricing.totalAmount;

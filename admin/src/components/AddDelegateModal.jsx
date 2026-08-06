@@ -30,6 +30,10 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
     if (isOpen && presetSponsorship) {
       setFormData(prev => ({
         ...prev,
+        fullName: presetSponsorship.contactPerson || prev.fullName,
+        email: presetSponsorship.email || prev.email,
+        mobileNumber: presetSponsorship.mobileNumber || prev.mobileNumber,
+        designation: presetSponsorship.designation || prev.designation,
         organization: presetSponsorship.companyName || prev.organization,
         gstNumber: presetSponsorship.gstNumber || prev.gstNumber,
         city: presetSponsorship.city || prev.city,
@@ -107,6 +111,10 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
       const data = await res.json();
       
       if (data.success) {
+        alert(data.isExisting 
+          ? `Delegate linked successfully! Updated existing registration record for ${data.data.fullName || formData.fullName}.` 
+          : `Delegate ${data.data.fullName || formData.fullName} added & linked to Sponsorship successfully!`
+        );
         onDelegateAdded();
         onClose();
         setFormData({
