@@ -477,16 +477,16 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
               </div>
             </div>
 
-            {/* Live Pricing Breakdown Card */}
+            {/* Live Price Summary Card */}
             <div className="p-4 bg-gray-50 rounded-2xl border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
               <div>
                 <span className="text-gray-500 font-medium">Selected Package: </span>
                 <span className="font-extrabold text-gray-900">{formData.selectedTier} ({currentCategory})</span>
               </div>
-              <div className="flex items-center gap-3 font-mono font-bold text-gray-700">
-                <span>Base: ₹{baseAmount.toLocaleString('en-IN')}</span>
-                <span>+ GST (18%): ₹{gstAmount.toLocaleString('en-IN')}</span>
-                <span className="text-emerald-700 font-extrabold text-sm">Total: ₹{totalPayable.toLocaleString('en-IN')}</span>
+              <div>
+                <span className="text-emerald-700 font-black text-sm sm:text-base font-mono tracking-tight">
+                  {currentTierObj?.label || 'INR 20,00,000/- + GST'}
+                </span>
               </div>
             </div>
 
