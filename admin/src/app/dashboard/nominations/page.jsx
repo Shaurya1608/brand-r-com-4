@@ -318,7 +318,7 @@ export default function NominationsPage() {
           ) : (
             <table className="w-full text-left text-xs text-gray-600 border-collapse">
               {/* Sticky Fixed Header */}
-              <thead className="sticky top-0 z-40 text-[10px] font-extrabold text-gray-700 uppercase bg-gray-100/90 border-b border-gray-200 shadow-2xs tracking-wider">
+              <thead className="sticky top-0 z-40 text-[10px] font-extrabold text-gray-700 uppercase bg-gray-100 border-b border-gray-200 shadow-xs tracking-wider">
                 <tr>
                   <th scope="col" className="px-3 py-2.5 min-w-[48px] max-w-[48px] sticky left-0 top-0 z-50 bg-gray-100 text-center whitespace-nowrap">S.No.</th>
                   <th scope="col" className="px-3 py-2.5 min-w-[95px] max-w-[95px] sticky left-[48px] top-0 z-50 bg-gray-100 whitespace-nowrap shadow-[1px_0_0_0_#e5e7eb]">Reg. ID</th>
@@ -354,14 +354,14 @@ export default function NominationsPage() {
                   });
 
                   return (
-                    <tr key={nomination._id} className="bg-white hover:bg-gray-50/80 transition-colors group text-[11px]">
+                    <tr key={nomination._id} className="bg-white hover:bg-gray-50 transition-colors group text-[11px]">
                       {/* 1. S.No. */}
-                      <td className="px-3 py-2 min-w-[48px] max-w-[48px] sticky left-0 z-20 bg-white group-hover:bg-gray-50/80 font-bold text-gray-700 text-center">
+                      <td className="px-3 py-2 min-w-[48px] max-w-[48px] sticky left-0 z-20 bg-white group-hover:bg-gray-50 font-bold text-gray-700 text-center">
                         {String(index + 1).padStart(2, '0')}
                       </td>
 
                       {/* 2. Reg. ID */}
-                      <td className="px-3 py-2 min-w-[95px] max-w-[95px] sticky left-[48px] z-20 bg-white group-hover:bg-gray-50/80 font-mono font-extrabold text-[#5e8e33] shadow-[1px_0_0_0_#e5e7eb]">
+                      <td className="px-3 py-2 min-w-[95px] max-w-[95px] sticky left-[48px] z-20 bg-white group-hover:bg-gray-50 font-mono font-extrabold text-[#5e8e33] shadow-[1px_0_0_0_#e5e7eb]">
                         {regId}
                       </td>
 
@@ -517,7 +517,7 @@ export default function NominationsPage() {
                       </td>
 
                       {/* 18. Action */}
-                      <td className="px-3 py-2 whitespace-nowrap text-center sticky right-0 z-20 bg-white group-hover:bg-gray-50/80 shadow-[-1px_0_0_0_#e5e7eb]">
+                      <td className="px-3 py-2 whitespace-nowrap text-center sticky right-0 z-20 bg-white group-hover:bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">
                         <div className="flex items-center justify-center gap-1.5">
                           <button
                             onClick={() => {
