@@ -10,11 +10,13 @@ export default function SpeakerModal({ isOpen, onClose }) {
     fullName: "",
     designation: "",
     mobileNumber: "",
+    email: "",
     organization: "",
     city: "",
     stateCountry: "",
     pinCode: "",
-    address: ""
+    address: "",
+    subjectArea: ""
   });
 
   useEffect(() => {
@@ -27,11 +29,13 @@ export default function SpeakerModal({ isOpen, onClose }) {
         fullName: "",
         designation: "",
         mobileNumber: "",
+        email: "",
         organization: "",
         city: "",
         stateCountry: "",
         pinCode: "",
-        address: ""
+        address: "",
+        subjectArea: ""
       });
     } else {
       document.body.style.overflow = "unset";
@@ -155,6 +159,19 @@ export default function SpeakerModal({ isOpen, onClose }) {
                           className="w-full px-3 py-1.5 text-[13px] rounded border border-brand-primary/20 bg-brand-surface/30 focus:border-brand-primary focus:bg-white focus:ring-1 focus:ring-brand-primary outline-none transition-all placeholder:text-brand-dark/30 text-brand-dark"
                         />
                       </div>
+                      {/* Email Address */}
+                      <div>
+                        <label className="block text-[10px] font-bold text-brand-dark/70 uppercase tracking-wider mb-1">Email Address</label>
+                        <input 
+                          type="email" 
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder="you@company.com"
+                          required
+                          className="w-full px-3 py-1.5 text-[13px] rounded border border-brand-primary/20 bg-brand-surface/30 focus:border-brand-primary focus:bg-white focus:ring-1 focus:ring-brand-primary outline-none transition-all placeholder:text-brand-dark/30 text-brand-dark"
+                        />
+                      </div>
                       {/* Organization */}
                       <div>
                         <label className="block text-[10px] font-bold text-brand-dark/70 uppercase tracking-wider mb-1">Organization</label>
@@ -221,6 +238,19 @@ export default function SpeakerModal({ isOpen, onClose }) {
                         required
                         className="w-full px-3 py-1.5 text-[13px] rounded border border-brand-primary/20 bg-brand-surface/30 focus:border-brand-primary focus:bg-white focus:ring-1 focus:ring-brand-primary outline-none transition-all text-brand-dark resize-none"
                       ></textarea>
+                    </div>
+
+                    {/* Subject Area */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-brand-dark/70 uppercase tracking-wider mb-1">*Subject Area which you'll be talk.</label>
+                      <input 
+                        type="text" 
+                        name="subjectArea"
+                        value={formData.subjectArea}
+                        onChange={handleChange}
+                        placeholder="Enter proposed topic / subject area"
+                        className="w-full px-3 py-1.5 text-[13px] rounded border border-brand-primary/20 bg-brand-surface/30 focus:border-brand-primary focus:bg-white focus:ring-1 focus:ring-brand-primary outline-none transition-all placeholder:text-brand-dark/30 text-brand-dark"
+                      />
                     </div>
 
                     <div className="pt-2">

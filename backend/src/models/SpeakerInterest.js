@@ -13,6 +13,10 @@ const speakerInterestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    default: '',
+  },
   organization: {
     type: String,
     required: true,
@@ -33,11 +37,17 @@ const speakerInterestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  subjectArea: {
+    type: String,
+    default: '',
+  },
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected'],
     default: 'pending'
   }
-}, { timestamps: true });
+}, {
+  timestamps: true
+});
 
 module.exports = mongoose.model('SpeakerInterest', speakerInterestSchema);

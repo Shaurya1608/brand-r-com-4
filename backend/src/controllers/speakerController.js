@@ -6,8 +6,8 @@ const SpeakerInterest = require('../models/SpeakerInterest');
 const createSpeakerInterest = async (req, res) => {
   try {
     const { 
-      fullName, designation, mobileNumber, organization, 
-      city, stateCountry, pinCode, address 
+      fullName, designation, mobileNumber, email, organization, 
+      city, stateCountry, pinCode, address, subjectArea 
     } = req.body;
 
     if (!fullName || !designation || !mobileNumber || !organization || !city || !stateCountry || !pinCode || !address) {
@@ -18,11 +18,13 @@ const createSpeakerInterest = async (req, res) => {
       fullName,
       designation,
       mobileNumber,
+      email: email || '',
       organization,
       city,
       stateCountry,
       pinCode,
       address,
+      subjectArea: subjectArea || '',
       status: 'pending'
     });
 
@@ -59,36 +61,41 @@ const getSpeakerInterests = async (req, res) => {
 const updateSpeakerInterest = async (req, res) => {
   try {
     const { status } = req.body;
-    let speakerInterest = await SpeakerInterest.findById(req.params.id);
-    if (!speakerInterest) {
-      return res.status(404).json({ success: false, message: 'Enquiry not found' });
-    }
-
-    speakerInterest = await SpeakerInterest.findByIdAndUpdate(
+    const speakerInterest = await SpeakerInterest.findByIdAndUpdate(
       req.params.id,
-      { $set: { status: status || speakerInterest.status } },
-      { new: true, runValidators: true }
+      { status },
+      { new: true }
     );
 
-    res.status(200).json({ success: true, data: speakerInterest });
+    if (!speakerInterest) {
+      return res.status(404).json({ success: false, message: 'Speaker interest not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: speakerInterest
+    });
   } catch (error) {
     console.error('Error updating speaker interest:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
-// @desc    Delete speaker interest enquiry
+// @desc    Delete speaker interest
 // @route   DELETE /api/speakers/:id
 // @access  Private (Admin)
 const deleteSpeakerInterest = async (req, res) => {
   try {
-    const speakerInterest = await SpeakerInterest.findById(req.params.id);
+    const speakerInterest = await SpeakerInterest.findByIdAndDelete(req.params.id);
+
     if (!speakerInterest) {
-      return res.status(404).json({ success: false, message: 'Enquiry not found' });
+      return res.status(404).json({ success: false, message: 'Speaker interest not found' });
     }
 
-    await speakerInterest.deleteOne();
-    res.status(200).json({ success: true, data: {} });
+    res.status(200).json({
+      success: true,
+      message: 'Speaker interest deleted successfully'
+    });
   } catch (error) {
     console.error('Error deleting speaker interest:', error);
     res.status(500).json({ success: false, message: 'Server error' });
