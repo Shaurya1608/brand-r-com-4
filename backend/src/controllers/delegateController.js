@@ -20,6 +20,10 @@ exports.registerDelegate = async (req, res) => {
       address,
       couponCode,
       isManuallyCreated,
+      paymentStatus,
+      paymentMethod,
+      attendeeCategory,
+      registeredBy,
     } = req.body;
 
     const newDelegate = await DelegateRegistration.create({
@@ -36,6 +40,10 @@ exports.registerDelegate = async (req, res) => {
       address,
       couponCode: couponCode || null,
       isManuallyCreated: isManuallyCreated || false,
+      paymentStatus: paymentStatus || 'Pending',
+      paymentMethod: paymentMethod || 'Online',
+      attendeeCategory: attendeeCategory || 'DELEGATE',
+      registeredBy: registeredBy || '',
     });
 
     // Send initial registration email via Resend immediately upon form submission

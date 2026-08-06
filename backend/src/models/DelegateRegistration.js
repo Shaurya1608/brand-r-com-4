@@ -64,7 +64,7 @@ const delegateRegistrationSchema = new mongoose.Schema({
   },
   paymentStatus: {
     type: String,
-    enum: ['Pending', 'Paid', 'Failed'],
+    enum: ['Pending', 'Paid', 'Failed', 'Invitee'],
     default: 'Pending',
   },
   registrationType: {
@@ -75,6 +75,10 @@ const delegateRegistrationSchema = new mongoose.Schema({
   paymentMethod: {
     type: String,
     default: 'Online'
+  },
+  registeredBy: {
+    type: String,
+    default: '',
   },
   attendeeCategory: {
     type: String,

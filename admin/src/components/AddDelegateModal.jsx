@@ -1,26 +1,5 @@
 import React, { useState } from 'react';
-import { X, User, Phone, Briefcase, Building2, MapPin, Globe, Map, Hash, Info, Mail } from 'lucide-react';
-
-// Helper for Input fields with icons
-const InputField = ({ icon: Icon, label, name, type = "text", placeholder, colSpan = 1, required = true, formData, onChange }) => (
-  <div className={`col-span-1 md:col-span-${colSpan}`}>
-    <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">{label} {required && '*'}</label>
-    <div className="relative group">
-      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#6a9a38] transition-colors">
-        <Icon size={18} />
-      </div>
-      <input
-        type={type}
-        name={name}
-        value={formData[name]}
-        onChange={onChange}
-        required={required}
-        placeholder={placeholder}
-        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] transition-all"
-      />
-    </div>
-  </div>
-);
+import { X, Info } from 'lucide-react';
 
 export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
   const [formData, setFormData] = useState({
@@ -34,7 +13,12 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
     stateCountry: '',
     pinCode: '',
     gstNumber: '',
-    address: ''
+    address: '',
+    registeredBy: '',
+    paymentMethod: 'Online (Razorpay)',
+    paymentStatus: 'Paid',
+    attendeeCategory: 'DELEGATE',
+    applyCoupon: false,
   });
   
   const [loading, setLoading] = useState(false);
@@ -43,7 +27,11 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
   if (!isOpen) return null;
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -52,10 +40,16 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
     setError(null);
 
     try {
+      const payload = {
+        ...formData,
+        couponCode: formData.applyCoupon ? '#IAP2026' : null,
+        isManuallyCreated: true
+      };
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, isManuallyCreated: true })
+        body: JSON.stringify(payload)
       });
       
       const data = await res.json();
@@ -74,7 +68,12 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
           stateCountry: '',
           pinCode: '',
           gstNumber: '',
-          address: ''
+          address: '',
+          registeredBy: '',
+          paymentMethod: 'Online (Razorpay)',
+          paymentStatus: 'Paid',
+          attendeeCategory: 'DELEGATE',
+          applyCoupon: false,
         });
       } else {
         setError(data.message || 'Failed to add delegate');
@@ -90,101 +89,274 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6 bg-gray-900/60 backdrop-blur-md overflow-y-auto">
       <div 
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-auto flex flex-col max-h-[90vh] md:max-h-[85vh] transform transition-all animate-in fade-in zoom-in-95 duration-200"
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-auto flex flex-col max-h-[92vh] transform transition-all animate-in fade-in zoom-in-95 duration-200"
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur z-20 rounded-t-2xl">
-          <div>
-            <h3 className="text-xl font-bold text-gray-900">Add New Delegate</h3>
-            <p className="text-sm text-gray-500 mt-1">Manually register a delegate into the system.</p>
-          </div>
+        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white z-20 rounded-t-2xl">
+          <h2 className="text-2xl font-black text-gray-900 tracking-tight">Manual Delegate Registration</h2>
           <button 
             onClick={onClose} 
-            className="w-10 h-10 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
           >
-            <X size={22} />
+            <X size={20} />
           </button>
         </div>
         
         {/* Body */}
-        <div className="overflow-y-auto px-6 py-6 custom-scrollbar">
+        <div className="overflow-y-auto px-6 py-5 custom-scrollbar">
           {error && (
-            <div className="mb-6 p-4 bg-red-50 text-red-700 text-sm rounded-xl border border-red-100 flex items-start gap-3">
-              <Info className="flex-shrink-0 text-red-500 mt-0.5" size={18} />
+            <div className="mb-5 p-3.5 bg-red-50 text-red-700 text-xs font-semibold rounded-xl border border-red-100 flex items-start gap-2.5">
+              <Info className="flex-shrink-0 text-red-500 mt-0.5" size={16} />
               <span>{error}</span>
             </div>
           )}
           
-          <form id="addDelegateForm" onSubmit={handleSubmit} className="space-y-8">
+          <form id="addDelegateForm" onSubmit={handleSubmit} className="space-y-5">
             
-            {/* Section: Basic Info */}
-            <div className="space-y-5">
-              <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
-                <User size={18} className="text-[#6a9a38]" />
-                <h4 className="font-semibold text-gray-800">Personal Details</h4>
+            {/* Delegate Type Radio Selection */}
+            <div className="flex items-center gap-6 py-1">
+              <label className="flex items-center gap-2 cursor-pointer text-sm font-semibold text-gray-800">
+                <input
+                  type="radio"
+                  name="delegateType"
+                  value="indian"
+                  checked={formData.delegateType === 'indian'}
+                  onChange={handleChange}
+                  className="w-4 h-4 text-[#6a9a38] focus:ring-[#6a9a38]"
+                />
+                <span>Indian Delegate (INR)</span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer text-sm font-semibold text-gray-800">
+                <input
+                  type="radio"
+                  name="delegateType"
+                  value="foreign"
+                  checked={formData.delegateType === 'foreign'}
+                  onChange={handleChange}
+                  className="w-4 h-4 text-[#6a9a38] focus:ring-[#6a9a38]"
+                />
+                <span>Foreign Delegate (USD)</span>
+              </label>
+            </div>
+
+            {/* Upper Inputs Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Row 1 */}
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Full Name</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter full name"
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <InputField icon={User} label="Full Name" name="fullName" placeholder="John Doe" formData={formData} onChange={handleChange} />
-                <InputField icon={Mail} label="Email Address" name="email" type="email" placeholder="john@example.com" formData={formData} onChange={handleChange} />
-                <InputField icon={Phone} label="Mobile Number" name="mobileNumber" placeholder="+91 9876543210" formData={formData} onChange={handleChange} />
-                
-                <div className="col-span-1 md:col-span-2">
-                  <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Delegate Type *</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#6a9a38] transition-colors">
-                      <Globe size={18} />
-                    </div>
-                    <select
-                      name="delegateType"
-                      value={formData.delegateType}
-                      onChange={handleChange}
-                      required
-                      className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] transition-all appearance-none"
-                    >
-                      <option value="indian">Indian Delegate</option>
-                      <option value="foreign">Foreign Delegate</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-500">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                  </div>
-                </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Designation</label>
+                <input
+                  type="text"
+                  name="designation"
+                  value={formData.designation}
+                  onChange={handleChange}
+                  required
+                  placeholder="Job title"
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
+              </div>
+
+              {/* Row 2 */}
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Mobile Number</label>
+                <input
+                  type="text"
+                  name="mobileNumber"
+                  value={formData.mobileNumber}
+                  onChange={handleChange}
+                  required
+                  placeholder="+91 98765 43210"
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Organization</label>
+                <input
+                  type="text"
+                  name="organization"
+                  value={formData.organization}
+                  onChange={handleChange}
+                  required
+                  placeholder="Company name"
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
+              </div>
+
+              {/* Row 3 */}
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">City</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                  placeholder="City"
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">State/Country</label>
+                <input
+                  type="text"
+                  name="stateCountry"
+                  value={formData.stateCountry}
+                  onChange={handleChange}
+                  required
+                  placeholder="State/Country"
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
+              </div>
+
+              {/* Row 4 */}
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Pin Code</label>
+                <input
+                  type="text"
+                  name="pinCode"
+                  value={formData.pinCode}
+                  onChange={handleChange}
+                  required
+                  placeholder="Pin Code"
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="Email"
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
+              </div>
+
+              {/* Row 5 */}
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Address</label>
+                <textarea
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  required
+                  rows={2}
+                  placeholder="Full Address"
+                  className="w-full px-3.5 py-2 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Company GST No.</label>
+                <input
+                  type="text"
+                  name="gstNumber"
+                  value={formData.gstNumber}
+                  onChange={handleChange}
+                  placeholder="Company GST No."
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
               </div>
             </div>
 
-            {/* Section: Professional Info */}
-            <div className="space-y-5">
-              <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
-                <Briefcase size={18} className="text-[#6a9a38]" />
-                <h4 className="font-semibold text-gray-800">Professional Details</h4>
+            {/* Bottom Admin Control Controls Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-3 border-t border-gray-100">
+              {/* Registered by */}
+              <div>
+                <label className="block text-xs font-bold text-gray-900 mb-1">Registered by</label>
+                <input
+                  type="text"
+                  name="registeredBy"
+                  value={formData.registeredBy}
+                  onChange={handleChange}
+                  placeholder="Type Name (For snail team)"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-xl text-xs font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <InputField icon={Briefcase} label="Designation" name="designation" placeholder="e.g. Marketing Director" formData={formData} onChange={handleChange} />
-                <InputField icon={Building2} label="Organization" name="organization" placeholder="e.g. Acme Corp" formData={formData} onChange={handleChange} />
+
+              {/* Payment Type */}
+              <div>
+                <label className="block text-xs font-bold text-gray-900 mb-1">payment type</label>
+                <select
+                  name="paymentMethod"
+                  value={formData.paymentMethod}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                >
+                  <option value="Online (Razorpay)">Online (Razorpay)</option>
+                  <option value="CASH">CASH</option>
+                  <option value="UPI">UPI</option>
+                  <option value="Free">Free</option>
+                </select>
+              </div>
+
+              {/* Payment Status */}
+              <div>
+                <label className="block text-xs font-bold text-gray-900 mb-1">payment status</label>
+                <select
+                  name="paymentStatus"
+                  value={formData.paymentStatus}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                >
+                  <option value="Paid">Paid</option>
+                  <option value="Invitee">Invitee</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+
+              {/* Attendee Category */}
+              <div>
+                <label className="block text-xs font-bold text-gray-900 mb-1">Attendee Category</label>
+                <select
+                  name="attendeeCategory"
+                  value={formData.attendeeCategory}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                >
+                  <option value="DELEGATE">DELEGATE</option>
+                  <option value="SPEAKER">SPEAKER</option>
+                  <option value="ORGANIZER">ORGANIZER</option>
+                  <option value="MEDIA">MEDIA</option>
+                  <option value="SPONSOR">SPONSOR</option>
+                  <option value="AWARDEE">AWARDEE</option>
+                  <option value="AWARD_NOMINEE">AWARD NOMINEE</option>
+                </select>
               </div>
             </div>
 
-            {/* Section: Location */}
-            <div className="space-y-5">
-              <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
-                <MapPin size={18} className="text-[#6a9a38]" />
-                <h4 className="font-semibold text-gray-800">Location</h4>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <InputField icon={MapPin} label="Full Address" name="address" placeholder="123 Business Park..." colSpan={2} formData={formData} onChange={handleChange} />
-                <InputField icon={Map} label="City" name="city" placeholder="New Delhi" formData={formData} onChange={handleChange} />
-                <InputField icon={Globe} label="State / Country" name="stateCountry" placeholder="Delhi, India" formData={formData} onChange={handleChange} />
-                <InputField icon={Hash} label="Pin Code" name="pinCode" placeholder="110001" formData={formData} onChange={handleChange} />
-                <InputField icon={Hash} label="Company GST No. (Optional)" name="gstNumber" placeholder="27AAAAA0000A1Z5" required={false} formData={formData} onChange={handleChange} />
-              </div>
-            </div>
-
-            <div className="bg-[#b68936]/10 border border-[#b68936]/20 rounded-xl p-4 flex items-start gap-3 mt-4">
-              <Info className="text-[#b68936] mt-0.5 flex-shrink-0" size={18} />
-              <p className="text-sm text-[#8c6522] leading-relaxed">
-                By default, this creates a delegate with a <strong>Pending</strong> payment status and <strong>Delegate</strong> role. Once added, you can click "Edit" on the table to manually adjust their payment method or assign special roles (like Awardee, Speaker, etc.).
+            {/* Coupon Code Checkbox */}
+            <div className="pt-2">
+              <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-gray-900">
+                <input
+                  type="checkbox"
+                  name="applyCoupon"
+                  checked={formData.applyCoupon}
+                  onChange={handleChange}
+                  className="w-4 h-4 rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38]"
+                />
+                <span>Coupon Code: #IAP2026</span>
+              </label>
+              <p className="text-[10px] text-gray-500 mt-1 leading-snug">
+                Note: Industry Partners may apply the coupon code to avail the applicable registration discount. The organizing team may request valid proof of association or affiliation during the registration verification process.
               </p>
             </div>
 
@@ -192,11 +364,11 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-5 border-t border-gray-100 flex flex-col-reverse sm:flex-row items-center justify-end gap-3 bg-gray-50/80 rounded-b-2xl sticky bottom-0 z-10 backdrop-blur">
+        <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3 bg-gray-50/50 rounded-b-2xl sticky bottom-0 z-10">
           <button 
             type="button" 
             onClick={onClose}
-            className="w-full sm:w-auto px-6 py-2.5 bg-white border border-gray-300 text-gray-700 text-sm font-bold rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-200"
+            className="px-5 py-2 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded-xl hover:bg-gray-100 transition-colors"
           >
             Cancel
           </button>
@@ -204,29 +376,12 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded }) {
             type="submit" 
             form="addDelegateForm"
             disabled={loading}
-            className="w-full sm:w-auto px-8 py-2.5 bg-[#6a9a38] hover:bg-[#52792b] text-white text-sm font-bold rounded-xl transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:shadow-none focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/40 focus:ring-offset-2 flex items-center justify-center gap-2"
+            className="px-6 py-2 bg-[#6a9a38] hover:bg-[#52792b] text-white text-xs font-bold rounded-xl transition-colors shadow-sm disabled:opacity-50"
           >
-            {loading ? 'Creating...' : 'Create Delegate'}
+            {loading ? 'Submitting...' : 'Add Delegate'}
           </button>
         </div>
       </div>
-
-      {/* Global styles for custom scrollbar scoped to this modal if needed */}
-      <style dangerouslySetInnerHTML={{__html: `
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #e5e7eb;
-          border-radius: 10px;
-        }
-        .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-          background: #d1d5db;
-        }
-      `}} />
     </div>
   );
 }
