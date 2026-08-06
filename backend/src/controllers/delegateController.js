@@ -1,19 +1,65 @@
 const DelegateRegistration = require('../models/DelegateRegistration');
 const { sendDelegateConfirmationEmail } = require('../services/emailService');
-
 const crypto = require('crypto');
 
-// Helper to compute delegate pricing
+// Returns the current date/time in IST (UTC+5:30)
+function getISTDate() {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now);
+
+  const get = (type) => parseInt(parts.find(p => p.type === type).value, 10);
+  return { year: get('year'), month: get('month'), day: get('day') };
+}
+
+// Dynamically calculates applicable fee based on CURRENT IST server date at payment time
 const calculateDelegatePricing = (type, coupon) => {
   if (type === 'foreign') {
-    const total = coupon ? 200 : 250;
-    return { totalAmount: total, amountDue: total };
+    const baseUsd = coupon ? 200 : 250;
+    return {
+      baseAmount: baseUsd,
+      taxableAmount: baseUsd,
+      gstAmount: 0,
+      totalAmount: baseUsd,
+      amountDue: baseUsd,
+      tierName: 'International Delegate'
+    };
   }
-  const baseRs = 4800; // Early bird price
+
+  const { year, month } = getISTDate();
+  let baseRs = 10000;
+  let tierName = 'After 31 October 2026';
+
+  if (year < 2026 || (year === 2026 && month <= 8)) {
+    baseRs = 6000;
+    tierName = 'Till 31 August 2026';
+  } else if (year === 2026 && month === 9) {
+    baseRs = 7000;
+    tierName = 'Till 30 September 2026';
+  } else if (year === 2026 && month === 10) {
+    baseRs = 8000;
+    tierName = 'Till 31 October 2026';
+  } else {
+    baseRs = 10000;
+    tierName = 'After 31 October 2026';
+  }
+
   const taxableRs = coupon ? baseRs * 0.8 : baseRs;
   const gstRs = Math.round(taxableRs * 0.18);
   const totalRs = taxableRs + gstRs;
-  return { totalAmount: totalRs, amountDue: totalRs };
+
+  return {
+    baseAmount: baseRs,
+    taxableAmount: taxableRs,
+    gstAmount: gstRs,
+    totalAmount: totalRs,
+    amountDue: totalRs,
+    tierName
+  };
 };
 
 // @desc    Register a new delegate
@@ -463,16 +509,21 @@ exports.updateDelegate = async (req, res) => {
 // @access  Public
 exports.createOrder = async (req, res) => {
   try {
-    const { delegateId, amountRs } = req.body;
+    const { delegateId } = req.body;
 
-    if (!delegateId || !amountRs) {
-      return res.status(400).json({ success: false, message: 'delegateId and amountRs are required' });
+    if (!delegateId) {
+      return res.status(400).json({ success: false, message: 'delegateId is required' });
     }
 
     const delegate = await DelegateRegistration.findById(delegateId);
     if (!delegate) {
       return res.status(404).json({ success: false, message: 'Delegate registration not found' });
     }
+
+    // Dynamic fee calculation based on CURRENT IST server date at order creation time
+    const currentPricing = calculateDelegatePricing(delegate.delegateType, delegate.couponCode);
+    const previousAmount = delegate.totalAmount;
+    const priceChanged = previousAmount && previousAmount !== currentPricing.totalAmount;
 
     // Initialise Razorpay with credentials from env
     const Razorpay = require('razorpay');
@@ -482,7 +533,7 @@ exports.createOrder = async (req, res) => {
     });
 
     // Amount must be in paise (1 INR = 100 paise)
-    const amountPaise = Math.round(amountRs * 100);
+    const amountPaise = Math.round(currentPricing.totalAmount * 100);
 
     const order = await razorpay.orders.create({
       amount: amountPaise,
@@ -492,15 +543,16 @@ exports.createOrder = async (req, res) => {
         delegateId: delegateId.toString(),
         fullName: delegate.fullName,
         organization: delegate.organization,
+        tierName: currentPricing.tierName,
       },
     });
 
-    // Store the order ID so we can verify it later
+    // Store the order ID and updated pricing in DB
     delegate.razorpayOrderId = order.id;
-    delegate.totalAmount = amountRs;
+    delegate.totalAmount = currentPricing.totalAmount;
     if (delegate.paymentStatus !== 'Paid') {
       delegate.amountPaid = 0;
-      delegate.amountDue = amountRs;
+      delegate.amountDue = currentPricing.totalAmount;
     }
     await delegate.save();
 
@@ -509,7 +561,11 @@ exports.createOrder = async (req, res) => {
       orderId: order.id,
       amount: order.amount,       // in paise
       currency: order.currency,
-      keyId: process.env.RAZORPAY_KEY_ID, // safe to expose (public key)
+      keyId: process.env.RAZORPAY_KEY_ID,
+      totalAmountRs: currentPricing.totalAmount,
+      tierName: currentPricing.tierName,
+      priceChanged,
+      previousAmount,
     });
   } catch (error) {
     console.error('Error in createOrder:', error);
@@ -648,6 +704,11 @@ exports.resumePayment = async (req, res) => {
       return `******${digits.slice(-4)}`;
     };
 
+    // Recalculate current pricing dynamically for IST server date
+    const currentPricing = calculateDelegatePricing(delegate.delegateType, delegate.couponCode);
+    const previousPrice = delegate.totalAmount;
+    const priceChanged = previousPrice && previousPrice !== currentPricing.totalAmount;
+
     res.status(200).json({
       success: true,
       data: {
@@ -659,9 +720,12 @@ exports.resumePayment = async (req, res) => {
         mobileNumber: maskMobile(delegate.mobileNumber),
         delegateType: delegate.delegateType,
         paymentStatus: delegate.paymentStatus,
-        totalAmount: delegate.totalAmount || (delegate.delegateType === 'indian' ? 5664 : 250),
+        tierName: currentPricing.tierName,
+        totalAmount: currentPricing.totalAmount,
+        previousAmount: previousPrice,
+        priceChanged,
         amountPaid: delegate.amountPaid || 0,
-        amountDue: delegate.paymentStatus === 'Paid' ? 0 : (delegate.amountDue || delegate.totalAmount || 5664),
+        amountDue: delegate.paymentStatus === 'Paid' ? 0 : currentPricing.totalAmount,
       }
     });
   } catch (error) {

@@ -423,9 +423,15 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                     <span className="px-3 py-1 bg-amber-100 text-amber-800 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full mb-3">
                       Is this you? Payment Due
                     </span>
-                    <p className="text-brand-dark/70 text-[13px] leading-relaxed max-w-sm mb-4">
+                    <p className="text-brand-dark/70 text-[13px] leading-relaxed max-w-sm mb-3">
                       It looks like you've already registered. You can complete your pending payment below without re-registering.
                     </p>
+
+                    {existingData?.priceChanged && (
+                      <div className="w-full max-w-sm bg-blue-50 border border-blue-200/80 rounded-xl p-3 mb-3 text-left text-[12px] text-blue-950 leading-snug">
+                        ℹ️ <strong>Pricing Tier Updated:</strong> Your registration was created during a previous pricing tier. Since that cutoff has passed, today's applicable fee applies.
+                      </div>
+                    )}
 
                     <div className="w-full max-w-sm bg-amber-50/60 border border-amber-200/80 rounded-xl p-4 mb-5 text-left space-y-2 font-sans">
                       <div className="flex justify-between text-[13px]">
