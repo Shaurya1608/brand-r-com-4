@@ -420,11 +420,14 @@ export default function DelegatesPage() {
             <div className="flex flex-wrap items-center gap-2.5 ml-auto">
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white bg-[#6a9a38] rounded-xl hover:bg-[#58822d] transition-all shadow-md active:scale-95 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 text-[11px] font-black uppercase tracking-wider text-white bg-[#5e8e33] hover:bg-[#4c7727] rounded-xl transition-all shadow-sm shadow-[#5e8e33]/20 hover:shadow-md active:scale-95 cursor-pointer"
               >
-                <Plus size={16} />
-                ADD DELEGATE VIA MANUAL REGISTRATION
+                <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <Plus size={11} className="stroke-[3]" />
+                </div>
+                <span>Add Delegate</span>
               </button>
+
               <button
                 onClick={() => {
                   if (selectedDelegates.length === 0) {
@@ -433,10 +436,12 @@ export default function DelegatesPage() {
                     setIsBulkUpdateModalOpen(true);
                   }
                 }}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white bg-[#6a9a38] rounded-xl hover:bg-[#58822d] transition-all shadow-md active:scale-95 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 text-[11px] font-black uppercase tracking-wider text-white bg-[#5e8e33] hover:bg-[#4c7727] rounded-xl transition-all shadow-sm shadow-[#5e8e33]/20 hover:shadow-md active:scale-95 cursor-pointer"
               >
-                <UserPlus size={16} />
-                CHANGE ATTENDEE CATEGORY {selectedDelegates.length > 0 && `(${selectedDelegates.length})`}
+                <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <UserPlus size={11} className="stroke-[3]" />
+                </div>
+                <span>Change Category {selectedDelegates.length > 0 && `(${selectedDelegates.length})`}</span>
               </button>
             </div>
           </div>
@@ -893,45 +898,77 @@ export default function DelegatesPage() {
           fetchDelegates();
         }}
       />
-      {/* Bulk Update Confirmation Modal */}
+      {/* Bulk Category Change Modal */}
       {isBulkUpdateModalOpen && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 font-sans">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-[#6a9a38]/10 flex items-center justify-center flex-shrink-0">
-                <UserPlus className="text-[#6a9a38]" size={22} />
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-gray-950/60 backdrop-blur-md overflow-y-auto">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-6 font-sans border border-gray-100 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-[#5e8e33]/10 flex items-center justify-center text-[#5e8e33]">
+                  <UserPlus size={20} />
+                </div>
+                <div>
+                  <h2 className="text-lg font-black text-gray-900 tracking-tight">Change Attendee Category</h2>
+                  <p className="text-xs text-gray-500 font-medium">{selectedDelegates.length} delegate(s) selected</p>
+                </div>
               </div>
-              <div>
-                <h2 className="text-lg font-extrabold text-gray-900">Change Attendee Category</h2>
-                <p className="text-xs text-gray-500">{selectedDelegates.length} delegates selected</p>
-              </div>
-            </div>
-
-            <div className="mb-5">
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Select Target Category</label>
-              <select
-                value={bulkUpdateTargetCategory}
-                onChange={(e) => setBulkUpdateTargetCategory(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
+              <button
+                onClick={() => {
+                  setIsBulkUpdateModalOpen(false);
+                  setBulkUpdateTargetCategory('');
+                }}
+                className="w-8 h-8 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 flex items-center justify-center transition-colors cursor-pointer"
               >
-                <option value="">-- Choose Category --</option>
-                <option value="SPEAKER">SPEAKER</option>
-                <option value="ORGANIZER">ORGANIZER</option>
-                <option value="MEDIA">MEDIA</option>
-                <option value="SPONSOR">SPONSOR</option>
-                <option value="AWARDEE">AWARDEE</option>
-                <option value="AWARD NOMINEE">AWARD NOMINEE</option>
-                <option value="DELEGATE">DELEGATE</option>
-              </select>
+                ✕
+              </button>
             </div>
 
-            <div className="flex justify-end gap-2.5">
+            <div className="py-4 space-y-2">
+              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Select New Attendee Category</label>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {[
+                  { value: 'DELEGATE', label: 'DELEGATE', desc: 'Standard Attendee' },
+                  { value: 'SPEAKER', label: 'SPEAKER', desc: 'Keynote / Panel' },
+                  { value: 'ORGANIZER', label: 'ORGANIZER', desc: 'Event Host' },
+                  { value: 'MEDIA', label: 'MEDIA', desc: 'Press / Media' },
+                  { value: 'SPONSOR', label: 'SPONSOR', desc: 'Sponsoring Member' },
+                  { value: 'AWARDEE', label: 'AWARDEE', desc: 'Award Winner' },
+                  { value: 'AWARD NOMINEE', label: 'AWARD NOMINEE', desc: 'Nominated Candidate' },
+                ].map((cat) => {
+                  const isSelected = bulkUpdateTargetCategory === cat.value;
+                  return (
+                    <div
+                      key={cat.value}
+                      onClick={() => setBulkUpdateTargetCategory(cat.value)}
+                      className={`p-3.5 rounded-2xl border-2 cursor-pointer transition-all flex items-center justify-between ${
+                        isSelected 
+                          ? 'border-[#5e8e33] bg-[#5e8e33]/5 ring-1 ring-[#5e8e33] shadow-xs' 
+                          : 'border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50/50'
+                      }`}
+                    >
+                      <div>
+                        <p className="text-xs font-black text-gray-900">{cat.label}</p>
+                        <p className="text-[10px] text-gray-500 font-medium mt-0.5">{cat.desc}</p>
+                      </div>
+                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
+                        isSelected ? 'border-[#5e8e33] bg-[#5e8e33]' : 'border-gray-300 bg-white'
+                      }`}>
+                        {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white"></span>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-gray-100 flex items-center justify-end gap-3">
               <button 
                 onClick={() => {
                   setIsBulkUpdateModalOpen(false);
                   setBulkUpdateTargetCategory('');
                 }}
-                className="px-4 py-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-bold rounded-xl transition-colors"
+                className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition-colors cursor-pointer"
                 disabled={bulkUpdateLoading}
               >
                 Cancel
@@ -939,72 +976,40 @@ export default function DelegatesPage() {
               <button 
                 onClick={handleBulkUpdateCategory}
                 disabled={bulkUpdateLoading || !bulkUpdateTargetCategory}
-                className="px-5 py-2 bg-[#6a9a38] text-white hover:bg-[#58822d] text-xs font-extrabold uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                className="px-5 py-2.5 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-50"
               >
-                {bulkUpdateLoading ? 'Updating...' : 'Update Selected'}
+                {bulkUpdateLoading ? 'Updating Category...' : `Update Category (${selectedDelegates.length})`}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Sticky Bottom Action Bar (Matching Design Wireframe) */}
+      {/* Floating Selection Bar */}
       {selectedDelegates.length > 0 && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl rounded-2xl p-3 px-4 flex flex-wrap items-center justify-center gap-2 max-w-5xl transition-all duration-300">
-          <div className="text-xs font-bold text-gray-700 mr-1 flex items-center gap-1.5 border-r border-gray-200 pr-3">
-            <span className="w-6 h-6 rounded-full bg-[#6a9a38] text-white flex items-center justify-center font-mono text-[11px]">
+        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-gray-900/90 backdrop-blur-md text-white border border-gray-800 shadow-2xl rounded-2xl p-2.5 px-4 flex items-center gap-4 transition-all duration-300">
+          <div className="text-xs font-extrabold flex items-center gap-2">
+            <span className="w-6 h-6 rounded-full bg-[#5e8e33] text-white flex items-center justify-center font-mono text-[11px]">
               {selectedDelegates.length}
             </span>
-            <span>Selected</span>
+            <span>Delegates Selected</span>
           </div>
 
+          <div className="h-4 w-px bg-white/20"></div>
+
           <button
-            onClick={() => handleQuickCategoryChange('SPEAKER')}
-            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#f97316] hover:bg-[#ea580c] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+            onClick={() => setIsBulkUpdateModalOpen(true)}
+            className="px-4 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm active:scale-95 cursor-pointer flex items-center gap-1.5"
           >
-            CHANGE AS SPEAKER
+            <UserPlus size={14} />
+            <span>Change Category</span>
           </button>
 
           <button
-            onClick={() => handleQuickCategoryChange('ORGANIZER')}
-            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#1e3a8a] hover:bg-[#172554] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+            onClick={() => setSelectedDelegates([])}
+            className="text-xs text-gray-400 hover:text-white font-medium underline transition-colors cursor-pointer"
           >
-            CHANGE AS ORGANIZER
-          </button>
-
-          <button
-            onClick={() => handleQuickCategoryChange('MEDIA')}
-            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#9333ea] hover:bg-[#7e22ce] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
-          >
-            CHANGE AS MEDIA
-          </button>
-
-          <button
-            onClick={() => handleQuickCategoryChange('SPONSOR')}
-            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#06b6d4] hover:bg-[#0891b2] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
-          >
-            CHANGE AS SPONSOR
-          </button>
-
-          <button
-            onClick={() => handleQuickCategoryChange('AWARDEE')}
-            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#2563eb] hover:bg-[#1d4ed8] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
-          >
-            CHANGE AS AWARDEE
-          </button>
-
-          <button
-            onClick={() => handleQuickCategoryChange('AWARD NOMINEE')}
-            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#ef4444] hover:bg-[#dc2626] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
-          >
-            CHANGE AS AWARD NOMINEE
-          </button>
-
-          <button
-            onClick={() => handleQuickCategoryChange('DELEGATE')}
-            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#6a9a38] hover:bg-[#58822d] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
-          >
-            SET AS DELEGATE
+            Deselect All
           </button>
         </div>
       )}
