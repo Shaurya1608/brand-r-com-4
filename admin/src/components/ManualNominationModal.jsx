@@ -393,7 +393,7 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                 </div>
               </div>
 
-              {/* Award Category Select with Optgroup / Custom Dropdown matching Website */}
+              {/* Award Category Select */}
               <div>
                 <label className="block font-bold text-gray-800 text-xs mb-1.5">Select Award Category <span className="text-red-500">*</span></label>
                 
@@ -480,11 +480,32 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                 </div>
               </div>
 
-              {/* Brief Summary */}
+              {/* Brief Summary with OR Attach File Button */}
               <div>
-                <label className="block font-bold text-gray-800 text-xs mb-1.5">
-                  Brief Summary of Organization / Initiatives / Individual
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block font-bold text-gray-800 text-xs">
+                    Brief Summary of Organization / Initiatives / Individual
+                  </label>
+                  
+                  <div className="flex items-center gap-2">
+                    {summaryFile && (
+                      <span className="text-[10px] font-bold text-[#5e8e33] truncate max-w-[140px] bg-[#5e8e33]/10 px-2 py-0.5 rounded-md">
+                        ✓ {summaryFile.name}
+                      </span>
+                    )}
+                    <label className="cursor-pointer bg-[#5e8e33] hover:bg-[#4c7727] text-white font-black text-[10px] uppercase tracking-wide px-3 py-1 rounded-full transition-all shadow-xs flex items-center gap-1 active:scale-95">
+                      <Upload size={12} />
+                      <span>OR Attach File</span>
+                      <input
+                        type="file"
+                        accept=".pdf,.ppt,.pptx,.doc,.docx"
+                        onChange={(e) => setSummaryFile(e.target.files[0])}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
+
                 <textarea
                   name="briefSummary"
                   value={formData.briefSummary}
