@@ -26,8 +26,15 @@ exports.registerDelegate = async (req, res) => {
       registeredBy,
     } = req.body;
 
-    const cleanEmail = email ? email.trim().toLowerCase() : '';
-    const cleanMobile = mobileNumber ? mobileNumber.trim() : '';
+    const cleanEmail = (email && typeof email === 'string') ? email.trim().toLowerCase() : '';
+    const cleanMobile = (mobileNumber && typeof mobileNumber === 'string') ? mobileNumber.trim() : '';
+
+    if (!cleanEmail) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email address is required.'
+      });
+    }
 
     // Check if delegate already registered by Email OR Mobile Number
     if (!isManuallyCreated && (cleanEmail || cleanMobile)) {
@@ -41,8 +48,10 @@ exports.registerDelegate = async (req, res) => {
         // Update existing record with latest user input
         existingDelegate.delegateType = delegateType || existingDelegate.delegateType;
         existingDelegate.fullName = fullName || existingDelegate.fullName;
+        existingDelegate.email = cleanEmail || existingDelegate.email;
         existingDelegate.designation = designation || existingDelegate.designation;
         existingDelegate.organization = organization || existingDelegate.organization;
+        existingDelegate.mobileNumber = cleanMobile || existingDelegate.mobileNumber;
         existingDelegate.city = city || existingDelegate.city;
         existingDelegate.stateCountry = stateCountry || existingDelegate.stateCountry;
         existingDelegate.pinCode = pinCode || existingDelegate.pinCode;
@@ -65,7 +74,7 @@ exports.registerDelegate = async (req, res) => {
     }
 
     const newDelegate = await DelegateRegistration.create({
-      delegateType,
+      delegateType: delegateType || 'indian',
       fullName,
       email: cleanEmail,
       designation,
