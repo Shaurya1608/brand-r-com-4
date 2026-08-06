@@ -20,7 +20,15 @@ export default function SpeakersPage() {
           'Authorization': `Bearer ${token}`
         }
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data = {};
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.error('Non-JSON response from server:', text);
+        data = { success: false, message: 'Invalid server response' };
+      }
+
       if (data.success) {
         setSpeakers(data.data || []);
       } else {
