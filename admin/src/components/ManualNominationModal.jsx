@@ -57,6 +57,8 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
   const [profileFile, setProfileFile] = useState(null);
   const [summaryFile, setSummaryFile] = useState(null);
   const [successData, setSuccessData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
