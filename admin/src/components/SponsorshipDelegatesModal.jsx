@@ -106,9 +106,39 @@ export default function SponsorshipDelegatesModal({ isOpen, onClose, sponsorship
                   </div>
 
                   <div className="text-right text-xs font-mono font-semibold text-gray-500 flex md:flex-col justify-between items-end gap-1">
-                    <span className="text-emerald-700 font-bold flex items-center gap-1">
-                      <ShieldCheck size={14} /> Confirmed (Paid)
-                    </span>
+                    {d.paymentStatus === 'Pending' ? (
+                      <>
+                        <span className="text-amber-700 font-bold flex items-center gap-1">
+                          🟠 Pending
+                        </span>
+                        <button
+                          onClick={async () => {
+                            try {
+                              const token = Cookies.get('admin_token');
+                              const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/${d._id}/payment-link`, {
+                                headers: { 'Authorization': `Bearer ${token}` }
+                              });
+                              const data = await res.json();
+                              if (data.success && data.paymentUrl) {
+                                navigator.clipboard.writeText(data.paymentUrl);
+                                alert('Shareable Payment Link copied to clipboard!');
+                              } else {
+                                alert(data.message || 'Failed to generate payment link');
+                              }
+                            } catch (err) {
+                              alert('Error generating payment link');
+                            }
+                          }}
+                          className="px-2 py-0.5 bg-[#5e8e33]/10 hover:bg-[#5e8e33]/20 text-[#5e8e33] border border-[#5e8e33]/20 text-[10px] font-extrabold rounded-full transition-all cursor-pointer"
+                        >
+                          Copy Payment Link
+                        </button>
+                      </>
+                    ) : (
+                      <span className="text-emerald-700 font-bold flex items-center gap-1">
+                        <ShieldCheck size={14} /> Confirmed (Paid)
+                      </span>
+                    )}
                     <span className="text-[10px] text-gray-400">
                       {new Date(d.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                     </span>

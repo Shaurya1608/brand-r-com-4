@@ -76,16 +76,26 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
 
   if (!isOpen) return null;
 
+  const [copiedLink, setCopiedLink] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    setFormData(prev => {
+      const next = { ...prev, [name]: type === 'checkbox' ? checked : value };
+      if (name === 'paymentMethod') {
+        if (value === 'Online' || value === 'Online (Razorpay)') {
+          next.paymentStatus = 'Pending';
+        } else if (value === 'Cash' || value === 'CASH' || value === 'Free') {
+          next.paymentStatus = 'Paid';
+        }
+      }
+      return next;
+    });
   };
 
   const handleCloseAndReset = () => {
     setSuccessData(null);
+    setCopiedLink(false);
     onClose();
     setFormData({
       delegateType: 'indian',
@@ -101,12 +111,19 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
       address: '',
       registeredBy: '',
       paymentMethod: 'Online (Razorpay)',
-      paymentStatus: 'Paid',
+      paymentStatus: 'Pending',
       attendeeCategory: 'DELEGATE',
       applyCoupon: false,
       sponsorshipId: null,
       sponsorshipCompany: '',
     });
+  };
+
+  const handleCopyPaymentLink = (url) => {
+    if (!url) return;
+    navigator.clipboard.writeText(url);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 3000);
   };
 
   const handleSubmit = async (e) => {
@@ -144,12 +161,19 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
       const data = await res.json();
       
       if (data.success) {
+        const rawToken = data.rawToken || (data.data?.resumeTokenHash ? 'token' : '');
+        const paymentUrl = data.paymentUrl || (rawToken ? `${window.location.origin.replace(':3001', ':3000')}/pay?token=${rawToken}` : '');
+
         setSuccessData({
           isExisting: data.isExisting,
           delegateName: data.data?.fullName || formData.fullName,
           delegateId: data.data?._id ? `DEL-${data.data._id.slice(-5).toUpperCase()}` : 'DEL-CONFIRMED',
           category: formData.attendeeCategory || 'DELEGATE',
-          sponsorshipCompany: formData.sponsorshipCompany || null
+          sponsorshipCompany: formData.sponsorshipCompany || null,
+          paymentMethod: formData.paymentMethod,
+          paymentStatus: formData.paymentMethod === 'Cash' || formData.paymentMethod === 'CASH' ? 'Paid' : (data.data?.paymentStatus || formData.paymentStatus || 'Pending'),
+          amountDue: data.data?.amountDue ?? (formData.paymentStatus === 'Paid' ? 0 : 7080),
+          paymentUrl: paymentUrl
         });
         onDelegateAdded();
       } else {
@@ -171,7 +195,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white z-20 rounded-t-2xl">
           <h2 className="text-2xl font-black text-gray-900 tracking-tight">
-            {successData ? 'Registration Confirmed' : 'Manual Delegate Registration'}
+            {successData ? 'Delegate Added' : 'Manual Delegate Registration'}
           </h2>
           <button 
             onClick={handleCloseAndReset} 
@@ -186,47 +210,80 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
           {successData ? (
             /* In-Modal Success Screen */
             <div className="flex flex-col items-center text-center py-4 space-y-4">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center shadow-xs">
-                <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-
-              <h3 className="text-xl md:text-2xl font-serif font-black text-gray-900 tracking-wide uppercase">
-                {successData.isExisting ? 'Delegate Linked Successfully!' : 'Delegate Added Successfully!'}
-              </h3>
-
-              <p className="text-gray-600 text-xs md:text-sm max-w-md font-medium leading-relaxed">
-                {successData.isExisting 
-                  ? `An existing registration record for ${successData.delegateName} was found and successfully linked.`
-                  : `Delegate ${successData.delegateName} has been registered and confirmed.`
-                }
-              </p>
-
-              <div className="w-full max-w-md bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-4 text-left space-y-2 font-sans shadow-2xs">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-emerald-800 font-bold uppercase tracking-wider">Registration ID</span>
-                  <span className="font-mono font-black text-emerald-950 text-sm">{successData.delegateId}</span>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-gray-600 font-medium">Attendee Name</span>
-                  <span className="font-bold text-gray-900">{successData.delegateName}</span>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-gray-600 font-medium">Category</span>
-                  <span className="font-bold text-[#5e8e33] uppercase">{successData.category}</span>
-                </div>
-                {successData.sponsorshipCompany && (
-                  <div className="flex justify-between items-center text-xs pt-1 border-t border-emerald-200/60">
-                    <span className="text-gray-600 font-medium">Linked Sponsor</span>
-                    <span className="font-bold text-gray-900">{successData.sponsorshipCompany}</span>
-                  </div>
+              <div className={`w-16 h-16 ${successData.paymentStatus === 'Pending' ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'} rounded-full flex items-center justify-center shadow-xs`}>
+                {successData.paymentStatus === 'Pending' ? (
+                  <Info size={32} />
+                ) : (
+                  <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
                 )}
               </div>
 
+              <h3 className="text-xl md:text-2xl font-serif font-black text-gray-900 tracking-wide uppercase">
+                {successData.paymentStatus === 'Pending' ? 'Delegate Created — Payment Pending' : (successData.isExisting ? 'Delegate Linked Successfully!' : 'Delegate Added Successfully!')}
+              </h3>
+
+              <p className="text-gray-600 text-xs md:text-sm max-w-md font-medium leading-relaxed">
+                {successData.paymentStatus === 'Pending'
+                  ? `Delegate details saved! Share the online payment link below with ${successData.delegateName} to complete Razorpay payment.`
+                  : (successData.isExisting 
+                    ? `An existing registration record for ${successData.delegateName} was found and marked paid.`
+                    : `Delegate ${successData.delegateName} has been registered and marked paid.`
+                  )
+                }
+              </p>
+
+              <div className="w-full max-w-md bg-gray-50 border border-gray-200/80 rounded-xl p-4 text-left space-y-2 font-sans shadow-2xs">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-500 font-bold uppercase tracking-wider">Registration ID</span>
+                  <span className="font-mono font-black text-gray-900 text-sm">{successData.delegateId}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-500 font-medium">Attendee Name</span>
+                  <span className="font-bold text-gray-900">{successData.delegateName}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-500 font-medium">Category</span>
+                  <span className="font-bold text-[#5e8e33] uppercase">{successData.category}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs pt-1 border-t border-gray-200">
+                  <span className="text-gray-500 font-medium">Payment Status</span>
+                  <span className={`font-extrabold uppercase px-2 py-0.5 rounded-full text-[10px] ${
+                    successData.paymentStatus === 'Pending' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                  }`}>
+                    {successData.paymentStatus === 'Pending' ? '🟠 Pending' : '🟢 Paid'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Shareable Online Payment Link Box */}
+              {successData.paymentUrl && (
+                <div className="w-full max-w-md bg-amber-50/80 border border-amber-200 rounded-2xl p-4 space-y-2 text-left">
+                  <span className="text-[11px] font-extrabold text-amber-900 uppercase tracking-wider block">Shareable Payment Link</span>
+                  <p className="text-[11px] text-amber-800 leading-tight">Send this link to the customer via WhatsApp, Email, or SMS to pay online:</p>
+                  
+                  <div className="flex items-center gap-2 pt-1">
+                    <input
+                      type="text"
+                      readOnly
+                      value={successData.paymentUrl}
+                      className="w-full px-3 py-2 bg-white border border-amber-300 rounded-xl text-xs font-mono text-gray-800 focus:outline-none select-all"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleCopyPaymentLink(successData.paymentUrl)}
+                      className="px-4 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm shrink-0 cursor-pointer"
+                    >
+                      {copiedLink ? '✓ Copied!' : 'Copy Link'}
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <button
                 onClick={handleCloseAndReset}
-                className="w-full max-w-md py-3.5 bg-[#5e8e33] hover:bg-[#4c7727] text-white font-mono font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-md active:scale-95 cursor-pointer mt-2"
+                className="w-full max-w-md py-3 bg-gray-900 hover:bg-gray-800 text-white font-mono font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-md active:scale-95 cursor-pointer mt-2"
               >
                 Done
               </button>

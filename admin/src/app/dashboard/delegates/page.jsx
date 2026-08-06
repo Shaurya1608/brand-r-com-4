@@ -641,7 +641,7 @@ export default function DelegatesPage() {
 
                     {/* Payment & Type */}
                     <td className="px-4 py-2.5 whitespace-nowrap">
-                      <div className="flex flex-col gap-0.5">
+                      <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-1.5">
                           <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
                             delegate.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
@@ -654,6 +654,30 @@ export default function DelegatesPage() {
                             ({delegate.paymentMethod || 'Online'})
                           </span>
                         </div>
+                        {delegate.paymentStatus !== 'Paid' && (
+                          <button
+                            onClick={async () => {
+                              try {
+                                const token = Cookies.get('admin_token');
+                                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/${delegate._id}/payment-link`, {
+                                  headers: { 'Authorization': `Bearer ${token}` }
+                                });
+                                const data = await res.json();
+                                if (data.success && data.paymentUrl) {
+                                  navigator.clipboard.writeText(data.paymentUrl);
+                                  alert('Shareable Payment Link copied to clipboard!');
+                                } else {
+                                  alert(data.message || 'Failed to generate payment link');
+                                }
+                              } catch (err) {
+                                alert('Error generating payment link');
+                              }
+                            }}
+                            className="inline-flex items-center gap-1 text-[10px] font-extrabold text-[#5e8e33] hover:text-[#4c7727] bg-[#5e8e33]/10 hover:bg-[#5e8e33]/20 px-2 py-0.5 rounded-full transition-all border border-[#5e8e33]/20 cursor-pointer w-fit"
+                          >
+                            Copy Payment Link
+                          </button>
+                        )}
                         {delegate.razorpayPaymentId && (
                           <span className="text-[9px] text-gray-400 font-mono tracking-tight">
                             ID: {delegate.razorpayPaymentId}

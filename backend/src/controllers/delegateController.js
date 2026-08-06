@@ -214,6 +214,9 @@ exports.registerDelegate = async (req, res) => {
         // Send email with rawToken
         sendDelegateConfirmationEmail(existingDelegate, rawToken).catch(err => console.error('Error sending confirmation email:', err));
 
+        const frontendUrl = process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
+        const paymentUrl = `${frontendUrl}/pay?token=${rawToken}`;
+
         return res.status(200).json({
           success: true,
           isExisting: true,
@@ -221,7 +224,9 @@ exports.registerDelegate = async (req, res) => {
           message: existingDelegate.paymentStatus === 'Paid'
             ? 'You are already registered and your payment is confirmed!'
             : 'Existing registration found! Please complete your pending payment.',
-          data: existingDelegate
+          data: existingDelegate,
+          rawToken,
+          paymentUrl
         });
       }
 
@@ -263,6 +268,7 @@ exports.registerDelegate = async (req, res) => {
           $or: [{ email: cleanEmail }, { mobileNumber: cleanMobile }]
         });
         if (existingDelegate) {
+          const frontendUrl = process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
           return res.status(200).json({
             success: true,
             isExisting: true,
@@ -270,7 +276,9 @@ exports.registerDelegate = async (req, res) => {
             message: existingDelegate.paymentStatus === 'Paid'
               ? 'You are already registered and your payment is confirmed!'
               : 'Existing registration found! Please complete your pending payment.',
-            data: existingDelegate
+            data: existingDelegate,
+            rawToken,
+            paymentUrl: `${frontendUrl}/pay?token=${rawToken}`
           });
         }
       }
@@ -285,9 +293,14 @@ exports.registerDelegate = async (req, res) => {
       await newDelegate.save();
     }
 
+    const frontendUrl = process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
+    const paymentUrl = `${frontendUrl}/pay?token=${rawToken}`;
+
     res.status(201).json({
       success: true,
-      data: newDelegate
+      data: newDelegate,
+      rawToken,
+      paymentUrl
     });
   } catch (error) {
     console.error('Error in registerDelegate:', error);
@@ -822,5 +835,36 @@ exports.bulkUpdateDelegates = async (req, res) => {
   } catch (error) {
     console.error('Error in bulkUpdateDelegates:', error);
     res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+// @desc    Get or generate shareable payment link for a delegate (Admin)
+// @route   GET /api/delegates/:id/payment-link
+// @access  Private (Admin)
+exports.getDelegatePaymentLink = async (req, res) => {
+  try {
+    const delegate = await DelegateRegistration.findById(req.params.id);
+    if (!delegate) {
+      return res.status(404).json({ success: false, message: 'Delegate not found' });
+    }
+
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
+
+    delegate.resumeTokenHash = tokenHash;
+    delegate.paymentTokenExpires = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+    await delegate.save();
+
+    const frontendUrl = process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
+    const paymentUrl = `${frontendUrl}/pay?token=${rawToken}`;
+
+    res.status(200).json({
+      success: true,
+      paymentUrl,
+      rawToken
+    });
+  } catch (error) {
+    console.error('Error in getDelegatePaymentLink:', error);
+    res.status(500).json({ success: false, message: 'Server error generating payment link.' });
   }
 };
