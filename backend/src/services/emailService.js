@@ -195,10 +195,11 @@ const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
  */
 const sendAdminNotificationEmail = async (entityType, dataDoc) => {
   try {
-    const adminEmailsRaw = process.env.ADMIN_NOTIFICATION_EMAILS;
-    if (!adminEmailsRaw) return;
+    const adminEmails = (process.env.ADMIN_NOTIFICATION_EMAILS || "")
+      .split(",")
+      .map(e => e.trim())
+      .filter(Boolean);
 
-    const adminEmails = adminEmailsRaw.split(',').map(e => e.trim()).filter(Boolean);
     if (adminEmails.length === 0) return;
 
     const resend = getResendInstance();
