@@ -517,14 +517,21 @@ export default function DelegatesPage() {
                     </td>
 
                     {/* Name (Sticky Fixed) */}
-                    <td className="px-4 py-2.5 min-w-[180px] max-w-[180px] sticky left-[198px] z-20 bg-white group-hover:bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">
-                      <div className="font-semibold text-gray-900 flex items-center gap-2 whitespace-nowrap overflow-hidden text-ellipsis">
-                        {delegate.fullName}
-                        {delegate.isManuallyCreated && (
+                    <td className="px-4 py-2.5 min-w-[200px] max-w-[220px] sticky left-[198px] z-20 bg-white group-hover:bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">
+                      <div className="font-semibold text-gray-900 flex items-center gap-1.5 flex-wrap">
+                        <span className="truncate max-w-[120px]" title={delegate.fullName}>{delegate.fullName}</span>
+                        {delegate.sponsorshipId || delegate.sponsorshipCompany ? (
+                          <span 
+                            className="px-1.5 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-extrabold uppercase tracking-wider rounded-md inline-flex items-center gap-0.5 shadow-xs" 
+                            title={`Registered via Sponsorship Page (${delegate.sponsorshipCompany || delegate.organization})`}
+                          >
+                            FROM SPONSOR
+                          </span>
+                        ) : delegate.isManuallyCreated ? (
                           <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[9px] font-bold uppercase tracking-wider rounded" title="Manually created by Admin">
                             Manual
                           </span>
-                        )}
+                        ) : null}
                       </div>
                     </td>
 
@@ -581,7 +588,14 @@ export default function DelegatesPage() {
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.designation}</td>
 
                     {/* Organization */}
-                    <td className="px-4 py-2.5 whitespace-nowrap">{delegate.organization}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <span>{delegate.organization}</span>
+                      {delegate.sponsorshipCompany && (
+                        <span className="ml-1 text-[9px] font-extrabold text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
+                          Sponsor
+                        </span>
+                      )}
+                    </td>
 
                     {/* Mobile number */}
                     <td className="px-4 py-2.5 whitespace-nowrap">{delegate.mobileNumber}</td>
@@ -605,9 +619,15 @@ export default function DelegatesPage() {
 
                     {/* Reg. Type */}
                     <td className="px-4 py-2.5 whitespace-nowrap">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200/50">
-                        {delegate.registrationType || 'Online'}
-                      </span>
+                      {delegate.sponsorshipId || delegate.sponsorshipCompany ? (
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
+                          Sponsorship Page
+                        </span>
+                      ) : (
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200/50">
+                          {delegate.registrationType || 'Online'}
+                        </span>
+                      )}
                     </td>
 
                     {/* Amount */}
