@@ -23,8 +23,14 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
     sponsorshipCompany: '',
   });
   
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [successData, setSuccessData] = useState(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSuccessData(null);
+      setError(null);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen && presetSponsorship) {
@@ -76,6 +82,31 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
     }));
   };
 
+  const handleCloseAndReset = () => {
+    setSuccessData(null);
+    onClose();
+    setFormData({
+      delegateType: 'indian',
+      fullName: '',
+      email: '',
+      designation: '',
+      mobileNumber: '',
+      organization: '',
+      city: '',
+      stateCountry: '',
+      pinCode: '',
+      gstNumber: '',
+      address: '',
+      registeredBy: '',
+      paymentMethod: 'Online (Razorpay)',
+      paymentStatus: 'Paid',
+      attendeeCategory: 'DELEGATE',
+      applyCoupon: false,
+      sponsorshipId: null,
+      sponsorshipCompany: '',
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -111,30 +142,14 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
       const data = await res.json();
       
       if (data.success) {
-        alert(data.isExisting 
-          ? `Delegate linked successfully! Updated existing registration record for ${data.data.fullName || formData.fullName}.` 
-          : `Delegate ${data.data.fullName || formData.fullName} added & linked to Sponsorship successfully!`
-        );
-        onDelegateAdded();
-        onClose();
-        setFormData({
-          delegateType: 'indian',
-          fullName: '',
-          email: '',
-          designation: '',
-          mobileNumber: '',
-          organization: '',
-          city: '',
-          stateCountry: '',
-          pinCode: '',
-          gstNumber: '',
-          address: '',
-          registeredBy: '',
-          paymentMethod: 'Online (Razorpay)',
-          paymentStatus: 'Paid',
-          attendeeCategory: 'DELEGATE',
-          applyCoupon: false,
+        setSuccessData({
+          isExisting: data.isExisting,
+          delegateName: data.data?.fullName || formData.fullName,
+          delegateId: data.data?._id ? `DEL-${data.data._id.slice(-5).toUpperCase()}` : 'DEL-CONFIRMED',
+          category: formData.attendeeCategory || 'DELEGATE',
+          sponsorshipCompany: formData.sponsorshipCompany || null
         });
+        onDelegateAdded();
       } else {
         setError(data.message || 'Failed to add delegate');
       }
@@ -153,9 +168,11 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
       >
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white z-20 rounded-t-2xl">
-          <h2 className="text-2xl font-black text-gray-900 tracking-tight">Manual Delegate Registration</h2>
+          <h2 className="text-2xl font-black text-gray-900 tracking-tight">
+            {successData ? 'Registration Confirmed' : 'Manual Delegate Registration'}
+          </h2>
           <button 
-            onClick={onClose} 
+            onClick={handleCloseAndReset} 
             className="w-9 h-9 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
           >
             <X size={20} />
@@ -163,15 +180,65 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         </div>
         
         {/* Body */}
-        <div className="overflow-y-auto px-6 py-5 custom-scrollbar">
-          {error && (
-            <div className="mb-5 p-3.5 bg-red-50 text-red-700 text-xs font-semibold rounded-xl border border-red-100 flex items-start gap-2.5">
-              <Info className="flex-shrink-0 text-red-500 mt-0.5" size={16} />
-              <span>{error}</span>
+        <div className="overflow-y-auto px-6 py-6 custom-scrollbar">
+          {successData ? (
+            /* In-Modal Success Screen */
+            <div className="flex flex-col items-center text-center py-4 space-y-4">
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center shadow-xs">
+                <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+
+              <h3 className="text-xl md:text-2xl font-serif font-black text-gray-900 tracking-wide uppercase">
+                {successData.isExisting ? 'Delegate Linked Successfully!' : 'Delegate Added Successfully!'}
+              </h3>
+
+              <p className="text-gray-600 text-xs md:text-sm max-w-md font-medium leading-relaxed">
+                {successData.isExisting 
+                  ? `An existing registration record for ${successData.delegateName} was found and successfully linked.`
+                  : `Delegate ${successData.delegateName} has been registered and confirmed.`
+                }
+              </p>
+
+              <div className="w-full max-w-md bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-4 text-left space-y-2 font-sans shadow-2xs">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-emerald-800 font-bold uppercase tracking-wider">Registration ID</span>
+                  <span className="font-mono font-black text-emerald-950 text-sm">{successData.delegateId}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-600 font-medium">Attendee Name</span>
+                  <span className="font-bold text-gray-900">{successData.delegateName}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-600 font-medium">Category</span>
+                  <span className="font-bold text-[#5e8e33] uppercase">{successData.category}</span>
+                </div>
+                {successData.sponsorshipCompany && (
+                  <div className="flex justify-between items-center text-xs pt-1 border-t border-emerald-200/60">
+                    <span className="text-gray-600 font-medium">Linked Sponsor</span>
+                    <span className="font-bold text-gray-900">{successData.sponsorshipCompany}</span>
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={handleCloseAndReset}
+                className="w-full max-w-md py-3.5 bg-[#5e8e33] hover:bg-[#4c7727] text-white font-mono font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-md active:scale-95 cursor-pointer mt-2"
+              >
+                Done
+              </button>
             </div>
-          )}
-          
-          <form id="addDelegateForm" onSubmit={handleSubmit} className="space-y-5">
+          ) : (
+            <>
+              {error && (
+                <div className="mb-5 p-3.5 bg-red-50 text-red-700 text-xs font-semibold rounded-xl border border-red-100 flex items-start gap-2.5">
+                  <Info className="flex-shrink-0 text-red-500 mt-0.5" size={16} />
+                  <span>{error}</span>
+                </div>
+              )}
+              
+              <form id="addDelegateForm" onSubmit={handleSubmit} className="space-y-5">
             
             {/* Delegate Type Radio Selection */}
             <div className="flex items-center gap-6 py-1">
@@ -421,26 +488,30 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
             </div>
 
           </form>
+            </>
+          )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3 bg-gray-50/50 rounded-b-2xl sticky bottom-0 z-10">
-          <button 
-            type="button" 
-            onClick={onClose}
-            className="px-5 py-2 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded-xl hover:bg-gray-100 transition-colors"
-          >
-            Cancel
-          </button>
-          <button 
-            type="submit" 
-            form="addDelegateForm"
-            disabled={loading}
-            className="px-6 py-2 bg-[#6a9a38] hover:bg-[#52792b] text-white text-xs font-bold rounded-xl transition-colors shadow-sm disabled:opacity-50"
-          >
-            {loading ? 'Submitting...' : 'Add Delegate'}
-          </button>
-        </div>
+        {!successData && (
+          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3 bg-gray-50/50 rounded-b-2xl sticky bottom-0 z-10">
+            <button 
+              type="button" 
+              onClick={handleCloseAndReset}
+              className="px-5 py-2 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded-xl hover:bg-gray-100 transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              form="addDelegateForm"
+              disabled={loading}
+              className="px-6 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-bold rounded-xl transition-colors shadow-sm disabled:opacity-50"
+            >
+              {loading ? 'Submitting...' : 'Add Delegate'}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
