@@ -448,7 +448,7 @@ export default function DelegatesPage() {
         </div>
 
         {/* Table Container */}
-        <div className="overflow-x-auto overflow-y-auto max-h-[480px] relative border border-gray-100/50">
+        <div className="overflow-x-auto overflow-y-auto max-h-[580px] relative border border-gray-100/50 custom-scrollbar">
           <table className="w-full text-left text-xs text-gray-600">
             <thead className="text-[11px] font-semibold text-gray-500 uppercase bg-gray-50/80 border-b border-gray-100">
               <tr>
