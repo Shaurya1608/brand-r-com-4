@@ -178,10 +178,101 @@ const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
     }
 
     console.log(`✉️ Delegate email (${delegate.paymentStatus}) sent successfully to ${delegate.email}`);
+    // ── Send Internal Notification to Team Members (ADMIN_NOTIFICATION_EMAILS) ──
+    sendAdminNotificationEmail('delegate', delegate).catch(err => console.error('Error sending team notification:', err));
+
     return { success: true, data };
   } catch (error) {
     console.error('❌ Error sending delegate email via Resend:', error);
     return { success: false, error: error.message };
+  }
+};
+
+/**
+ * Send internal notification email to team members dealing with attendees
+ * @param {string} entityType - 'delegate' or 'nomination'
+ * @param {Object} data - Database document
+ */
+const sendAdminNotificationEmail = async (entityType, dataDoc) => {
+  try {
+    const adminEmailsRaw = process.env.ADMIN_NOTIFICATION_EMAILS;
+    if (!adminEmailsRaw) return;
+
+    const adminEmails = adminEmailsRaw.split(',').map(e => e.trim()).filter(Boolean);
+    if (adminEmails.length === 0) return;
+
+    const resend = getResendInstance();
+    if (!resend) return;
+
+    const senderEmail = process.env.RESEND_FROM_EMAIL || 'BRAND R.Comm 2026 <onboarding@resend.dev>';
+    const isPaid = dataDoc.paymentStatus === 'Paid';
+    const regId = dataDoc._id ? dataDoc._id.toString().slice(-8).toUpperCase() : 'N/A';
+    const typeLabel = entityType === 'delegate' ? 'Delegate Registration' : 'Award Nomination';
+
+    const subject = isPaid
+      ? `💰 [PAYMENT RECEIVED] ${typeLabel} #${regId} — ${dataDoc.fullName}`
+      : `🚨 [NEW REGISTRATION] ${typeLabel} #${regId} — ${dataDoc.fullName} (Pending)`;
+
+    const formattedAmount = dataDoc.delegateType === 'foreign'
+      ? `USD ${dataDoc.amountPaid || dataDoc.totalAmount || 250}`
+      : `₹${(dataDoc.amountPaid || dataDoc.totalAmount || 5664).toLocaleString('en-IN')}`;
+
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px; color: #1a1a1a; }
+        .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; }
+        .header { border-bottom: 2px solid ${isPaid ? '#16a34a' : '#ea580c'}; padding-bottom: 12px; margin-bottom: 20px; }
+        .badge { background: ${isPaid ? '#dcfce7' : '#ffedd5'}; color: ${isPaid ? '#15803d' : '#c2410c'}; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .table td { padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 14px; }
+        .label { color: #64748b; font-weight: 600; }
+        .value { text-align: right; font-weight: 700; color: #0f172a; }
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <div class="header">
+          <span class="badge">${isPaid ? 'Payment Confirmed' : 'Registration Pending'}</span>
+          <h2 style="margin: 10px 0 0; font-size: 20px; color: #0f172a;">${subject}</h2>
+        </div>
+        <p style="font-size: 14px; color: #475569; margin-bottom: 16px;">
+          An update has occurred on <strong>BRAND R.Comm 2026</strong>. Here are the details for your team records:
+        </p>
+        <table class="table">
+          <tr><td class="label">Attendee Name:</td><td class="value">${dataDoc.fullName}</td></tr>
+          <tr><td class="label">Registration ID:</td><td class="value" style="font-family: monospace;">#${regId}</td></tr>
+          <tr><td class="label">Email Address:</td><td class="value"><a href="mailto:${dataDoc.email}">${dataDoc.email}</a></td></tr>
+          <tr><td class="label">Mobile Number:</td><td class="value"><a href="tel:${dataDoc.mobileNumber}">${dataDoc.mobileNumber}</a></td></tr>
+          <tr><td class="label">Organization:</td><td class="value">${dataDoc.organization || 'N/A'}</td></tr>
+          <tr><td class="label">Designation:</td><td class="value">${dataDoc.designation || 'N/A'}</td></tr>
+          <tr><td class="label">City / State:</td><td class="value">${dataDoc.city ? `${dataDoc.city}, ${dataDoc.stateCountry}` : 'N/A'}</td></tr>
+          <tr><td class="label">Payment Status:</td><td class="value" style="color: ${isPaid ? '#16a34a' : '#ea580c'};">${dataDoc.paymentStatus}</td></tr>
+          <tr><td class="label">Amount (${isPaid ? 'Paid' : 'Due'}):</td><td class="value">${formattedAmount}</td></tr>
+          ${dataDoc.razorpayPaymentId ? `<tr><td class="label">Razorpay Payment ID:</td><td class="value" style="font-family: monospace;">${dataDoc.razorpayPaymentId}</td></tr>` : ''}
+          ${dataDoc.couponCode ? `<tr><td class="label">Coupon Used:</td><td class="value" style="color: #65a30d;">${dataDoc.couponCode}</td></tr>` : ''}
+        </table>
+        <div style="margin-top: 24px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 12px; color: #64748b; text-align: center;">
+          ⚡ Internal Team Alert — BRAND R.Comm 2026 System Notification
+        </div>
+      </div>
+    </body>
+    </html>
+    `;
+
+    await resend.emails.send({
+      from: senderEmail,
+      to: adminEmails,
+      subject: subject,
+      html: htmlContent,
+    });
+
+    console.log(`📩 Internal team notification (${dataDoc.paymentStatus}) sent to ${adminEmails.length} recipients: ${adminEmails.join(', ')}`);
+  } catch (err) {
+    console.error('⚠️ Error sending internal team notification email:', err.message);
   }
 };
 
@@ -335,6 +426,9 @@ const sendNominationConfirmationEmail = async (nomination) => {
     }
 
     console.log(`✉️ Award Nomination email (${nomination.paymentStatus}) sent successfully to ${nomination.email}`);
+    // ── Send Internal Notification to Team Members (ADMIN_NOTIFICATION_EMAILS) ──
+    sendAdminNotificationEmail('nomination', nomination).catch(err => console.error('Error sending team nomination notification:', err));
+
     return { success: true, data };
   } catch (error) {
     console.error('❌ Error sending nomination email via Resend:', error);

@@ -148,13 +148,28 @@ To send professional confirmation receipts instantly upon registration submissio
 - **Service**: `backend/src/services/emailService.js` via Resend API.
 - **Idempotency Safeguards**:
   - Flags `initialEmailSent` and `paidEmailSent` ensure emails are sent exactly once even if webhooks or endpoints are retried.
-- **Email Content**:
-  - Includes registration ID, delegate details, event venue schedule (Holiday Inn, Aerocity, New Delhi), status badges, and secure **"Complete Your Payment →"** CTA button for pending registrations.
+- **Internal Team Notifications**:
+  - Automatically dispatches a formatted internal alert to team addresses listed in `ADMIN_NOTIFICATION_EMAILS` (e.g. `team1@co.com, team2@co.com, team3@co.com`) whenever a registration occurs or payment is confirmed.
+
+---
+
+## 8. Multi-Recipient Team Notification System (`ADMIN_NOTIFICATION_EMAILS`)
+
+### ❓ Why It Was Implemented
+Event organizers and team members dealing directly with attendees need real-time alerts whenever a new registration is submitted or payment is confirmed, allowing them to follow up immediately without logging into the admin portal.
+
+### 🛠️ How It Works
+- **Configurable Environment Variable**:
+  - `ADMIN_NOTIFICATION_EMAILS="team1@company.com, team2@company.com, team3@company.com"`
+- **Triggers**:
+  - **Trigger A (New Registration)**: Dispatches `🚨 [NEW REGISTRATION] #38ABD9B5 — Shaurya Kumar (Pending)` to all configured team members with complete contact details.
+  - **Trigger B (Payment Confirmed)**: Dispatches `💰 [PAYMENT RECEIVED] #38ABD9B5 — Shaurya Kumar (₹5,664 Received)` with Razorpay Payment ID, amount paid, and coupon status.
 
 ---
 
 ## 📝 Revision Log
 
+| **2026-08-06** | Multi-Recipient Team Notification System (`ADMIN_NOTIFICATION_EMAILS`) | `emailService.js` | Antigravity AI |
 | **2026-08-06** | PRICING_TEST_DATE Dev Simulation Testing Mode | `delegateController.js`, `DelegateRegistrationModal.jsx` | Antigravity AI |
 | **2026-08-06** | Initial creation of Master Feature Documentation | System-wide | Antigravity AI |
 | **2026-08-06** | Dynamic IST Pricing & Hashed Resume Tokens | `delegateController.js`, `DelegateRegistration.js` | Antigravity AI |
