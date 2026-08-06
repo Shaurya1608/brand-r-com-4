@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Award, Search, Download, ExternalLink, FileText, Edit2, UserPlus, X, Globe, Eye, ChevronDown } from 'lucide-react';
+import { Award, Search, Download, ExternalLink, FileText, Edit2, UserPlus, X, Globe, Eye, MapPin, Phone, Mail, User } from 'lucide-react';
 import Cookies from 'js-cookie';
 import AddDelegateModal from '../../../components/AddDelegateModal';
 
@@ -19,11 +19,9 @@ export default function NominationsPage() {
   // Modals state
   const [selectedSummary, setSelectedSummary] = useState(null);
   const [selectedAttachment, setSelectedAttachment] = useState(null);
+  const [selectedContact, setSelectedContact] = useState(null);
   const [isAddDelegateOpen, setIsAddDelegateOpen] = useState(false);
   const [selectedNominationForDelegate, setSelectedNominationForDelegate] = useState(null);
-  const [editingNomination, setEditingNomination] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isAddNominationOpen, setIsAddNominationOpen] = useState(false);
   const [statusUpdateLoading, setStatusUpdateLoading] = useState({});
 
   useEffect(() => {
@@ -155,9 +153,9 @@ export default function NominationsPage() {
   };
 
   return (
-    <div className="p-4 md:p-6 space-y-5">
+    <div className="p-4 md:p-6 space-y-4">
       {/* Header section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-black text-gray-900 flex items-center gap-2 tracking-tight">
             <Award className="text-[#5e8e33]" size={22} />
@@ -171,9 +169,9 @@ export default function NominationsPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={exportCSV}
-            className="px-3.5 py-2 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold rounded-xl border border-gray-200 shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold rounded-xl border border-gray-200 shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
           >
-            <Download size={14} />
+            <Download size={13} />
             <span>Export CSV</span>
           </button>
         </div>
@@ -181,59 +179,59 @@ export default function NominationsPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3.5">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-7 h-7 rounded-full bg-[#5e8e33]/10 flex items-center justify-center">
-              <Award size={14} className="text-[#5e8e33]" />
+        <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3">
+          <div className="flex items-center gap-2 mb-0.5">
+            <div className="w-6 h-6 rounded-full bg-[#5e8e33]/10 flex items-center justify-center">
+              <Award size={13} className="text-[#5e8e33]" />
             </div>
-            <h3 className="font-bold text-gray-500 text-xs uppercase tracking-wider">Total</h3>
+            <h3 className="font-bold text-gray-500 text-[11px] uppercase tracking-wider">Total</h3>
           </div>
-          <p className="text-xl font-black text-gray-900">{nominations.length}</p>
+          <p className="text-lg font-black text-gray-900">{nominations.length}</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3.5">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center">
-              <Award size={14} className="text-blue-600" />
+        <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3">
+          <div className="flex items-center gap-2 mb-0.5">
+            <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
+              <Award size={13} className="text-blue-600" />
             </div>
-            <h3 className="font-bold text-gray-500 text-xs uppercase tracking-wider">Organizations</h3>
+            <h3 className="font-bold text-gray-500 text-[11px] uppercase tracking-wider">Organizations</h3>
           </div>
-          <p className="text-xl font-black text-gray-900">{nominations.filter(n => n.applicantType === 'Organization').length}</p>
+          <p className="text-lg font-black text-gray-900">{nominations.filter(n => n.applicantType === 'Organization').length}</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3.5">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center">
-              <Award size={14} className="text-purple-600" />
+        <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3">
+          <div className="flex items-center gap-2 mb-0.5">
+            <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center">
+              <Award size={13} className="text-purple-600" />
             </div>
-            <h3 className="font-bold text-gray-500 text-xs uppercase tracking-wider">Individuals</h3>
+            <h3 className="font-bold text-gray-500 text-[11px] uppercase tracking-wider">Individuals</h3>
           </div>
-          <p className="text-xl font-black text-gray-900">{nominations.filter(n => n.applicantType === 'Individual').length}</p>
+          <p className="text-lg font-black text-gray-900">{nominations.filter(n => n.applicantType === 'Individual').length}</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3.5">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-7 h-7 rounded-full bg-amber-100 flex items-center justify-center">
+        <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3">
+          <div className="flex items-center gap-2 mb-0.5">
+            <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center">
               <span className="text-amber-600 font-black text-xs">₹</span>
             </div>
-            <h3 className="font-bold text-gray-500 text-xs uppercase tracking-wider">Pending</h3>
+            <h3 className="font-bold text-gray-500 text-[11px] uppercase tracking-wider">Pending</h3>
           </div>
-          <p className="text-xl font-black text-gray-900">{nominations.filter(n => n.paymentStatus === 'Pending').length}</p>
+          <p className="text-lg font-black text-gray-900">{nominations.filter(n => n.paymentStatus === 'Pending').length}</p>
         </div>
       </div>
 
       {/* Control & Filters Bar */}
-      <div className="bg-white rounded-2xl shadow-xs border border-gray-100 p-4 space-y-3">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3">
+        <div className="flex flex-wrap items-center gap-2.5">
           {/* Search Box */}
-          <div className="relative flex-1 min-w-[220px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+          <div className="relative flex-1 min-w-[200px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
             <input 
               type="text" 
               placeholder="Search by name, org, or category..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+              className="w-full pl-8 pr-3 py-1.5 border border-gray-200 rounded-lg text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
             />
           </div>
 
@@ -241,7 +239,7 @@ export default function NominationsPage() {
           <select
             value={regTypeFilter}
             onChange={(e) => setRegTypeFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none cursor-pointer"
+            className="px-2.5 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none cursor-pointer"
           >
             <option value="ALL">All Registration type</option>
             <option value="Online Registration">Online Registration</option>
@@ -252,7 +250,7 @@ export default function NominationsPage() {
           <select
             value={applicantTypeFilter}
             onChange={(e) => setApplicantTypeFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none cursor-pointer"
+            className="px-2.5 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none cursor-pointer"
           >
             <option value="ALL">Attendee Category</option>
             <option value="Individual">Individual</option>
@@ -263,7 +261,7 @@ export default function NominationsPage() {
           <select
             value={paymentStatusFilter}
             onChange={(e) => setPaymentStatusFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none cursor-pointer"
+            className="px-2.5 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none cursor-pointer"
           >
             <option value="ALL">All payment type</option>
             <option value="Paid">Paid</option>
@@ -275,7 +273,7 @@ export default function NominationsPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none cursor-pointer"
+            className="px-2.5 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none cursor-pointer"
           >
             <option value="ALL">Status (All)</option>
             <option value="UNDER REVIEW">UNDER REVIEW</option>
@@ -286,7 +284,7 @@ export default function NominationsPage() {
           {/* Reset Filters */}
           <button
             onClick={resetFilters}
-            className="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+            className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg transition-colors cursor-pointer"
           >
             Reset Filters
           </button>
@@ -294,11 +292,11 @@ export default function NominationsPage() {
       </div>
 
       {/* Main Table */}
-      <div className="bg-white rounded-2xl shadow-xs border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto overflow-y-auto max-h-[580px] relative custom-scrollbar">
+      <div className="bg-white rounded-xl shadow-xs border border-gray-100 overflow-hidden">
+        <div className="overflow-x-auto overflow-y-auto max-h-[620px] relative custom-scrollbar">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-16">
-              <div className="w-8 h-8 border-4 border-[#5e8e33]/30 border-t-[#5e8e33] rounded-full animate-spin mb-4"></div>
+              <div className="w-8 h-8 border-4 border-[#5e8e33]/30 border-t-[#5e8e33] rounded-full animate-spin mb-3"></div>
               <p className="text-gray-500 text-xs font-medium">Loading award nominations...</p>
             </div>
           ) : error ? (
@@ -320,26 +318,26 @@ export default function NominationsPage() {
           ) : (
             <table className="w-full text-left text-xs text-gray-600 border-collapse">
               {/* Sticky Fixed Header */}
-              <thead className="sticky top-0 z-40 text-[11px] font-extrabold text-gray-800 uppercase bg-gray-100 border-b border-gray-200 shadow-sm tracking-wider">
+              <thead className="sticky top-0 z-40 text-[10px] font-extrabold text-gray-700 uppercase bg-gray-100/90 border-b border-gray-200 shadow-2xs tracking-wider">
                 <tr>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[50px] max-w-[50px] sticky left-0 top-0 z-50 bg-gray-100 text-center whitespace-nowrap">S.No.</th>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[100px] max-w-[100px] sticky left-[50px] top-0 z-50 bg-gray-100 whitespace-nowrap shadow-[1px_0_0_0_#e5e7eb]">Reg. ID</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Reg. Date & Time</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Reg. Type</th>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[160px] whitespace-nowrap sticky top-0 bg-gray-100">Who will recieve</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Designation</th>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[180px] sticky top-0 bg-gray-100">Company Name & Website</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Applicant Type</th>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[180px] sticky top-0 bg-gray-100">Award Category</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Contact No.</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Email ID</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center sticky top-0 bg-gray-100">Summary</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center sticky top-0 bg-gray-100">All attachment</th>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[220px] sticky top-0 bg-gray-100">Contact Person & Details</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-right sticky top-0 bg-gray-100">Amount</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Payment & Type</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center sticky top-0 bg-gray-100">Status</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center sticky right-0 top-0 z-50 bg-gray-100 shadow-[-1px_0_0_0_#e5e7eb]">Action</th>
+                  <th scope="col" className="px-3 py-2.5 min-w-[48px] max-w-[48px] sticky left-0 top-0 z-50 bg-gray-100 text-center whitespace-nowrap">S.No.</th>
+                  <th scope="col" className="px-3 py-2.5 min-w-[95px] max-w-[95px] sticky left-[48px] top-0 z-50 bg-gray-100 whitespace-nowrap shadow-[1px_0_0_0_#e5e7eb]">Reg. ID</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap sticky top-0 bg-gray-100">Reg. Date & Time</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap sticky top-0 bg-gray-100">Reg. Type</th>
+                  <th scope="col" className="px-3 py-2.5 min-w-[140px] whitespace-nowrap sticky top-0 bg-gray-100">Who will recieve</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap sticky top-0 bg-gray-100">Designation</th>
+                  <th scope="col" className="px-3 py-2.5 min-w-[160px] sticky top-0 bg-gray-100">Company Name & Website</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap sticky top-0 bg-gray-100">Applicant Type</th>
+                  <th scope="col" className="px-3 py-2.5 min-w-[160px] sticky top-0 bg-gray-100">Award Category</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap sticky top-0 bg-gray-100">Contact No.</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap sticky top-0 bg-gray-100">Email ID</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap text-center sticky top-0 bg-gray-100">Summary</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap text-center sticky top-0 bg-gray-100">All attachment</th>
+                  <th scope="col" className="px-3 py-2.5 min-w-[180px] sticky top-0 bg-gray-100">Contact Person & Details</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap text-right sticky top-0 bg-gray-100">Amount</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap sticky top-0 bg-gray-100">Payment & Type</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap text-center sticky top-0 bg-gray-100">Status</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap text-center sticky right-0 top-0 z-50 bg-gray-100 shadow-[-1px_0_0_0_#e5e7eb]">Action</th>
                 </tr>
               </thead>
 
@@ -356,58 +354,58 @@ export default function NominationsPage() {
                   });
 
                   return (
-                    <tr key={nomination._id} className="bg-white hover:bg-gray-50/80 transition-colors group text-[12px]">
+                    <tr key={nomination._id} className="bg-white hover:bg-gray-50/80 transition-colors group text-[11px]">
                       {/* 1. S.No. */}
-                      <td className="px-3.5 py-3.5 min-w-[50px] max-w-[50px] sticky left-0 z-20 bg-white group-hover:bg-gray-50/80 font-bold text-gray-700 text-center">
+                      <td className="px-3 py-2 min-w-[48px] max-w-[48px] sticky left-0 z-20 bg-white group-hover:bg-gray-50/80 font-bold text-gray-700 text-center">
                         {String(index + 1).padStart(2, '0')}
                       </td>
 
                       {/* 2. Reg. ID */}
-                      <td className="px-3.5 py-3.5 min-w-[100px] max-w-[100px] sticky left-[50px] z-20 bg-white group-hover:bg-gray-50/80 font-mono font-extrabold text-[#5e8e33] shadow-[1px_0_0_0_#e5e7eb]">
+                      <td className="px-3 py-2 min-w-[95px] max-w-[95px] sticky left-[48px] z-20 bg-white group-hover:bg-gray-50/80 font-mono font-extrabold text-[#5e8e33] shadow-[1px_0_0_0_#e5e7eb]">
                         {regId}
                       </td>
 
                       {/* 3. Reg. Date & Time */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap text-gray-600 font-medium">
+                      <td className="px-3 py-2 whitespace-nowrap text-gray-600 font-medium">
                         {regDateFormatted}
                       </td>
 
                       {/* 4. Reg. Type */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
                           {nomination.registrationType || 'ONLINE'}
                         </span>
                       </td>
 
                       {/* 5. Who will recieve (Nominee Name) */}
-                      <td className="px-3.5 py-3.5 min-w-[160px]">
+                      <td className="px-3 py-2 min-w-[140px]">
                         <div className="font-extrabold text-gray-900">{nomination.fullName}</div>
                       </td>
 
                       {/* 6. Designation */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap text-gray-700">
+                      <td className="px-3 py-2 whitespace-nowrap text-gray-700">
                         {nomination.designation || 'N/A'}
                       </td>
 
                       {/* 7. Company Name & Website */}
-                      <td className="px-3.5 py-3.5 min-w-[180px]">
-                        <div className="font-bold text-gray-900">{nomination.organization}</div>
+                      <td className="px-3 py-2 min-w-[160px]">
+                        <div className="font-bold text-gray-900 truncate max-w-[180px]">{nomination.organization}</div>
                         {nomination.website && (
                           <a 
                             href={nomination.website.startsWith('http') ? nomination.website : `https://${nomination.website}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[10px] text-[#5e8e33] hover:underline flex items-center gap-1 mt-0.5"
+                            className="text-[9px] text-[#5e8e33] hover:underline flex items-center gap-0.5 mt-0.5"
                           >
-                            <Globe size={10} />
-                            <span>{nomination.website.replace(/^https?:\/\//, '')}</span>
+                            <Globe size={9} />
+                            <span className="truncate max-w-[140px]">{nomination.website.replace(/^https?:\/\//, '')}</span>
                           </a>
                         )}
                       </td>
 
                       {/* 8. Applicant Type */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap">
-                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        <span className={`px-2 py-0.5 rounded-md text-[9px] font-bold ${
                           nomination.applicantType === 'Organization' 
                             ? 'bg-purple-50 text-purple-700 border border-purple-200' 
                             : 'bg-indigo-50 text-indigo-700 border border-indigo-200'
@@ -417,120 +415,116 @@ export default function NominationsPage() {
                       </td>
 
                       {/* 9. Award Category */}
-                      <td className="px-3.5 py-3.5 min-w-[180px]">
-                        <span className="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-amber-50 text-amber-900 border border-amber-200/80 inline-block leading-tight">
+                      <td className="px-3 py-2 min-w-[160px]">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-50 text-amber-900 border border-amber-200/80 inline-block leading-tight">
                           {nomination.awardCategory}
                         </span>
                       </td>
 
                       {/* 10. Contact No. */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap text-gray-700 font-mono text-[11px]">
+                      <td className="px-3 py-2 whitespace-nowrap text-gray-700 font-mono text-[11px]">
                         {nomination.mobileNumber}
                       </td>
 
                       {/* 11. Email ID */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap text-gray-700 text-[11px]">
+                      <td className="px-3 py-2 whitespace-nowrap text-gray-700 text-[11px]">
                         {nomination.email}
                       </td>
 
                       {/* 12. Summary */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap text-center">
+                      <td className="px-3 py-2 whitespace-nowrap text-center">
                         <button
                           onClick={() => setSelectedSummary(nomination)}
-                          className="px-3 py-1 bg-black hover:bg-gray-800 text-white text-[10px] font-black uppercase tracking-wider rounded-full shadow-xs transition-transform active:scale-95 cursor-pointer"
+                          className="px-2.5 py-0.5 bg-gray-900 hover:bg-black text-white text-[9px] font-black uppercase tracking-wider rounded-full shadow-2xs transition-transform active:scale-95 cursor-pointer"
                         >
                           Read
                         </button>
                       </td>
 
                       {/* 13. All attachment */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap text-center">
+                      <td className="px-3 py-2 whitespace-nowrap text-center">
                         <button
                           onClick={() => setSelectedAttachment(nomination)}
-                          className="px-3 py-1 bg-black hover:bg-gray-800 text-white text-[10px] font-black uppercase tracking-wider rounded-full shadow-xs transition-transform active:scale-95 cursor-pointer flex items-center gap-1 mx-auto"
+                          className="px-2.5 py-0.5 bg-gray-900 hover:bg-black text-white text-[9px] font-black uppercase tracking-wider rounded-full shadow-2xs transition-transform active:scale-95 cursor-pointer flex items-center gap-1 mx-auto"
                         >
-                          <Eye size={11} />
+                          <Eye size={10} />
                           <span>View & Download</span>
                         </button>
                       </td>
 
-                      {/* 14. Contact Person & Details */}
-                      <td className="px-3.5 py-3.5 min-w-[220px]">
-                        <div className="text-[11px] space-y-0.5">
-                          <p><span className="font-bold text-gray-500">Desig:</span> <span className="font-semibold text-gray-900">{nomination.designation}</span></p>
-                          <p><span className="font-bold text-gray-500">Mobile:</span> <span className="font-semibold text-gray-900">{nomination.mobileNumber}</span></p>
-                          <p><span className="font-bold text-gray-500">Email:</span> <span className="font-semibold text-gray-900">{nomination.email}</span></p>
-                          <p><span className="font-bold text-gray-500">Location:</span> <span className="font-medium text-gray-800">{nomination.city}, {nomination.state}, {nomination.country} - {nomination.pinCode}</span></p>
-                          <p><span className="font-bold text-gray-500">Address:</span> <span className="text-gray-600 line-clamp-1">{nomination.address}</span></p>
-                        </div>
+                      {/* 14. Contact Person & Details (Sleek Compact 2-Line Snippet + Button) */}
+                      <td className="px-3 py-2 min-w-[180px]">
+                        <button
+                          onClick={() => setSelectedContact(nomination)}
+                          className="text-left group/btn w-full p-1.5 rounded-lg hover:bg-gray-100/80 transition-colors cursor-pointer"
+                          title="Click to view full contact details"
+                        >
+                          <p className="font-bold text-gray-900 text-[11px] truncate max-w-[160px] group-hover/btn:text-[#5e8e33]">
+                            {nomination.designation || nomination.fullName}
+                          </p>
+                          <p className="text-[10px] text-gray-500 font-mono flex items-center gap-1 mt-0.5">
+                            <span>{nomination.city || 'N/A'}</span>
+                            <span>•</span>
+                            <span className="text-[#5e8e33] underline font-sans font-bold">Details</span>
+                          </p>
+                        </button>
                       </td>
 
                       {/* 15. Amount */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap text-right font-black text-gray-900">
+                      <td className="px-3 py-2 whitespace-nowrap text-right font-black text-gray-900 text-[11px]">
                         ₹{(nomination.totalAmount || 9440).toLocaleString('en-IN')}
                       </td>
 
                       {/* 16. Payment & Type */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap">
-                        <div className="space-y-1">
-                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider inline-block ${
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        <div className="space-y-0.5">
+                          <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider inline-block ${
                             nomination.paymentStatus === 'Paid' 
-                              ? 'bg-green-100 text-green-800' 
+                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
                               : nomination.paymentStatus === 'Failed' 
-                              ? 'bg-red-100 text-red-800' 
-                              : 'bg-yellow-100 text-yellow-800'
+                              ? 'bg-rose-50 text-rose-800 border border-rose-200' 
+                              : 'bg-amber-50 text-amber-800 border border-amber-200'
                           }`}>
                             {nomination.paymentStatus || 'Pending'}
                           </span>
-                          <p className="text-[10px] text-gray-400 font-medium">
+                          <p className="text-[9px] text-gray-400 font-medium">
                             {nomination.paymentMethod || 'Online (Razorpay)'}
                           </p>
                         </div>
                       </td>
 
-                      {/* 17. Status Dropdown */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap text-center">
+                      {/* 17. Status Dropdown (Sleek Compact Pill) */}
+                      <td className="px-3 py-2 whitespace-nowrap text-center">
                         <select
                           value={nomination.status || 'UNDER REVIEW'}
                           onChange={(e) => handleStatusChange(nomination._id, e.target.value)}
                           disabled={statusUpdateLoading[nomination._id]}
-                          className={`px-2.5 py-1 text-[11px] font-black uppercase tracking-wider border rounded-xl cursor-pointer focus:outline-none transition-all ${
+                          className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-wider border rounded-lg cursor-pointer focus:outline-none transition-all ${
                             nomination.status === 'WINNER'
-                              ? 'bg-green-600 text-white border-green-700'
+                              ? 'bg-emerald-500 text-white border-emerald-600 shadow-2xs'
                               : nomination.status === 'REJECTED'
-                              ? 'bg-red-600 text-white border-red-700'
+                              ? 'bg-rose-500 text-white border-rose-600 shadow-2xs'
                               : nomination.status === 'STATUS'
                               ? 'bg-gray-100 text-gray-700 border-gray-300'
-                              : 'bg-amber-500 text-white border-amber-600'
+                              : 'bg-amber-500 text-white border-amber-600 shadow-2xs'
                           }`}
                         >
                           <option value="STATUS" className="bg-white text-gray-900">STATUS</option>
                           <option value="UNDER REVIEW" className="bg-white text-amber-800 font-bold">UNDER REVIEW</option>
-                          <option value="WINNER" className="bg-white text-green-800 font-bold">WINNER</option>
-                          <option value="REJECTED" className="bg-white text-red-800 font-bold">REJECTED</option>
+                          <option value="WINNER" className="bg-white text-emerald-800 font-bold">WINNER</option>
+                          <option value="REJECTED" className="bg-white text-rose-800 font-bold">REJECTED</option>
                         </select>
                       </td>
 
                       {/* 18. Action */}
-                      <td className="px-3.5 py-3.5 whitespace-nowrap text-center sticky right-0 z-20 bg-white group-hover:bg-gray-50/80 shadow-[-1px_0_0_0_#e5e7eb]">
-                        <div className="flex items-center justify-center gap-2">
-                          <button
-                            onClick={() => {
-                              setEditingNomination(nomination);
-                              setIsEditModalOpen(true);
-                            }}
-                            className="p-1.5 text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
-                            title="Edit Nomination"
-                          >
-                            <Edit2 size={13} />
-                          </button>
-
+                      <td className="px-3 py-2 whitespace-nowrap text-center sticky right-0 z-20 bg-white group-hover:bg-gray-50/80 shadow-[-1px_0_0_0_#e5e7eb]">
+                        <div className="flex items-center justify-center gap-1.5">
                           <button
                             onClick={() => {
                               setSelectedNominationForDelegate(nomination);
                               setIsAddDelegateOpen(true);
                             }}
-                            className="px-2.5 py-1 bg-[#800000] hover:bg-[#600000] text-white text-[10px] font-black rounded-full shadow-xs transition-all active:scale-95 cursor-pointer whitespace-nowrap"
+                            className="px-2.5 py-1 bg-[#800000] hover:bg-[#600000] text-white text-[9px] font-black rounded-full shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap"
                           >
                             Add Delegate
                           </button>
@@ -548,7 +542,7 @@ export default function NominationsPage() {
       {/* Summary View Modal */}
       {selectedSummary && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative animate-in fade-in zoom-in-95">
             <button
               onClick={() => setSelectedSummary(null)}
               className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
@@ -583,7 +577,7 @@ export default function NominationsPage() {
       {/* Attachments View Modal */}
       {selectedAttachment && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative animate-in fade-in zoom-in-95">
             <button
               onClick={() => setSelectedAttachment(null)}
               className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
@@ -600,7 +594,7 @@ export default function NominationsPage() {
 
             <div className="space-y-3">
               {selectedAttachment.profileDocumentUrl ? (
-                <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between">
+                <div className="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <FileText className="text-blue-600" size={18} />
                     <div>
@@ -612,7 +606,7 @@ export default function NominationsPage() {
                     href={selectedAttachment.profileDocumentUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 bg-black hover:bg-gray-800 text-white text-[11px] font-bold rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
+                    className="px-3 py-1.5 bg-black hover:bg-gray-800 text-white text-[10px] font-bold rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     <Download size={12} />
                     <span>View</span>
@@ -623,7 +617,7 @@ export default function NominationsPage() {
               )}
 
               {selectedAttachment.summaryDocumentUrl && (
-                <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between">
+                <div className="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <FileText className="text-[#5e8e33]" size={18} />
                     <div>
@@ -635,13 +629,70 @@ export default function NominationsPage() {
                     href={selectedAttachment.summaryDocumentUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 bg-black hover:bg-gray-800 text-white text-[11px] font-bold rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
+                    className="px-3 py-1.5 bg-black hover:bg-gray-800 text-white text-[10px] font-bold rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     <Download size={12} />
                     <span>View</span>
                   </a>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Full Contact Person & Details Modal */}
+      {selectedContact && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative animate-in fade-in zoom-in-95">
+            <button
+              onClick={() => setSelectedContact(null)}
+              className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="flex items-center gap-2">
+              <User className="text-[#5e8e33]" size={20} />
+              <div>
+                <h2 className="text-base font-black text-gray-900">{selectedContact.fullName}</h2>
+                <p className="text-xs font-bold text-gray-500">{selectedContact.organization}</p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-2.5 text-xs">
+              <div className="flex items-start gap-2">
+                <User size={14} className="text-gray-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase">Designation</p>
+                  <p className="font-bold text-gray-900">{selectedContact.designation || 'N/A'}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2">
+                <Phone size={14} className="text-gray-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase">Mobile Number</p>
+                  <p className="font-bold text-gray-900 font-mono">{selectedContact.mobileNumber}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2">
+                <Mail size={14} className="text-gray-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase">Email Address</p>
+                  <p className="font-bold text-gray-900">{selectedContact.email}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2">
+                <MapPin size={14} className="text-gray-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase">Full Location & Address</p>
+                  <p className="font-semibold text-gray-800">{selectedContact.city}, {selectedContact.state}, {selectedContact.country} - {selectedContact.pinCode}</p>
+                  <p className="text-gray-600 mt-0.5">{selectedContact.address}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
