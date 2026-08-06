@@ -558,7 +558,21 @@ export default function DelegatesPage() {
 
                     {/* Attendee Category */}
                     <td className="px-4 py-2.5 whitespace-nowrap">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-700">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider border ${
+                        delegate.attendeeCategory === 'SPONSOR'
+                          ? 'bg-cyan-100 text-cyan-800 border-cyan-300'
+                          : delegate.attendeeCategory === 'SPEAKER'
+                          ? 'bg-orange-100 text-orange-800 border-orange-300'
+                          : delegate.attendeeCategory === 'ORGANIZER'
+                          ? 'bg-blue-100 text-blue-900 border-blue-300'
+                          : delegate.attendeeCategory === 'MEDIA'
+                          ? 'bg-purple-100 text-purple-800 border-purple-300'
+                          : delegate.attendeeCategory === 'AWARDEE'
+                          ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                          : delegate.attendeeCategory === 'AWARD NOMINEE' || delegate.attendeeCategory === 'AWARD_NOMINEE'
+                          ? 'bg-rose-100 text-rose-800 border-rose-300'
+                          : 'bg-gray-100 text-gray-700 border-gray-200'
+                      }`}>
                         {delegate.attendeeCategory?.replace('_', ' ') || 'DELEGATE'}
                       </span>
                     </td>
