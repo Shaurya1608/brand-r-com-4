@@ -424,37 +424,43 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                 {paymentSuccess || isAlreadyPaid ? (
                   // ── Payment confirmed / Already Registered ─────────────────
                   <>
-                    <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-5">
+                    <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
                       <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-serif text-brand-dark font-bold mb-3">
-                      {isAlreadyPaid ? 'Already Registered & Confirmed!' : 'Payment Successful!'}
+
+                    <h2 className="text-2xl md:text-3xl font-serif font-black text-brand-dark mb-2 tracking-wide uppercase">
+                      REGISTRATION CONFIRMED!
                     </h2>
-                    <p className="text-brand-dark/70 text-[14px] leading-relaxed max-w-sm mb-4">
-                      {isAlreadyPaid 
-                        ? `We found an existing confirmed registration for ${existingData?.fullName || formData.fullName}. Your registration is active.`
-                        : `Your delegate registration for BRAND R.Comm 2026 is now confirmed.`
-                      }
+                    
+                    <p className="text-brand-dark/90 font-bold text-[13px] leading-snug max-w-sm mb-2">
+                      Thank you for registering for BRAND R.Comm – Agriculture &amp; Rural Communication Summit &amp; Awards 2026.
                     </p>
-                    <div className="w-full max-w-sm bg-brand-surface/50 border border-brand-primary/10 rounded-xl p-4 mb-6 text-left space-y-2">
-                      <div className="flex justify-between text-[13px]">
-                        <span className="text-brand-dark/60 font-medium">Name</span>
-                        <span className="font-semibold text-brand-dark">{existingData?.fullName || formData.fullName}</span>
-                      </div>
-                      <div className="flex justify-between text-[13px]">
-                        <span className="text-brand-dark/60 font-medium">Registration ID</span>
-                        <span className="font-mono text-[11px] font-bold text-brand-primary">#{registeredDelegateId?.slice(-8).toUpperCase()}</span>
-                      </div>
-                      <div className="flex justify-between text-[13px]">
-                        <span className="text-brand-dark/60 font-medium">Status</span>
-                        <span className="font-bold text-emerald-700 uppercase text-[11px]">Paid & Confirmed</span>
-                      </div>
+
+                    <p className="text-brand-dark/75 text-[12px] leading-relaxed max-w-sm mb-4">
+                      Your payment has been received successfully, and your delegate registration has been confirmed.
+                    </p>
+
+                    <div className="w-full max-w-sm bg-emerald-50 border border-emerald-200/80 rounded-xl p-3.5 mb-4 text-center space-y-1 shadow-2xs">
+                      <span className="text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest block">Registration ID</span>
+                      <span className="font-mono text-xl font-black text-emerald-900 tracking-wider block">
+                        DEL-{registeredDelegateId?.slice(-5).toUpperCase() || 'A1B2C'}
+                      </span>
                     </div>
+
+                    <div className="w-full max-w-sm bg-gray-50 border border-gray-200/80 rounded-xl p-3.5 mb-4 text-left text-[11px] text-gray-700 space-y-2 leading-relaxed">
+                      <p>📩 A confirmation email will be sent to your registered email address shortly.</p>
+                      <p>🎫 Your Event Entry Pass, QR Code, and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.</p>
+                    </div>
+
+                    <p className="text-[#5e8e33] font-serif font-bold text-[13px] mb-5">
+                      We look forward to welcoming you to BRAND R.Comm 2026.
+                    </p>
+
                     <button
                       onClick={onClose}
-                      className="w-full max-w-sm py-3 bg-brand-primary hover:bg-brand-primary-hover text-white font-mono font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md"
+                      className="w-full max-w-sm py-3 bg-[#5e8e33] hover:bg-[#4c7727] text-white font-mono font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md"
                     >
                       Close
                     </button>
@@ -492,7 +498,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       </div>
                       <div className="flex justify-between text-[13px]">
                         <span className="text-brand-dark/60 font-medium">Registration #</span>
-                        <span className="font-mono font-bold text-brand-dark">#{registeredDelegateId?.slice(-8).toUpperCase()}</span>
+                        <span className="font-mono font-bold text-brand-dark">DEL-{registeredDelegateId?.slice(-5).toUpperCase() || 'A1B2C'}</span>
                       </div>
                       <div className="flex justify-between text-[13px]">
                         <span className="text-brand-dark/60 font-medium">Payment Status</span>
@@ -550,21 +556,26 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                 ) : (
                   // ── Registration submitted — awaiting payment ──────────────
                   <>
-                    <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mb-6">
-                      <svg className="w-8 h-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-16 h-16 bg-[#5e8e33]/10 rounded-full flex items-center justify-center mb-5">
+                      <svg className="w-8 h-8 text-[#5e8e33]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-serif text-brand-dark font-bold mb-4">
-                      Registration Submitted Successfully
+
+                    <h2 className="text-xl md:text-2xl font-serif font-black text-brand-dark mb-3 tracking-wide uppercase">
+                      DETAILS SUBMITTED SUCCESSFULLY
                     </h2>
-                    <p className="text-brand-dark/80 font-medium mb-3">
+
+                    <p className="text-brand-dark/90 font-bold text-[13px] leading-snug mb-2">
                       Thank you for submitting your delegate registration.
                     </p>
-                    <p className="text-brand-dark/70 text-[14px] leading-relaxed max-w-sm mb-8">
-                      Your registration details have been saved. Please complete the payment to confirm your participation at <strong className="font-bold text-brand-dark">BRAND R.Comm – Agriculture &amp; Rural Communication Summit &amp; Awards 2026.</strong>
+
+                    <p className="text-brand-dark/75 text-[12px] leading-relaxed max-w-sm mb-6">
+                      Your registration details have been saved successfully. Please complete the payment to confirm your participation at <strong className="font-bold text-brand-dark">BRAND R.Comm – Agriculture &amp; Rural Communication Summit &amp; Awards 2026.</strong>
                     </p>
+
                     {error && <p className="text-red-500 text-[12px] font-bold text-center mb-4">{error}</p>}
+
                     <div className="flex flex-col w-full gap-3 max-w-sm">
                       <button
                         onClick={handleProceedToPayment}
