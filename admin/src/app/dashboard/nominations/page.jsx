@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Award, Search, Download, ExternalLink, FileText, Edit2, UserPlus, X, Globe, Eye, MapPin, Phone, Mail, User } from 'lucide-react';
 import Cookies from 'js-cookie';
 import AddDelegateModal from '../../../components/AddDelegateModal';
+import ManualNominationModal from '../../../components/ManualNominationModal';
 
 export default function NominationsPage() {
   const [nominations, setNominations] = useState([]);
@@ -22,6 +23,7 @@ export default function NominationsPage() {
   const [selectedContact, setSelectedContact] = useState(null);
   const [isAddDelegateOpen, setIsAddDelegateOpen] = useState(false);
   const [selectedNominationForDelegate, setSelectedNominationForDelegate] = useState(null);
+  const [isAddNominationOpen, setIsAddNominationOpen] = useState(false);
   const [statusUpdateLoading, setStatusUpdateLoading] = useState({});
 
   useEffect(() => {
@@ -166,10 +168,18 @@ export default function NominationsPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setIsAddNominationOpen(true)}
+            className="px-4 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
+          >
+            <Award size={14} />
+            <span>NOMINATIONS MANUAL REGISTRATION</span>
+          </button>
+
           <button
             onClick={exportCSV}
-            className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold rounded-xl border border-gray-200 shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-3 py-2 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold rounded-xl border border-gray-200 shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             <Download size={13} />
             <span>Export CSV</span>
@@ -710,6 +720,13 @@ export default function NominationsPage() {
           setSelectedNominationForDelegate(null);
         }}
         presetNomination={selectedNominationForDelegate}
+      />
+
+      {/* Manual Nomination Modal */}
+      <ManualNominationModal
+        isOpen={isAddNominationOpen}
+        onClose={() => setIsAddNominationOpen(false)}
+        onNominationAdded={fetchNominations}
       />
     </div>
   );
