@@ -449,37 +449,37 @@ export default function DelegatesPage() {
 
         {/* Table Container */}
         <div className="overflow-x-auto overflow-y-auto max-h-[580px] relative border border-gray-100/50 custom-scrollbar">
-          <table className="w-full text-left text-xs text-gray-600">
-            <thead className="text-[11px] font-semibold text-gray-500 uppercase bg-gray-50/80 border-b border-gray-100">
+          <table className="w-full text-left text-xs text-gray-600 border-collapse">
+            <thead className="sticky top-0 z-40 text-[11px] font-extrabold text-gray-800 uppercase bg-gray-100 border-b border-gray-200 shadow-sm tracking-wider">
               <tr>
-                <th className="px-4 py-3 min-w-[48px] max-w-[48px] sticky left-0 z-30 bg-gray-50/90">
+                <th className="px-4 py-3.5 min-w-[48px] max-w-[48px] sticky left-0 top-0 z-50 bg-gray-100">
                   <input 
                     type="checkbox" 
                     onChange={handleSelectAll} 
                     checked={delegates.length > 0 && selectedDelegates.length === delegates.length} 
-                    className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
+                    className="rounded border-gray-300 text-[#5e8e33] focus:ring-[#5e8e33] cursor-pointer" 
                   />
                 </th>
-                <th className="px-4 py-3 min-w-[50px] max-w-[50px] sticky left-[48px] z-30 bg-gray-50/90 whitespace-nowrap">S.No.</th>
-                <th className="px-4 py-3 min-w-[100px] max-w-[100px] sticky left-[98px] z-30 bg-gray-50/90">Reg. ID</th>
-                <th className="px-4 py-3 min-w-[180px] max-w-[180px] sticky left-[198px] z-30 bg-gray-50/90 shadow-[1px_0_0_0_#e5e7eb] whitespace-nowrap">Name</th>
-                <th className="px-4 py-3 min-w-[150px] whitespace-nowrap">Reg. Date & Time</th>
-                <th className="px-4 py-3 whitespace-nowrap">Delegate TYPE</th>
-                <th className="px-4 py-3 min-w-[140px] whitespace-nowrap">Company GST No.</th>
-                <th className="px-4 py-3 whitespace-nowrap">Attendee Category</th>
-                <th className="px-4 py-3 whitespace-nowrap">Designation</th>
-                <th className="px-4 py-3 whitespace-nowrap">Organization</th>
-                <th className="px-4 py-3 whitespace-nowrap">Mobile number</th>
-                <th className="px-4 py-3 whitespace-nowrap">Email</th>
-                <th className="px-4 py-3 whitespace-nowrap">City</th>
-                <th className="px-4 py-3 whitespace-nowrap">State/Country</th>
-                <th className="px-4 py-3 whitespace-nowrap">Pincode</th>
-                <th className="px-4 py-3 min-w-[200px]">Address</th>
-                <th className="px-4 py-3 whitespace-nowrap">Reg. Type</th>
-                <th className="px-4 py-3 whitespace-nowrap text-right">Amount</th>
-                <th className="px-4 py-3 whitespace-nowrap">Payment & Type</th>
-                <th className="px-4 py-3 whitespace-nowrap">Coupon Registration</th>
-                <th className="px-4 py-3 text-center sticky right-0 z-30 bg-gray-50/90 shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
+                <th className="px-4 py-3.5 min-w-[50px] max-w-[50px] sticky left-[48px] top-0 z-50 bg-gray-100 whitespace-nowrap">S.No.</th>
+                <th className="px-4 py-3.5 min-w-[100px] max-w-[100px] sticky left-[98px] top-0 z-50 bg-gray-100 whitespace-nowrap">Reg. ID</th>
+                <th className="px-4 py-3.5 min-w-[180px] max-w-[180px] sticky left-[198px] top-0 z-50 bg-gray-100 shadow-[1px_0_0_0_#e5e7eb] whitespace-nowrap">Name</th>
+                <th className="px-4 py-3.5 min-w-[150px] whitespace-nowrap sticky top-0 bg-gray-100">Reg. Date & Time</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Delegate TYPE</th>
+                <th className="px-4 py-3.5 min-w-[140px] whitespace-nowrap sticky top-0 bg-gray-100">Company GST No.</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Attendee Category</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Designation</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Organization</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Mobile number</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Email</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">City</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">State/Country</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Pincode</th>
+                <th className="px-4 py-3.5 min-w-[200px] sticky top-0 bg-gray-100">Address</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Reg. Type</th>
+                <th className="px-4 py-3.5 whitespace-nowrap text-right sticky top-0 bg-gray-100">Amount</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Payment & Type</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Coupon Registration</th>
+                <th className="px-4 py-3.5 text-center sticky right-0 top-0 z-50 bg-gray-100 shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
