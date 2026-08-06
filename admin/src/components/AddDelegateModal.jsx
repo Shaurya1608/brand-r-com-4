@@ -39,7 +39,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         attendeeCategory: 'SPONSOR',
         paymentMethod: 'Free',
         paymentStatus: 'Paid',
-        registeredBy: 'Sponsor Member',
+        registeredBy: '',
         sponsorshipId: presetSponsorship._id,
         sponsorshipCompany: presetSponsorship.companyName,
       }));
