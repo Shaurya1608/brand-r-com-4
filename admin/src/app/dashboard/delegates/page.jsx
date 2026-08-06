@@ -985,35 +985,6 @@ export default function DelegatesPage() {
         </div>
       )}
 
-      {/* Floating Selection Bar */}
-      {selectedDelegates.length > 0 && (
-        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-gray-900/90 backdrop-blur-md text-white border border-gray-800 shadow-2xl rounded-2xl p-2.5 px-4 flex items-center gap-4 transition-all duration-300">
-          <div className="text-xs font-extrabold flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-[#5e8e33] text-white flex items-center justify-center font-mono text-[11px]">
-              {selectedDelegates.length}
-            </span>
-            <span>Delegates Selected</span>
-          </div>
-
-          <div className="h-4 w-px bg-white/20"></div>
-
-          <button
-            onClick={() => setIsBulkUpdateModalOpen(true)}
-            className="px-4 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm active:scale-95 cursor-pointer flex items-center gap-1.5"
-          >
-            <UserPlus size={14} />
-            <span>Change Category</span>
-          </button>
-
-          <button
-            onClick={() => setSelectedDelegates([])}
-            className="text-xs text-gray-400 hover:text-white font-medium underline transition-colors cursor-pointer"
-          >
-            Deselect All
-          </button>
-        </div>
-      )}
-
     </div>
   );
 }
