@@ -42,5 +42,7 @@ router.post('/verify-payment', nominationController.verifyPayment);
 
 // Protected route for fetching all nominations (Admin)
 router.get('/', protect, nominationController.getNominations);
+router.put('/:id', protect, nominationController.updateNomination);
+router.delete('/:id', protect, nominationController.deleteNomination);
 
 module.exports = router;

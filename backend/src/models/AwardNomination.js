@@ -85,10 +85,14 @@ const awardNominationSchema = new mongoose.Schema({
     enum: ['Online (Razorpay)', 'Invoice', 'Offline'],
     default: 'Online (Razorpay)'
   },
+  registrationType: {
+    type: String,
+    default: 'Online Registration'
+  },
   status: {
     type: String,
-    enum: ['pending', 'approved', 'rejected'],
-    default: 'pending',
+    enum: ['STATUS', 'UNDER REVIEW', 'WINNER', 'REJECTED', 'pending', 'approved', 'rejected'],
+    default: 'UNDER REVIEW',
   },
   razorpayOrderId: {
     type: String,

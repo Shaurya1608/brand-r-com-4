@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Info } from 'lucide-react';
 
-export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, presetSponsorship = null }) {
+export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, presetSponsorship = null, presetNomination = null }) {
   const [formData, setFormData] = useState({
     delegateType: 'indian',
     fullName: '',
@@ -43,8 +43,24 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         sponsorshipId: presetSponsorship._id,
         sponsorshipCompany: presetSponsorship.companyName,
       }));
+    } else if (isOpen && presetNomination) {
+      setFormData(prev => ({
+        ...prev,
+        fullName: presetNomination.fullName || prev.fullName,
+        email: presetNomination.email || prev.email,
+        designation: presetNomination.designation || prev.designation,
+        mobileNumber: presetNomination.mobileNumber || prev.mobileNumber,
+        organization: presetNomination.organization || prev.organization,
+        city: presetNomination.city || prev.city,
+        stateCountry: presetNomination.state ? `${presetNomination.state}, ${presetNomination.country || 'India'}` : (presetNomination.country || prev.stateCountry),
+        pinCode: presetNomination.pinCode || prev.pinCode,
+        address: presetNomination.address || prev.address,
+        attendeeCategory: 'AWARD NOMINEE',
+        paymentMethod: presetNomination.paymentMethod || 'Online (Razorpay)',
+        paymentStatus: presetNomination.paymentStatus || 'Paid',
+      }));
     }
-  }, [isOpen, presetSponsorship]);
+  }, [isOpen, presetSponsorship, presetNomination]);
 
   if (!isOpen) return null;
 

@@ -362,3 +362,44 @@ exports.resumePayment = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error retrieving payment session.' });
   }
 };
+
+// ─── Update Nomination (Admin) ────────────────────────────────────────────────
+exports.updateNomination = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    const nomination = await AwardNomination.findByIdAndUpdate(id, updateData, { new: true });
+    if (!nomination) {
+      return res.status(404).json({ success: false, message: 'Nomination not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Nomination updated successfully',
+      data: nomination,
+    });
+  } catch (error) {
+    console.error('Error updating nomination:', error);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+// ─── Delete Nomination (Admin) ────────────────────────────────────────────────
+exports.deleteNomination = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const nomination = await AwardNomination.findByIdAndDelete(id);
+    if (!nomination) {
+      return res.status(404).json({ success: false, message: 'Nomination not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Nomination deleted successfully',
+    });
+  } catch (error) {
+    console.error('Error deleting nomination:', error);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
