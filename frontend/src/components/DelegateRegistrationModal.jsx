@@ -399,25 +399,33 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       </svg>
                     </div>
                     <h2 className="text-2xl md:text-3xl font-serif text-brand-dark font-bold mb-2">Existing Registration Found!</h2>
-                    <span className="px-3 py-1 bg-amber-100 text-amber-800 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full mb-4">
+                    <span className="px-3 py-1 bg-amber-100 text-amber-800 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full mb-3">
                       Is this you? Payment Due
                     </span>
-                    <p className="text-brand-dark/70 text-[14px] leading-relaxed max-w-sm mb-4">
-                      We found your existing registration for <strong className="font-bold text-brand-dark">{existingData?.fullName || formData.fullName}</strong> ({existingData?.email || formData.email}).
+                    <p className="text-brand-dark/70 text-[13px] leading-relaxed max-w-sm mb-4">
+                      It looks like you've already registered. You can complete your pending payment below without re-registering.
                     </p>
 
-                    <div className="w-full max-w-sm bg-amber-50/50 border border-amber-200/80 rounded-xl p-4 mb-6 text-left space-y-2">
+                    <div className="w-full max-w-sm bg-amber-50/60 border border-amber-200/80 rounded-xl p-4 mb-5 text-left space-y-2 font-sans">
                       <div className="flex justify-between text-[13px]">
-                        <span className="text-brand-dark/60 font-medium">Reg. ID</span>
+                        <span className="text-brand-dark/60 font-medium">Attendee Name</span>
+                        <span className="font-semibold text-brand-dark">{existingData?.fullName || formData.fullName}</span>
+                      </div>
+                      <div className="flex justify-between text-[13px]">
+                        <span className="text-brand-dark/60 font-medium">Email / Mobile</span>
+                        <span className="font-medium text-brand-dark/80 text-[12px]">{existingData?.email || formData.email}</span>
+                      </div>
+                      <div className="flex justify-between text-[13px]">
+                        <span className="text-brand-dark/60 font-medium">Registration #</span>
                         <span className="font-mono font-bold text-brand-dark">#{registeredDelegateId?.slice(-8).toUpperCase()}</span>
                       </div>
                       <div className="flex justify-between text-[13px]">
                         <span className="text-brand-dark/60 font-medium">Payment Status</span>
                         <span className="font-bold text-amber-700 uppercase tracking-wider text-[11px]">Pending Due</span>
                       </div>
-                      <div className="flex justify-between text-[13px]">
-                        <span className="text-brand-dark/60 font-medium">Total Amount Due</span>
-                        <span className="font-bold text-brand-primary">{finalAmountString}</span>
+                      <div className="flex justify-between text-[13px] pt-1 border-t border-amber-200/50">
+                        <span className="text-brand-dark/70 font-bold">Total Amount Due</span>
+                        <span className="font-bold text-brand-primary text-[15px]">{finalAmountString}</span>
                       </div>
                     </div>
 

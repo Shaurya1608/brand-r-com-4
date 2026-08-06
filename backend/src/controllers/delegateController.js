@@ -73,25 +73,47 @@ exports.registerDelegate = async (req, res) => {
       }
     }
 
-    const newDelegate = await DelegateRegistration.create({
-      delegateType: delegateType || 'indian',
-      fullName,
-      email: cleanEmail,
-      designation,
-      mobileNumber: cleanMobile,
-      organization,
-      city,
-      stateCountry,
-      pinCode,
-      gstNumber: gstNumber ? gstNumber.trim().toUpperCase() : '',
-      address,
-      couponCode: couponCode || null,
-      isManuallyCreated: isManuallyCreated || false,
-      paymentStatus: paymentStatus || 'Pending',
-      paymentMethod: paymentMethod || 'Online',
-      attendeeCategory: attendeeCategory || 'DELEGATE',
-      registeredBy: registeredBy || '',
-    });
+    let newDelegate;
+    try {
+      newDelegate = await DelegateRegistration.create({
+        delegateType: delegateType || 'indian',
+        fullName,
+        email: cleanEmail,
+        designation,
+        mobileNumber: cleanMobile,
+        organization,
+        city,
+        stateCountry,
+        pinCode,
+        gstNumber: gstNumber ? gstNumber.trim().toUpperCase() : '',
+        address,
+        couponCode: couponCode || null,
+        isManuallyCreated: isManuallyCreated || false,
+        paymentStatus: paymentStatus || 'Pending',
+        paymentMethod: paymentMethod || 'Online',
+        attendeeCategory: attendeeCategory || 'DELEGATE',
+        registeredBy: registeredBy || '',
+      });
+    } catch (createError) {
+      // Catch MongoDB E11000 duplicate key error in case of simultaneous concurrent requests
+      if (createError.code === 11000 || (createError.message && createError.message.includes('E11000'))) {
+        const existingDelegate = await DelegateRegistration.findOne({
+          $or: [{ email: cleanEmail }, { mobileNumber: cleanMobile }]
+        });
+        if (existingDelegate) {
+          return res.status(200).json({
+            success: true,
+            isExisting: true,
+            alreadyPaid: existingDelegate.paymentStatus === 'Paid',
+            message: existingDelegate.paymentStatus === 'Paid'
+              ? 'You are already registered and your payment is confirmed!'
+              : 'Existing registration found! Please complete your pending payment.',
+            data: existingDelegate
+          });
+        }
+      }
+      throw createError;
+    }
 
     // Send initial registration email via Resend immediately upon form submission
     if (!newDelegate.initialEmailSent) {
@@ -114,7 +136,7 @@ exports.registerDelegate = async (req, res) => {
   }
 };
 
-// @desc    Lookup an existing delegate by email, mobile number, or registration ID (Public)
+// @desc    Lookup an existing delegate by email, mobile number, or registration ID (Public - Privacy Protected)
 // @route   GET /api/delegates/lookup?query=...
 // @access  Public
 exports.lookupDelegate = async (req, res) => {
@@ -157,9 +179,46 @@ exports.lookupDelegate = async (req, res) => {
       });
     }
 
+    // Mask personal information for public lookup API to protect user privacy
+    const maskName = (nameStr) => {
+      if (!nameStr) return '';
+      const parts = nameStr.trim().split(/\s+/);
+      if (parts.length === 1) return parts[0];
+      return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+    };
+
+    const maskEmail = (emailStr) => {
+      if (!emailStr || !emailStr.includes('@')) return '***@***.com';
+      const [local, domain] = emailStr.split('@');
+      const visible = local.slice(0, 2);
+      return `${visible}***@${domain}`;
+    };
+
+    const maskMobile = (phoneStr) => {
+      if (!phoneStr) return '******0000';
+      const digits = phoneStr.replace(/\D/g, '');
+      if (digits.length < 4) return '******';
+      return `******${digits.slice(-4)}`;
+    };
+
+    const maskedData = {
+      _id: delegate._id,
+      registrationId: delegate._id.toString().slice(-8).toUpperCase(),
+      fullName: maskName(delegate.fullName),
+      rawFullName: delegate.fullName,
+      email: maskEmail(delegate.email),
+      mobileNumber: maskMobile(delegate.mobileNumber),
+      delegateType: delegate.delegateType,
+      paymentStatus: delegate.paymentStatus,
+      amountPaid: delegate.amountPaid,
+      couponCode: delegate.couponCode,
+      createdAt: delegate.createdAt
+    };
+
     res.status(200).json({
       success: true,
-      data: delegate
+      exists: true,
+      data: maskedData
     });
   } catch (error) {
     console.error('Error in lookupDelegate:', error);
