@@ -215,7 +215,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                       onChange={handleChange}
                       required
                       placeholder="Enter company name"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -231,7 +231,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                       value={formData.gstNumber}
                       onChange={handleChange}
                       placeholder="Enter GST number"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -250,7 +250,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                       onChange={handleChange}
                       required
                       placeholder="Full name"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -269,7 +269,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                       onChange={handleChange}
                       required
                       placeholder="email@company.com"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -288,7 +288,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                       onChange={handleChange}
                       required
                       placeholder="+91 98765 43210"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -307,7 +307,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                       onChange={handleChange}
                       required
                       placeholder="City"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -326,7 +326,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                       onChange={handleChange}
                       required
                       placeholder="State/Country"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -343,7 +343,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                     onChange={handleChange}
                     required
                     placeholder="Pin Code"
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                   />
                 </div>
               </div>
@@ -360,7 +360,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                   required
                   rows={2}
                   placeholder="Full registered address"
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white resize-none"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white resize-none"
                 />
               </div>
             </div>
@@ -472,7 +472,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                   value={formData.registeredBy}
                   onChange={handleChange}
                   placeholder="Name- for snail team"
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                 />
               </div>
             </div>

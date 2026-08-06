@@ -119,7 +119,6 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
       const result = await res.json();
 
       if (result.success) {
-        // If status update is required
         if (formData.paymentStatus || formData.registeredBy) {
           const updateRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/${result.data._id}`, {
             method: 'PUT',
@@ -149,8 +148,10 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
     }
   };
 
+  const inputStyle = "w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-semibold text-gray-900 placeholder:text-gray-500 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] transition-all bg-gray-50/70 focus:bg-white shadow-2xs";
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl max-w-3xl w-full my-6 shadow-2xl overflow-hidden relative flex flex-col max-h-[90vh]">
         {/* Modal Header */}
         <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white p-5 px-6 relative flex items-center justify-between border-b border-gray-800">
@@ -183,13 +184,13 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           {/* Section 1: Applicant Information */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 border-b border-gray-100 pb-2">
-              <div className="w-5 h-5 rounded-full bg-[#5e8e33] text-white flex items-center justify-center font-black text-[11px]">1</div>
+              <div className="w-6 h-6 rounded-full bg-[#5e8e33] text-white flex items-center justify-center font-black text-xs">1</div>
               <h3 className="font-black text-gray-900 text-sm">Applicant Information</h3>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label className="block font-bold text-gray-700 mb-1">Full Name *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Full Name <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="fullName"
@@ -197,12 +198,12 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   placeholder="Enter full name"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Designation *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Designation <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="designation"
@@ -210,12 +211,12 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   placeholder="e.g. Marketing Head / CEO"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Organization / Company Name *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Organization / Company Name <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="organization"
@@ -223,12 +224,12 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   placeholder="Company name"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Email Address *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Email Address <span className="text-red-500">*</span></label>
                 <input
                   type="email"
                   name="email"
@@ -236,12 +237,12 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   placeholder="you@company.com"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Mobile Number *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Mobile Number <span className="text-red-500">*</span></label>
                 <input
                   type="tel"
                   name="mobileNumber"
@@ -249,19 +250,19 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   placeholder="+91 00000 00000"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block font-bold text-gray-700 mb-1">Website (Optional)</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Website (Optional)</label>
                 <input
                   type="text"
                   name="website"
                   value={formData.website}
                   onChange={handleChange}
                   placeholder="https://company.com"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
             </div>
@@ -270,13 +271,13 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           {/* Section 2: Company details */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 border-b border-gray-100 pb-2">
-              <div className="w-5 h-5 rounded-full bg-[#5e8e33] text-white flex items-center justify-center font-black text-[11px]">2</div>
+              <div className="w-6 h-6 rounded-full bg-[#5e8e33] text-white flex items-center justify-center font-black text-xs">2</div>
               <h3 className="font-black text-gray-900 text-sm">Company details</h3>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block font-bold text-gray-700 mb-1">City *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">City <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="city"
@@ -284,12 +285,12 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   placeholder="Enter city"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">State *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">State <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="state"
@@ -297,12 +298,12 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   placeholder="Enter state"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Country *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Country <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="country"
@@ -310,12 +311,12 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   placeholder="India"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Pin Code *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Pin Code <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="pinCode"
@@ -323,12 +324,12 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   placeholder="6-digit pin code"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block font-bold text-gray-700 mb-1">Complete Address *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Complete Address <span className="text-red-500">*</span></label>
                 <textarea
                   name="address"
                   value={formData.address}
@@ -336,19 +337,19 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   rows={2}
                   placeholder="House / Street / Landmark"
                   required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block font-bold text-gray-700 mb-1">Company GST No.</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Company GST No.</label>
                 <input
                   type="text"
                   name="gstNumber"
                   value={formData.gstNumber}
                   onChange={handleChange}
                   placeholder="e.g. 07AAAAA0000A1Z5"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
             </div>
@@ -357,35 +358,35 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           {/* Section 3: Award Details */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 border-b border-gray-100 pb-2">
-              <div className="w-5 h-5 rounded-full bg-[#5e8e33] text-white flex items-center justify-center font-black text-[11px]">3</div>
+              <div className="w-6 h-6 rounded-full bg-[#5e8e33] text-white flex items-center justify-center font-black text-xs">3</div>
               <h3 className="font-black text-gray-900 text-sm">Award Details</h3>
             </div>
 
             <div className="space-y-4">
               {/* Applicant Type */}
               <div>
-                <label className="block font-bold text-gray-700 mb-1.5">Applicant Type *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-2">Applicant Type <span className="text-red-500">*</span></label>
                 <div className="flex items-center gap-6">
-                  <label className="flex items-center gap-2 font-semibold text-gray-800 cursor-pointer">
+                  <label className="flex items-center gap-2 font-bold text-gray-800 cursor-pointer">
                     <input
                       type="radio"
                       name="applicantType"
                       value="Individual"
                       checked={formData.applicantType === 'Individual'}
                       onChange={handleChange}
-                      className="text-[#5e8e33] focus:ring-[#5e8e33]"
+                      className="w-4 h-4 text-[#5e8e33] focus:ring-[#5e8e33] cursor-pointer"
                     />
                     <span>Individual</span>
                   </label>
 
-                  <label className="flex items-center gap-2 font-semibold text-gray-800 cursor-pointer">
+                  <label className="flex items-center gap-2 font-bold text-gray-800 cursor-pointer">
                     <input
                       type="radio"
                       name="applicantType"
                       value="Organization"
                       checked={formData.applicantType === 'Organization'}
                       onChange={handleChange}
-                      className="text-[#5e8e33] focus:ring-[#5e8e33]"
+                      className="w-4 h-4 text-[#5e8e33] focus:ring-[#5e8e33] cursor-pointer"
                     />
                     <span>Organization</span>
                   </label>
@@ -394,24 +395,24 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
 
               {/* Award Category Select */}
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Select Award Category *</label>
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Select Award Category <span className="text-red-500">*</span></label>
                 <select
                   name="awardCategory"
                   value={formData.awardCategory}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-white font-semibold cursor-pointer"
+                  className={inputStyle}
                 >
-                  <option value="">Choose a category...</option>
+                  <option value="" className="text-gray-500">Choose a category...</option>
                   {AWARD_CATEGORIES.map((cat, idx) => (
-                    <option key={idx} value={cat}>{cat}</option>
+                    <option key={idx} value={cat} className="text-gray-900 font-medium">{cat}</option>
                   ))}
                 </select>
               </div>
 
               {/* Brief Summary */}
               <div>
-                <label className="block font-bold text-gray-700 mb-1">
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">
                   Brief Summary of Organization / Initiatives / Individual
                 </label>
                 <textarea
@@ -420,14 +421,14 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   onChange={handleChange}
                   rows={3}
                   placeholder="Summarize the nomination in a few sentences"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                  className={inputStyle}
                 />
               </div>
 
               {/* Upload Profile */}
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Upload Company/Individual Profile</label>
-                <div className="p-4 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50 hover:bg-gray-50 transition-colors text-center">
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Upload Company/Individual Profile</label>
+                <div className="p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50/80 hover:bg-gray-50 transition-colors text-center cursor-pointer">
                   <input
                     type="file"
                     accept=".pdf,.ppt,.pptx,.doc,.docx"
@@ -437,18 +438,18 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   />
                   <label htmlFor="profile-upload" className="cursor-pointer flex flex-col items-center gap-1">
                     <Upload size={20} className="text-[#5e8e33]" />
-                    <p className="font-bold text-gray-900">
+                    <p className="font-extrabold text-gray-900 text-xs">
                       {profileFile ? profileFile.name : 'Click to upload or drag file here'}
                     </p>
-                    <p className="text-[10px] text-gray-400">PDF, PPT or DOC — max 15MB</p>
+                    <p className="text-[10px] text-gray-500 font-medium">PDF, PPT or DOC — max 15MB</p>
                   </label>
                 </div>
               </div>
 
               {/* Upload Supporting Documents */}
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Upload Supporting Documents</label>
-                <div className="p-4 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50 hover:bg-gray-50 transition-colors text-center">
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">Upload Supporting Documents</label>
+                <div className="p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50/80 hover:bg-gray-50 transition-colors text-center cursor-pointer">
                   <input
                     type="file"
                     accept=".pdf,.ppt,.pptx,.doc,.docx"
@@ -458,23 +459,23 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   />
                   <label htmlFor="summary-upload" className="cursor-pointer flex flex-col items-center gap-1">
                     <Upload size={20} className="text-[#5e8e33]" />
-                    <p className="font-bold text-gray-900">
+                    <p className="font-extrabold text-gray-900 text-xs">
                       {summaryFile ? summaryFile.name : 'Click to upload or drag file here'}
                     </p>
-                    <p className="text-[10px] text-gray-400">PDF, PPT or DOC — max 15MB</p>
+                    <p className="text-[10px] text-gray-500 font-medium">PDF, PPT or DOC — max 15MB</p>
                   </label>
                 </div>
               </div>
 
               {/* Payment Type & Status */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div>
-                  <label className="block font-bold text-gray-700 mb-1">Payment Type</label>
+                  <label className="block font-bold text-gray-800 text-xs mb-1.5">Payment Type</label>
                   <select
                     name="paymentMethod"
                     value={formData.paymentMethod}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-white font-semibold cursor-pointer"
+                    className={inputStyle}
                   >
                     <option value="Online (Razorpay)">Online (Razorpay)</option>
                     <option value="CASH">CASH</option>
@@ -484,12 +485,12 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                 </div>
 
                 <div>
-                  <label className="block font-bold text-gray-700 mb-1">Payment Status</label>
+                  <label className="block font-bold text-gray-800 text-xs mb-1.5">Payment Status</label>
                   <select
                     name="paymentStatus"
                     value={formData.paymentStatus}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-white font-semibold cursor-pointer"
+                    className={inputStyle}
                   >
                     <option value="Paid">Paid</option>
                     <option value="Invitee">Invitee</option>
@@ -498,14 +499,14 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block font-bold text-gray-700 mb-1">Application filled by</label>
+                  <label className="block font-bold text-gray-800 text-xs mb-1.5">Application filled by</label>
                   <input
                     type="text"
                     name="registeredBy"
                     value={formData.registeredBy}
                     onChange={handleChange}
                     placeholder="Name - for snail team"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/50 focus:bg-white"
+                    className={inputStyle}
                   />
                 </div>
               </div>
