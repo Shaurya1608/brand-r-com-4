@@ -26,6 +26,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
   const [successData, setSuccessData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -75,8 +76,6 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
   }, [isOpen, presetSponsorship, presetNomination]);
 
   if (!isOpen) return null;
-
-  const [copiedLink, setCopiedLink] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
