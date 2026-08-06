@@ -50,32 +50,32 @@ export default function DashboardSidebar() {
         <div className="absolute bottom-10 -left-10 w-32 h-32 bg-black/10 rounded-full blur-2xl pointer-events-none hidden md:block"></div>
 
         {/* Logo & Header Area */}
-        <div className="p-3 md:p-4 relative z-10">
-          <div className="hidden md:flex items-center gap-3 p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-sm">
-            <div className="w-9 h-9 rounded-xl bg-white p-1.5 flex items-center justify-center flex-shrink-0 shadow-xs">
+        <div className="p-3 md:p-4 relative z-10 border-b border-white/15">
+          <div className="hidden md:flex items-center gap-3 p-3 bg-white/15 backdrop-blur-md border border-white/25 rounded-2xl shadow-sm">
+            <div className="h-9 w-10 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center flex-shrink-0 shadow-xs">
               <img 
                 src="/logo/New%20nrc%20logo.png" 
                 alt="Brand R.Comm Logo" 
-                className="h-full w-auto object-contain" 
+                className="h-6 w-auto object-contain brightness-0 invert" 
               />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[13px] font-black text-white leading-tight tracking-tight truncate">Brand R.Comm</span>
+              <span className="text-[14px] font-black text-white leading-tight tracking-tight truncate">Brand R.Comm</span>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span className="text-[9px] text-amber-300 font-extrabold uppercase tracking-widest">ADMIN PANEL</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span>
+                <span className="text-[9px] text-amber-300 font-black uppercase tracking-widest">ADMIN PANEL</span>
               </div>
             </div>
           </div>
 
           {/* Mobile icon logo */}
-          <div className="md:hidden flex items-center justify-center h-12 w-12 mx-auto bg-white/10 rounded-2xl border border-white/20 shadow-xs">
+          <div className="md:hidden flex items-center justify-center h-12 w-12 mx-auto bg-white/15 rounded-2xl border border-white/25 shadow-xs">
             <Award size={22} className="text-white" />
           </div>
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 px-2.5 md:px-4 py-3 space-y-2 overflow-y-auto custom-scrollbar relative z-10">
+        <nav className="flex-1 px-2.5 md:px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar relative z-10">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -83,52 +83,53 @@ export default function DashboardSidebar() {
               <Link 
                 key={item.name} 
                 href={item.href}
-                className={`flex items-center justify-center md:justify-start gap-3.5 px-3 md:px-4 py-3 rounded-2xl text-[13px] font-bold transition-all duration-200 group relative ${
+                className={`flex items-center justify-center md:justify-start gap-3.5 px-3.5 md:px-4 py-3 rounded-2xl text-[13px] font-bold transition-all duration-200 group relative ${
                   isActive 
-                    ? 'bg-white text-[#5e8e33] shadow-lg shadow-black/10 scale-[1.02]' 
-                    : 'text-white/80 hover:bg-white/15 hover:text-white'
+                    ? 'bg-white text-[#4d7828] shadow-lg shadow-black/15 scale-[1.02]' 
+                    : 'text-white/90 hover:bg-white/20 hover:text-white'
                 }`}
                 title={item.name}
               >
                 <div className={`p-1.5 rounded-xl transition-colors ${
-                  isActive ? 'bg-[#5e8e33]/10 text-[#5e8e33]' : 'text-white/70 group-hover:text-white'
+                  isActive ? 'bg-[#4d7828]/10 text-[#4d7828]' : 'text-white/80 group-hover:text-white'
                 }`}>
                   <Icon size={18} className="transition-transform duration-200 group-hover:scale-110" />
                 </div>
                 
-                <span className="hidden md:block tracking-wide flex-1">{item.name}</span>
+                <span className="hidden md:block tracking-wide flex-1 font-bold">{item.name}</span>
 
                 {isActive && (
-                  <div className="hidden md:block w-1.5 h-5 bg-[#5e8e33] rounded-full"></div>
+                  <div className="hidden md:block w-1.5 h-5 bg-[#4d7828] rounded-full"></div>
                 )}
               </Link>
             );
           })}
         </nav>
 
-        {/* Bottom Profile & Sign Out Area */}
-        <div className="p-3 md:p-4 border-t border-white/15 relative z-10 bg-black/10 backdrop-blur-xs">
-          <div className="hidden md:flex items-center gap-3 p-2.5 mb-2 bg-white/10 rounded-2xl border border-white/15">
-            <div className="relative">
-              <div className="w-8 h-8 rounded-full bg-white text-[#5e8e33] font-black text-xs flex items-center justify-center shadow-xs">
-                N
+        {/* Bottom Unified Admin Profile & Sign Out Card */}
+        <div className="p-3 md:p-4 border-t border-white/15 relative z-10">
+          <div className="flex items-center justify-between gap-2 p-2.5 bg-white/15 backdrop-blur-md rounded-2xl border border-white/20 shadow-xs">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="relative flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-white text-[#4d7828] font-black text-xs flex items-center justify-center shadow-xs">
+                  N
+                </div>
+                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-[#4d7828] rounded-full"></span>
               </div>
-              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-[#5e8e33] rounded-full"></span>
+              <div className="hidden md:flex flex-col min-w-0">
+                <span className="text-[12px] font-black text-white truncate">Administrator</span>
+                <span className="text-[10px] text-white/70 font-medium truncate">Snail Integral</span>
+              </div>
             </div>
-            <div className="flex flex-col min-w-0 flex-1">
-              <span className="text-[12px] font-extrabold text-white truncate">Administrator</span>
-              <span className="text-[10px] text-white/70 font-medium truncate">Snail Integral</span>
-            </div>
-          </div>
 
-          <button 
-            onClick={() => setShowLogoutModal(true)}
-            title="Sign Out"
-            className="flex w-full items-center justify-center md:justify-start gap-3 px-3 md:px-4 py-2.5 rounded-2xl text-[12px] font-bold text-white/90 hover:bg-red-500 hover:text-white hover:shadow-md transition-all duration-200 group cursor-pointer"
-          >
-            <LogOut size={16} className="group-hover:scale-110 transition-transform" />
-            <span className="hidden md:block">Sign Out</span>
-          </button>
+            <button 
+              onClick={() => setShowLogoutModal(true)}
+              title="Sign Out"
+              className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-red-500/90 transition-all duration-200 flex-shrink-0 cursor-pointer"
+            >
+              <LogOut size={16} />
+            </button>
+          </div>
         </div>
       </aside>
 
