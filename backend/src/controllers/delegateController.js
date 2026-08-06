@@ -419,7 +419,7 @@ exports.verifyPayment = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Missing payment verification fields' });
     }
 
-    // ── Industry-standard HMAC-SHA256 signature verification ──
+    // ── Industry-standard HMAC-SHA256 timing-safe signature verification ──
     const crypto = require('crypto');
     const body = razorpay_order_id + '|' + razorpay_payment_id;
     const expectedSignature = crypto
@@ -427,7 +427,10 @@ exports.verifyPayment = async (req, res) => {
       .update(body)
       .digest('hex');
 
-    if (expectedSignature !== razorpay_signature) {
+    const expectedBuffer = Buffer.from(expectedSignature, 'utf-8');
+    const receivedBuffer = Buffer.from(razorpay_signature, 'utf-8');
+
+    if (expectedBuffer.length !== receivedBuffer.length || !crypto.timingSafeEqual(expectedBuffer, receivedBuffer)) {
       console.error('Signature mismatch — possible tampered request');
       return res.status(400).json({ success: false, message: 'Payment verification failed: invalid signature' });
     }
