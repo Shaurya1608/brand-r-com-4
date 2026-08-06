@@ -257,52 +257,56 @@ export default function DelegatesPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-5">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+        <div className="bg-white rounded-xl shadow-xs border border-gray-200/80 p-3 md:p-4">
           <div className="flex items-center gap-2 mb-1.5">
-            <div className="w-7 h-7 rounded-full bg-[#6a9a38]/10 flex items-center justify-center">
-              <UserPlus size={14} className="text-[#6a9a38]" />
+            <div className="w-7 h-7 rounded-full bg-[#5e8e33]/10 flex items-center justify-center">
+              <UserPlus size={14} className="text-[#5e8e33]" />
             </div>
-            <h3 className="font-medium text-gray-500 text-xs">Total Registrations</h3>
+            <h3 className="font-bold text-gray-500 text-xs">Total Registrations</h3>
           </div>
-          <p className="text-xl font-bold text-gray-900">{stats.total || delegates.length}</p>
+          <p className="text-xl md:text-2xl font-black text-gray-900">{stats.total || delegates.length}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+
+        <div className="bg-white rounded-xl shadow-xs border border-gray-200/80 p-3 md:p-4">
           <div className="flex items-center gap-2 mb-1.5">
             <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center">
               <UserPlus size={14} className="text-blue-600" />
             </div>
-            <h3 className="font-medium text-gray-500 text-xs">Indian Delegates</h3>
+            <h3 className="font-bold text-gray-500 text-xs">Indian Delegates</h3>
           </div>
-          <p className="text-xl font-bold text-gray-900">{stats.indian}</p>
+          <p className="text-xl md:text-2xl font-black text-gray-900">{stats.indian}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+
+        <div className="bg-white rounded-xl shadow-xs border border-gray-200/80 p-3 md:p-4">
           <div className="flex items-center gap-2 mb-1.5">
             <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center">
               <UserPlus size={14} className="text-purple-600" />
             </div>
-            <h3 className="font-medium text-gray-500 text-xs">Intl Delegates</h3>
+            <h3 className="font-bold text-gray-500 text-xs">Intl Delegates</h3>
           </div>
-          <p className="text-xl font-bold text-gray-900">{stats.intl}</p>
+          <p className="text-xl md:text-2xl font-black text-gray-900">{stats.intl}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 md:p-4">
+
+        <div className="bg-white rounded-xl shadow-xs border border-gray-200/80 p-3 md:p-4">
           <div className="flex items-center gap-2 mb-1.5">
-            <div className="w-7 h-7 rounded-full bg-yellow-100 flex items-center justify-center">
-              <span className="text-yellow-600 font-bold text-xs">₹</span>
+            <div className="w-7 h-7 rounded-full bg-amber-100 flex items-center justify-center">
+              <span className="text-amber-700 font-black text-xs">₹</span>
             </div>
-            <h3 className="font-medium text-gray-500 text-xs">Pending Payments</h3>
+            <h3 className="font-bold text-gray-500 text-xs">Pending Payments</h3>
           </div>
-          <p className="text-xl font-bold text-gray-900">{stats.pending}</p>
+          <p className="text-xl md:text-2xl font-black text-gray-900">{stats.pending}</p>
         </div>
       </div>
 
       {/* Main Content Area */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        {/* Table Controls & Filter Bar */}
-        <div className="p-4 md:p-5 border-b border-gray-100 flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-2.5">
-            {/* 1. Search Box */}
-            <div className="relative flex-1 min-w-[200px] max-w-xs">
+      <div className="bg-white rounded-xl shadow-xs border border-gray-200/80 overflow-hidden">
+        {/* Table Controls & Responsive Filter Bar */}
+        <div className="p-4 md:p-5 border-b border-gray-100 space-y-3.5 bg-gray-50/40">
+          {/* Top Row: Search & Action Buttons */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+            {/* Search Box */}
+            <div className="relative flex-1 max-w-md w-full">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
               <input
                 type="text"
@@ -312,119 +316,17 @@ export default function DelegatesPage() {
                   setSearchTerm(e.target.value);
                   setPage(1);
                 }}
-                className="w-full pl-9 pr-4 py-2 text-xs font-medium border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-900 bg-white shadow-sm"
+                className="w-full pl-9 pr-4 py-2 text-xs font-medium border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] text-gray-900 bg-white shadow-2xs"
               />
             </div>
 
-            {/* 2. All payment status */}
-            <select
-              value={filterPaymentStatus}
-              onChange={(e) => {
-                setFilterPaymentStatus(e.target.value);
-                setPage(1);
-              }}
-              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
-            >
-              <option value="all">All payment status</option>
-              <option value="Paid">Paid</option>
-              <option value="Pending">Pending</option>
-              <option value="Failed">Failed / Invitee</option>
-            </select>
-
-            {/* 3. All Delegate type */}
-            <select
-              value={filterDelegateType}
-              onChange={(e) => {
-                setFilterDelegateType(e.target.value);
-                setPage(1);
-              }}
-              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
-            >
-              <option value="all">All Delegate type</option>
-              <option value="indian">Indian</option>
-              <option value="foreign">International</option>
-            </select>
-
-            {/* 4. All Registration type */}
-            <select
-              value={filterRegistrationSource}
-              onChange={(e) => {
-                setFilterRegistrationSource(e.target.value);
-                setPage(1);
-              }}
-              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
-            >
-              <option value="all">All Registration type</option>
-              <option value="online">Online Registration</option>
-              <option value="manual">Manual Registration</option>
-            </select>
-
-            {/* 5. Attendee Category */}
-            <select
-              value={filterCategory}
-              onChange={(e) => {
-                setFilterCategory(e.target.value);
-                setPage(1);
-              }}
-              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
-            >
-              <option value="all">Attendee Category</option>
-              <option value="DELEGATE">DELEGATE</option>
-              <option value="SPEAKER">SPEAKER</option>
-              <option value="ORGANIZER">ORGANIZER</option>
-              <option value="MEDIA">MEDIA</option>
-              <option value="SPONSOR">SPONSOR</option>
-              <option value="AWARDEE">AWARDEE</option>
-              <option value="AWARD_NOMINEE">AWARD NOMINEE</option>
-            </select>
-
-            {/* 6. All payment type */}
-            <select
-              value={filterPaymentMethod}
-              onChange={(e) => {
-                setFilterPaymentMethod(e.target.value);
-                setPage(1);
-              }}
-              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
-            >
-              <option value="all">All payment type</option>
-              <option value="Online (Razorpay)">Online (Razorpay)</option>
-              <option value="Offline">CASH / Offline</option>
-              <option value="UPI">UPI</option>
-              <option value="Free">Free</option>
-            </select>
-
-            {/* 7. All Coupon Registrations */}
-            <select
-              value={filterCoupon}
-              onChange={(e) => {
-                setFilterCoupon(e.target.value);
-                setPage(1);
-              }}
-              className="px-3.5 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
-            >
-              <option value="all">All Coupon Registrations</option>
-              <option value="yes">With Coupon (#IAP2026)</option>
-              <option value="no">Without Coupon</option>
-            </select>
-
-            {/* 7. Reset Filters Button */}
-            <button
-              onClick={handleResetFilters}
-              className="px-4 py-2 text-xs font-bold border border-gray-300 hover:border-gray-400 rounded-xl bg-white hover:bg-gray-50 text-gray-800 transition-colors shadow-sm cursor-pointer"
-            >
-              Reset Filters
-            </button>
-
-            {/* Action buttons matching exact design wireframe */}
-            <div className="flex flex-wrap items-center gap-2.5 ml-auto">
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 text-[11px] font-black uppercase tracking-wider text-white bg-[#5e8e33] hover:bg-[#4c7727] rounded-xl transition-all shadow-sm shadow-[#5e8e33]/20 hover:shadow-md active:scale-95 cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-white bg-[#5e8e33] hover:bg-[#4c7727] rounded-xl transition-all shadow-xs active:scale-95 cursor-pointer flex-1 sm:flex-none"
               >
-                <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                  <Plus size={11} className="stroke-[3]" />
-                </div>
+                <Plus size={14} className="stroke-[3]" />
                 <span>Add Delegate</span>
               </button>
 
@@ -436,14 +338,108 @@ export default function DelegatesPage() {
                     setIsBulkUpdateModalOpen(true);
                   }
                 }}
-                className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 text-[11px] font-black uppercase tracking-wider text-white bg-[#5e8e33] hover:bg-[#4c7727] rounded-xl transition-all shadow-sm shadow-[#5e8e33]/20 hover:shadow-md active:scale-95 cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-white bg-[#5e8e33] hover:bg-[#4c7727] rounded-xl transition-all shadow-xs active:scale-95 cursor-pointer flex-1 sm:flex-none"
               >
-                <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                  <UserPlus size={11} className="stroke-[3]" />
-                </div>
+                <UserPlus size={14} className="stroke-[3]" />
                 <span>Change Category {selectedDelegates.length > 0 && `(${selectedDelegates.length})`}</span>
               </button>
             </div>
+          </div>
+
+          {/* Bottom Row: Responsive Grid Filters */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-7 gap-2">
+            <select
+              value={filterPaymentStatus}
+              onChange={(e) => {
+                setFilterPaymentStatus(e.target.value);
+                setPage(1);
+              }}
+              className="w-full px-3 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] text-gray-800 bg-white shadow-2xs cursor-pointer truncate"
+            >
+              <option value="all">All payment status</option>
+              <option value="Paid">Paid</option>
+              <option value="Pending">Pending</option>
+              <option value="Failed">Failed / Invitee</option>
+            </select>
+
+            <select
+              value={filterDelegateType}
+              onChange={(e) => {
+                setFilterDelegateType(e.target.value);
+                setPage(1);
+              }}
+              className="w-full px-3 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] text-gray-800 bg-white shadow-2xs cursor-pointer truncate"
+            >
+              <option value="all">All Delegate type</option>
+              <option value="indian">Indian</option>
+              <option value="foreign">International</option>
+            </select>
+
+            <select
+              value={filterRegistrationSource}
+              onChange={(e) => {
+                setFilterRegistrationSource(e.target.value);
+                setPage(1);
+              }}
+              className="w-full px-3 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] text-gray-800 bg-white shadow-2xs cursor-pointer truncate"
+            >
+              <option value="all">All Registration type</option>
+              <option value="online">Online Registration</option>
+              <option value="manual">Manual Registration</option>
+            </select>
+
+            <select
+              value={filterCategory}
+              onChange={(e) => {
+                setFilterCategory(e.target.value);
+                setPage(1);
+              }}
+              className="w-full px-3 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] text-gray-800 bg-white shadow-2xs cursor-pointer truncate"
+            >
+              <option value="all">Attendee Category</option>
+              <option value="DELEGATE">DELEGATE</option>
+              <option value="SPEAKER">SPEAKER</option>
+              <option value="ORGANIZER">ORGANIZER</option>
+              <option value="MEDIA">MEDIA</option>
+              <option value="SPONSOR">SPONSOR</option>
+              <option value="AWARDEE">AWARDEE</option>
+              <option value="AWARD_NOMINEE">AWARD NOMINEE</option>
+            </select>
+
+            <select
+              value={filterPaymentMethod}
+              onChange={(e) => {
+                setFilterPaymentMethod(e.target.value);
+                setPage(1);
+              }}
+              className="w-full px-3 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] text-gray-800 bg-white shadow-2xs cursor-pointer truncate"
+            >
+              <option value="all">All payment type</option>
+              <option value="Online (Razorpay)">Online (Razorpay)</option>
+              <option value="Offline">CASH / Offline</option>
+              <option value="UPI">UPI</option>
+              <option value="Free">Free</option>
+            </select>
+
+            <select
+              value={filterCoupon}
+              onChange={(e) => {
+                setFilterCoupon(e.target.value);
+                setPage(1);
+              }}
+              className="w-full px-3 py-2 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] text-gray-800 bg-white shadow-2xs cursor-pointer truncate"
+            >
+              <option value="all">All Coupon Registrations</option>
+              <option value="yes">With Coupon (#IAP2026)</option>
+              <option value="no">Without Coupon</option>
+            </select>
+
+            <button
+              onClick={handleResetFilters}
+              className="w-full px-3 py-2 text-xs font-bold border border-gray-300 hover:border-gray-400 rounded-xl bg-white hover:bg-gray-50 text-gray-800 transition-colors shadow-2xs cursor-pointer truncate"
+            >
+              Reset Filters
+            </button>
           </div>
         </div>
 
