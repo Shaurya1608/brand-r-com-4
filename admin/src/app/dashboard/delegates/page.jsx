@@ -113,6 +113,12 @@ export default function DelegatesPage() {
   };
 
   const handleBulkUpdateCategory = async () => {
+    if (!bulkUpdateTargetCategory) return alert('Please select a category');
+    await handleQuickCategoryChange(bulkUpdateTargetCategory);
+  };
+
+  const handleQuickCategoryChange = async (targetCategory) => {
+    if (selectedDelegates.length === 0) return;
     setBulkUpdateLoading(true);
     try {
       const token = Cookies.get('admin_token');
@@ -124,7 +130,7 @@ export default function DelegatesPage() {
         },
         body: JSON.stringify({
           delegateIds: selectedDelegates,
-          updates: { attendeeCategory: bulkUpdateTargetCategory }
+          updates: { attendeeCategory: targetCategory }
         })
       });
       
@@ -410,23 +416,27 @@ export default function DelegatesPage() {
               Reset Filters
             </button>
 
-            {/* Action buttons aligned to right */}
-            <div className="flex items-center gap-2 ml-auto">
-              {selectedDelegates.length > 0 && (
-                <button
-                  onClick={() => setIsBulkUpdateModalOpen(true)}
-                  className="flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-[#6a9a38] rounded-xl hover:bg-[#58822d] transition-colors shadow-sm"
-                >
-                  <UserPlus size={14} />
-                  Assign Category ({selectedDelegates.length})
-                </button>
-              )}
+            {/* Action buttons matching exact design wireframe */}
+            <div className="flex flex-wrap items-center gap-2.5 ml-auto">
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-[#6a9a38] rounded-xl hover:bg-[#58822d] transition-colors shadow-sm"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white bg-[#6a9a38] rounded-xl hover:bg-[#58822d] transition-all shadow-md active:scale-95 cursor-pointer"
               >
-                <Plus size={14} />
-                Add Delegate
+                <Plus size={16} />
+                ADD DELEGATE VIA MANUAL REGISTRATION
+              </button>
+              <button
+                onClick={() => {
+                  if (selectedDelegates.length === 0) {
+                    alert('Please select one or more delegates using the checkboxes in the table first!');
+                  } else {
+                    setIsBulkUpdateModalOpen(true);
+                  }
+                }}
+                className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white bg-[#6a9a38] rounded-xl hover:bg-[#58822d] transition-all shadow-md active:scale-95 cursor-pointer"
+              >
+                <UserPlus size={16} />
+                CHANGE ATTENDEE CATEGORY {selectedDelegates.length > 0 && `(${selectedDelegates.length})`}
               </button>
             </div>
           </div>
@@ -852,36 +862,116 @@ export default function DelegatesPage() {
       {/* Bulk Update Confirmation Modal */}
       {isBulkUpdateModalOpen && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 font-sans">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                <AlertCircle className="text-blue-600" size={24} />
+              <div className="w-10 h-10 rounded-full bg-[#6a9a38]/10 flex items-center justify-center flex-shrink-0">
+                <UserPlus className="text-[#6a9a38]" size={22} />
               </div>
-              <h2 className="text-xl font-bold text-gray-900">Confirm Bulk Update</h2>
+              <div>
+                <h2 className="text-lg font-extrabold text-gray-900">Change Attendee Category</h2>
+                <p className="text-xs text-gray-500">{selectedDelegates.length} delegates selected</p>
+              </div>
             </div>
-            <p className="text-gray-600 mb-6">
-              Are you sure you want to change the category of <span className="font-bold text-gray-900">{selectedDelegates.length} delegates</span> to <span className="font-bold text-[#6a9a38]">{bulkUpdateTargetCategory}</span>?
-            </p>
-            <div className="flex justify-end gap-3">
+
+            <div className="mb-5">
+              <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Select Target Category</label>
+              <select
+                value={bulkUpdateTargetCategory}
+                onChange={(e) => setBulkUpdateTargetCategory(e.target.value)}
+                className="w-full px-3.5 py-2.5 text-xs font-semibold border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] text-gray-800 bg-white shadow-sm cursor-pointer"
+              >
+                <option value="">-- Choose Category --</option>
+                <option value="SPEAKER">SPEAKER</option>
+                <option value="ORGANIZER">ORGANIZER</option>
+                <option value="MEDIA">MEDIA</option>
+                <option value="SPONSOR">SPONSOR</option>
+                <option value="AWARDEE">AWARDEE</option>
+                <option value="AWARD NOMINEE">AWARD NOMINEE</option>
+                <option value="DELEGATE">DELEGATE</option>
+              </select>
+            </div>
+
+            <div className="flex justify-end gap-2.5">
               <button 
                 onClick={() => {
                   setIsBulkUpdateModalOpen(false);
                   setBulkUpdateTargetCategory('');
                 }}
-                className="px-5 py-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 text-sm font-bold rounded-lg transition-colors"
+                className="px-4 py-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-bold rounded-xl transition-colors"
                 disabled={bulkUpdateLoading}
               >
                 Cancel
               </button>
               <button 
                 onClick={handleBulkUpdateCategory}
-                disabled={bulkUpdateLoading}
-                className="px-5 py-2 bg-blue-600 text-white hover:bg-blue-700 text-sm font-bold rounded-lg transition-colors flex items-center gap-2"
+                disabled={bulkUpdateLoading || !bulkUpdateTargetCategory}
+                className="px-5 py-2 bg-[#6a9a38] text-white hover:bg-[#58822d] text-xs font-extrabold uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-50"
               >
-                {bulkUpdateLoading ? 'Updating...' : 'Yes, Update All'}
+                {bulkUpdateLoading ? 'Updating...' : 'Update Selected'}
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Sticky Bottom Action Bar (Matching Design Wireframe) */}
+      {selectedDelegates.length > 0 && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl rounded-2xl p-3 px-4 flex flex-wrap items-center justify-center gap-2 max-w-5xl transition-all duration-300">
+          <div className="text-xs font-bold text-gray-700 mr-1 flex items-center gap-1.5 border-r border-gray-200 pr-3">
+            <span className="w-6 h-6 rounded-full bg-[#6a9a38] text-white flex items-center justify-center font-mono text-[11px]">
+              {selectedDelegates.length}
+            </span>
+            <span>Selected</span>
+          </div>
+
+          <button
+            onClick={() => handleQuickCategoryChange('SPEAKER')}
+            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#f97316] hover:bg-[#ea580c] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            CHANGE AS SPEAKER
+          </button>
+
+          <button
+            onClick={() => handleQuickCategoryChange('ORGANIZER')}
+            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#1e3a8a] hover:bg-[#172554] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            CHANGE AS ORGANIZER
+          </button>
+
+          <button
+            onClick={() => handleQuickCategoryChange('MEDIA')}
+            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#9333ea] hover:bg-[#7e22ce] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            CHANGE AS MEDIA
+          </button>
+
+          <button
+            onClick={() => handleQuickCategoryChange('SPONSOR')}
+            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#06b6d4] hover:bg-[#0891b2] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            CHANGE AS SPONSOR
+          </button>
+
+          <button
+            onClick={() => handleQuickCategoryChange('AWARDEE')}
+            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#2563eb] hover:bg-[#1d4ed8] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            CHANGE AS AWARDEE
+          </button>
+
+          <button
+            onClick={() => handleQuickCategoryChange('AWARD NOMINEE')}
+            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#ef4444] hover:bg-[#dc2626] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            CHANGE AS AWARD NOMINEE
+          </button>
+
+          <button
+            onClick={() => handleQuickCategoryChange('DELEGATE')}
+            className="px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white bg-[#6a9a38] hover:bg-[#58822d] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            SET AS DELEGATE
+          </button>
         </div>
       )}
 
