@@ -151,8 +151,22 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
+
+    // Email & Mobile format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(String(formData.email).trim().toLowerCase())) {
+      setError('Please enter a valid email address (e.g. name@company.com)');
+      return;
+    }
+
+    const mobileDigits = String(formData.mobileNumber || '').replace(/\D/g, '');
+    if (!mobileDigits || mobileDigits.length < 10 || mobileDigits.length > 15) {
+      setError('Please enter a valid 10-digit mobile number (e.g. 9876543210 or +91 9876543210)');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates`, {

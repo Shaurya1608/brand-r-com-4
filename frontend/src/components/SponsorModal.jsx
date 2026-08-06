@@ -96,6 +96,20 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Email & Mobile format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(String(formData.email).trim().toLowerCase())) {
+      alert('Please enter a valid email address (e.g. name@company.com)');
+      return;
+    }
+
+    const mobileDigits = String(formData.contactNumber || formData.mobileNumber || '').replace(/\D/g, '');
+    if (!mobileDigits || mobileDigits.length < 10 || mobileDigits.length > 15) {
+      alert('Please enter a valid 10-digit mobile number (e.g. 9876543210 or +91 9876543210)');
+      return;
+    }
+
     setLoading(true);
     
     try {

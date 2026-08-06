@@ -120,10 +120,19 @@ exports.registerDelegate = async (req, res) => {
     const cleanEmail = (email && typeof email === 'string') ? email.trim().toLowerCase() : '';
     const cleanMobile = (mobileNumber && typeof mobileNumber === 'string') ? mobileNumber.trim() : '';
 
-    if (!cleanEmail) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
       return res.status(400).json({
         success: false,
-        message: 'Email address is required.'
+        message: 'Please provide a valid email address (e.g. name@company.com).'
+      });
+    }
+
+    const mobileDigits = cleanMobile.replace(/\D/g, '');
+    if (!cleanMobile || mobileDigits.length < 10 || mobileDigits.length > 15) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid 10-digit mobile number.'
       });
     }
 

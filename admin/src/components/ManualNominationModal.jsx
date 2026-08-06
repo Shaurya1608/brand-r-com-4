@@ -84,15 +84,28 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
     try {
       if (!formData.fullName || !formData.email || !formData.mobileNumber || !formData.organization || !formData.awardCategory) {
         setError('Please fill in all required fields marked with *');
-        setLoading(false);
         return;
       }
+
+      // Email & Mobile format validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!formData.email || !emailRegex.test(String(formData.email).trim().toLowerCase())) {
+        setError('Please enter a valid email address (e.g. name@company.com)');
+        return;
+      }
+
+      const mobileDigits = String(formData.mobileNumber || '').replace(/\D/g, '');
+      if (!mobileDigits || mobileDigits.length < 10 || mobileDigits.length > 15) {
+        setError('Please enter a valid 10-digit mobile number (e.g. 9876543210 or +91 9876543210)');
+        return;
+      }
+
+      setLoading(true);
 
       const data = new FormData();
       Object.keys(formData).forEach(key => {
