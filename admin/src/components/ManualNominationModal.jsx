@@ -4,21 +4,15 @@ import React, { useState } from 'react';
 import { X, Info, Upload, Check, Award, Building2, User, Mail, Phone, MapPin, Globe, CreditCard, ShieldCheck } from 'lucide-react';
 import Cookies from 'js-cookie';
 
-const AWARD_CATEGORIES = [
-  // Jury Choice Awards - Individuals
-  "Lifetime Achievement Award",
-  "Company of the Year Award",
-  "Voice of the Year Award",
-  "Changemaker Award",
-  "Pioneer Award",
-  "Growth Catalyst Award",
-  "NextGen Award",
-  "Shakti Award",
-  "Visionary Entrepreneur Award",
-  "Policy Driver Award",
-  "Sustainability Champion Award",
+const INDIVIDUAL_CATEGORIES = [
+  "Best Communicator Award – Male",
+  "Best Communicator Award – Female",
+  "AI Leadership Excellence Award",
+  "Marketing Leader of the Year",
+  "HR Leader of the Year"
+];
 
-  // Nomination Based Awards – Companies
+const ORGANIZATION_CATEGORIES = [
   "Industry Excellence Awards - Seed",
   "Industry Excellence Awards - Crop Protection",
   "Industry Excellence Awards - Soil Health & Biologicals",
@@ -26,26 +20,13 @@ const AWARD_CATEGORIES = [
   "Industry Excellence Awards - Farm Machinery & Agri-Tech",
   "Industry Excellence Awards - Irrigation & Water Management",
   "Industry Excellence Awards - Agri Startup",
-  "Industry Excellence Awards - Research & Development (R&D)",
-
-  // Individual Leadership Awards
-  "CEO of the Year (Agri / Allied)",
-  "Business Leader of the Year",
-  "HR Leader of the Year",
-  "R&D / Science Leader of the Year",
-  "Agri Woman Leader of the Year",
-
-  // Campaign & Communication Awards
-  "Best Integrated Brand Campaign",
-  "Best Digital & Social Media Campaign",
-  "Best Farmer Engagement Campaign",
-  "Best Product Launch Campaign",
-  "Best Rural Marketing Campaign",
-  "Best CSR & Sustainability Campaign",
-  "Best Educational / Awareness Campaign",
-  "Best Corporate Communication Team",
-  "Best Communicator Award – Male",
-  "Best Communicator Award – Female",
+  "Emerging Company of the Year Award",
+  "Best Outdoor Campaign Award",
+  "Best Rural Engagement Award",
+  "Best PR Campaign Award",
+  "Best Digital Marketing Award",
+  "Best Brand Campaign (TVC) Award",
+  "Best Integrated Communication Award"
 ];
 
 export default function ManualNominationModal({ isOpen, onClose, onNominationAdded }) {
@@ -79,7 +60,11 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'applicantType') {
+      setFormData(prev => ({ ...prev, [name]: value, awardCategory: '' }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -147,6 +132,10 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
       setLoading(false);
     }
   };
+
+  const availableCategories = formData.applicantType === 'Individual' 
+    ? INDIVIDUAL_CATEGORIES 
+    : ORGANIZATION_CATEGORIES;
 
   const inputStyle = "w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-semibold text-gray-900 placeholder:text-gray-500 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] transition-all bg-gray-50/70 focus:bg-white shadow-2xs";
 
@@ -404,8 +393,8 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   className={inputStyle}
                 >
                   <option value="" className="text-gray-500">Choose a category...</option>
-                  {AWARD_CATEGORIES.map((cat, idx) => (
-                    <option key={idx} value={cat} className="text-gray-900 font-medium">{cat}</option>
+                  {availableCategories.map((cat, idx) => (
+                    <option key={idx} value={cat} className="text-gray-900 font-semibold">{cat}</option>
                   ))}
                 </select>
               </div>
