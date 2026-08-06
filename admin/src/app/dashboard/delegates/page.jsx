@@ -444,11 +444,11 @@ export default function DelegatesPage() {
         </div>
 
         {/* Table Container */}
-        <div className="overflow-x-auto overflow-y-auto max-h-[580px] relative border border-gray-100/50 custom-scrollbar">
+        <div className="overflow-x-auto overflow-y-auto max-h-[580px] relative border border-gray-100/50 custom-scrollbar touch-pan-x w-full">
           <table className="w-full text-left text-xs text-gray-600 border-collapse">
             <thead className="sticky top-0 z-40 text-[11px] font-extrabold text-gray-800 uppercase bg-gray-100 border-b border-gray-200 shadow-sm tracking-wider">
               <tr>
-                <th className="px-4 py-3.5 min-w-[48px] max-w-[48px] sticky left-0 top-0 z-50 bg-gray-100">
+                <th className="px-4 py-3.5 min-w-[48px] max-w-[48px] sm:sticky left-0 top-0 z-50 bg-gray-100">
                   <input 
                     type="checkbox" 
                     onChange={handleSelectAll} 
@@ -456,9 +456,9 @@ export default function DelegatesPage() {
                     className="rounded border-gray-300 text-[#5e8e33] focus:ring-[#5e8e33] cursor-pointer" 
                   />
                 </th>
-                <th className="px-4 py-3.5 min-w-[50px] max-w-[50px] sticky left-[48px] top-0 z-50 bg-gray-100 whitespace-nowrap">S.No.</th>
-                <th className="px-4 py-3.5 min-w-[100px] max-w-[100px] sticky left-[98px] top-0 z-50 bg-gray-100 whitespace-nowrap">Reg. ID</th>
-                <th className="px-4 py-3.5 min-w-[180px] max-w-[180px] sticky left-[198px] top-0 z-50 bg-gray-100 shadow-[1px_0_0_0_#e5e7eb] whitespace-nowrap">Name</th>
+                <th className="px-4 py-3.5 min-w-[50px] max-w-[50px] sm:sticky sm:left-[48px] top-0 z-50 bg-gray-100 whitespace-nowrap">S.No.</th>
+                <th className="px-4 py-3.5 min-w-[100px] max-w-[100px] sm:sticky sm:left-[98px] top-0 z-50 bg-gray-100 whitespace-nowrap">Reg. ID</th>
+                <th className="px-4 py-3.5 min-w-[180px] max-w-[180px] sm:sticky sm:left-[198px] top-0 z-50 bg-gray-100 sm:shadow-[1px_0_0_0_#e5e7eb] whitespace-nowrap">Name</th>
                 <th className="px-4 py-3.5 min-w-[150px] whitespace-nowrap sticky top-0 bg-gray-100">Reg. Date & Time</th>
                 <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Delegate TYPE</th>
                 <th className="px-4 py-3.5 min-w-[140px] whitespace-nowrap sticky top-0 bg-gray-100">Company GST No.</th>
@@ -475,7 +475,7 @@ export default function DelegatesPage() {
                 <th className="px-4 py-3.5 whitespace-nowrap text-right sticky top-0 bg-gray-100">Amount</th>
                 <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Payment & Type</th>
                 <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Coupon Registration</th>
-                <th className="px-4 py-3.5 text-center sticky right-0 top-0 z-50 bg-gray-100 shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
+                <th className="px-4 py-3.5 text-center sm:sticky right-0 top-0 z-50 bg-gray-100 sm:shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -483,7 +483,7 @@ export default function DelegatesPage() {
                 <tr>
                   <td colSpan="21" className="px-6 py-12 text-center text-gray-500">
                     <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="w-6 h-6 border-2 border-[#6a9a38] border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-6 h-6 border-2 border-[#5e8e33] border-t-transparent rounded-full animate-spin"></div>
                       <span>Loading delegate registrations...</span>
                     </div>
                   </td>
@@ -498,27 +498,27 @@ export default function DelegatesPage() {
                 delegates.map((delegate, index) => (
                   <tr key={delegate._id} className="bg-white border-b border-gray-50 hover:bg-gray-50 transition-colors group">
                     {/* Checkbox */}
-                    <td className="px-4 py-2.5 min-w-[48px] max-w-[48px] sticky left-0 z-20 bg-white group-hover:bg-gray-50">
+                    <td className="px-4 py-2.5 min-w-[48px] max-w-[48px] sm:sticky left-0 z-20 bg-white group-hover:bg-gray-50">
                       <input 
                         type="checkbox" 
                         checked={selectedDelegates.includes(delegate._id)} 
                         onChange={() => handleSelect(delegate._id)} 
-                        className="rounded border-gray-300 text-[#6a9a38] focus:ring-[#6a9a38] cursor-pointer" 
+                        className="rounded border-gray-300 text-[#5e8e33] focus:ring-[#5e8e33] cursor-pointer" 
                       />
                     </td>
 
                     {/* S.No. */}
-                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 min-w-[50px] max-w-[50px] sticky left-[48px] z-20 bg-white group-hover:bg-gray-50">
+                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 min-w-[50px] max-w-[50px] sm:sticky sm:left-[48px] z-20 bg-white group-hover:bg-gray-50">
                       {(page - 1) * limit + index + 1}
                     </td>
 
                     {/* Reg. ID */}
-                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 font-medium min-w-[100px] max-w-[100px] sticky left-[98px] z-20 bg-white group-hover:bg-gray-50">
+                    <td className="px-4 py-2.5 whitespace-nowrap text-xs font-mono text-gray-500 font-medium min-w-[100px] max-w-[100px] sm:sticky sm:left-[98px] z-20 bg-white group-hover:bg-gray-50">
                       #{delegate._id.slice(-8).toUpperCase()}
                     </td>
 
                     {/* Name (Sticky Fixed) */}
-                    <td className="px-4 py-2.5 min-w-[200px] max-w-[220px] sticky left-[198px] z-20 bg-white group-hover:bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">
+                    <td className="px-4 py-2.5 min-w-[200px] max-w-[220px] sm:sticky sm:left-[198px] z-20 bg-white group-hover:bg-gray-50 sm:shadow-[1px_0_0_0_#e5e7eb]">
                       <div className="font-semibold text-gray-900 flex items-center gap-1.5 flex-wrap">
                         <span className="truncate max-w-[120px]" title={delegate.fullName}>{delegate.fullName}</span>
                         {delegate.sponsorshipId || delegate.sponsorshipCompany ? (
