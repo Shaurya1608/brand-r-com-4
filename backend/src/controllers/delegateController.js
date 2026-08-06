@@ -140,11 +140,14 @@ exports.registerDelegate = async (req, res) => {
     const initialStatus = paymentStatus || 'Pending';
     const isPaid = initialStatus === 'Paid';
 
-    // Check if delegate already registered by Email OR Mobile Number
-    if (!isManuallyCreated && (cleanEmail || cleanMobile)) {
-      const queryOr = [];
-      if (cleanEmail) queryOr.push({ email: cleanEmail });
-      if (cleanMobile) queryOr.push({ mobileNumber: cleanMobile });
+    // Check if delegate already registered by Email OR Mobile Number (comparing core 10 digits)
+    if (!isManuallyCreated) {
+      const last10Digits = mobileDigits.slice(-10);
+      const queryOr = [{ email: cleanEmail }];
+
+      if (last10Digits.length === 10) {
+        queryOr.push({ mobileNumber: { $regex: last10Digits + '$' } });
+      }
 
       let existingDelegate = await DelegateRegistration.findOne({ $or: queryOr });
 
