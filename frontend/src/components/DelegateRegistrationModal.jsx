@@ -146,6 +146,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   });
 
   const handleChange = (e) => {
+    if (error) setError('');
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -717,14 +718,21 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                         </div>
                       </div>
                     </div>
-
-                    {error && <p className="text-red-500 text-[10px] font-bold text-center mt-2">{error}</p>}
                   </form>
                 </div>
 
                 {/* Footer */}
-                <div className="bg-white px-5 py-5 border-t border-brand-primary/10 shadow-[0_-4px_6px_-1px_rgb(0,0,0,0.02)] z-10 relative">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div className="bg-white px-5 py-4 border-t border-brand-primary/10 shadow-[0_-4px_6px_-1px_rgb(0,0,0,0.02)] z-10 relative">
+                  {error && (
+                    <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-xl flex items-center gap-2 text-red-700 text-xs font-bold shadow-xs">
+                      <svg className="w-4.5 h-4.5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{error}</span>
+                    </div>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                     <span className="font-bold text-[11px] tracking-widest uppercase text-brand-dark">Total Fee</span>
                     <div className="flex items-center justify-end">{totalAmountDisplay}</div>
                   </div>
@@ -732,7 +740,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                     type="submit"
                     form="delegate-form"
                     disabled={loading}
-                    className="w-full py-3 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full py-3.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {loading ? 'PROCESSING...' : 'PROCEED TO PAYMENT'}
                   </button>
