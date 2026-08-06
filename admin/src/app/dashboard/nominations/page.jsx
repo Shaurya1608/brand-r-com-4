@@ -141,16 +141,16 @@ export default function NominationsPage() {
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-100">
+        <div className="overflow-x-auto overflow-y-auto max-h-[580px] relative custom-scrollbar">
+          <table className="w-full text-left text-sm text-gray-500 border-collapse">
+            <thead className="sticky top-0 z-40 text-xs font-bold text-gray-800 uppercase bg-gray-100 border-b border-gray-200 shadow-sm tracking-wider">
               <tr>
-                <th scope="col" className="px-4 py-3 font-semibold">Date</th>
-                <th scope="col" className="px-4 py-3 font-semibold">Applicant</th>
-                <th scope="col" className="px-4 py-3 font-semibold">Category</th>
-                <th scope="col" className="px-4 py-3 font-semibold">Organization</th>
-                <th scope="col" className="px-4 py-3 font-semibold">Document</th>
-                <th scope="col" className="px-4 py-3 font-semibold text-right">Payment</th>
+                <th scope="col" className="px-4 py-3.5 font-extrabold sticky top-0 bg-gray-100">Date</th>
+                <th scope="col" className="px-4 py-3.5 font-extrabold sticky top-0 bg-gray-100">Applicant</th>
+                <th scope="col" className="px-4 py-3.5 font-extrabold sticky top-0 bg-gray-100">Category</th>
+                <th scope="col" className="px-4 py-3.5 font-extrabold sticky top-0 bg-gray-100">Organization</th>
+                <th scope="col" className="px-4 py-3.5 font-extrabold sticky top-0 bg-gray-100">Document</th>
+                <th scope="col" className="px-4 py-3.5 font-extrabold text-right sticky top-0 bg-gray-100">Payment</th>
               </tr>
             </thead>
             <tbody>

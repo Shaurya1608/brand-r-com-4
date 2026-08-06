@@ -425,24 +425,24 @@ export default function SponsorshipsPage() {
             <table className="w-full text-left text-xs text-gray-600 relative border-collapse">
               <thead className="text-[11px] font-extrabold text-gray-800 uppercase bg-gray-50/90 border-b border-gray-200 sticky top-0 z-40 shadow-sm tracking-wider">
                 <tr>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[50px] max-w-[50px] sticky left-0 z-40 bg-gray-50 whitespace-nowrap text-center">S.No.</th>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[100px] max-w-[100px] sticky left-[50px] z-40 bg-gray-50 whitespace-nowrap shadow-[1px_0_0_0_#e5e7eb]">Reg. ID</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Reg. Date & Time</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Reg. Type</th>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[180px] max-w-[220px]">Company Name</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">GST No.</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Sponsorship Category</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Sponsorship Tier</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center">Company Logo</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Contact Person</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Designation</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Mobile number</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Email</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">City</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">State/Country</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap">Pincode</th>
-                  <th scope="col" className="px-3.5 py-3.5 min-w-[200px] max-w-[280px]">Address</th>
-                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center sticky right-0 z-40 bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">Action</th>
+                  <th scope="col" className="px-3.5 py-3.5 min-w-[50px] max-w-[50px] sticky left-0 top-0 z-50 bg-gray-50 whitespace-nowrap text-center">S.No.</th>
+                  <th scope="col" className="px-3.5 py-3.5 min-w-[100px] max-w-[100px] sticky left-[50px] top-0 z-50 bg-gray-50 whitespace-nowrap shadow-[1px_0_0_0_#e5e7eb]">Reg. ID</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">Reg. Date & Time</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">Reg. Type</th>
+                  <th scope="col" className="px-3.5 py-3.5 min-w-[180px] max-w-[220px] sticky top-0 bg-gray-50">Company Name</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">GST No.</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">Sponsorship Category</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">Sponsorship Tier</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center sticky top-0 bg-gray-50">Company Logo</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">Contact Person</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">Designation</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">Mobile number</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">Email</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">City</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">State/Country</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap sticky top-0 bg-gray-50">Pincode</th>
+                  <th scope="col" className="px-3.5 py-3.5 min-w-[200px] max-w-[280px] sticky top-0 bg-gray-50">Address</th>
+                  <th scope="col" className="px-3.5 py-3.5 whitespace-nowrap text-center sticky right-0 top-0 z-50 bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 bg-white font-medium">

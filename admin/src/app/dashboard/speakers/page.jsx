@@ -158,19 +158,19 @@ export default function SpeakersPage() {
               <p className="text-sm mt-1">Try adjusting your search criteria</p>
             </div>
           ) : (
-            <table className="w-full text-left text-sm text-gray-500 relative">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+            <table className="w-full text-left text-sm text-gray-500 relative border-collapse">
+              <thead className="text-xs font-bold text-gray-800 uppercase bg-gray-50 border-b border-gray-200 sticky top-0 z-40 shadow-sm tracking-wider">
                 <tr>
-                  <th scope="col" className="px-4 py-3 font-semibold min-w-[200px] max-w-[200px] sticky left-0 z-40 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">Full Name</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Designation</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Organization</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Mobile Number</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">City</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">State/Country</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Pin Code</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Full Address</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap">Date</th>
-                  <th scope="col" className="px-4 py-3 font-semibold whitespace-nowrap text-right sticky right-0 z-40 bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold min-w-[200px] max-w-[200px] sticky left-0 top-0 z-50 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">Full Name</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold whitespace-nowrap sticky top-0 bg-gray-50">Designation</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold whitespace-nowrap sticky top-0 bg-gray-50">Organization</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold whitespace-nowrap sticky top-0 bg-gray-50">Mobile Number</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold whitespace-nowrap sticky top-0 bg-gray-50">City</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold whitespace-nowrap sticky top-0 bg-gray-50">State/Country</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold whitespace-nowrap sticky top-0 bg-gray-50">Pin Code</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold whitespace-nowrap sticky top-0 bg-gray-50">Full Address</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold whitespace-nowrap sticky top-0 bg-gray-50">Date</th>
+                  <th scope="col" className="px-4 py-3.5 font-extrabold whitespace-nowrap text-right sticky right-0 top-0 z-50 bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
