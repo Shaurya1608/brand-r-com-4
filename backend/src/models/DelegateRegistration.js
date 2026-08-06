@@ -99,8 +99,8 @@ const delegateRegistrationSchema = new mongoose.Schema({
     default: 0,
   },
 
-  // Secure payment token for resume payment links in email
-  paymentToken: {
+  // Secure SHA-256 hashed payment token for resume payment links in email
+  resumeTokenHash: {
     type: String,
     sparse: true,
   },

@@ -16,7 +16,7 @@ const getResendInstance = () => {
  * Send delegate registration & payment status update email via Resend
  * @param {Object} delegate - The delegate database object
  */
-const sendDelegateConfirmationEmail = async (delegate) => {
+const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
   try {
     if (!delegate || !delegate.email) {
       console.error('Cannot send delegate email: Missing recipient email address.');
@@ -48,8 +48,11 @@ const sendDelegateConfirmationEmail = async (delegate) => {
     }
 
     const formattedAmount = delegate.delegateType === 'foreign' 
-      ? `USD ${delegate.amountPaid || 0}` 
-      : `₹${(delegate.amountPaid || 0).toLocaleString('en-IN')}`;
+      ? `USD ${delegate.amountPaid || delegate.totalAmount || 250}` 
+      : `₹${(delegate.amountPaid || delegate.totalAmount || 5664).toLocaleString('en-IN')}`;
+
+    const tokenParam = rawToken ? `?token=${rawToken}` : '';
+    const resumeUrl = `${process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app'}${tokenParam}`;
 
     const htmlContent = `
     <!DOCTYPE html>
@@ -133,7 +136,7 @@ const sendDelegateConfirmationEmail = async (delegate) => {
 
           ${!isPaid ? `
           <div style="text-align: center; margin: 28px 0;">
-            <a href="${process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app'}?action=pay&regId=${delegate._id}" style="background-color: #6a9a38; color: #ffffff; padding: 14px 28px; font-size: 14px; font-weight: 700; border-radius: 8px; text-decoration: none; display: inline-block; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(106, 154, 56, 0.3);">
+            <a href="${resumeUrl}" style="background-color: #6a9a38; color: #ffffff; padding: 14px 28px; font-size: 14px; font-weight: 700; border-radius: 8px; text-decoration: none; display: inline-block; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(106, 154, 56, 0.3);">
               Complete Your Payment →
             </a>
           </div>

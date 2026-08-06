@@ -88,13 +88,17 @@ exports.registerDelegate = async (req, res) => {
           existingDelegate.amountDue = pricing.totalAmount;
         }
 
-        // Generate unguessable payment token for secure email resumption
-        if (!existingDelegate.paymentToken) {
-          existingDelegate.paymentToken = crypto.randomBytes(32).toString('hex');
-          existingDelegate.paymentTokenExpires = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
-        }
+        // Generate unguessable SHA-256 hashed payment token for secure email resumption
+        const rawToken = crypto.randomBytes(32).toString('hex');
+        const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
+
+        existingDelegate.resumeTokenHash = tokenHash;
+        existingDelegate.paymentTokenExpires = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
 
         await existingDelegate.save();
+
+        // Send email with rawToken
+        sendDelegateConfirmationEmail(existingDelegate, rawToken).catch(err => console.error('Error sending confirmation email:', err));
 
         return res.status(200).json({
           success: true,
@@ -108,7 +112,8 @@ exports.registerDelegate = async (req, res) => {
       }
     }
 
-    const secureToken = crypto.randomBytes(32).toString('hex');
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
 
     let newDelegate;
     try {
@@ -133,8 +138,8 @@ exports.registerDelegate = async (req, res) => {
         totalAmount: pricing.totalAmount,
         amountPaid: isPaid ? pricing.totalAmount : 0,
         amountDue: isPaid ? 0 : pricing.totalAmount,
-        paymentToken: secureToken,
-        paymentTokenExpires: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+        resumeTokenHash: isPaid ? null : tokenHash,
+        paymentTokenExpires: isPaid ? null : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
       });
     } catch (createError) {
       // Catch MongoDB E11000 duplicate key error in case of simultaneous concurrent requests
@@ -159,7 +164,7 @@ exports.registerDelegate = async (req, res) => {
 
     // Send initial registration email via Resend immediately upon form submission
     if (!newDelegate.initialEmailSent) {
-      sendDelegateConfirmationEmail(newDelegate).catch(err => console.error('Error sending initial registration email:', err));
+      sendDelegateConfirmationEmail(newDelegate, rawToken).catch(err => console.error('Error sending initial registration email:', err));
       newDelegate.initialEmailSent = true;
       newDelegate.emailSent = true;
       await newDelegate.save();
@@ -552,6 +557,9 @@ exports.verifyPayment = async (req, res) => {
     delegate.razorpayPaymentId = razorpay_payment_id;
     delegate.amountPaid = paidAmt;
     delegate.amountDue = 0;
+    // Invalidate/Nullify payment resume token so link cannot be reused after payment
+    delegate.resumeTokenHash = null;
+    delegate.paymentTokenExpires = null;
     await delegate.save();
 
     // Send paid confirmation email via Resend if not already sent
@@ -583,12 +591,31 @@ exports.resumePayment = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Payment token is required' });
     }
 
-    const delegate = await DelegateRegistration.findOne({ paymentToken: token });
+    // Compute SHA-256 hash of incoming raw token to query DB
+    const hashedToken = crypto.createHash('sha256').update(token.trim()).digest('hex');
+    const delegate = await DelegateRegistration.findOne({ resumeTokenHash: hashedToken });
 
     if (!delegate) {
       return res.status(404).json({
         success: false,
-        message: 'Invalid or expired payment link. Please search your registration or contact support.'
+        message: 'Invalid, already used, or expired payment link.'
+      });
+    }
+
+    if (delegate.paymentStatus === 'Paid') {
+      return res.status(200).json({
+        success: true,
+        alreadyPaid: true,
+        data: {
+          _id: delegate._id,
+          registrationId: delegate._id.toString().slice(-8).toUpperCase(),
+          fullName: delegate.fullName,
+          email: delegate.email,
+          paymentStatus: 'Paid',
+          totalAmount: delegate.totalAmount || 5664,
+          amountPaid: delegate.amountPaid || 5664,
+          amountDue: 0,
+        }
       });
     }
 
