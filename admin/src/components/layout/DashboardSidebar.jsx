@@ -32,7 +32,7 @@ export default function DashboardSidebar() {
     router.push('/');
   };
 
-  if (!mounted) return <div className="w-16 md:w-64 bg-white border-r border-gray-200 flex flex-col h-screen sticky top-0 z-40"></div>;
+  if (!mounted) return <div className="w-16 md:w-64 bg-[#f2f8eb] border-r border-[#5e8e33]/20 flex flex-col h-screen sticky top-0 z-40"></div>;
 
   const navItems = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, badge: null },
@@ -44,10 +44,10 @@ export default function DashboardSidebar() {
 
   return (
     <>
-      <aside className="w-16 md:w-64 bg-white text-gray-800 flex flex-col h-screen sticky top-0 shadow-2xs z-40 font-sans transition-all duration-300 border-r border-gray-200/90">
+      <aside className="w-16 md:w-64 bg-gradient-to-b from-[#f2f8eb] via-[#edf5e3] to-[#e4f0d6] text-gray-800 flex flex-col h-screen sticky top-0 shadow-2xs z-40 font-sans transition-all duration-300 border-r border-[#5e8e33]/20">
         
         {/* Logo & Header Area */}
-        <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+        <div className="p-4 border-b border-[#5e8e33]/15 flex items-center justify-between">
           <div className="hidden md:flex items-center gap-3 w-full">
             <div className="h-10 w-full flex items-center justify-start py-1">
               <img 
@@ -59,7 +59,7 @@ export default function DashboardSidebar() {
           </div>
 
           {/* Mobile Icon Logo */}
-          <div className="md:hidden flex items-center justify-center h-10 w-10 mx-auto bg-[#5e8e33]/10 rounded-xl border border-[#5e8e33]/20">
+          <div className="md:hidden flex items-center justify-center h-10 w-10 mx-auto bg-[#5e8e33]/15 rounded-xl border border-[#5e8e33]/30 shadow-2xs">
             <img 
               src="/logo/brand-r-comm-logo.png" 
               alt="Brand R.Comm Logo" 
@@ -71,7 +71,7 @@ export default function DashboardSidebar() {
         {/* Navigation Items */}
         <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto custom-scrollbar">
           <div className="px-3 pb-2 hidden md:block">
-            <span className="text-[10px] font-black uppercase text-gray-400 tracking-wider">Navigation</span>
+            <span className="text-[10px] font-black uppercase text-[#5e8e33]/80 tracking-wider">Navigation</span>
           </div>
 
           {navItems.map((item) => {
@@ -83,13 +83,13 @@ export default function DashboardSidebar() {
                 href={item.href}
                 className={`flex items-center justify-center md:justify-start gap-3 px-3.5 py-2.5 rounded-xl text-xs transition-all duration-150 group relative cursor-pointer ${
                   isActive 
-                    ? 'bg-[#5e8e33]/10 text-[#5e8e33] font-black border border-[#5e8e33]/20 shadow-2xs' 
-                    : 'text-gray-600 hover:bg-gray-100/70 hover:text-gray-900 font-bold'
+                    ? 'bg-[#5e8e33] text-white font-black shadow-md shadow-[#5e8e33]/20 border border-[#5e8e33]' 
+                    : 'text-gray-700 hover:bg-[#5e8e33]/15 hover:text-[#5e8e33] font-bold'
                 }`}
                 title={item.name}
               >
                 <div className={`p-1 rounded-lg transition-colors ${
-                  isActive ? 'text-[#5e8e33]' : 'text-gray-400 group-hover:text-gray-700'
+                  isActive ? 'text-white' : 'text-gray-500 group-hover:text-[#5e8e33]'
                 }`}>
                   <Icon size={18} className="transition-transform duration-150 group-hover:scale-110" />
                 </div>
@@ -97,14 +97,14 @@ export default function DashboardSidebar() {
                 <span className="hidden md:block tracking-tight flex-1">{item.name}</span>
 
                 {isActive && (
-                  <div className="hidden md:block w-1.5 h-4 bg-[#5e8e33] rounded-full"></div>
+                  <ChevronRight size={15} className="hidden md:block text-white/80" />
                 )}
               </Link>
             );
           })}
 
-          {/* Minimal Event Info Widget */}
-          <div className="hidden md:block mt-6 p-3 bg-gray-50/80 rounded-xl border border-gray-200/70 space-y-1">
+          {/* Light Green Event Info Widget */}
+          <div className="hidden md:block mt-6 p-3 bg-white/80 backdrop-blur-xs rounded-xl border border-[#5e8e33]/20 shadow-2xs space-y-1">
             <div className="flex items-center gap-1.5 text-[#5e8e33]">
               <Calendar size={13} />
               <span className="text-[10px] font-black uppercase tracking-wider">Summit 2026</span>
@@ -112,18 +112,18 @@ export default function DashboardSidebar() {
             <p className="text-[11px] font-bold text-gray-900">
               Brand R.Comm Awards
             </p>
-            <p className="text-[10px] text-gray-500 font-medium">
+            <p className="text-[10px] text-gray-600 font-medium">
               Oct 24-25, 2026 • New Delhi
             </p>
           </div>
         </nav>
 
-        {/* Bottom Minimal Profile Footer */}
-        <div className="p-3 border-t border-gray-100 bg-gray-50/40">
-          <div className="flex items-center justify-between gap-2 p-2 bg-white rounded-xl border border-gray-200/80 shadow-2xs">
+        {/* Bottom Light Green Profile Footer */}
+        <div className="p-3 border-t border-[#5e8e33]/15 bg-[#5e8e33]/5">
+          <div className="flex items-center justify-between gap-2 p-2 bg-white/90 rounded-xl border border-[#5e8e33]/20 shadow-2xs">
             <div className="flex items-center gap-2.5 min-w-0">
               <div className="relative flex-shrink-0">
-                <div className="w-8 h-8 rounded-lg bg-[#5e8e33]/10 text-[#5e8e33] font-black text-xs flex items-center justify-center border border-[#5e8e33]/20">
+                <div className="w-8 h-8 rounded-lg bg-[#5e8e33]/15 text-[#5e8e33] font-black text-xs flex items-center justify-center border border-[#5e8e33]/30">
                   A
                 </div>
                 <span className="absolute bottom-0 right-0 w-2 h-2 bg-emerald-500 border border-white rounded-full"></span>
