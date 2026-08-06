@@ -47,24 +47,29 @@ export default function DashboardSidebar() {
       <aside className="w-16 md:w-64 bg-gradient-to-b from-[#f2f8eb] via-[#edf5e3] to-[#e4f0d6] text-gray-800 flex flex-col h-screen sticky top-0 shadow-2xs z-40 font-sans transition-all duration-300 border-r border-[#5e8e33]/20">
         
         {/* Logo & Header Area */}
-        <div className="p-4 border-b border-[#5e8e33]/15 flex items-center justify-between">
-          <div className="hidden md:flex items-center gap-3 w-full">
-            <div className="h-10 w-full flex items-center justify-start py-1">
-              <img 
-                src="/logo/brand-r-comm-logo.png" 
-                alt="Brand R.Comm Logo" 
-                className="h-9 w-auto object-contain" 
-              />
+        <div className="p-4 border-b border-[#5e8e33]/15">
+          <div className="hidden md:flex items-center justify-between gap-2 w-full">
+            <img 
+              src="/logo/brand-r-comm-logo.png" 
+              alt="Brand R.Comm Logo" 
+              className="h-8 w-auto object-contain" 
+            />
+            <div className="flex items-center gap-1.5 bg-[#5e8e33]/15 px-2.5 py-1 rounded-lg border border-[#5e8e33]/25 shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5e8e33] animate-pulse"></span>
+              <span className="text-[10px] font-black uppercase text-[#5e8e33] tracking-wider whitespace-nowrap">
+                ADMIN PANEL
+              </span>
             </div>
           </div>
 
           {/* Mobile Icon Logo */}
-          <div className="md:hidden flex items-center justify-center h-10 w-10 mx-auto bg-[#5e8e33]/15 rounded-xl border border-[#5e8e33]/30 shadow-2xs">
+          <div className="md:hidden flex flex-col items-center justify-center gap-1">
             <img 
               src="/logo/brand-r-comm-logo.png" 
               alt="Brand R.Comm Logo" 
               className="h-6 w-auto object-contain" 
             />
+            <span className="text-[8px] font-black text-[#5e8e33] uppercase">ADMIN</span>
           </div>
         </div>
 
