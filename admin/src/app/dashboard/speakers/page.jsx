@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Mic, Search, Download, Trash2, Mail, Phone, MapPin, Calendar, BookOpen } from 'lucide-react';
+import { Mic, Search, Download, Trash2, Mail, Phone, MapPin, Calendar, BookOpen, Eye, X } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 export default function SpeakersPage() {
@@ -9,6 +9,7 @@ export default function SpeakersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedSpeaker, setSelectedSpeaker] = useState(null);
 
   const fetchSpeakers = async () => {
     try {
@@ -265,11 +266,12 @@ export default function SpeakersPage() {
                         {speaker.address}
                       </td>
 
-                      {/* 12. Subject Area */}
-                      <td className="px-3 py-2 min-w-[220px] max-w-[320px] font-medium text-gray-800">
+                      <td className="px-3 py-2 min-w-[220px] max-w-[320px] font-medium text-gray-800 align-top">
                         {speaker.subjectArea ? (
-                          <div className="bg-[#5e8e33]/10 text-[#5e8e33] px-2 py-1 rounded-md text-[10px] font-bold line-clamp-2" title={speaker.subjectArea}>
-                            {speaker.subjectArea}
+                          <div className="bg-[#5e8e33]/10 text-[#5e8e33] px-2.5 py-1.5 rounded-md text-[10px] font-bold" title={speaker.subjectArea}>
+                            <div className="line-clamp-2 leading-snug">
+                              {speaker.subjectArea}
+                            </div>
                           </div>
                         ) : (
                           <span className="text-gray-400 italic text-[10px]">No topic specified</span>
@@ -278,13 +280,22 @@ export default function SpeakersPage() {
 
                       {/* 13. Actions */}
                       <td className="px-3 py-2 whitespace-nowrap text-center sticky right-0 z-20 bg-white group-hover:bg-gray-50 shadow-[-1px_0_0_0_#e5e7eb]">
-                        <button 
-                          onClick={() => handleDeleteSpeaker(speaker._id)}
-                          className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-                          title="Delete enquiry"
-                        >
-                          <Trash2 size={15} />
-                        </button>
+                        <div className="flex items-center justify-center gap-2">
+                          <button 
+                            onClick={() => setSelectedSpeaker(speaker)}
+                            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+                            title="View full details"
+                          >
+                            <Eye size={15} />
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteSpeaker(speaker._id)}
+                            className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                            title="Delete enquiry"
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -294,6 +305,132 @@ export default function SpeakersPage() {
           )}
         </div>
       </div>
+
+      {/* View Details Modal */}
+      {selectedSpeaker && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-in fade-in zoom-in duration-200">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-5 border-b border-gray-100 bg-gray-50/50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#5e8e33]/10 flex items-center justify-center">
+                  <Mic className="text-[#5e8e33]" size={20} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-black text-gray-900">Speaker Details</h3>
+                  <p className="text-xs text-gray-500 font-medium">Submitted on {new Date(selectedSpeaker.createdAt).toLocaleString()}</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setSelectedSpeaker(null)}
+                className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* Personal Info */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <BookOpen size={12} /> Contact Information
+                  </h4>
+                  
+                  <div>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase">Full Name</label>
+                    <p className="text-sm font-bold text-gray-900">{selectedSpeaker.fullName}</p>
+                  </div>
+                  
+                  <div>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase">Email Address</label>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <Mail size={14} className="text-gray-400" />
+                      <a href={`mailto:${selectedSpeaker.email}`} className="text-sm font-medium text-blue-600 hover:underline">{selectedSpeaker.email}</a>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase">Mobile Number</label>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <Phone size={14} className="text-gray-400" />
+                      <a href={`tel:${selectedSpeaker.mobileNumber}`} className="text-sm font-medium text-blue-600 hover:underline">{selectedSpeaker.mobileNumber}</a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Professional Info */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <BookOpen size={12} /> Professional Details
+                  </h4>
+                  
+                  <div>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase">Designation</label>
+                    <p className="text-sm font-bold text-gray-900">{selectedSpeaker.designation || 'N/A'}</p>
+                  </div>
+                  
+                  <div>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase">Organization</label>
+                    <p className="text-sm font-bold text-gray-900">{selectedSpeaker.organization || 'N/A'}</p>
+                  </div>
+                </div>
+
+                {/* Location Info */}
+                <div className="col-span-1 md:col-span-2 space-y-4 pt-4 border-t border-gray-100">
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <MapPin size={12} /> Location Details
+                  </h4>
+                  
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="text-[10px] font-bold text-gray-500 uppercase">City</label>
+                      <p className="text-sm font-medium text-gray-800">{selectedSpeaker.city || 'N/A'}</p>
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold text-gray-500 uppercase">State/Country</label>
+                      <p className="text-sm font-medium text-gray-800">{selectedSpeaker.stateCountry || 'N/A'}</p>
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold text-gray-500 uppercase">Pincode</label>
+                      <p className="text-sm font-medium text-gray-800">{selectedSpeaker.pinCode || 'N/A'}</p>
+                    </div>
+                    <div className="col-span-2 sm:col-span-3">
+                      <label className="text-[10px] font-bold text-gray-500 uppercase">Full Address</label>
+                      <p className="text-sm font-medium text-gray-800 mt-1">{selectedSpeaker.address || 'N/A'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Subject Area */}
+                <div className="col-span-1 md:col-span-2 space-y-3 pt-4 border-t border-gray-100">
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Mic size={12} /> Proposed Topic
+                  </h4>
+                  <div className="bg-[#5e8e33]/5 border border-[#5e8e33]/20 rounded-xl p-4">
+                    <p className="text-sm text-gray-800 font-medium leading-relaxed whitespace-pre-wrap">
+                      {selectedSpeaker.subjectArea || 'No topic specified.'}
+                    </p>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-gray-100 bg-gray-50/50 flex justify-end">
+              <button 
+                onClick={() => setSelectedSpeaker(null)}
+                className="px-5 py-2.5 bg-gray-900 hover:bg-black text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors shadow-md cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

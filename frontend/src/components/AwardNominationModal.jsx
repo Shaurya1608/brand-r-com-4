@@ -331,34 +331,28 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                   </svg>
                 </button>
 
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                  <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
+                <h2 className="text-[18px] md:text-[20px] font-sans text-gray-900 font-black mb-3 mt-2 text-center">
+                  Nomination Submitted Successfully!
+                </h2>
+
+                <div className="text-gray-800 font-medium text-[12.5px] leading-relaxed space-y-3 mb-6 text-center w-full max-w-lg mx-auto">
+                  <p>Thank you for submitting your nomination for the BRAND R.Comm Awards 2026.</p>
+                  <p>Your nomination details and payment have been received successfully.</p>
+                  <p>Our external team (Market Research Agency Or Knowledge Partner) or Equivalent will verify your submission and supporting documents before forwarding your nomination to the Jury Panel for evaluation.</p>
+                  <p>Your Event Entry Pass, QR Code, and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.</p>
+                  <p>We look forward to welcoming you to BRAND R.Comm 2026.</p>
                 </div>
 
-                <h2 className="text-2xl md:text-3xl font-serif text-brand-dark font-bold mb-2 uppercase tracking-wider">
-                  Payment Successful!
-                </h2>
-                <p className="text-xs text-brand-primary font-bold uppercase tracking-widest mb-4">
-                  Confirmation Sent to {formData.email}
-                </p>
-
-                <p className="text-brand-dark/70 text-[14px] leading-relaxed max-w-md mb-6">
-                  Thank you! Your nomination fee of <strong>₹9,440</strong> (incl. 18% GST) has been received. Your nomination for <strong>{formData.awardCategory}</strong> is now confirmed and undergoing jury evaluation.
-                </p>
-
-                <div className="bg-brand-surface p-4 rounded-xl border border-brand-primary/20 w-full max-w-md mb-6 text-left space-y-2 text-xs">
-                  <div className="flex justify-between"><span className="text-gray-500 font-semibold">Payment ID:</span><span className="font-mono font-bold text-gray-900">{razorpayPaymentId}</span></div>
-                  <div className="flex justify-between"><span className="text-gray-500 font-semibold">Nomination ID:</span><span className="font-mono font-bold text-gray-900">{submittedNominationId}</span></div>
-                  <div className="flex justify-between"><span className="text-gray-500 font-semibold">Category:</span><span className="font-bold text-brand-primary">{formData.awardCategory}</span></div>
+                <div className="bg-[#f3faeb] p-3 rounded-xl border border-brand-primary/20 w-full max-w-sm mb-6 text-left space-y-2 text-[12px] mx-auto shadow-sm">
+                  <div className="flex justify-between items-center"><span className="text-[#5e8e33] font-bold uppercase tracking-wider text-[10px]">Payment ID:</span><span className="font-mono font-bold text-gray-900 bg-white px-2 py-1 rounded-lg border border-[#5e8e33]/20 shadow-xs">{razorpayPaymentId || 'N/A'}</span></div>
+                  <div className="flex justify-between items-center"><span className="text-[#5e8e33] font-bold uppercase tracking-wider text-[10px]">Reg. ID:</span><span className="font-mono font-bold text-gray-900 bg-white px-2 py-1 rounded-lg border border-[#5e8e33]/20 shadow-xs">{submittedNominationId ? `#${submittedNominationId.slice(-8).toUpperCase()}` : 'N/A'}</span></div>
                 </div>
 
                 <button
                   onClick={onClose}
-                  className="w-full max-w-sm py-3.5 bg-brand-dark hover:bg-black text-white font-mono font-bold text-[12px] uppercase tracking-widest rounded-lg transition-all shadow-md"
+                  className="w-full max-w-[200px] py-3 bg-brand-dark hover:bg-black text-white font-sans font-bold text-[12px] uppercase tracking-wide rounded-md transition-all shadow-md"
                 >
-                  Close & Back to Home
+                  Close
                 </button>
               </div>
             ) : success ? (
@@ -391,28 +385,17 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                   </>
                 ) : (
                   <>
-                    <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mb-4">
-                      <svg className="w-8 h-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-
-                    <h2 className="text-xl md:text-2xl font-serif text-brand-dark font-bold mb-2 uppercase tracking-wider">
+                    <h2 className="text-[20px] md:text-[22px] font-sans text-gray-900 font-black mb-4 text-center">
                       Details Saved Successfully
                     </h2>
 
-                    <p className="text-brand-dark/70 text-[13px] leading-relaxed max-w-md mb-4">
-                      Thank you for completing your nomination details. Please proceed to the payment page to complete your nomination submission.
-                    </p>
+                    <div className="text-gray-800 font-semibold text-[14px] leading-relaxed space-y-4 mb-8 text-center w-full max-w-md mx-auto">
+                      <p>Thank you for completing your nomination details.</p>
+                      <p>Your nomination information has been saved successfully.</p>
+                      <p>Please proceed to the payment page to complete your nomination submission.</p>
+                    </div>
                   </>
                 )}
-
-                {/* Amount display card */}
-                <div className="bg-brand-surface border border-brand-primary/20 rounded-xl p-4 w-full max-w-sm mb-6 text-center">
-                  <div className="text-[11px] text-gray-500 uppercase tracking-wider font-semibold mb-1">Nomination Entry Fee</div>
-                  <div className="text-2xl font-serif font-bold text-brand-dark">₹ 9,440</div>
-                  <div className="text-[10px] text-brand-primary font-medium mt-0.5">₹8,000 + 18% GST</div>
-                </div>
 
                 {error && (
                   <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs w-full max-w-sm">
@@ -430,7 +413,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                   <button
                     onClick={handleProceedToPayment}
                     disabled={paymentLoading}
-                    className="w-full py-3.5 bg-brand-primary hover:bg-brand-primary-hover disabled:opacity-50 text-white font-mono font-bold text-[12px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                    className="w-full py-3.5 bg-[#4B7934] hover:bg-[#3D632A] disabled:opacity-50 text-white font-sans font-bold text-[13px] uppercase tracking-wide rounded-md transition-all flex items-center justify-center gap-2"
                   >
                     {paymentLoading ? (
                       <>
@@ -438,16 +421,16 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                         <span>Opening Payment...</span>
                       </>
                     ) : (
-                      "Continue to Payment (₹9,440)"
+                      "PROCEED TO PAYMENT"
                     )}
                   </button>
 
                   <button
                     onClick={() => setSuccess(false)}
                     disabled={paymentLoading}
-                    className="w-full py-3 border-2 border-brand-primary/20 hover:border-brand-primary text-brand-primary bg-transparent font-mono font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all hover:bg-brand-primary/5 disabled:opacity-50"
+                    className="w-full py-3.5 border-2 border-brand-primary/20 hover:border-brand-primary text-brand-primary bg-transparent font-sans font-bold text-[13px] uppercase tracking-wide rounded-md transition-all hover:bg-brand-primary/5 disabled:opacity-50 flex items-center justify-center"
                   >
-                    Edit Details
+                    EDIT REGISTRATION
                   </button>
                 </div>
               </div>
