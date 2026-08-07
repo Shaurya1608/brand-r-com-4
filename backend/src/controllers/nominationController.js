@@ -20,6 +20,11 @@ exports.createNomination = async (req, res) => {
       pinCode,
       address,
       briefSummary,
+      applicationFilledBy,
+      fillerName,
+      fillerDesignation,
+      fillerContactNo,
+      fillerEmail,
     } = req.body;
 
     // Normalize canonical inputs
@@ -35,6 +40,12 @@ exports.createNomination = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Profile document is required (PDF, PPT, or DOC)' });
     }
     const profileDocumentUrl = req.files['profileDocument'][0].path;
+
+    // Check for supporting document
+    if (!req.files || !req.files['supportingDocument'] || req.files['supportingDocument'].length === 0) {
+      return res.status(400).json({ success: false, message: 'Supporting document is required (PDF, PPT, or DOC)' });
+    }
+    const supportingDocumentUrl = req.files['supportingDocument'][0].path;
 
     // Check for summary document if text summary isn't provided
     let summaryDocumentUrl = null;
@@ -64,7 +75,13 @@ exports.createNomination = async (req, res) => {
       existingNomination.pinCode = pinCode || existingNomination.pinCode;
       existingNomination.address = address || existingNomination.address;
       existingNomination.briefSummary = briefSummary || existingNomination.briefSummary;
+      existingNomination.applicationFilledBy = applicationFilledBy || existingNomination.applicationFilledBy;
+      existingNomination.fillerName = fillerName || existingNomination.fillerName;
+      existingNomination.fillerDesignation = fillerDesignation || existingNomination.fillerDesignation;
+      existingNomination.fillerContactNo = fillerContactNo || existingNomination.fillerContactNo;
+      existingNomination.fillerEmail = fillerEmail || existingNomination.fillerEmail;
       existingNomination.profileDocumentUrl = profileDocumentUrl;
+      existingNomination.supportingDocumentUrl = supportingDocumentUrl;
       if (summaryDocumentUrl) existingNomination.summaryDocumentUrl = summaryDocumentUrl;
 
       // Generate SHA-256 hashed payment token for secure email resumption if pending
@@ -111,8 +128,14 @@ exports.createNomination = async (req, res) => {
       pinCode,
       address,
       briefSummary,
+      applicationFilledBy,
+      fillerName,
+      fillerDesignation,
+      fillerContactNo,
+      fillerEmail,
       summaryDocumentUrl,
       profileDocumentUrl,
+      supportingDocumentUrl,
       paymentStatus: 'Pending',
       totalAmount: 9440,
       amountPaid: 0,

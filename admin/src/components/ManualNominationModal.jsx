@@ -52,14 +52,32 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
     paymentMethod: 'Online (Razorpay)',
     paymentStatus: 'Paid',
     registeredBy: '',
+    applicationFilledBy: 'Self',
+    fillerName: '',
+    fillerDesignation: '',
+    fillerContactNo: '',
+    fillerEmail: '',
   });
 
   const [profileFile, setProfileFile] = useState(null);
   const [summaryFile, setSummaryFile] = useState(null);
+  const [supportingFile, setSupportingFile] = useState(null);
   const [successData, setSuccessData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsCategoryOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) {
@@ -114,6 +132,11 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
       paymentMethod: 'Online (Razorpay)',
       paymentStatus: 'Pending',
       registeredBy: '',
+      applicationFilledBy: 'Self',
+      fillerName: '',
+      fillerDesignation: '',
+      fillerContactNo: '',
+      fillerEmail: '',
     });
   };
 
@@ -160,6 +183,9 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
       }
       if (summaryFile) {
         data.append('summaryDocument', summaryFile);
+      }
+      if (supportingFile) {
+        data.append('supportingDocument', supportingFile);
       }
 
       const token = Cookies.get('admin_token');
@@ -346,6 +372,8 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
               <div className="w-6 h-6 rounded-full bg-[#5e8e33] text-white flex items-center justify-center font-black text-xs">1</div>
               <h3 className="font-black text-gray-900 text-sm">Applicant Information</h3>
             </div>
+
+
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
@@ -703,14 +731,14 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   <input
                     type="file"
                     accept=".pdf,.ppt,.pptx,.doc,.docx"
-                    onChange={(e) => setSummaryFile(e.target.files[0])}
+                    onChange={(e) => setSupportingFile(e.target.files[0])}
                     className="hidden"
-                    id="summary-upload"
+                    id="supporting-upload"
                   />
-                  <label htmlFor="summary-upload" className="cursor-pointer flex flex-col items-center gap-1">
+                  <label htmlFor="supporting-upload" className="cursor-pointer flex flex-col items-center gap-1">
                     <Upload size={20} className="text-[#5e8e33]" />
                     <p className="font-extrabold text-gray-900 text-xs">
-                      {summaryFile ? summaryFile.name : 'Click to upload or drag file here'}
+                      {supportingFile ? supportingFile.name : 'Click to upload or drag file here'}
                     </p>
                     <p className="text-[10px] text-gray-500 font-medium">PDF, PPT or DOC — max 15MB</p>
                   </label>
@@ -759,6 +787,56 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                     className={inputStyle}
                   />
                 </div>
+              </div>
+
+              {/* Application Filled By Selection */}
+              <div className="space-y-4 pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-6">
+                  <label className="block font-bold text-gray-800 text-xs">Application filled by</label>
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-gray-800">
+                    <input 
+                      type="radio" 
+                      name="applicationFilledBy" 
+                      value="Self" 
+                      checked={formData.applicationFilledBy === "Self"}
+                      onChange={handleChange}
+                      className="w-4 h-4 text-[#5e8e33] focus:ring-[#5e8e33]"
+                    />
+                    Self
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-gray-800">
+                    <input 
+                      type="radio" 
+                      name="applicationFilledBy" 
+                      value="Office Barrier" 
+                      checked={formData.applicationFilledBy === "Office Barrier"}
+                      onChange={handleChange}
+                      className="w-4 h-4 text-[#5e8e33] focus:ring-[#5e8e33]"
+                    />
+                    Office Barrier
+                  </label>
+                </div>
+
+                {formData.applicationFilledBy === "Office Barrier" && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-bold text-gray-800 text-xs mb-1.5">Name <span className="text-red-500">*</span></label>
+                      <input required type="text" name="fillerName" value={formData.fillerName} onChange={handleChange} className={inputStyle} />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-gray-800 text-xs mb-1.5">Designation <span className="text-red-500">*</span></label>
+                      <input required type="text" name="fillerDesignation" value={formData.fillerDesignation} onChange={handleChange} className={inputStyle} />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-gray-800 text-xs mb-1.5">Contact No. <span className="text-red-500">*</span></label>
+                      <input required type="tel" name="fillerContactNo" value={formData.fillerContactNo} onChange={handleChange} className={inputStyle} />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-gray-800 text-xs mb-1.5">Email ID <span className="text-red-500">*</span></label>
+                      <input required type="email" name="fillerEmail" value={formData.fillerEmail} onChange={handleChange} className={inputStyle} />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

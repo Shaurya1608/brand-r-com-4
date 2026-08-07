@@ -672,6 +672,27 @@ export default function NominationsPage() {
                   </a>
                 </div>
               )}
+
+              {selectedAttachment.supportingDocumentUrl && (
+                <div className="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <FileText className="text-blue-500" size={18} />
+                    <div>
+                      <p className="text-xs font-bold text-gray-900">Supporting Document</p>
+                      <p className="text-[10px] text-gray-500">Extra Supporting File</p>
+                    </div>
+                  </div>
+                  <a
+                    href={selectedAttachment.supportingDocumentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 bg-black hover:bg-gray-800 text-white text-[10px] font-bold rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
+                  >
+                    <Download size={12} />
+                    <span>View</span>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -729,6 +750,18 @@ export default function NominationsPage() {
                   <p className="text-gray-600 mt-0.5">{selectedContact.address}</p>
                 </div>
               </div>
+
+              {selectedContact.applicationFilledBy === 'Office Barrier' && (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <p className="text-[10px] text-[#5e8e33] font-bold uppercase mb-2">Filled By: Office Barrier</p>
+                  <div className="space-y-1.5">
+                    <p className="text-xs"><span className="text-gray-500 font-bold">Name:</span> <span className="text-gray-900 font-bold">{selectedContact.fillerName}</span></p>
+                    <p className="text-xs"><span className="text-gray-500 font-bold">Designation:</span> <span className="text-gray-900 font-bold">{selectedContact.fillerDesignation}</span></p>
+                    <p className="text-xs"><span className="text-gray-500 font-bold">Contact:</span> <span className="text-gray-900 font-bold">{selectedContact.fillerContactNo}</span></p>
+                    <p className="text-xs"><span className="text-gray-500 font-bold">Email:</span> <span className="text-gray-900 font-bold">{selectedContact.fillerEmail}</span></p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

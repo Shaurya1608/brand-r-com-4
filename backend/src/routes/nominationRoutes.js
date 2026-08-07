@@ -30,7 +30,8 @@ const upload = multer({ storage: storage });
 // Public route for creating nomination with multiple file uploads
 router.post('/', registrationLimiter, upload.fields([
   { name: 'summaryDocument', maxCount: 1 },
-  { name: 'profileDocument', maxCount: 1 }
+  { name: 'profileDocument', maxCount: 1 },
+  { name: 'supportingDocument', maxCount: 1 }
 ]), validateNominationInput, nominationController.createNomination);
 
 // Public route for resuming nomination payment via secure token

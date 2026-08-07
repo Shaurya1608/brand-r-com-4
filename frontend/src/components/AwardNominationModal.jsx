@@ -20,10 +20,16 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     awardCategory: "",
     paymentMethod: "Online (Razorpay)",
     briefSummary: "",
+    applicationFilledBy: "Self",
+    fillerName: "",
+    fillerDesignation: "",
+    fillerContactNo: "",
+    fillerEmail: "",
   });
   
   const [summaryDocumentFile, setSummaryDocumentFile] = useState(null);
   const [profileDocumentFile, setProfileDocumentFile] = useState(null);
+  const [supportingDocumentFile, setSupportingDocumentFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -126,6 +132,11 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     if (file) setProfileDocumentFile(file);
   };
 
+  const handleSupportingFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) setSupportingDocumentFile(file);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (currentStep < 3) {
@@ -144,6 +155,11 @@ export default function AwardNominationModal({ isOpen, onClose }) {
       return;
     }
 
+    if (!supportingDocumentFile) {
+      setError("Please upload supporting documents.");
+      return;
+    }
+
     if (!formData.awardCategory) {
       setError("Please select an award category.");
       return;
@@ -158,6 +174,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
       });
       if (summaryDocumentFile) data.append('summaryDocument', summaryDocumentFile);
       if (profileDocumentFile) data.append('profileDocument', profileDocumentFile);
+      if (supportingDocumentFile) data.append('supportingDocument', supportingDocumentFile);
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations`, {
         method: "POST",
@@ -678,33 +695,14 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                         </div>
                       </div>
 
-                      {/* Summary Input Block */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 mb-4">
-                        <div className="space-y-1">
-                          <label className="text-[12px] font-bold text-brand-dark">Company Name</label>
-                          <input type="text" name="organization" value={formData.organization} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[12px] font-bold text-brand-dark">Applicant Name</label>
-                          <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[12px] font-bold text-brand-dark">Contact No.</label>
-                          <input type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[12px] font-bold text-brand-dark">Email</label>
-                          <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
-                        </div>
-                      </div>
+
 
                       {/* Upload Section */}
                       <div className="space-y-5 pt-3">
                         <div>
-                          <h4 className="text-[14px] font-bold text-brand-dark mb-3">Upload Supporting Documents</h4>
                           <div className="space-y-2">
                             <div className="flex items-center justify-between">
-                              <label className="text-[12px] font-bold text-brand-dark">Brief Summary <span className="text-red-500">*</span></label>
+                              <label className="text-[12px] font-bold text-brand-dark">Brief Summary of Organization/ Initiatives/ Individual <span className="text-red-500">*</span></label>
                               <div className="relative">
                                 <label className="cursor-pointer bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[10px] uppercase tracking-wide px-3 py-1.5 rounded-full transition-colors whitespace-nowrap inline-block shadow-sm">
                                   OR Attach File
@@ -725,7 +723,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                         </div>
 
                         <div className="space-y-2">
-                          <label className="text-[12px] font-bold text-brand-dark block">Upload Profile</label>
+                          <label className="text-[14px] font-bold text-brand-dark block">Upload Company/Individual Profile</label>
                           <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-brand-primary/30 hover:border-brand-primary rounded-lg cursor-pointer bg-brand-primary/5 hover:bg-brand-primary/10 transition-all">
                             <div className="flex flex-col items-center justify-center pt-4 pb-4">
                               <svg className="w-5 h-5 text-brand-primary mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
@@ -736,7 +734,70 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                           </label>
                           {profileDocumentFile && <p className="text-[11px] text-brand-primary font-bold text-center">Selected: {profileDocumentFile.name}</p>}
                         </div>
+
+                        <div className="space-y-2">
+                          <label className="text-[14px] font-bold text-brand-dark block">Upload Supporting Documents</label>
+                          <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-brand-primary/30 hover:border-brand-primary rounded-lg cursor-pointer bg-brand-primary/5 hover:bg-brand-primary/10 transition-all">
+                            <div className="flex flex-col items-center justify-center pt-4 pb-4">
+                              <svg className="w-5 h-5 text-brand-primary mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                              <p className="text-[13px] font-bold text-brand-dark">Click to upload or drag file here</p>
+                              <p className="text-[11px] text-brand-dark/60 font-medium">PDF, PPT or DOC — max 15MB</p>
+                            </div>
+                            <input type="file" className="hidden" onChange={handleSupportingFileChange} />
+                          </label>
+                          {supportingDocumentFile && <p className="text-[11px] text-brand-primary font-bold text-center">Selected: {supportingDocumentFile.name}</p>}
                         </div>
+                      </div>
+
+                      {/* Application Filled By Section */}
+                      <div className="space-y-3 pt-5 border-t border-gray-200 mt-5">
+                        <div className="flex items-center gap-6">
+                          <label className="text-[12px] font-bold text-brand-dark">Application filled by</label>
+                          <label className="flex items-center gap-2 cursor-pointer text-[13px] font-medium text-brand-dark">
+                            <input 
+                              type="radio" 
+                              name="applicationFilledBy" 
+                              value="Self" 
+                              checked={formData.applicationFilledBy === "Self"}
+                              onChange={handleChange}
+                              className="w-4 h-4 text-brand-primary focus:ring-brand-primary border-gray-300"
+                            />
+                            Self
+                          </label>
+                          <label className="flex items-center gap-2 cursor-pointer text-[13px] font-medium text-brand-dark">
+                            <input 
+                              type="radio" 
+                              name="applicationFilledBy" 
+                              value="Office Barrier" 
+                              checked={formData.applicationFilledBy === "Office Barrier"}
+                              onChange={handleChange}
+                              className="w-4 h-4 text-brand-primary focus:ring-brand-primary border-gray-300"
+                            />
+                            Office Barrier
+                          </label>
+                        </div>
+                        
+                        {formData.applicationFilledBy === "Office Barrier" && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div className="space-y-1">
+                              <label className="text-[12px] font-bold text-brand-dark">Name <span className="text-red-500">*</span></label>
+                              <input required type="text" name="fillerName" value={formData.fillerName} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[12px] font-bold text-brand-dark">Designation <span className="text-red-500">*</span></label>
+                              <input required type="text" name="fillerDesignation" value={formData.fillerDesignation} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[12px] font-bold text-brand-dark">Contact No. <span className="text-red-500">*</span></label>
+                              <input required type="tel" name="fillerContactNo" value={formData.fillerContactNo} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[12px] font-bold text-brand-dark">Email ID <span className="text-red-500">*</span></label>
+                              <input required type="email" name="fillerEmail" value={formData.fillerEmail} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                            </div>
+                          </div>
+                        )}
+                      </div>
                       </div>
                       </div>
                     )}

@@ -75,6 +75,30 @@ const awardNominationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  supportingDocumentUrl: {
+    type: String,
+  },
+  applicationFilledBy: {
+    type: String,
+    enum: ['Self', 'Office Barrier'],
+    default: 'Self',
+  },
+  fillerName: {
+    type: String,
+    trim: true,
+  },
+  fillerDesignation: {
+    type: String,
+    trim: true,
+  },
+  fillerContactNo: {
+    type: String,
+    trim: true,
+  },
+  fillerEmail: {
+    type: String,
+    trim: true,
+  },
   paymentStatus: {
     type: String,
     enum: ['Pending', 'Paid', 'Failed'],
