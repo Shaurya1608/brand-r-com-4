@@ -13,6 +13,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     email: "",
     countryCode: "+91",
     mobileNumber: "",
+    gstNumber: "",
     website: "",
     city: "",
     state: "",
@@ -543,9 +544,13 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                         </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-1 md:col-span-2">
+                        <div className="space-y-1">
                           <label className="text-[12px] font-bold text-brand-dark">Company Name <span className="text-red-500">*</span></label>
                           <input required type="text" name="organization" value={formData.organization} onChange={handleChange} placeholder="Enter company name" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[12px] font-bold text-brand-dark">GST Number <span className="text-gray-400 font-normal">(Optional)</span></label>
+                          <input type="text" name="gstNumber" value={formData.gstNumber} onChange={handleChange} placeholder="e.g. 27AAAAA0000A1Z5" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium uppercase" />
                         </div>
                         <div className="space-y-1">
                           <label className="text-[12px] font-bold text-brand-dark">City <span className="text-red-500">*</span></label>

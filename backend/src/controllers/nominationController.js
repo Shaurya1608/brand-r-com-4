@@ -13,6 +13,7 @@ exports.createNomination = async (req, res) => {
       organization,
       email,
       mobileNumber,
+      gstNumber,
       website,
       city,
       state,
@@ -68,6 +69,7 @@ exports.createNomination = async (req, res) => {
       existingNomination.fullName = fullName || existingNomination.fullName;
       existingNomination.designation = designation || existingNomination.designation;
       existingNomination.organization = organization || existingNomination.organization;
+      existingNomination.gstNumber = gstNumber || existingNomination.gstNumber;
       existingNomination.website = website || existingNomination.website;
       existingNomination.city = city || existingNomination.city;
       existingNomination.state = state || existingNomination.state;
@@ -121,6 +123,7 @@ exports.createNomination = async (req, res) => {
       organization,
       email: cleanEmail,
       mobileNumber: cleanMobile,
+      gstNumber,
       website,
       city,
       state,

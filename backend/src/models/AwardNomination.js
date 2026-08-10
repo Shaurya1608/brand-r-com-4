@@ -64,6 +64,10 @@ const awardNominationSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  gstNumber: {
+    type: String,
+    trim: true,
+  },
   briefSummary: {
     type: String,
     trim: true,

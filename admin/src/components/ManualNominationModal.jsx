@@ -533,6 +533,17 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-2">
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">GST Number (Optional)</label>
+                <input
+                  type="text"
+                  name="gstNumber"
+                  value={formData.gstNumber}
+                  onChange={handleChange}
+                  placeholder="e.g. 27AAAAA0000A1Z5"
+                  className={inputStyle}
+                />
+              </div>
               <div>
                 <label className="block font-bold text-gray-800 text-xs mb-1.5">City <span className="text-red-500">*</span></label>
                 <input
