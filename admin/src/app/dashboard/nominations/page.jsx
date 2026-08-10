@@ -25,6 +25,8 @@ export default function NominationsPage() {
   const [selectedNominationForDelegate, setSelectedNominationForDelegate] = useState(null);
   const [isAddNominationOpen, setIsAddNominationOpen] = useState(false);
   const [editingNomination, setEditingNomination] = useState(null);
+  const [deletingNomination, setDeletingNomination] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [statusUpdateLoading, setStatusUpdateLoading] = useState({});
 
   useEffect(() => {
@@ -83,12 +85,12 @@ export default function NominationsPage() {
     }
   };
 
-  const handleDeleteNomination = async (id, name) => {
-    if (!confirm(`Are you sure you want to delete nomination for "${name || 'this entry'}"? This action cannot be undone.`)) return;
-
+  const confirmDeleteNomination = async () => {
+    if (!deletingNomination) return;
+    setIsDeleting(true);
     try {
       const token = Cookies.get('admin_token');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/${deletingNomination.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -97,13 +99,16 @@ export default function NominationsPage() {
 
       const data = await response.json();
       if (data.success) {
-        setNominations(prev => prev.filter(item => item._id !== id));
+        setNominations(prev => prev.filter(item => item._id !== deletingNomination.id));
+        setDeletingNomination(null);
       } else {
         alert(data.message || 'Failed to delete nomination');
       }
     } catch (err) {
       console.error('Error deleting nomination:', err);
       alert('Error deleting nomination');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -604,7 +609,7 @@ export default function NominationsPage() {
                             Add Delegate
                           </button>
                           <button
-                            onClick={() => handleDeleteNomination(nomination._id, nomination.fullName || nomination.organization)}
+                            onClick={() => setDeletingNomination({ id: nomination._id, name: nomination.fullName || nomination.organization })}
                             className="px-2 py-1 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 text-[9px] font-black rounded-full border border-red-200 shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap flex items-center gap-1"
                             title="Delete Nomination"
                           >
@@ -841,6 +846,41 @@ export default function NominationsPage() {
         }}
         editingNomination={editingNomination}
       />
+
+      {/* Custom Delete Confirmation Modal */}
+      {deletingNomination && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl relative text-center animate-in fade-in zoom-in-95 border border-gray-100">
+            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto text-red-600">
+              <Trash2 size={24} />
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900 text-base">Delete Nomination?</h3>
+              <p className="text-gray-500 text-xs mt-1.5 leading-relaxed">
+                Are you sure you want to delete the nomination for <span className="font-bold text-gray-900">"{deletingNomination.name}"</span>? This action cannot be undone.
+              </p>
+            </div>
+            <div className="flex items-center gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => setDeletingNomination(null)}
+                disabled={isDeleting}
+                className="flex-1 py-2.5 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmDeleteNomination}
+                disabled={isDeleting}
+                className="flex-1 py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-red-200"
+              >
+                {isDeleting ? 'Deleting...' : 'Yes, Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
