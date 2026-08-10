@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { COUNTRY_CODES } from "../utils/countryCodes";
+import CountryCodeSelect from "./CountryCodeSelect";
 
 /**
  * Returns the current date/time in IST (UTC+5:30).
@@ -665,18 +667,12 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       <div className="space-y-1">
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Mobile Number *</label>
                         <div className="flex items-center gap-1.5">
-                          <select
+                          <CountryCodeSelect
                             name="countryCode"
                             value={formData.countryCode || '+91'}
                             onChange={handleChange}
-                            className="px-2 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-gray-50 text-brand-dark font-semibold cursor-pointer shrink-0 max-w-[105px]"
-                          >
-                            {COUNTRY_CODES.map((c) => (
-                              <option key={c.code + c.country} value={c.code}>
-                                {c.flag} {c.code}
-                              </option>
-                            ))}
-                          </select>
+                            buttonStyle="flex items-center justify-between gap-1 px-2 py-2 border border-brand-primary/20 rounded-lg bg-gray-50 hover:bg-gray-100 text-brand-dark font-semibold text-[13px] transition-all cursor-pointer min-w-[80px]"
+                          />
                           <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="98765 43210" className="flex-1 min-w-0 px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
                         </div>
                       </div>

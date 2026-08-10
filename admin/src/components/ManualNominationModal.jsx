@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { X, Info, Upload, Check, Award, Building2, User, Mail, Phone, MapPin, Globe, CreditCard, ChevronDown } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { COUNTRY_CODES } from '../utils/countryCodes';
+import CountryCodeSelect from './CountryCodeSelect';
 
 const INDIVIDUAL_CATEGORIES = [
   "Best Communicator Award – Male",
@@ -493,18 +494,11 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
               <div>
                 <label className="block font-bold text-gray-800 text-xs mb-1.5">Mobile Number <span className="text-red-500">*</span></label>
                 <div className="flex items-center gap-1.5">
-                  <select
+                  <CountryCodeSelect
                     name="countryCode"
                     value={formData.countryCode || '+91'}
                     onChange={handleChange}
-                    className="px-2.5 py-2.5 border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] cursor-pointer shrink-0 max-w-[105px]"
-                  >
-                    {COUNTRY_CODES.map((c) => (
-                      <option key={c.code + c.country} value={c.code}>
-                        {c.flag} {c.code}
-                      </option>
-                    ))}
-                  </select>
+                  />
                   <input
                     type="tel"
                     name="mobileNumber"

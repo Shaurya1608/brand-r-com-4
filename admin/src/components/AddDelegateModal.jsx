@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Info } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { COUNTRY_CODES } from '../utils/countryCodes';
+import CountryCodeSelect from './CountryCodeSelect';
 
 export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, presetSponsorship = null, presetNomination = null, editingDelegate = null }) {
   const [formData, setFormData] = useState({
@@ -401,18 +402,11 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
               <div>
                 <label className="block text-xs font-bold text-gray-700 mb-1">Mobile Number</label>
                 <div className="flex items-center gap-1.5">
-                  <select
+                  <CountryCodeSelect
                     name="countryCode"
                     value={formData.countryCode || '+91'}
                     onChange={handleChange}
-                    className="px-2.5 py-2.5 border border-gray-300 rounded-xl text-sm font-semibold text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] cursor-pointer shrink-0 max-w-[105px]"
-                  >
-                    {COUNTRY_CODES.map((c) => (
-                      <option key={c.code + c.country} value={c.code}>
-                        {c.flag} {c.code}
-                      </option>
-                    ))}
-                  </select>
+                  />
                   <input
                     type="text"
                     name="mobileNumber"

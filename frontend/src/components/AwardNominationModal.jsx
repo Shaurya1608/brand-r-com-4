@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { COUNTRY_CODES } from "../utils/countryCodes";
+import CountryCodeSelect from "./CountryCodeSelect";
 
 export default function AwardNominationModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -515,18 +516,11 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                         <div className="space-y-1">
                           <label className="text-[12px] font-bold text-brand-dark">Mobile Number <span className="text-red-500">*</span></label>
                           <div className="flex items-center gap-1.5">
-                            <select
+                            <CountryCodeSelect
                               name="countryCode"
                               value={formData.countryCode || '+91'}
                               onChange={handleChange}
-                              className="px-2.5 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-gray-50 text-brand-dark font-semibold cursor-pointer shrink-0 max-w-[105px]"
-                            >
-                              {COUNTRY_CODES.map((c) => (
-                                <option key={c.code + c.country} value={c.code}>
-                                  {c.flag} {c.code}
-                                </option>
-                              ))}
-                            </select>
+                            />
                             <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="98765 43210" className="flex-1 min-w-0 px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                           </div>
                         </div>
@@ -803,7 +797,14 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                             </div>
                             <div className="space-y-1">
                               <label className="text-[12px] font-bold text-brand-dark">Contact No. <span className="text-red-500">*</span></label>
-                              <input required type="tel" name="fillerContactNo" value={formData.fillerContactNo} onChange={handleChange} className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                              <div className="flex items-center gap-1.5">
+                                <CountryCodeSelect
+                                  name="fillerCountryCode"
+                                  value={formData.fillerCountryCode || '+91'}
+                                  onChange={handleChange}
+                                />
+                                <input required type="tel" name="fillerContactNo" value={formData.fillerContactNo} onChange={handleChange} placeholder="98765 43210" className="flex-1 min-w-0 px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                              </div>
                             </div>
                             <div className="space-y-1">
                               <label className="text-[12px] font-bold text-brand-dark">Email ID <span className="text-red-500">*</span></label>

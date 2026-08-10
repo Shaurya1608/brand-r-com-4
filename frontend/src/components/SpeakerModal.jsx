@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { COUNTRY_CODES } from "../utils/countryCodes";
+import CountryCodeSelect from "./CountryCodeSelect";
 
 export default function SpeakerModal({ isOpen, onClose }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -174,18 +175,12 @@ export default function SpeakerModal({ isOpen, onClose }) {
                       <div>
                         <label className="block text-[10px] font-bold text-brand-dark/70 uppercase tracking-wider mb-1">Mobile No.</label>
                         <div className="flex items-center gap-1.5">
-                          <select
+                          <CountryCodeSelect
                             name="countryCode"
                             value={formData.countryCode || '+91'}
                             onChange={handleChange}
-                            className="px-2 py-1.5 text-[13px] rounded border border-brand-primary/20 bg-brand-surface/30 focus:border-brand-primary focus:bg-white focus:ring-1 focus:ring-brand-primary outline-none transition-all text-brand-dark font-semibold cursor-pointer shrink-0 max-w-[95px]"
-                          >
-                            {COUNTRY_CODES.map((c) => (
-                              <option key={c.code + c.country} value={c.code}>
-                                {c.flag} {c.code}
-                              </option>
-                            ))}
-                          </select>
+                            buttonStyle="flex items-center justify-between gap-1 px-2 py-1.5 rounded border border-brand-primary/20 bg-brand-surface/30 focus:border-brand-primary focus:bg-white focus:ring-1 focus:ring-brand-primary text-brand-dark font-semibold text-[13px] outline-none transition-all cursor-pointer min-w-[78px]"
+                          />
                           <input 
                             type="tel" 
                             name="mobileNumber"
