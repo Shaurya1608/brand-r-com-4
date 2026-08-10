@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Mic, Search, Download, Trash2, Mail, Phone, MapPin, Calendar, BookOpen, Eye, X } from 'lucide-react';
+import { Mic, Search, Download, Trash2, Mail, Phone, MapPin, Calendar, BookOpen, Eye, X, Edit2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 export default function SpeakersPage() {
@@ -10,6 +10,70 @@ export default function SpeakersPage() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSpeaker, setSelectedSpeaker] = useState(null);
+
+  // Edit Speaker State
+  const [editingSpeaker, setEditingSpeaker] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    fullName: '',
+    designation: '',
+    organization: '',
+    mobileNumber: '',
+    email: '',
+    city: '',
+    stateCountry: '',
+    pinCode: '',
+    address: '',
+    subjectArea: ''
+  });
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [updateError, setUpdateError] = useState(null);
+
+  const handleEditClick = (speaker) => {
+    setEditingSpeaker(speaker);
+    setEditFormData({
+      fullName: speaker.fullName || '',
+      designation: speaker.designation || '',
+      organization: speaker.organization || '',
+      mobileNumber: speaker.mobileNumber || '',
+      email: speaker.email || '',
+      city: speaker.city || '',
+      stateCountry: speaker.stateCountry || '',
+      pinCode: speaker.pinCode || '',
+      address: speaker.address || '',
+      subjectArea: speaker.subjectArea || ''
+    });
+    setUpdateError(null);
+  };
+
+  const handleUpdateSpeaker = async (e) => {
+    e.preventDefault();
+    if (!editingSpeaker) return;
+    setUpdateLoading(true);
+    setUpdateError(null);
+    try {
+      const token = Cookies.get('admin_token');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/speakers/${editingSpeaker._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(editFormData)
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSpeakers(prev => prev.map(s => s._id === editingSpeaker._id ? data.data : s));
+        setEditingSpeaker(null);
+      } else {
+        setUpdateError(data.message || 'Failed to update speaker enquiry');
+      }
+    } catch (err) {
+      console.error(err);
+      setUpdateError('Network error updating speaker enquiry');
+    } finally {
+      setUpdateLoading(false);
+    }
+  };
 
   const fetchSpeakers = async () => {
     try {
@@ -289,6 +353,13 @@ export default function SpeakersPage() {
                             <Eye size={15} />
                           </button>
                           <button 
+                            onClick={() => handleEditClick(speaker)}
+                            className="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors cursor-pointer"
+                            title="Edit enquiry details"
+                          >
+                            <Edit2 size={15} />
+                          </button>
+                          <button 
                             onClick={() => handleDeleteSpeaker(speaker._id)}
                             className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                             title="Delete enquiry"
@@ -428,6 +499,161 @@ export default function SpeakersPage() {
                 Close
               </button>
             </div>
+          </div>
+      {/* Edit Speaker Interest Enquiry Modal */}
+      {editingSpeaker && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative my-auto animate-in fade-in zoom-in-95">
+            <button
+              onClick={() => setEditingSpeaker(null)}
+              className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="flex items-center gap-2 border-b border-gray-100 pb-3">
+              <Mic className="text-[#5e8e33]" size={22} />
+              <div>
+                <h2 className="text-lg font-black text-gray-900">Edit Speaker Interest Enquiry 🎙️</h2>
+                <p className="text-xs text-gray-500 font-medium">Update speaker details & proposed subject area</p>
+              </div>
+            </div>
+
+            {updateError && (
+              <div className="p-3 bg-red-50 text-red-700 rounded-xl text-xs font-semibold">
+                {updateError}
+              </div>
+            )}
+
+            <form onSubmit={handleUpdateSpeaker} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">Full Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.fullName}
+                    onChange={(e) => setEditFormData({ ...editFormData, fullName: e.target.value })}
+                    className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">Designation *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.designation}
+                    onChange={(e) => setEditFormData({ ...editFormData, designation: e.target.value })}
+                    className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">Organization *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.organization}
+                    onChange={(e) => setEditFormData({ ...editFormData, organization: e.target.value })}
+                    className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">Mobile Number *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.mobileNumber}
+                    onChange={(e) => setEditFormData({ ...editFormData, mobileNumber: e.target.value })}
+                    className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">Email Address</label>
+                  <input
+                    type="email"
+                    value={editFormData.email}
+                    onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                    className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">City *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.city}
+                    onChange={(e) => setEditFormData({ ...editFormData, city: e.target.value })}
+                    className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">State / Country *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.stateCountry}
+                    onChange={(e) => setEditFormData({ ...editFormData, stateCountry: e.target.value })}
+                    className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">Pincode *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.pinCode}
+                    onChange={(e) => setEditFormData({ ...editFormData, pinCode: e.target.value })}
+                    className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">Full Address *</label>
+                <textarea
+                  required
+                  rows={2}
+                  value={editFormData.address}
+                  onChange={(e) => setEditFormData({ ...editFormData, address: e.target.value })}
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                ></textarea>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">Subject Area / Proposed Topic</label>
+                <textarea
+                  rows={2}
+                  value={editFormData.subjectArea}
+                  onChange={(e) => setEditFormData({ ...editFormData, subjectArea: e.target.value })}
+                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] bg-gray-50/70"
+                ></textarea>
+              </div>
+
+              <div className="pt-3 border-t border-gray-100 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditingSpeaker(null)}
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition-colors cursor-pointer text-xs"
+                  disabled={updateLoading}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={updateLoading}
+                  className="px-6 py-2.5 bg-[#5e8e33] hover:bg-[#4c7727] text-white font-black uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer disabled:opacity-50 text-xs flex items-center gap-2"
+                >
+                  {updateLoading ? 'Saving...' : 'UPDATE SPEAKER ENQUIRY'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

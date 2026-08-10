@@ -60,11 +60,10 @@ const getSpeakerInterests = async (req, res) => {
 // @access  Private (Admin)
 const updateSpeakerInterest = async (req, res) => {
   try {
-    const { status } = req.body;
     const speakerInterest = await SpeakerInterest.findByIdAndUpdate(
       req.params.id,
-      { status },
-      { new: true }
+      { $set: req.body },
+      { new: true, runValidators: true }
     );
 
     if (!speakerInterest) {
