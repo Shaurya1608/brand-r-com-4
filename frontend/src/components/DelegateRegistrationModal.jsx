@@ -136,6 +136,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     fullName: "",
     email: "",
     designation: "",
+    countryCode: "+91",
     mobileNumber: "",
     organization: "",
     city: "",
@@ -188,6 +189,10 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
 
     setLoading(true);
 
+    const formattedMobile = formData.mobileNumber.startsWith('+') 
+      ? formData.mobileNumber 
+      : `${formData.countryCode || '+91'} ${formData.mobileNumber.trim()}`;
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates`, {
         method: 'POST',
@@ -197,6 +202,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
         body: JSON.stringify({
           delegateType,
           ...formData,
+          mobileNumber: formattedMobile,
           couponCode: couponApplied ? '#IAP2026' : null,
         }),
       });
@@ -658,7 +664,21 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       </div>
                       <div className="space-y-1">
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Mobile Number *</label>
-                        <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="+91 98765 43210" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
+                        <div className="flex items-center gap-1.5">
+                          <select
+                            name="countryCode"
+                            value={formData.countryCode || '+91'}
+                            onChange={handleChange}
+                            className="px-2 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-gray-50 text-brand-dark font-semibold cursor-pointer shrink-0 max-w-[105px]"
+                          >
+                            {COUNTRY_CODES.map((c) => (
+                              <option key={c.code + c.country} value={c.code}>
+                                {c.flag} {c.code}
+                              </option>
+                            ))}
+                          </select>
+                          <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="98765 43210" className="flex-1 min-w-0 px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
+                        </div>
                       </div>
                       <div className="space-y-1">
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Organization *</label>

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { X, Info } from 'lucide-react';
 import Cookies from 'js-cookie';
+import { COUNTRY_CODES } from '../utils/countryCodes';
 
 export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, presetSponsorship = null, presetNomination = null, editingDelegate = null }) {
   const [formData, setFormData] = useState({
     delegateType: 'indian',
     fullName: '',
     email: '',
+    countryCode: '+91',
     designation: '',
     mobileNumber: '',
     organization: '',
@@ -167,8 +169,13 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
     setLoading(true);
 
     try {
+      const formattedMobile = formData.mobileNumber.startsWith('+') 
+        ? formData.mobileNumber 
+        : `${formData.countryCode || '+91'} ${formData.mobileNumber.trim()}`;
+
       const payload = {
         ...formData,
+        mobileNumber: formattedMobile,
         couponCode: formData.applyCoupon ? '#IAP2026' : null,
         isManuallyCreated: true
       };
@@ -393,15 +400,29 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
               {/* Row 2 */}
               <div>
                 <label className="block text-xs font-bold text-gray-700 mb-1">Mobile Number</label>
-                <input
-                  type="text"
-                  name="mobileNumber"
-                  value={formData.mobileNumber}
-                  onChange={handleChange}
-                  required
-                  placeholder="+91 98765 43210"
-                  className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
-                />
+                <div className="flex items-center gap-1.5">
+                  <select
+                    name="countryCode"
+                    value={formData.countryCode || '+91'}
+                    onChange={handleChange}
+                    className="px-2.5 py-2.5 border border-gray-300 rounded-xl text-sm font-semibold text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] cursor-pointer shrink-0 max-w-[105px]"
+                  >
+                    {COUNTRY_CODES.map((c) => (
+                      <option key={c.code + c.country} value={c.code}>
+                        {c.flag} {c.code}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    name="mobileNumber"
+                    value={formData.mobileNumber}
+                    onChange={handleChange}
+                    required
+                    placeholder="98765 43210"
+                    className="flex-1 min-w-0 px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
+                  />
+                </div>
               </div>
 
               <div>

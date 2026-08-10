@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { COUNTRY_CODES } from "../utils/countryCodes";
 
 export default function SpeakerModal({ isOpen, onClose }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -9,6 +10,7 @@ export default function SpeakerModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
     fullName: "",
     designation: "",
+    countryCode: "+91",
     mobileNumber: "",
     email: "",
     organization: "",
@@ -28,6 +30,7 @@ export default function SpeakerModal({ isOpen, onClose }) {
       setFormData({
         fullName: "",
         designation: "",
+        countryCode: "+91",
         mobileNumber: "",
         email: "",
         organization: "",
@@ -64,13 +67,20 @@ export default function SpeakerModal({ isOpen, onClose }) {
     }
 
     setLoading(true);
+    const formattedMobile = formData.mobileNumber.startsWith('+') 
+      ? formData.mobileNumber 
+      : `${formData.countryCode || '+91'} ${formData.mobileNumber.trim()}`;
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/speakers/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          mobileNumber: formattedMobile
+        })
       });
       const data = await res.json();
       if (data.success) {
@@ -163,15 +173,29 @@ export default function SpeakerModal({ isOpen, onClose }) {
                       {/* Mobile Number */}
                       <div>
                         <label className="block text-[10px] font-bold text-brand-dark/70 uppercase tracking-wider mb-1">Mobile No.</label>
-                        <input 
-                          type="tel" 
-                          name="mobileNumber"
-                          value={formData.mobileNumber}
-                          onChange={handleChange}
-                          placeholder="+91"
-                          required
-                          className="w-full px-3 py-1.5 text-[13px] rounded border border-brand-primary/20 bg-brand-surface/30 focus:border-brand-primary focus:bg-white focus:ring-1 focus:ring-brand-primary outline-none transition-all placeholder:text-brand-dark/30 text-brand-dark"
-                        />
+                        <div className="flex items-center gap-1.5">
+                          <select
+                            name="countryCode"
+                            value={formData.countryCode || '+91'}
+                            onChange={handleChange}
+                            className="px-2 py-1.5 text-[13px] rounded border border-brand-primary/20 bg-brand-surface/30 focus:border-brand-primary focus:bg-white focus:ring-1 focus:ring-brand-primary outline-none transition-all text-brand-dark font-semibold cursor-pointer shrink-0 max-w-[95px]"
+                          >
+                            {COUNTRY_CODES.map((c) => (
+                              <option key={c.code + c.country} value={c.code}>
+                                {c.flag} {c.code}
+                              </option>
+                            ))}
+                          </select>
+                          <input 
+                            type="tel" 
+                            name="mobileNumber"
+                            value={formData.mobileNumber}
+                            onChange={handleChange}
+                            placeholder="98765 43210"
+                            required
+                            className="flex-1 min-w-0 px-3 py-1.5 text-[13px] rounded border border-brand-primary/20 bg-brand-surface/30 focus:border-brand-primary focus:bg-white focus:ring-1 focus:ring-brand-primary outline-none transition-all placeholder:text-brand-dark/30 text-brand-dark"
+                          />
+                        </div>
                       </div>
                       {/* Email Address */}
                       <div>

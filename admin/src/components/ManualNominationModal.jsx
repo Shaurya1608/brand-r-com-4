@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Info, Upload, Check, Award, Building2, User, Mail, Phone, MapPin, Globe, CreditCard, ChevronDown } from 'lucide-react';
 import Cookies from 'js-cookie';
+import { COUNTRY_CODES } from '../utils/countryCodes';
 
 const INDIVIDUAL_CATEGORIES = [
   "Best Communicator Award – Male",
@@ -40,6 +41,7 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
     designation: '',
     organization: '',
     email: '',
+    countryCode: '+91',
     mobileNumber: '',
     website: '',
     city: '',
@@ -490,15 +492,29 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
 
               <div>
                 <label className="block font-bold text-gray-800 text-xs mb-1.5">Mobile Number <span className="text-red-500">*</span></label>
-                <input
-                  type="tel"
-                  name="mobileNumber"
-                  value={formData.mobileNumber}
-                  onChange={handleChange}
-                  placeholder="+91 00000 00000"
-                  required
-                  className={inputStyle}
-                />
+                <div className="flex items-center gap-1.5">
+                  <select
+                    name="countryCode"
+                    value={formData.countryCode || '+91'}
+                    onChange={handleChange}
+                    className="px-2.5 py-2.5 border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/20 focus:border-[#5e8e33] cursor-pointer shrink-0 max-w-[105px]"
+                  >
+                    {COUNTRY_CODES.map((c) => (
+                      <option key={c.code + c.country} value={c.code}>
+                        {c.flag} {c.code}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="tel"
+                    name="mobileNumber"
+                    value={formData.mobileNumber}
+                    onChange={handleChange}
+                    placeholder="98765 43210"
+                    required
+                    className={inputStyle}
+                  />
+                </div>
               </div>
 
               <div className="sm:col-span-2">

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { COUNTRY_CODES } from "../utils/countryCodes";
 
 export default function AwardNominationModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     designation: "",
     organization: "",
     email: "",
+    countryCode: "+91",
     mobileNumber: "",
     website: "",
     city: "",
@@ -23,6 +25,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     applicationFilledBy: "Self",
     fillerName: "",
     fillerDesignation: "",
+    fillerCountryCode: "+91",
     fillerContactNo: "",
     fillerEmail: "",
   });
@@ -168,9 +171,23 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     setLoading(true);
 
     try {
+      const formattedMobile = formData.mobileNumber.startsWith('+') 
+        ? formData.mobileNumber 
+        : `${formData.countryCode || '+91'} ${formData.mobileNumber.trim()}`;
+
+      const formattedFillerContact = (formData.fillerContactNo && !formData.fillerContactNo.startsWith('+'))
+        ? `${formData.fillerCountryCode || '+91'} ${formData.fillerContactNo.trim()}`
+        : formData.fillerContactNo;
+
       const data = new FormData();
       Object.keys(formData).forEach(key => {
-        data.append(key, formData[key]);
+        if (key === 'mobileNumber') {
+          data.append('mobileNumber', formattedMobile);
+        } else if (key === 'fillerContactNo') {
+          data.append('fillerContactNo', formattedFillerContact);
+        } else {
+          data.append(key, formData[key]);
+        }
       });
       if (summaryDocumentFile) data.append('summaryDocument', summaryDocumentFile);
       if (profileDocumentFile) data.append('profileDocument', profileDocumentFile);
@@ -497,7 +514,21 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                         </div>
                         <div className="space-y-1">
                           <label className="text-[12px] font-bold text-brand-dark">Mobile Number <span className="text-red-500">*</span></label>
-                          <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="+91 00000 00000" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                          <div className="flex items-center gap-1.5">
+                            <select
+                              name="countryCode"
+                              value={formData.countryCode || '+91'}
+                              onChange={handleChange}
+                              className="px-2.5 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-gray-50 text-brand-dark font-semibold cursor-pointer shrink-0 max-w-[105px]"
+                            >
+                              {COUNTRY_CODES.map((c) => (
+                                <option key={c.code + c.country} value={c.code}>
+                                  {c.flag} {c.code}
+                                </option>
+                              ))}
+                            </select>
+                            <input required type="tel" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="98765 43210" className="flex-1 min-w-0 px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                          </div>
                         </div>
                       </div>
 
