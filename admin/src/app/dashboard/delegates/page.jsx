@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { UserPlus, Search, Download, QrCode, Plus, AlertCircle } from 'lucide-react';
+import { UserPlus, Search, Download, QrCode, Plus, AlertCircle, Trash2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import DelegateIdCardModal from '@/components/DelegateIdCardModal';
 import AddDelegateModal from '@/components/AddDelegateModal';
@@ -30,6 +30,9 @@ export default function DelegatesPage() {
   const [isBulkUpdateModalOpen, setIsBulkUpdateModalOpen] = useState(false);
   const [bulkUpdateTargetCategory, setBulkUpdateTargetCategory] = useState('');
   const [bulkUpdateLoading, setBulkUpdateLoading] = useState(false);
+
+  const [deletingDelegate, setDeletingDelegate] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -148,6 +151,33 @@ export default function DelegatesPage() {
       alert('Error updating categories');
     } finally {
       setBulkUpdateLoading(false);
+    }
+  };
+
+  const confirmDeleteDelegate = async () => {
+    if (!deletingDelegate) return;
+    setIsDeleting(true);
+    try {
+      const token = Cookies.get('admin_token');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/${deletingDelegate.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setDelegates(prev => prev.filter(item => item._id !== deletingDelegate.id));
+        setDeletingDelegate(null);
+      } else {
+        alert(data.message || 'Failed to delete delegate');
+      }
+    } catch (err) {
+      console.error('Error deleting delegate:', err);
+      alert('Error deleting delegate');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -722,6 +752,13 @@ export default function DelegatesPage() {
                         >
                           Edit
                         </button>
+                        <button 
+                          onClick={() => setDeletingDelegate({ id: delegate._id, name: delegate.fullName || delegate.organization })}
+                          className="text-red-500 hover:text-red-700 transition-colors p-1 cursor-pointer"
+                          title="Delete Delegate"
+                        >
+                          <Trash2 size={15} />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -881,6 +918,41 @@ export default function DelegatesPage() {
                 className="px-5 py-2.5 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {bulkUpdateLoading ? 'Updating Category...' : `Update Category (${selectedDelegates.length})`}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Delete Confirmation Modal */}
+      {deletingDelegate && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl relative text-center animate-in fade-in zoom-in-95 border border-gray-100">
+            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto text-red-600">
+              <Trash2 size={24} />
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900 text-base">Delete Delegate?</h3>
+              <p className="text-gray-500 text-xs mt-1.5 leading-relaxed">
+                Are you sure you want to delete registration for <span className="font-bold text-gray-900">"{deletingDelegate.name}"</span>? This action cannot be undone.
+              </p>
+            </div>
+            <div className="flex items-center gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => setDeletingDelegate(null)}
+                disabled={isDeleting}
+                className="flex-1 py-2.5 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmDeleteDelegate}
+                disabled={isDeleting}
+                className="flex-1 py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-red-200"
+              >
+                {isDeleting ? 'Deleting...' : 'Yes, Delete'}
               </button>
             </div>
           </div>

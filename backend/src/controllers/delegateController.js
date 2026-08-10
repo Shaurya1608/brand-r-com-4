@@ -887,3 +887,24 @@ exports.getDelegatePaymentLink = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error generating payment link.' });
   }
 };
+
+// @desc    Delete a delegate registration (Admin)
+// @route   DELETE /api/delegates/:id
+// @access  Private (Admin)
+exports.deleteDelegate = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const delegate = await DelegateRegistration.findByIdAndDelete(id);
+    if (!delegate) {
+      return res.status(404).json({ success: false, message: 'Delegate not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Delegate deleted successfully',
+    });
+  } catch (error) {
+    console.error('Error deleting delegate:', error);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};

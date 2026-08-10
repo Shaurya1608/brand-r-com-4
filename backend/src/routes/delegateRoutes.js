@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerDelegate, getDelegates, updateDelegate, createOrder, verifyPayment, verifyDelegate, bulkUpdateDelegates, lookupDelegate, resumePayment, getPricingTier, getDelegatePaymentLink } = require('../controllers/delegateController');
+const { registerDelegate, getDelegates, updateDelegate, deleteDelegate, createOrder, verifyPayment, verifyDelegate, bulkUpdateDelegates, lookupDelegate, resumePayment, getPricingTier, getDelegatePaymentLink } = require('../controllers/delegateController');
 const { protect } = require('../middlewares/authMiddleware');
 const { registrationLimiter, orderLimiter } = require('../middlewares/rateLimiter');
 const { validateDelegateInput } = require('../middlewares/inputValidator');
@@ -33,9 +33,9 @@ router.get('/verify/:id', verifyDelegate);
 // Protected: bulk update delegates
 router.put('/bulk-update', protect, bulkUpdateDelegates);
 
-// Protected: update a delegate (status, payment, etc.)
+// Protected: update / delete a delegate
 router.route('/:id')
-  .put(protect, updateDelegate);
+  .put(protect, updateDelegate)
+  .delete(protect, deleteDelegate);
 
 module.exports = router;
-
