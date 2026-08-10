@@ -264,13 +264,13 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     setPaymentCancelled(false);
 
     try {
-      // 1. Create order on backend (₹8,000 + 18% GST = ₹9,440)
+      // 1. Create order on backend (₹15,000 + 18% GST = ₹17,700)
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nominationId: submittedNominationId,
-          amountRs: 9440,
+          amountRs: 17700,
         }),
       });
       
