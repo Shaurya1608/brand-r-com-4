@@ -234,7 +234,7 @@ function PaymentContent() {
               <div className="bg-emerald-50 border border-emerald-200/80 rounded-2xl p-4 text-center space-y-1 shadow-2xs">
                 <span className="text-[10px] font-black text-emerald-800 uppercase tracking-widest block">Registration ID</span>
                 <span className="font-mono text-2xl font-black text-emerald-950 tracking-wider block">
-                  DEL-{delegateData.registrationId}
+                  #{delegateData.registrationId || (delegateData._id ? delegateData._id.slice(-8).toUpperCase() : '')}
                 </span>
               </div>
 
@@ -263,7 +263,7 @@ function PaymentContent() {
               <div className="bg-[#f9fbf7] border border-[#5e8e33]/20 rounded-2xl p-4 space-y-2.5 font-sans">
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-gray-500 font-medium">Registration ID</span>
-                  <span className="font-mono font-bold text-gray-900">DEL-{delegateData.registrationId}</span>
+                  <span className="font-mono font-bold text-gray-900">#{delegateData.registrationId || (delegateData._id ? delegateData._id.slice(-8).toUpperCase() : '')}</span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-gray-500 font-medium">Name</span>
