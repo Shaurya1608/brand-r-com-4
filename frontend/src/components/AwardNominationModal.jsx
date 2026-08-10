@@ -386,7 +386,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                 </div>
 
                 <div className="bg-[#f3faeb] p-3 rounded-xl border border-brand-primary/20 w-full max-w-sm mb-6 text-left space-y-2 text-[12px] mx-auto shadow-sm">
-                  <div className="flex justify-between items-center"><span className="text-[#5e8e33] font-bold uppercase tracking-wider text-[10px]">Payment ID:</span><span className="font-mono font-bold text-gray-900 bg-white px-2 py-1 rounded-lg border border-[#5e8e33]/20 shadow-xs">{razorpayPaymentId || 'N/A'}</span></div>
+                  <div className="flex justify-between items-center"><span className="text-[#5e8e33] font-bold uppercase tracking-wider text-[10px]">Payment ID:</span><span className="font-mono font-bold text-gray-900 bg-white px-2 py-1 rounded-lg border border-[#5e8e33]/20 shadow-xs">{razorpayPaymentId || (existingData && (existingData.razorpayPaymentId || existingData.paymentMethod)) || 'N/A'}</span></div>
                   <div className="flex justify-between items-center"><span className="text-[#5e8e33] font-bold uppercase tracking-wider text-[10px]">Reg. ID:</span><span className="font-mono font-bold text-gray-900 bg-white px-2 py-1 rounded-lg border border-[#5e8e33]/20 shadow-xs">{submittedNominationId ? `#${submittedNominationId.slice(-8).toUpperCase()}` : 'N/A'}</span></div>
                 </div>
 
