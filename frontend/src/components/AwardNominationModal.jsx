@@ -127,13 +127,13 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     }
   };
 
-  const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB (Cloudinary Free Tier limit)
 
   const handleSummaryFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > MAX_FILE_SIZE) {
-        setError(`"${file.name}" exceeds the maximum allowed file size of 15MB.`);
+        setError(`"${file.name}" exceeds the maximum allowed file size of 20MB.`);
         return;
       }
       setError("");
@@ -145,7 +145,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     const file = e.target.files[0];
     if (file) {
       if (file.size > MAX_FILE_SIZE) {
-        setError(`"${file.name}" exceeds the maximum allowed file size of 15MB.`);
+        setError(`"${file.name}" exceeds the maximum allowed file size of 20MB.`);
         return;
       }
       setError("");
@@ -157,7 +157,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     const file = e.target.files[0];
     if (file) {
       if (file.size > MAX_FILE_SIZE) {
-        setError(`"${file.name}" exceeds the maximum allowed file size of 15MB.`);
+        setError(`"${file.name}" exceeds the maximum allowed file size of 20MB.`);
         return;
       }
       setError("");
@@ -764,7 +764,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                             <div className="flex flex-col items-center justify-center pt-4 pb-4">
                               <svg className="w-5 h-5 text-brand-primary mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
                               <p className="text-[13px] font-bold text-brand-dark">Click to upload or drag file here</p>
-                              <p className="text-[11px] text-brand-dark/60 font-medium">PDF, PPT or DOC — max 15MB</p>
+                              <p className="text-[11px] text-brand-dark/60 font-medium">PDF, PPT or DOC — max 20MB</p>
                             </div>
                             <input type="file" className="hidden" onChange={handleProfileFileChange} />
                           </label>
@@ -777,7 +777,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                             <div className="flex flex-col items-center justify-center pt-4 pb-4">
                               <svg className="w-5 h-5 text-brand-primary mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
                               <p className="text-[13px] font-bold text-brand-dark">Click to upload or drag file here</p>
-                              <p className="text-[11px] text-brand-dark/60 font-medium">PDF, PPT or DOC — max 15MB</p>
+                              <p className="text-[11px] text-brand-dark/60 font-medium">PDF, PPT or DOC — max 20MB</p>
                             </div>
                             <input type="file" className="hidden" onChange={handleSupportingFileChange} />
                           </label>
