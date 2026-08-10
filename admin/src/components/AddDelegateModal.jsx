@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import { X, Info } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, presetSponsorship = null, presetNomination = null, editingDelegate = null }) {
