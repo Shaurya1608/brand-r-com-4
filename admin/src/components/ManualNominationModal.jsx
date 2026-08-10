@@ -246,7 +246,6 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
         data.append('supportingDocument', supportingFile);
       }
 
-      const token = Cookies.get('admin_token');
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations`, {
         method: 'POST',
         headers: {
