@@ -500,6 +500,8 @@ export default function SpeakersPage() {
               </button>
             </div>
           </div>
+        </div>
+      )}
       {/* Edit Speaker Interest Enquiry Modal */}
       {editingSpeaker && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
