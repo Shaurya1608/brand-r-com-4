@@ -114,7 +114,6 @@ const getSponsorshipDelegates = async (req, res) => {
 // @access  Private (Admin)
 const updateSponsorship = async (req, res) => {
   try {
-    const { status } = req.body;
     let sponsorship = await Sponsorship.findById(req.params.id);
     if (!sponsorship) {
       return res.status(404).json({ success: false, message: 'Sponsorship not found' });
@@ -122,7 +121,7 @@ const updateSponsorship = async (req, res) => {
     
     sponsorship = await Sponsorship.findByIdAndUpdate(
       req.params.id,
-      { $set: { status: status || sponsorship.status } },
+      { $set: req.body },
       { new: true, runValidators: true }
     );
     

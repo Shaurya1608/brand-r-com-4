@@ -245,7 +245,10 @@ export default function SponsorshipsPage() {
         {/* Compact Top Action Button */}
         <div>
           <button
-            onClick={() => setIsManualSponsorshipModalOpen(true)}
+            onClick={() => {
+              setEditingSponsorship(null);
+              setIsManualSponsorshipModalOpen(true);
+            }}
             className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-[11px] font-black uppercase tracking-wider rounded-xl shadow-sm shadow-[#5e8e33]/20 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 active:scale-95 cursor-pointer"
           >
             <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
@@ -544,7 +547,7 @@ export default function SponsorshipsPage() {
                       <div className="flex items-center justify-center gap-2">
                         {/* Pencil Edit Icon in Cream Pill */}
                         <button 
-                          onClick={() => { setEditingSponsorship(sponsorship); setIsEditModalOpen(true); }}
+                          onClick={() => { setEditingSponsorship(sponsorship); setIsManualSponsorshipModalOpen(true); }}
                           className="p-1.5 text-gray-800 bg-[#fdf8ee] border border-amber-200/80 hover:bg-amber-100/60 rounded-full transition-colors shadow-sm cursor-pointer"
                           title="Edit Sponsorship"
                         >
@@ -618,58 +621,19 @@ export default function SponsorshipsPage() {
         sponsorship={selectedSponsorshipForViewDelegates}
       />
 
-      {/* Manual Sponsorship Booking Modal */}
+      {/* Manual Sponsorship Booking / Edit Modal */}
       <ManualSponsorshipModal
         isOpen={isManualSponsorshipModalOpen}
-        onClose={() => setIsManualSponsorshipModalOpen(false)}
-        onSponsorshipAdded={() => fetchSponsorships()}
+        onClose={() => {
+          setIsManualSponsorshipModalOpen(false);
+          setEditingSponsorship(null);
+        }}
+        onSponsorshipAdded={() => {
+          fetchSponsorships();
+          setEditingSponsorship(null);
+        }}
+        editingSponsorship={editingSponsorship}
       />
-
-      {/* Edit Modal */}
-      {isEditModalOpen && editingSponsorship && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
-            <div className="p-5 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">Edit Sponsorship</h3>
-              <button onClick={() => setIsEditModalOpen(false)} className="text-gray-400 hover:text-gray-600">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
-            </div>
-            
-            <form onSubmit={handleUpdateSponsorship} className="p-5 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <select 
-                  value={editingSponsorship.status}
-                  onChange={(e) => setEditingSponsorship({...editingSponsorship, status: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="completed">Completed</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4">
-                <button 
-                  type="button" 
-                  onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit" 
-                  disabled={updateLoading}
-                  className="px-4 py-2 text-sm font-medium text-white bg-[#6a9a38] rounded-lg hover:bg-[#52792b] disabled:opacity-50"
-                >
-                  {updateLoading ? 'Saving...' : 'Save Changes'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
       {/* Logo Viewer Modal */}
       {viewingLogo && (

@@ -26,7 +26,7 @@ const GENERAL_SPONSORSHIPS = [
   { tier: 'Panel Sponsor', basePrice: 200000, label: '₹2,00,000 + GST' },
 ];
 
-export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipAdded }) {
+export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipAdded, editingSponsorship = null }) {
   const [formData, setFormData] = useState({
     companyName: '',
     gstNumber: '',
@@ -47,6 +47,27 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
   const [error, setError] = useState(null);
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState('');
+
+  React.useEffect(() => {
+    if (isOpen && editingSponsorship) {
+      setFormData({
+        companyName: editingSponsorship.companyName || '',
+        gstNumber: editingSponsorship.gstNumber || '',
+        contactPerson: editingSponsorship.contactPerson || '',
+        email: editingSponsorship.email || '',
+        mobileNumber: editingSponsorship.mobileNumber || '',
+        city: editingSponsorship.city || '',
+        stateCountry: editingSponsorship.stateCountry || '',
+        pinCode: editingSponsorship.pinCode || '',
+        address: editingSponsorship.address || '',
+        selectedCategory: editingSponsorship.sponsorshipCategory || 'Exclusive Sponsorship',
+        selectedTier: editingSponsorship.sponsorshipTier || 'Presented By',
+        logoUrl: editingSponsorship.logoUrl || '',
+        registeredBy: editingSponsorship.registeredBy || '',
+      });
+      setLogoPreview(editingSponsorship.logoUrl || '');
+    }
+  }, [isOpen, editingSponsorship]);
 
   if (!isOpen) return null;
 
@@ -118,7 +139,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
         address: formData.address,
         sponsorshipCategory: currentCategory,
         sponsorshipTier: formData.selectedTier,
-        registrationType: 'Manual Registration',
+        registrationType: editingSponsorship ? (editingSponsorship.registrationType || 'Manual Registration') : 'Manual Registration',
         registeredBy: formData.registeredBy,
         basePrice: baseAmount,
         totalAmount: totalPayable,
@@ -126,8 +147,14 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
       };
 
       const token = Cookies.get('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sponsorships/create`, {
-        method: 'POST',
+      const isEditing = !!editingSponsorship;
+      const url = isEditing 
+        ? `${process.env.NEXT_PUBLIC_API_URL}/sponsorships/${editingSponsorship._id}`
+        : `${process.env.NEXT_PUBLIC_API_URL}/sponsorships/create`;
+      const method = isEditing ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -179,7 +206,9 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Manual Sponsorship Booking</h2>
+                <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
+                  {editingSponsorship ? 'Edit Sponsorship Booking' : 'Manual Sponsorship Booking'}
+                </h2>
                 <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-purple-100 text-purple-800 border border-purple-200 uppercase tracking-wider">
                   Admin Entry
                 </span>
@@ -514,10 +543,10 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                 {loading ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Submitting Sponsorship...</span>
+                    <span>Saving...</span>
                   </>
                 ) : (
-                  <span>SUBMIT ENQUIRY</span>
+                  <span>{editingSponsorship ? 'UPDATE SPONSORSHIP' : 'SUBMIT ENQUIRY'}</span>
                 )}
               </button>
             </div>
