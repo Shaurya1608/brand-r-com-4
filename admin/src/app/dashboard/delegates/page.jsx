@@ -323,7 +323,10 @@ export default function DelegatesPage() {
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
               <button
-                onClick={() => setIsAddModalOpen(true)}
+                onClick={() => {
+                  setEditingDelegate(null);
+                  setIsAddModalOpen(true);
+                }}
                 className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-white bg-[#5e8e33] hover:bg-[#4c7727] rounded-xl transition-all shadow-xs active:scale-95 cursor-pointer flex-1 sm:flex-none"
               >
                 <Plus size={14} className="stroke-[3]" />
@@ -713,9 +716,9 @@ export default function DelegatesPage() {
                         <button 
                           onClick={() => {
                             setEditingDelegate(delegate);
-                            setIsEditModalOpen(true);
+                            setIsAddModalOpen(true);
                           }}
-                          className="text-gray-400 hover:text-gray-900 transition-colors text-xs underline"
+                          className="text-gray-400 hover:text-gray-900 transition-colors text-xs underline cursor-pointer"
                         >
                           Edit
                         </button>
@@ -777,132 +780,6 @@ export default function DelegatesPage() {
         </div>
       </div>
 
-      {/* Edit Modal */}
-      {isEditModalOpen && editingDelegate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden">
-            <div className="p-5 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">Edit Delegate</h3>
-              <button onClick={() => setIsEditModalOpen(false)} className="text-gray-400 hover:text-gray-600">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
-            </div>
-            
-            <form onSubmit={handleUpdateDelegate} className="p-5 space-y-4">
-              <div>
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input 
-                      type="email"
-                      value={editingDelegate.email || ''}
-                      onChange={(e) => setEditingDelegate({...editingDelegate, email: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Company GST No.</label>
-                    <input 
-                      type="text"
-                      placeholder="e.g. 27AAAAA0000A1Z5"
-                      value={editingDelegate.gstNumber || ''}
-                      onChange={(e) => setEditingDelegate({...editingDelegate, gstNumber: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 uppercase focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                    />
-                  </div>
-                </div>
-                
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <select 
-                  value={editingDelegate.status}
-                  onChange={(e) => setEditingDelegate({...editingDelegate, status: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                </select>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
-                  <select 
-                    value={editingDelegate.paymentStatus}
-                    onChange={(e) => setEditingDelegate({...editingDelegate, paymentStatus: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Failed">Failed</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
-                  <select 
-                    value={editingDelegate.paymentMethod || 'Online'}
-                    onChange={(e) => setEditingDelegate({...editingDelegate, paymentMethod: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                  >
-                    <option value="Online">Online</option>
-                    <option value="Online (Razorpay)">Online (Razorpay)</option>
-                    <option value="Offline">Offline</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Registration Type</label>
-                  <select 
-                    value={editingDelegate.registrationType || 'Online'}
-                    onChange={(e) => setEditingDelegate({...editingDelegate, registrationType: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38] text-blue-600 bg-blue-50/30"
-                  >
-                    <option value="Online">Online</option>
-                    <option value="On-Spot">On-Spot</option>
-                    <option value="Group">Group</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Attendee Category</label>
-                  <select 
-                    value={editingDelegate.attendeeCategory || 'DELEGATE'}
-                    onChange={(e) => setEditingDelegate({...editingDelegate, attendeeCategory: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/20 focus:border-[#6a9a38]"
-                  >
-                    <option value="DELEGATE">Delegate</option>
-                    <option value="SPEAKER">Speaker</option>
-                    <option value="ORGANIZER">Organizer</option>
-                    <option value="SPONSOR">Sponsor</option>
-                    <option value="MEDIA">Media</option>
-                    <option value="AWARDEE">Awardee</option>
-                    <option value="AWARD_NOMINEE">Award Nominee</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="pt-4 flex items-center justify-start gap-3 border-t border-gray-100 mt-6">
-                <button 
-                  type="submit" 
-                  disabled={updateLoading}
-                  className="px-5 py-2 bg-[#6a9a38] hover:bg-[#52792b] text-white text-sm font-bold rounded-lg transition-colors shadow-sm disabled:opacity-50"
-                >
-                  {updateLoading ? 'Saving...' : 'Save Changes'}
-                </button>
-                <button 
-                  type="button" 
-                  onClick={() => setIsEditModalOpen(false)}
-                  className="px-5 py-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 text-sm font-bold rounded-lg transition-colors shadow-sm"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
       {/* QR Code / ID Card Modal */}
       <DelegateIdCardModal 
         isOpen={isQrModalOpen}
@@ -910,13 +787,18 @@ export default function DelegatesPage() {
         delegate={selectedDelegateForQr}
       />
 
-      {/* Add Delegate Modal */}
+      {/* Add / Edit Delegate Modal */}
       <AddDelegateModal 
         isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
+        onClose={() => {
+          setIsAddModalOpen(false);
+          setEditingDelegate(null);
+        }}
         onDelegateAdded={() => {
           fetchDelegates();
+          setEditingDelegate(null);
         }}
+        editingDelegate={editingDelegate}
       />
       {/* Bulk Category Change Modal */}
       {isBulkUpdateModalOpen && (

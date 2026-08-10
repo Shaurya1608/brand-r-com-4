@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { X, Info } from 'lucide-react';
+import Cookies from 'js-cookie';
 
-export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, presetSponsorship = null, presetNomination = null }) {
+export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, presetSponsorship = null, presetNomination = null, editingDelegate = null }) {
   const [formData, setFormData] = useState({
     delegateType: 'indian',
     fullName: '',
@@ -36,7 +35,28 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
   }, [isOpen]);
 
   useEffect(() => {
-    if (isOpen && presetSponsorship) {
+    if (isOpen && editingDelegate) {
+      setFormData({
+        delegateType: editingDelegate.delegateType || 'indian',
+        fullName: editingDelegate.fullName || '',
+        email: editingDelegate.email || '',
+        designation: editingDelegate.designation || '',
+        mobileNumber: editingDelegate.mobileNumber || '',
+        organization: editingDelegate.organization || '',
+        city: editingDelegate.city || '',
+        stateCountry: editingDelegate.stateCountry || '',
+        pinCode: editingDelegate.pinCode || '',
+        gstNumber: editingDelegate.gstNumber || '',
+        address: editingDelegate.address || '',
+        registeredBy: editingDelegate.registeredBy || '',
+        paymentMethod: editingDelegate.paymentMethod || 'Online (Razorpay)',
+        paymentStatus: editingDelegate.paymentStatus || 'Paid',
+        attendeeCategory: editingDelegate.attendeeCategory || 'DELEGATE',
+        applyCoupon: !!editingDelegate.couponCode,
+        sponsorshipId: editingDelegate.sponsorshipId || null,
+        sponsorshipCompany: editingDelegate.sponsorshipCompany || '',
+      });
+    } else if (isOpen && presetSponsorship) {
       setFormData(prev => ({
         ...prev,
         fullName: presetSponsorship.contactPerson || prev.fullName,
@@ -73,7 +93,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         paymentStatus: presetNomination.paymentStatus || 'Paid',
       }));
     }
-  }, [isOpen, presetSponsorship, presetNomination]);
+  }, [isOpen, presetSponsorship, presetNomination, editingDelegate]);
 
   if (!isOpen) return null;
 
@@ -151,9 +171,19 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         isManuallyCreated: true
       };
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const token = Cookies.get('admin_token');
+      const isEditing = !!editingDelegate;
+      const url = isEditing 
+        ? `${process.env.NEXT_PUBLIC_API_URL}/delegates/${editingDelegate._id}`
+        : `${process.env.NEXT_PUBLIC_API_URL}/delegates`;
+      const method = isEditing ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(payload)
       });
       
@@ -164,7 +194,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         const paymentUrl = data.paymentUrl || (rawToken ? `${window.location.origin.replace(':3001', ':3000')}/pay?token=${rawToken}` : '');
 
         setSuccessData({
-          isExisting: data.isExisting,
+          isExisting: isEditing ? false : data.isExisting,
+          isEditing,
           delegateName: data.data?.fullName || formData.fullName,
           delegateId: data.data?._id ? `DEL-${data.data._id.slice(-5).toUpperCase()}` : 'DEL-CONFIRMED',
           category: formData.attendeeCategory || 'DELEGATE',
@@ -176,7 +207,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         });
         onDelegateAdded();
       } else {
-        setError(data.message || 'Failed to add delegate');
+        setError(data.message || 'Failed to save delegate');
       }
     } catch (err) {
       console.error(err);
@@ -194,7 +225,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white z-20 rounded-t-2xl">
           <h2 className="text-2xl font-black text-gray-900 tracking-tight">
-            {successData ? 'Delegate Added' : 'Manual Delegate Registration'}
+            {editingDelegate ? 'Edit Delegate Registration' : (successData ? 'Delegate Saved' : 'Manual Delegate Registration')}
           </h2>
           <button 
             onClick={handleCloseAndReset} 
@@ -220,15 +251,18 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
               </div>
 
               <h3 className="text-xl md:text-2xl font-serif font-black text-gray-900 tracking-wide uppercase">
-                {successData.paymentStatus === 'Pending' ? 'Delegate Created — Payment Pending' : (successData.isExisting ? 'Delegate Linked Successfully!' : 'Delegate Added Successfully!')}
+                {successData.paymentStatus === 'Pending' ? 'Delegate Saved — Payment Pending' : (successData.isEditing ? 'Delegate Updated Successfully!' : (successData.isExisting ? 'Delegate Linked Successfully!' : 'Delegate Added Successfully!'))}
               </h3>
 
               <p className="text-gray-600 text-xs md:text-sm max-w-md font-medium leading-relaxed">
                 {successData.paymentStatus === 'Pending'
                   ? `Delegate details saved! Share the online payment link below with ${successData.delegateName} to complete Razorpay payment.`
-                  : (successData.isExisting 
-                    ? `An existing registration record for ${successData.delegateName} was found and marked paid.`
-                    : `Delegate ${successData.delegateName} has been registered and marked paid.`
+                  : (successData.isEditing
+                    ? `Registration details for ${successData.delegateName} have been updated successfully.`
+                    : (successData.isExisting 
+                      ? `An existing registration record for ${successData.delegateName} was found and marked paid.`
+                      : `Delegate ${successData.delegateName} has been registered and marked paid.`
+                    )
                   )
                 }
               </p>
@@ -566,7 +600,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
               disabled={loading}
               className="px-6 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-bold rounded-xl transition-colors shadow-sm disabled:opacity-50"
             >
-              {loading ? 'Submitting...' : 'Add Delegate'}
+              {loading ? 'Saving...' : (editingDelegate ? 'Update Delegate' : 'Add Delegate')}
             </button>
           </div>
         )}

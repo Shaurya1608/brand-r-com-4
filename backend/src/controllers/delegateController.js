@@ -549,19 +549,37 @@ exports.getDelegates = async (req, res) => {
 // @access  Private/Admin
 exports.updateDelegate = async (req, res) => {
   try {
-    const { status, paymentStatus, registrationType, paymentMethod, attendeeCategory, email } = req.body;
+    const { 
+      status, paymentStatus, registrationType, paymentMethod, attendeeCategory, email,
+      fullName, designation, organization, mobileNumber, city, stateCountry, pinCode, address,
+      gstNumber, registeredBy, couponCode, delegateType, sponsorshipId, sponsorshipCompany
+    } = req.body;
     
     let delegate = await DelegateRegistration.findById(req.params.id);
     if (!delegate) {
       return res.status(404).json({ success: false, message: 'Delegate not found' });
     }
 
-    delegate.status = status || delegate.status;
-    delegate.paymentStatus = paymentStatus || delegate.paymentStatus;
-    delegate.registrationType = registrationType || delegate.registrationType;
-    delegate.paymentMethod = paymentMethod || delegate.paymentMethod;
-    if (attendeeCategory) delegate.attendeeCategory = attendeeCategory;
-    if (email) delegate.email = email;
+    if (status !== undefined) delegate.status = status;
+    if (paymentStatus !== undefined) delegate.paymentStatus = paymentStatus;
+    if (registrationType !== undefined) delegate.registrationType = registrationType;
+    if (paymentMethod !== undefined) delegate.paymentMethod = paymentMethod;
+    if (attendeeCategory !== undefined) delegate.attendeeCategory = attendeeCategory;
+    if (email !== undefined && email) delegate.email = email.trim().toLowerCase();
+    if (fullName !== undefined) delegate.fullName = fullName;
+    if (designation !== undefined) delegate.designation = designation;
+    if (organization !== undefined) delegate.organization = organization;
+    if (mobileNumber !== undefined && mobileNumber) delegate.mobileNumber = mobileNumber.replace(/\D/g, '');
+    if (city !== undefined) delegate.city = city;
+    if (stateCountry !== undefined) delegate.stateCountry = stateCountry;
+    if (pinCode !== undefined) delegate.pinCode = pinCode;
+    if (address !== undefined) delegate.address = address;
+    if (gstNumber !== undefined) delegate.gstNumber = gstNumber ? gstNumber.trim().toUpperCase() : '';
+    if (registeredBy !== undefined) delegate.registeredBy = registeredBy;
+    if (couponCode !== undefined) delegate.couponCode = couponCode;
+    if (delegateType !== undefined) delegate.delegateType = delegateType;
+    if (sponsorshipId !== undefined) delegate.sponsorshipId = sponsorshipId;
+    if (sponsorshipCompany !== undefined) delegate.sponsorshipCompany = sponsorshipCompany;
 
     const updatedDelegate = await delegate.save();
 
