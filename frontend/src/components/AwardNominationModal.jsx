@@ -127,19 +127,42 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     }
   };
 
+  const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
+
   const handleSummaryFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) setSummaryDocumentFile(file);
+    if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        setError(`"${file.name}" exceeds the maximum allowed file size of 15MB.`);
+        return;
+      }
+      setError("");
+      setSummaryDocumentFile(file);
+    }
   };
 
   const handleProfileFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) setProfileDocumentFile(file);
+    if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        setError(`"${file.name}" exceeds the maximum allowed file size of 15MB.`);
+        return;
+      }
+      setError("");
+      setProfileDocumentFile(file);
+    }
   };
 
   const handleSupportingFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) setSupportingDocumentFile(file);
+    if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        setError(`"${file.name}" exceeds the maximum allowed file size of 15MB.`);
+        return;
+      }
+      setError("");
+      setSupportingDocumentFile(file);
+    }
   };
 
   const handleSubmit = async (e) => {

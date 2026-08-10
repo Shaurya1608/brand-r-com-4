@@ -25,7 +25,10 @@ const storage = new CloudinaryStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 15 * 1024 * 1024 } // 15MB limit per file
+});
 
 // Public route for creating nomination with multiple file uploads
 router.post('/', registrationLimiter, upload.fields([
