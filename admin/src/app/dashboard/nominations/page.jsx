@@ -24,6 +24,7 @@ export default function NominationsPage() {
   const [isAddDelegateOpen, setIsAddDelegateOpen] = useState(false);
   const [selectedNominationForDelegate, setSelectedNominationForDelegate] = useState(null);
   const [isAddNominationOpen, setIsAddNominationOpen] = useState(false);
+  const [editingNomination, setEditingNomination] = useState(null);
   const [statusUpdateLoading, setStatusUpdateLoading] = useState({});
 
   useEffect(() => {
@@ -170,7 +171,10 @@ export default function NominationsPage() {
 
         <div className="flex items-center gap-2.5">
           <button
-            onClick={() => setIsAddNominationOpen(true)}
+            onClick={() => {
+              setEditingNomination(null);
+              setIsAddNominationOpen(true);
+            }}
             className="px-4 py-2 bg-[#5e8e33] hover:bg-[#4c7727] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
           >
             <Award size={14} />
@@ -557,6 +561,17 @@ export default function NominationsPage() {
                         <div className="flex items-center justify-center gap-1.5">
                           <button
                             onClick={() => {
+                              setEditingNomination(nomination);
+                              setIsAddNominationOpen(true);
+                            }}
+                            className="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-[9px] font-black rounded-full border border-gray-300 shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap flex items-center gap-1"
+                            title="Edit Nomination Details"
+                          >
+                            <Edit2 size={10} />
+                            <span>Edit</span>
+                          </button>
+                          <button
+                            onClick={() => {
                               setSelectedNominationForDelegate(nomination);
                               setIsAddDelegateOpen(true);
                             }}
@@ -784,8 +799,15 @@ export default function NominationsPage() {
       {/* Manual Nomination Modal */}
       <ManualNominationModal
         isOpen={isAddNominationOpen}
-        onClose={() => setIsAddNominationOpen(false)}
-        onNominationAdded={fetchNominations}
+        onClose={() => {
+          setIsAddNominationOpen(false);
+          setEditingNomination(null);
+        }}
+        onNominationAdded={() => {
+          fetchNominations();
+          setEditingNomination(null);
+        }}
+        editingNomination={editingNomination}
       />
     </div>
   );

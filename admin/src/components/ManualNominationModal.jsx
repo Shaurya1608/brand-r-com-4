@@ -32,7 +32,7 @@ const OTHER_ORGANIZATION_CATEGORIES = [
   "Best Integrated Communication Award"
 ];
 
-export default function ManualNominationModal({ isOpen, onClose, onNominationAdded }) {
+export default function ManualNominationModal({ isOpen, onClose, onNominationAdded, editingNomination = null }) {
   const [formData, setFormData] = useState({
     applicantType: 'Individual',
     awardCategory: '',
@@ -86,6 +86,36 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
       setCopiedLink(false);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen && editingNomination) {
+      setFormData({
+        applicantType: editingNomination.applicantType || 'Individual',
+        awardCategory: editingNomination.awardCategory || '',
+        fullName: editingNomination.fullName || '',
+        designation: editingNomination.designation || '',
+        organization: editingNomination.organization || '',
+        email: editingNomination.email || '',
+        mobileNumber: editingNomination.mobileNumber || '',
+        website: editingNomination.website || '',
+        city: editingNomination.city || '',
+        state: editingNomination.state || '',
+        country: editingNomination.country || 'India',
+        pinCode: editingNomination.pinCode || '',
+        address: editingNomination.address || '',
+        gstNumber: editingNomination.gstNumber || '',
+        briefSummary: editingNomination.briefSummary || '',
+        paymentMethod: editingNomination.paymentMethod || 'Online (Razorpay)',
+        paymentStatus: editingNomination.paymentStatus || 'Paid',
+        registeredBy: editingNomination.registeredBy || '',
+        applicationFilledBy: editingNomination.applicationFilledBy || 'Self',
+        fillerName: editingNomination.fillerName || '',
+        fillerDesignation: editingNomination.fillerDesignation || '',
+        fillerContactNo: editingNomination.fillerContactNo || '',
+        fillerEmail: editingNomination.fillerEmail || '',
+      });
+    }
+  }, [isOpen, editingNomination]);
 
   if (!isOpen) return null;
 
@@ -171,6 +201,34 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
       }
 
       setLoading(true);
+
+      const token = Cookies.get('admin_token');
+
+      if (editingNomination) {
+        const updateRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/${editingNomination._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(formData)
+        });
+        const updateData = await updateRes.json();
+        if (updateData.success) {
+          setSuccessData({
+            isEditing: true,
+            fullName: updateData.data.fullName || formData.fullName,
+            nominationId: `NOM-${updateData.data._id.slice(-5).toUpperCase()}`,
+            awardCategory: updateData.data.awardCategory || formData.awardCategory,
+            paymentStatus: updateData.data.paymentStatus || formData.paymentStatus,
+            paymentUrl: ''
+          });
+          onNominationAdded && onNominationAdded();
+        } else {
+          setError(updateData.message || 'Failed to update nomination');
+        }
+        return;
+      }
 
       const data = new FormData();
       Object.keys(formData).forEach(key => {
@@ -264,7 +322,7 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
             <div className="flex items-center gap-2">
               <Award className="text-[#5e8e33]" size={22} />
               <h2 className="text-lg font-black tracking-tight text-gray-900">
-                {successData ? 'Nomination Registration Submitted 🏆' : 'Manual Awards / Nominations Registration 🏆'}
+                {editingNomination ? 'Edit Award Nomination 🏆' : (successData ? 'Nomination Saved 🏆' : 'Manual Awards / Nominations Registration 🏆')}
               </h2>
             </div>
             <p className="text-xs text-gray-600 mt-0.5 font-medium">
@@ -293,13 +351,16 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
               </div>
 
               <h3 className="text-xl md:text-2xl font-serif font-black text-gray-900 tracking-wide uppercase">
-                {successData.paymentStatus === 'Pending' ? 'Nomination Saved — Payment Pending' : 'Nomination Confirmed & Paid!'}
+                {successData.paymentStatus === 'Pending' ? 'Nomination Saved — Payment Pending' : (successData.isEditing ? 'Nomination Updated Successfully!' : 'Nomination Confirmed & Paid!')}
               </h3>
 
               <p className="text-gray-600 text-xs md:text-sm max-w-md font-medium leading-relaxed">
                 {successData.paymentStatus === 'Pending'
                   ? `Nomination details saved! Share the online payment link below with ${successData.fullName} to complete payment.`
-                  : `Nomination for ${successData.fullName} has been registered and confirmed.`
+                  : (successData.isEditing
+                    ? `Nomination details for ${successData.fullName} have been updated successfully.`
+                    : `Nomination for ${successData.fullName} has been registered and confirmed.`
+                  )
                 }
               </p>
 
@@ -859,10 +920,10 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
               {loading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Submitting...</span>
+                  <span>Saving...</span>
                 </>
               ) : (
-                <span>SUBMIT DETAILS</span>
+                <span>{editingNomination ? 'UPDATE NOMINATION' : 'SUBMIT DETAILS'}</span>
               )}
             </button>
           </div>
