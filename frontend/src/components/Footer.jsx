@@ -139,12 +139,11 @@ export default function Footer() {
         <div className="flex flex-col">
           <h4 className="font-bold mb-5 uppercase text-xs tracking-widest text-brand-dark">Explore</h4>
           <ul className="flex flex-col gap-3.5 text-sm font-medium text-brand-dark/70">
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">About</Link></li>
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">Summit</Link></li>
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">Awards</Link></li>
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">Sponsors</Link></li>
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">Delegates</Link></li>
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">Past Editions</Link></li>
+            <li><Link href="#about" className="hover:text-[#8CC63F] transition-colors">About</Link></li>
+            <li><Link href="#awards" className="hover:text-[#8CC63F] transition-colors">Awards</Link></li>
+            <li><Link href="#sponsors" className="hover:text-[#8CC63F] transition-colors">Sponsors</Link></li>
+            <li><Link href="#delegates" className="hover:text-[#8CC63F] transition-colors">Delegates</Link></li>
+            <li><Link href="#past-editions" className="hover:text-[#8CC63F] transition-colors">Past Editions</Link></li>
           </ul>
         </div>
 
@@ -152,10 +151,10 @@ export default function Footer() {
         <div className="flex flex-col">
           <h4 className="font-bold mb-5 uppercase text-xs tracking-widest text-brand-dark">Act Now</h4>
           <ul className="flex flex-col gap-3.5 text-sm font-medium text-brand-dark/70">
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">Register as Delegate</Link></li>
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">Become a Sponsor</Link></li>
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">Apply for Awards</Link></li>
-            <li><Link href="#" className="hover:text-[#8CC63F] transition-colors">Admin Login</Link></li>
+            <li><Link href="#delegates" className="hover:text-[#8CC63F] transition-colors">Register as Delegate</Link></li>
+            <li><Link href="#sponsors" className="hover:text-[#8CC63F] transition-colors">Become a Sponsor</Link></li>
+            <li><Link href="#awards" className="hover:text-[#8CC63F] transition-colors">Apply for Awards</Link></li>
+            <li><Link href="https://brand-r-com-4-admin.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-[#8CC63F] transition-colors">Admin Login</Link></li>
           </ul>
         </div>
 
