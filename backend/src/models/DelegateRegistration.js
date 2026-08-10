@@ -82,7 +82,7 @@ const delegateRegistrationSchema = new mongoose.Schema({
   },
   attendeeCategory: {
     type: String,
-    enum: ['DELEGATE', 'SPEAKER', 'ORGANIZER', 'SPONSOR', 'MEDIA', 'AWARDEE', 'AWARD_NOMINEE'],
+    enum: ['DELEGATE', 'SPEAKER', 'ORGANIZER', 'SPONSOR', 'MEDIA', 'AWARDEE', 'AWARD_NOMINEE', 'AWARD NOMINEE'],
     default: 'DELEGATE'
   },
   // Financial & Accounting tracking

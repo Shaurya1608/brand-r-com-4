@@ -119,6 +119,7 @@ exports.registerDelegate = async (req, res) => {
 
     const cleanEmail = (email && typeof email === 'string') ? email.trim().toLowerCase() : '';
     const cleanMobile = (mobileNumber && typeof mobileNumber === 'string') ? mobileNumber.trim() : '';
+    const normAttendeeCategory = attendeeCategory ? attendeeCategory.replace(/\s+/g, '_') : 'DELEGATE';
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!cleanEmail || !emailRegex.test(cleanEmail)) {
@@ -251,7 +252,7 @@ exports.registerDelegate = async (req, res) => {
         isManuallyCreated: isManuallyCreated || false,
         paymentStatus: initialStatus,
         paymentMethod: paymentMethod || 'Online',
-        attendeeCategory: attendeeCategory || 'DELEGATE',
+        attendeeCategory: normAttendeeCategory,
         registeredBy: registeredBy || '',
         sponsorshipId: sponsorshipId || null,
         sponsorshipCompany: sponsorshipCompany || '',

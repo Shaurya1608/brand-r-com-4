@@ -41,12 +41,35 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
 
   useEffect(() => {
     if (isOpen && editingDelegate) {
+      let rawPhone = String(editingDelegate.mobileNumber || '').trim();
+      let code = '+91';
+
+      if (rawPhone.startsWith('+')) {
+        const spaceIdx = rawPhone.indexOf(' ');
+        if (spaceIdx !== -1) {
+          code = rawPhone.substring(0, spaceIdx);
+          rawPhone = rawPhone.substring(spaceIdx + 1).trim();
+        } else {
+          const match = rawPhone.match(/^(\+\d{1,4})(\d{10})$/);
+          if (match) {
+            code = match[1];
+            rawPhone = match[2];
+          }
+        }
+      } else if (/^91\d{10}$/.test(rawPhone)) {
+        code = '+91';
+        rawPhone = rawPhone.substring(2);
+      } else if (/^91\d{11,}$/.test(rawPhone)) {
+        rawPhone = rawPhone.replace(/^91/, '');
+      }
+
       setFormData({
+        countryCode: code,
         delegateType: editingDelegate.delegateType || 'indian',
         fullName: editingDelegate.fullName || '',
         email: editingDelegate.email || '',
         designation: editingDelegate.designation || '',
-        mobileNumber: editingDelegate.mobileNumber || '',
+        mobileNumber: rawPhone,
         organization: editingDelegate.organization || '',
         city: editingDelegate.city || '',
         stateCountry: editingDelegate.stateCountry || '',
@@ -82,18 +105,41 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         sponsorshipCompany: presetSponsorship.companyName,
       }));
     } else if (isOpen && presetNomination) {
+      let rawPhone = String(presetNomination.mobileNumber || '').trim();
+      let code = '+91';
+
+      if (rawPhone.startsWith('+')) {
+        const spaceIdx = rawPhone.indexOf(' ');
+        if (spaceIdx !== -1) {
+          code = rawPhone.substring(0, spaceIdx);
+          rawPhone = rawPhone.substring(spaceIdx + 1).trim();
+        } else {
+          const match = rawPhone.match(/^(\+\d{1,4})(\d{10})$/);
+          if (match) {
+            code = match[1];
+            rawPhone = match[2];
+          }
+        }
+      } else if (/^91\d{10}$/.test(rawPhone)) {
+        code = '+91';
+        rawPhone = rawPhone.substring(2);
+      } else if (/^91\d{11,}$/.test(rawPhone)) {
+        rawPhone = rawPhone.replace(/^91/, '');
+      }
+
       setFormData(prev => ({
         ...prev,
+        countryCode: code,
         fullName: presetNomination.fullName || prev.fullName,
         email: presetNomination.email || prev.email,
         designation: presetNomination.designation || prev.designation,
-        mobileNumber: presetNomination.mobileNumber || prev.mobileNumber,
+        mobileNumber: rawPhone || prev.mobileNumber,
         organization: presetNomination.organization || prev.organization,
         city: presetNomination.city || prev.city,
         stateCountry: presetNomination.state ? `${presetNomination.state}, ${presetNomination.country || 'India'}` : (presetNomination.country || prev.stateCountry),
         pinCode: presetNomination.pinCode || prev.pinCode,
         address: presetNomination.address || prev.address,
-        attendeeCategory: 'AWARD NOMINEE',
+        attendeeCategory: 'AWARD_NOMINEE',
         paymentMethod: presetNomination.paymentMethod || 'Online (Razorpay)',
         paymentStatus: presetNomination.paymentStatus || 'Paid',
       }));
