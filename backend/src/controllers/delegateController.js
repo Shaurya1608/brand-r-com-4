@@ -452,10 +452,28 @@ exports.getDelegates = async (req, res) => {
 
     if (search) {
       const searchRegex = new RegExp(search, 'i');
+      // Strip leading '#' if user searched like "#871AC399"
+      const cleanSearch = search.startsWith('#') ? search.slice(1) : search;
+      const cleanRegex = new RegExp(cleanSearch, 'i');
+
+      // Fetch all IDs that end with the search term (for Reg. ID search like #871AC399)
+      let idCondition = [];
+      if (/^[0-9a-fA-F]{5,24}$/.test(cleanSearch)) {
+        // It looks like a partial MongoDB ObjectId hex — find delegates whose _id ends with this suffix
+        const allIds = await DelegateRegistration.find({}, { _id: 1 }).lean();
+        const matchingIds = allIds
+          .filter(d => d._id.toString().slice(-cleanSearch.length).toUpperCase() === cleanSearch.toUpperCase())
+          .map(d => d._id);
+        if (matchingIds.length > 0) {
+          idCondition = [{ _id: { $in: matchingIds } }];
+        }
+      }
+
       query.$or = [
+        ...idCondition,
         { fullName: searchRegex },
         { email: searchRegex },
-        { organization: searchRegex },
+        { organization: cleanRegex },
         { mobileNumber: searchRegex },
         { designation: searchRegex },
         { gstNumber: searchRegex },
