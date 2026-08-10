@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Award, Search, Download, ExternalLink, FileText, Edit2, UserPlus, X, Globe, Eye, MapPin, Phone, Mail, User } from 'lucide-react';
+import { Award, Search, Download, ExternalLink, FileText, Edit2, UserPlus, X, Globe, Eye, MapPin, Phone, Mail, User, Trash2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import AddDelegateModal from '../../../components/AddDelegateModal';
 import ManualNominationModal from '../../../components/ManualNominationModal';
@@ -80,6 +80,30 @@ export default function NominationsPage() {
       alert('Error updating status');
     } finally {
       setStatusUpdateLoading(prev => ({ ...prev, [nominationId]: false }));
+    }
+  };
+
+  const handleDeleteNomination = async (id, name) => {
+    if (!confirm(`Are you sure you want to delete nomination for "${name || 'this entry'}"? This action cannot be undone.`)) return;
+
+    try {
+      const token = Cookies.get('admin_token');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setNominations(prev => prev.filter(item => item._id !== id));
+      } else {
+        alert(data.message || 'Failed to delete nomination');
+      }
+    } catch (err) {
+      console.error('Error deleting nomination:', err);
+      alert('Error deleting nomination');
     }
   };
 
@@ -578,6 +602,14 @@ export default function NominationsPage() {
                             className="px-2.5 py-1 bg-[#800000] hover:bg-[#600000] text-white text-[9px] font-black rounded-full shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap"
                           >
                             Add Delegate
+                          </button>
+                          <button
+                            onClick={() => handleDeleteNomination(nomination._id, nomination.fullName || nomination.organization)}
+                            className="px-2 py-1 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 text-[9px] font-black rounded-full border border-red-200 shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap flex items-center gap-1"
+                            title="Delete Nomination"
+                          >
+                            <Trash2 size={10} />
+                            <span>Delete</span>
                           </button>
                         </div>
                       </td>
