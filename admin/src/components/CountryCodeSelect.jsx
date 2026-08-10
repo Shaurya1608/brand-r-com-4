@@ -5,6 +5,7 @@ import { COUNTRY_CODES } from "../utils/countryCodes";
 
 export default function CountryCodeSelect({ value = "+91", onChange, name = "countryCode", className = "", buttonStyle = "" }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [openUpward, setOpenUpward] = useState(false);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef(null);
 
@@ -19,6 +20,15 @@ export default function CountryCodeSelect({ value = "+91", onChange, name = "cou
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleToggle = () => {
+    if (!isOpen && dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      setOpenUpward(spaceBelow < 230);
+    }
+    setIsOpen(!isOpen);
+  };
 
   const filtered = COUNTRY_CODES.filter(
     (c) =>
@@ -37,7 +47,7 @@ export default function CountryCodeSelect({ value = "+91", onChange, name = "cou
     <div className={`relative shrink-0 ${className}`} ref={dropdownRef}>
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         className={buttonStyle || "flex items-center justify-between gap-1 px-2.5 py-2.5 border border-gray-300 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-800 font-semibold text-[13px] transition-all cursor-pointer min-w-[82px] shadow-sm"}
       >
         <span className="flex items-center gap-1.5">
@@ -55,7 +65,11 @@ export default function CountryCodeSelect({ value = "+91", onChange, name = "cou
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 top-full mt-1 z-[200] w-52 max-h-52 overflow-y-auto bg-white border border-gray-200 rounded-xl shadow-2xl p-1.5 text-[12px]">
+        <div
+          className={`absolute left-0 z-[300] w-52 max-h-52 overflow-y-auto bg-white border border-gray-200 rounded-xl shadow-2xl p-1.5 text-[12px] ${
+            openUpward ? "bottom-full mb-1.5" : "top-full mt-1.5"
+          }`}
+        >
           <div className="p-1 mb-1 border-b border-gray-100 sticky top-0 bg-white z-10">
             <input
               type="text"
