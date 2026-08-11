@@ -4,6 +4,42 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 
 export default function JurySection() {
+  const juryMembers = [
+    {
+      name: "Mr. Harish Mehta",
+      lines: [
+        "Sr. Advisor, Crop Care",
+        "federation of India"
+      ],
+      image: "/Speaker photos/Harish Mehta.png"
+    },
+    {
+      name: "Dr. Kalyan Goswami",
+      lines: [
+        "Director General",
+        "Agro Chem Federation",
+        "of India (ACFI)"
+      ],
+      image: "/Speaker photos/Dr kalyan.png"
+    },
+    {
+      name: "Mr. Durgesh Chandra",
+      lines: [
+        "Secretary General,",
+        "CropLife India"
+      ],
+      image: "/Speaker photos/Durgesh Chandra.png"
+    },
+    {
+      name: "Mr. Vipin Saini",
+      lines: [
+        "CEO,",
+        "BASAI"
+      ],
+      image: "/Speaker photos/Vipin Saini.png"
+    }
+  ];
+
   const members = [
     {
       name: "Dr. KC Ravi",
@@ -107,7 +143,7 @@ export default function JurySection() {
         </div>
 
         {/* Chairman & Co-Chair Enhanced */}
-        <div className="flex flex-row justify-center items-start gap-4 sm:gap-12 md:gap-20 mt-12 md:mt-16 mb-16 md:mb-20 relative px-1">
+        <div className="flex flex-row justify-center items-start gap-4 sm:gap-12 md:gap-20 mt-12 md:mt-16 mb-12 md:mb-16 relative px-1">
           {/* Subtle background glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-brand-primary/10 blur-[100px] rounded-full pointer-events-none" />
 
@@ -116,7 +152,7 @@ export default function JurySection() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="w-[140px] sm:w-[160px] md:w-[190px] flex flex-col items-center text-center group cursor-pointer relative z-10"
+            className="w-[120px] sm:w-[140px] md:w-[160px] flex flex-col items-center text-center group cursor-pointer relative z-10"
           >
             <div className="flex items-center space-x-2 md:space-x-3 mb-4 md:mb-5">
               <div className="h-px w-3 md:w-5 bg-brand-primary/40" />
@@ -128,9 +164,9 @@ export default function JurySection() {
               <img src="/jury/chairman.png" alt="Dr. RB Singh" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             </div>
             <div className="w-full flex flex-col items-center text-center transition-transform duration-500 group-hover:-translate-y-1">
-              <h4 className="text-[16px] sm:text-[20px] md:text-[24px] font-serif font-bold text-brand-dark mb-1.5">Dr. RB Singh</h4>
-              <p className="text-[11px] sm:text-[13px] md:text-[14px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">Former Chancellor,</p>
-              <p className="text-[11px] sm:text-[13px] md:text-[14px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">CAU, Imphal</p>
+              <h4 className="text-[16px] sm:text-[18px] md:text-[20px] font-serif font-bold text-brand-dark mb-1.5">Dr. RB Singh</h4>
+              <p className="text-[11px] sm:text-[12px] md:text-[13px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">Former Chancellor,</p>
+              <p className="text-[11px] sm:text-[12px] md:text-[13px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">CAU, Imphal</p>
             </div>
           </motion.div>
 
@@ -139,7 +175,7 @@ export default function JurySection() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="w-[140px] sm:w-[160px] md:w-[190px] flex flex-col items-center text-center group cursor-pointer relative z-10"
+            className="w-[120px] sm:w-[140px] md:w-[160px] flex flex-col items-center text-center group cursor-pointer relative z-10"
           >
             <div className="flex items-center space-x-2 md:space-x-3 mb-4 md:mb-5">
               <div className="h-px w-3 md:w-5 bg-brand-primary/40" />
@@ -151,15 +187,15 @@ export default function JurySection() {
               <img src="/jury/image.png" alt="Dr. Arvind Kumar" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             </div>
             <div className="w-full flex flex-col items-center text-center transition-transform duration-500 group-hover:-translate-y-1">
-              <h4 className="text-[16px] sm:text-[20px] md:text-[24px] font-serif font-bold text-brand-dark mb-1.5">Dr. Arvind Kumar</h4>
-              <p className="text-[11px] sm:text-[13px] md:text-[14px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">Former VC, RLBCAU,</p>
-              <p className="text-[11px] sm:text-[13px] md:text-[14px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">Jhansi</p>
+              <h4 className="text-[16px] sm:text-[18px] md:text-[20px] font-serif font-bold text-brand-dark mb-1.5">Dr. Arvind Kumar</h4>
+              <p className="text-[11px] sm:text-[12px] md:text-[13px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">Former VC, RLBCAU,</p>
+              <p className="text-[11px] sm:text-[12px] md:text-[13px] text-brand-dark/70 font-medium leading-[1.2] md:leading-relaxed">Jhansi</p>
             </div>
           </motion.div>
         </div>
 
-        {/* Members Enhanced */}
-        <div className="flex flex-col items-center mt-12 pb-12 relative z-10">
+        {/* All Members Combined */}
+        <div className="flex flex-col items-center mt-10 pb-12 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -170,24 +206,49 @@ export default function JurySection() {
             <h3 className="text-lg md:text-xl font-serif text-brand-dark/80 italic">Esteemed Members</h3>
           </motion.div>
 
-          <div className="flex flex-wrap justify-center items-start gap-8 md:gap-12">
-            {members.map((member, idx) => (
+          <div className="flex flex-wrap justify-center items-start gap-6 md:gap-10">
+            {/* Jury Members First */}
+            {juryMembers.map((member, idx) => (
               <motion.div 
-                key={idx}
+                key={`jury-${idx}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="w-[115px] md:w-[135px] flex flex-col items-center text-center group cursor-pointer"
+                className="w-[75px] md:w-[90px] flex flex-col items-center text-center group cursor-pointer"
               >
-                <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-4 ring-1 ring-brand-primary/20 shadow-md shadow-brand-dark/5 transition-all duration-300 group-hover:ring-brand-primary/40 group-hover:shadow-xl group-hover:shadow-brand-primary/10 group-hover:-translate-y-1.5">
+                <div className="relative w-full aspect-[3/4] rounded-[20px] overflow-hidden mb-4 ring-1 ring-brand-primary/20 shadow-sm shadow-brand-dark/5 transition-all duration-300 group-hover:ring-brand-primary/40 group-hover:shadow-lg group-hover:shadow-brand-primary/10 group-hover:-translate-y-1.5">
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
                   <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <div className="w-full flex flex-col items-center transition-transform duration-300 group-hover:-translate-y-1">
-                  <h4 className="text-[14px] md:text-[16px] font-bold text-brand-dark mb-1.5 font-serif">{member.name}</h4>
+                  <span className="text-[10px] md:text-[11px] font-bold text-brand-primary mb-1 uppercase tracking-wider">Jury Member</span>
+                  <h4 className="text-[12px] md:text-[14px] font-bold text-brand-dark mb-1.5 font-serif leading-tight">{member.name}</h4>
                   {member.lines.map((line, i) => (
-                    <p key={i} className="text-[11px] md:text-[12px] text-brand-dark/60 font-medium leading-[1.3]">{line}</p>
+                    <p key={i} className="text-[9px] md:text-[10px] text-brand-dark/60 font-medium leading-[1.3]">{line}</p>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+
+            {/* Esteemed Members Next */}
+            {members.map((member, idx) => (
+              <motion.div 
+                key={`esteemed-${idx}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: (juryMembers.length + idx) * 0.1 }}
+                className="w-[75px] md:w-[90px] flex flex-col items-center text-center group cursor-pointer"
+              >
+                <div className="relative w-full aspect-[3/4] rounded-[20px] overflow-hidden mb-4 ring-1 ring-brand-primary/20 shadow-sm shadow-brand-dark/5 transition-all duration-300 group-hover:ring-brand-primary/40 group-hover:shadow-lg group-hover:shadow-brand-primary/10 group-hover:-translate-y-1.5">
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                  <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                </div>
+                <div className="w-full flex flex-col items-center transition-transform duration-300 group-hover:-translate-y-1">
+                  <h4 className="text-[12px] md:text-[14px] font-bold text-brand-dark mb-1.5 font-serif leading-tight">{member.name}</h4>
+                  {member.lines.map((line, i) => (
+                    <p key={i} className="text-[9px] md:text-[10px] text-brand-dark/60 font-medium leading-[1.3]">{line}</p>
                   ))}
                 </div>
               </motion.div>
