@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { COUNTRY_CODES } from "../utils/countryCodes";
 import CountryCodeSelect from "./CountryCodeSelect";
@@ -68,6 +68,13 @@ function loadRazorpayScript() {
 
 export default function DelegateRegistrationModal({ isOpen, onClose, defaultType = "indian" }) {
   const [delegateType, setDelegateType] = useState(defaultType);
+  const pollIntervalRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+    };
+  }, []);
 
   // Recalculate pricing every 60 s so it updates at midnight IST without a reload
   const [pricingTier, setPricingTier] = useState(getIndianPricingTier);
@@ -347,6 +354,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
         // image: 'https://yourdomain.com/logo/logo.png', // ← add full HTTPS URL when deployed
         order_id: order.orderId,
         handler: async (response) => {
+          if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
           // 4. Verify signature on backend (HMAC-SHA256)
           try {
             const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/verify-payment`, {
@@ -379,6 +387,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
         theme: { color: '#6a9a38' },
         modal: {
           ondismiss: () => {
+            if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
             // User closed the checkout — registration stays Pending
             setPaymentCancelled(true);
             setPaymentLoading(false);
@@ -388,10 +397,38 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
 
       const rzp = new window.Razorpay(options);
       rzp.on('payment.failed', (response) => {
+        if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
         setError(`Payment failed: ${response.error.description}`);
         setPaymentLoading(false);
       });
       rzp.open();
+
+      // Fallback Polling Loop: In case Razorpay frontend fails/hangs (e.g. UPI QR issue)
+      const MAX_POLLING_TIME_MS = 10 * 60 * 1000; // 10 minutes
+      const POLLING_INTERVAL_MS = 4000;
+      const startTime = Date.now();
+
+      pollIntervalRef.current = setInterval(async () => {
+        if (Date.now() - startTime > MAX_POLLING_TIME_MS) {
+          if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+          pollIntervalRef.current = null;
+          return;
+        }
+
+        try {
+          const checkRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/verify/${registeredDelegateId}`);
+          const checkData = await checkRes.json();
+          if (checkData.success && checkData.data.paymentStatus === 'Paid') {
+            if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+            pollIntervalRef.current = null;
+            try { rzp.close(); } catch (e) { console.warn('Could not close rzp modal', e); }
+            setPaymentSuccess(true);
+            setPaymentLoading(false);
+          }
+        } catch (err) {
+          // Silent catch for polling
+        }
+      }, POLLING_INTERVAL_MS);
     } catch (err) {
       console.error(err);
       setError(err.message || 'Something went wrong. Please try again.');
