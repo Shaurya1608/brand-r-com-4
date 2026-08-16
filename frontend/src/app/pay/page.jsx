@@ -204,7 +204,11 @@ function PaymentContent() {
             const rzpElements = document.querySelectorAll('.razorpay-container');
             rzpElements.forEach(el => el.remove());
             
-            setPaymentSuccess(true);
+            if (isPaid) {
+              setPaymentSuccess(true);
+            } else {
+              setError('Payment failed. Please try again.');
+            }
             setPaymentLoading(false);
           }
         } catch (err) {
