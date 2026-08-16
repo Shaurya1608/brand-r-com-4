@@ -34,6 +34,13 @@ export default function DelegatesPage() {
   const [deletingDelegate, setDeletingDelegate] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const [toastMessage, setToastMessage] = useState('');
+
+  const showToast = (message) => {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(''), 3000);
+  };
+
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
@@ -700,7 +707,7 @@ export default function DelegatesPage() {
                                 const data = await res.json();
                                 if (data.success && data.paymentUrl) {
                                   navigator.clipboard.writeText(data.paymentUrl);
-                                  alert('Shareable Payment Link copied to clipboard!');
+                                  showToast('Shareable Payment Link copied to clipboard!');
                                 } else {
                                   alert(data.message || 'Failed to generate payment link');
                                 }
@@ -958,6 +965,18 @@ export default function DelegatesPage() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-[9999] bg-[#1a1a1a] text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
+          <div className="w-7 h-7 rounded-full bg-[#5e8e33]/20 flex items-center justify-center">
+            <svg className="w-4 h-4 text-[#5e8e33]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p className="text-sm font-medium">{toastMessage}</p>
         </div>
       )}
 
