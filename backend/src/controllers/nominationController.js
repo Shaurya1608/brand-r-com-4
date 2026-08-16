@@ -303,7 +303,7 @@ exports.verifyPayment = async (req, res) => {
           }
         }
       ],
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!nomination) {
@@ -317,7 +317,7 @@ exports.verifyPayment = async (req, res) => {
     const emailLockedRecord = await AwardNomination.findOneAndUpdate(
       { _id: nominationId, paidEmailSent: { $ne: true } },
       { $set: { paidEmailSent: true } },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (emailLockedRecord) {
@@ -436,7 +436,7 @@ exports.updateNomination = async (req, res) => {
     const { id } = req.params;
     const updateData = req.body;
 
-    const nomination = await AwardNomination.findByIdAndUpdate(id, updateData, { new: true });
+    const nomination = await AwardNomination.findByIdAndUpdate(id, updateData, { returnDocument: 'after' });
     if (!nomination) {
       return res.status(404).json({ success: false, message: 'Nomination not found' });
     }

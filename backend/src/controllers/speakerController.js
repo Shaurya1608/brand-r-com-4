@@ -63,7 +63,7 @@ const updateSpeakerInterest = async (req, res) => {
     const speakerInterest = await SpeakerInterest.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     );
 
     if (!speakerInterest) {

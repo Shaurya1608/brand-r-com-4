@@ -113,7 +113,7 @@ exports.handleRazorpayWebhook = async (req, res) => {
               paymentTokenExpires: null,
             }
           },
-          { new: true }
+          { returnDocument: 'after' }
         );
 
         if (delegate) {
@@ -123,7 +123,7 @@ exports.handleRazorpayWebhook = async (req, res) => {
           const emailLockedRecord = await DelegateRegistration.findOneAndUpdate(
             { _id: targetRegistrationId, paidEmailSent: { $ne: true } },
             { $set: { paidEmailSent: true } },
-            { new: true }
+            { returnDocument: 'after' }
           );
 
           if (emailLockedRecord) {
@@ -149,7 +149,7 @@ exports.handleRazorpayWebhook = async (req, res) => {
               paymentTokenExpires: null,
             }
           },
-          { new: true }
+          { returnDocument: 'after' }
         );
 
         if (nomination) {
@@ -159,7 +159,7 @@ exports.handleRazorpayWebhook = async (req, res) => {
           const emailLockedRecord = await AwardNomination.findOneAndUpdate(
             { _id: targetRegistrationId, paidEmailSent: { $ne: true } },
             { $set: { paidEmailSent: true } },
-            { new: true }
+            { returnDocument: 'after' }
           );
 
           if (emailLockedRecord) {
@@ -183,14 +183,14 @@ exports.handleRazorpayWebhook = async (req, res) => {
       const failedDelegate = await DelegateRegistration.findOneAndUpdate(
         { razorpayOrderId: orderId, paymentStatus: { $ne: 'Paid' } },
         { $set: { paymentStatus: 'Failed' } },
-        { new: true }
+        { returnDocument: 'after' }
       );
 
       if (failedDelegate) {
         const emailLockedRecord = await DelegateRegistration.findOneAndUpdate(
           { _id: failedDelegate._id, failedEmailSent: { $ne: true } },
           { $set: { failedEmailSent: true } },
-          { new: true }
+          { returnDocument: 'after' }
         );
 
         if (emailLockedRecord) {
@@ -206,14 +206,14 @@ exports.handleRazorpayWebhook = async (req, res) => {
       const failedNomination = await AwardNomination.findOneAndUpdate(
         { razorpayOrderId: orderId, paymentStatus: { $ne: 'Paid' } },
         { $set: { paymentStatus: 'Failed' } },
-        { new: true }
+        { returnDocument: 'after' }
       );
 
       if (failedNomination) {
         const emailLockedRecord = await AwardNomination.findOneAndUpdate(
           { _id: failedNomination._id, failedEmailSent: { $ne: true } },
           { $set: { failedEmailSent: true } },
-          { new: true }
+          { returnDocument: 'after' }
         );
 
         if (emailLockedRecord) {

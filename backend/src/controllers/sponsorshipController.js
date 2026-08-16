@@ -122,7 +122,7 @@ const updateSponsorship = async (req, res) => {
     sponsorship = await Sponsorship.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     );
     
     res.status(200).json({ success: true, data: sponsorship });

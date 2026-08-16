@@ -758,7 +758,7 @@ exports.verifyPayment = async (req, res) => {
           }
         }
       ],
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     // If it was already paid, we just fetch it to return
@@ -773,7 +773,7 @@ exports.verifyPayment = async (req, res) => {
     const emailLockedRecord = await DelegateRegistration.findOneAndUpdate(
       { _id: delegateId, paidEmailSent: { $ne: true } },
       { $set: { paidEmailSent: true } },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (emailLockedRecord) {
