@@ -21,10 +21,10 @@ export default function DelegateRegistrationSection() {
   ];
 
   const intlPricing = [
-    { window: "Till 31 August 2026", fee: "USD 175 + Tax" },
-    { window: "Till 30 September 2026", fee: "USD 200 + Tax" },
-    { window: "Till 31 October 2026", fee: "USD 225 + Tax" },
-    { window: "After 31 October", fee: "USD 250 + Tax" },
+    { window: "Till 31 August 2026", fee: "USD 175" },
+    { window: "Till 30 September 2026", fee: "USD 200" },
+    { window: "Till 31 October 2026", fee: "USD 225" },
+    { window: "After 31 October", fee: "USD 250" },
   ];
 
   const inclusions = [
@@ -139,7 +139,7 @@ export default function DelegateRegistrationSection() {
             
             <div className="mb-6">
               <div className="text-3xl font-serif mb-1 text-brand-dark">
-                USD 250 <span className="text-sm text-brand-dark/40 font-sans">+ Tax</span>
+                USD 250
               </div>
               <p className="text-brand-dark/60 text-xs font-sans">
                 Includes visa-support letter and concierge.
@@ -163,6 +163,9 @@ export default function DelegateRegistrationSection() {
             >
               Register as International Delegate
             </button>
+            <p className="mt-4 text-[10px] leading-relaxed text-brand-dark/50 font-sans italic text-center">
+              Note: All applicable taxes and statutory charges for international registrations shall be borne by the applicant as per applicable laws.
+            </p>
           </motion.div>
 
         </div>

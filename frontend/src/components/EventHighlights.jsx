@@ -88,7 +88,7 @@ export default function EventHighlights() {
       moment: "MOMENT 08",
       title: "Cultural Night",
       description: "Experience an engaging cultural evening featuring captivating performances that celebrate India's rich heritage while creating a memorable atmosphere for networking and camaraderie.",
-      image: "/BRC Images/Cultural Night.JPG",
+      image: "/BRC Images/Stories by Mehak Mirza Prabhu.jpeg",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
@@ -97,31 +97,9 @@ export default function EventHighlights() {
     },
     {
       moment: "MOMENT 09",
-      title: "An Evening of Stories & Inspiration",
-      description: "Experience an unforgettable evening with Internationally acclaimed poet and storyteller Mr. Rakesh Tiwari, whose powerful storytelling, poetry, and life experiences create a memorable journey of inspiration, emotions, laughter, and meaningful human connections.",
-      image: "/BRC Images/An Evening of Stories & Inspiration.jpeg",
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      )
-    },
-    {
-      moment: "MOMENT 10",
-      title: "Stories by Mehak Mirza Prabhu",
-      description: "Experience an Inspiring storytelling session by renowned author and storyteller Mehak Mirza Prabhu, where heartfelt narratives, powerful emotions, and timeless life lessons come together to create meaningful conversations and unforgettable memories.",
-      image: "/BRC Images/Stories by Mehak Mirza Prabhu.jpeg",
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      )
-    },
-    {
-      moment: "MOMENT 11",
       title: "Celebration Dinner",
       description: "Conclude the day with an elegant networking dinner, providing the perfect opportunity to build meaningful relationships, exchange ideas, and connect with industry peers in a relaxed setting.",
-      image: "/BRC Images/Lunch.JPG",
+      image: "/BRC Images/image.png",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
@@ -129,10 +107,10 @@ export default function EventHighlights() {
       )
     },
     {
-      moment: "MOMENT 12",
+      moment: "MOMENT 10",
       title: "Concierge Networking",
       description: "Make valuable business connections through curated networking opportunities designed to facilitate meaningful conversations, strategic collaborations, and long-term partnerships.",
-      image: "/BRC Images/Networking.JPG",
+      image: "/BRC Images/image copy.png",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />

@@ -33,6 +33,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
     companyName: '',
     gstNumber: '',
     contactPerson: '',
+    designation: '',
     email: '',
     countryCode: '+91',
     mobileNumber: '',
@@ -57,6 +58,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
         companyName: editingSponsorship.companyName || '',
         gstNumber: editingSponsorship.gstNumber || '',
         contactPerson: editingSponsorship.contactPerson || '',
+        designation: editingSponsorship.designation || '',
         email: editingSponsorship.email || '',
         mobileNumber: editingSponsorship.mobileNumber || '',
         city: editingSponsorship.city || '',
@@ -134,6 +136,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
         companyName: formData.companyName,
         gstNumber: formData.gstNumber,
         contactPerson: formData.contactPerson,
+        designation: formData.designation,
         email: formData.email,
         mobileNumber: formData.mobileNumber,
         city: formData.city,
@@ -173,6 +176,7 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
           companyName: '',
           gstNumber: '',
           contactPerson: '',
+          designation: '',
           email: '',
           mobileNumber: '',
           city: '',
@@ -296,6 +300,24 @@ export default function ManualSponsorshipModal({ isOpen, onClose, onSponsorshipA
                       onChange={handleChange}
                       required
                       placeholder="Full name"
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
+                    />
+                  </div>
+                </div>
+
+                {/* Designation */}
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">
+                    Designation
+                  </label>
+                  <div className="relative">
+                    <Briefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                    <input
+                      type="text"
+                      name="designation"
+                      value={formData.designation}
+                      onChange={handleChange}
+                      placeholder="Job title"
                       className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl text-xs sm:text-sm font-medium text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5e8e33]/30 focus:border-[#5e8e33] transition-all bg-gray-50/50 focus:bg-white"
                     />
                   </div>

@@ -12,8 +12,8 @@ export default function LastSeasonWinnersSection() {
     {
       award: "LIFETIME ACHIEVEMENT AWARD 2024",
       name: "Dr. RB SINGH",
-      title: "",
-      company: "",
+      title: "Former Chancellor,",
+      company: "CAU, Imphal",
       image: "/Awards/LIFETIME ACHIEVEMENT AWARD 2024-Dr. RB SINGH.jpeg"
     },
     {
@@ -23,12 +23,12 @@ export default function LastSeasonWinnersSection() {
       company: "Dhanuka Agritech LTD.",
       image: "/Awards/IMG_7090.JPG"
     },
-    {
-      award: "GROWTH CATALYST AWARD",
-      name: "MR. DINESH SINGH",
-      title: "",
-      company: "Reliance Industries",
-      image: "/Awards/IMG_7032.JPG"
+    { 
+      award: "VOICE OF THE YEAR", 
+      name: "MR. ANKUR AGGARWAL", 
+      title: "", 
+      company: "Crystal Crop Protection", 
+      image: "/Awards/IMG_7078.JPG" 
     },
     {
       award: "SHAKTI AWARD",
@@ -41,32 +41,32 @@ export default function LastSeasonWinnersSection() {
 
   const moreWinners = [
     { award: "VISIONARY ENTREPRENEUR AWARD", name: "DR. MANOJ KUMAR RUPA", title: "", company: "Capsber Agriscience", image: "/Awards/IMG_7045.JPG" },
-    { award: "PIONEER AWARD", name: "MR. DEBABRATA SARKAR", title: "", company: "MicroAlgae Solutions India", image: "/Awards/IMG_7053.JPG" },
     { award: "CHANGEMAKER AWARD", name: "MR. MANOJ VARSHNEY", title: "", company: "IFFCO-MC Crop Sciences", image: "/Awards/IMG_7061.JPG" },
     { award: "POLICY DRIVER AWARD", name: "MR. RAJVIR SINGH RATHI", title: "", company: "Bayer CropScience", image: "/Awards/IMG_7069.JPG" },
-    { award: "VOICE OF THE YEAR", name: "MR. ANKUR AGGARWAL", title: "", company: "Crystal Crop Protection", image: "/Awards/IMG_7078.JPG" },
+    { award: "PIONEER AWARD", name: "MR. DEBABRATA SARKAR", title: "", company: "MicroAlgae Solutions India", image: "/Awards/IMG_7053.JPG" },
     { award: "NEXTGEN SEED AWARD", name: "SAVANNAH SEEDS PVT. LTD.", title: "", company: "", image: "/Awards/IMG_7084.JPG" },
     { award: "SUSTAINABILITY CHAMPION AWARD", name: "ZYDEX INDUSTRIES", title: "", company: "", image: "/Awards/IMG_7020.JPG", gridClass: "lg:col-start-3 lg:col-span-2" },
+    // { award: "GROWTH CATALYST AWARD", name: "MR. DINESH SINGH", title: "", company: "Reliance Industries", image: "/Awards/IMG_7032.JPG" },
     { isHeading: true, text: "NOMINATION-BASED AWARDS: CELEBRATING CAMPAIGN AND CORPORATE EXCELLENCE", gridClass: "col-span-1 md:col-span-2 lg:col-span-6" },
-    { award: "DIGITAL MARKETING AWARD 2024", name: "ARIES AGRO LIMITED", title: "", company: "", image: "/others/Aries Agro.JPG.jpeg" },
-    { award: "RURAL ENGAGEMENT AWARD 2024", name: "CROP CARE FEDERATION OF INDIA", title: "", company: "", image: "/others/Crop Care Federation.JPG.jpeg" },
-    { award: "INTEGRATED COMMUNICATION AWARD 2024", name: "CROPLIFE INDIA", title: "", company: "", image: "/others/CropLife India.JPG.jpeg" },
-    { award: "PR CAMPAIGN AWARD 2024", name: "IPL", title: "", company: "", image: "/others/IPL.jpeg" },
-    { award: "BRAND CAMPAIGN (TVC) AWARD 2024", name: "KRISHAJ", title: "", company: "", image: "/others/Krishi Rasayan.JPG.jpeg" },
-    { award: "EMERGING PARTICIPANT FOR RURAL ENGAGEMENT AWARD 2024", name: "DHANESHA", title: "", company: "", image: "/others/Dhanesha Crop Science.JPG.jpeg" },
-    { award: "RURAL ENGAGEMENT AWARD 2024", name: "PARLE BIO CARE", title: "", company: "", image: "/others/PARLE BIO CARE.jpeg" },
-    { award: "INTEGRATED COMMUNICATION AWARD 2024", name: "SYNGENTA", title: "", company: "", image: "/others/Syngenta.JPG.jpeg" },
     { award: "COMPANY OF THE YEAR", name: "ARIES AGRO LIMITED", title: "", company: "", image: "/Awards/Company of the year 2025 - Aries agro limited.JPG" },
+    { award: "EMERGING PARTICIPANT FOR RURAL ENGAGEMENT AWARD 2024", name: "DHANESHA", title: "", company: "", image: "/others/Dhanesha Crop Science.JPG.jpeg" },
     { award: "EMERGING COMPANY OF THE YEAR", name: "BHARAT CERTIS AGRISCIENCE LTD.", title: "", company: "", image: "/Awards/IMG_6948.JPG" },
-    { award: "BEST RURAL ENGAGEMENT", name: "GENCREST BIO PRODUCTS", title: "", company: "", image: "/Awards/image.png" },
-    { award: "BEST PR CAMPAIGN", name: "INSECTICIDES INDIA LIMITED", title: "", company: "", image: "/Awards/IMG_6902.JPG" },
-    { award: "BEST DIGITAL MARKETING AWARD", name: "JU AGRI SCIENCES", title: "", company: "", image: "/Awards/IMG_6906.JPG" },
-    { award: "BEST BRAND CAMPAIGN (TVC)", name: "UPL SAS LIMITED", title: "", company: "", image: "/Awards/IMG_6917.JPG" },
-    { award: "BEST INTEGRATED COMMUNICATION AWARD", name: "ICL INDIA", title: "", company: "", image: "/Awards/IMG_6921.JPG" },
-    { award: "BEST OUTDOOR CAMPAIGN", name: "VARSHA BIOSCIENCE & TECHNOLOGY", title: "", company: "", image: "/Awards/IMG_6890.JPG" },
     { award: "BEST COMMUNICATOR (MALE)", name: "MR. R.K. GOYAL", title: "", company: "VERDESIAN USA", image: "/Awards/IMG_6926.JPG" },
     { award: "BEST COMMUNICATOR (FEMALE)", name: "MS. SARITA BAHL", title: "", company: "", image: "/Awards/IMG_6936.JPG" },
-    { award: "AI LEADERSHIP EXCELLENCE", name: "COROMANDEL INTERNATIONAL LIMITED", title: "(CROP PROTECTION CHEMICALS)", company: "", image: "/Awards/IMG_6940.JPG", gridClass: "lg:col-start-3 lg:col-span-2" }
+    { award: "INTEGRATED COMMUNICATION AWARD 2024", name: "CROPLIFE INDIA", title: "", company: "", image: "/others/CropLife India.JPG.jpeg" },
+    { award: "INTEGRATED COMMUNICATION AWARD 2024", name: "SYNGENTA", title: "", company: "", image: "/others/Syngenta.JPG.jpeg" },
+    { award: "BEST INTEGRATED COMMUNICATION AWARD", name: "ICL INDIA", title: "", company: "", image: "/Awards/IMG_6921.JPG" },
+    { award: "AI LEADERSHIP EXCELLENCE", name: "COROMANDEL INTERNATIONAL LIMITED", title: "(CROP PROTECTION CHEMICALS)", company: "", image: "/Awards/IMG_6940.JPG" },
+    { award: "BRAND CAMPAIGN (TVC) AWARD 2024", name: "KRISHAJ", title: "", company: "", image: "/others/Krishi Rasayan.JPG.jpeg" },
+    { award: "BEST BRAND CAMPAIGN (TVC)", name: "UPL SAS LIMITED", title: "", company: "", image: "/Awards/IMG_6917.JPG" },
+    { award: "DIGITAL MARKETING AWARD 2024", name: "ARIES AGRO LIMITED", title: "", company: "", image: "/others/Aries Agro.JPG.jpeg" },
+    { award: "BEST DIGITAL MARKETING AWARD", name: "JU AGRI SCIENCES", title: "", company: "", image: "/Awards/IMG_6906.JPG" },
+    { award: "PR CAMPAIGN AWARD 2024", name: "IPL", title: "", company: "", image: "/others/IPL.jpeg" },
+    { award: "BEST PR CAMPAIGN", name: "INSECTICIDES INDIA LIMITED", title: "", company: "", image: "/Awards/IMG_6902.JPG" },
+    { award: "RURAL ENGAGEMENT AWARD 2024", name: "CROP CARE FEDERATION OF INDIA", title: "", company: "", image: "/others/Crop Care Federation.JPG.jpeg" },
+    { award: "RURAL ENGAGEMENT AWARD 2024", name: "PARLE BIO CARE", title: "", company: "", image: "/others/PARLE BIO CARE.jpeg" },
+    { award: "BEST RURAL ENGAGEMENT", name: "GENCREST BIO PRODUCTS", title: "", company: "", image: "/Awards/image.png" },
+    { award: "BEST OUTDOOR CAMPAIGN", name: "VARSHA BIOSCIENCE & TECHNOLOGY", title: "", company: "", image: "/Awards/IMG_6890.JPG", gridClass: "lg:col-start-3 lg:col-span-2" }
   ];
 
   const displayedWinners = showAll ? [...initialWinners, ...moreWinners] : initialWinners;

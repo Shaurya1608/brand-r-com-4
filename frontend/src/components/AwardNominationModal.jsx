@@ -116,7 +116,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     "Best Integrated Communication Award"
   ];
 
-  const totalAmount = "₹17,700/-";
+  const totalAmount = "₹14,160/-";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -264,13 +264,13 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     setPaymentCancelled(false);
 
     try {
-      // 1. Create order on backend (₹15,000 + 18% GST = ₹17,700)
+      // 1. Create order on backend (₹12,000 + 18% GST = ₹14,160)
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nominationId: submittedNominationId,
-          amountRs: 17700,
+          amountRs: 14160,
         }),
       });
       
@@ -859,7 +859,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                   <div className="w-full mx-auto space-y-2.5">
                     {currentStep === 3 && (
                       <div className="flex items-center justify-between bg-brand-primary/5 border border-brand-primary/20 rounded-lg px-3 py-2">
-                        <span className="text-[13px] font-bold text-brand-dark">Total Amount:</span>
+                        <span className="text-[13px] font-bold text-brand-dark">Total Amount <span className="text-[11px] font-normal text-brand-dark/60 ml-1">(₹12,000 + 18% GST)</span>:</span>
                         <span className="text-lg md:text-xl font-bold text-brand-primary tracking-tight">{totalAmount}</span>
                       </div>
                     )}

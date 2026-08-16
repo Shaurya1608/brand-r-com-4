@@ -10,6 +10,7 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
     companyName: "",
     gstNumber: "",
     contactPerson: "",
+    designation: "",
     email: "",
     countryCode: "+91",
     mobileNumber: "",
@@ -18,6 +19,7 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
     pinCode: "",
     address: "",
     sponsorshipCategory: "",
+    sponsorshipTier: "",
     basePrice: 0,
   });
 
@@ -55,18 +57,21 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
     if (isOpen) {
       setSuccess(false);
       let foundPrice = 0;
+      let foundCategory = "";
       if (initialCategory) {
         for (const cat in sponsorshipOptions) {
           const found = sponsorshipOptions[cat].find(opt => opt.label === initialCategory);
           if (found) {
             foundPrice = found.price;
+            foundCategory = cat;
             break;
           }
         }
       }
       setFormData(prev => ({
         ...prev,
-        sponsorshipCategory: initialCategory,
+        sponsorshipCategory: foundCategory,
+        sponsorshipTier: initialCategory,
         basePrice: foundPrice
       }));
     }
@@ -213,7 +218,7 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
             
             <div className="max-w-3xl space-y-3 text-black font-medium text-[13px] md:text-[14px] leading-relaxed mb-6">
               <p>
-                Thank you for submitting your enquiry for the "<strong>{formData.sponsorshipCategory || "Sponsorship"}</strong>" Sponsorship.
+                Thank you for submitting your enquiry for the "<strong>{formData.sponsorshipTier || formData.sponsorshipCategory || "Sponsorship"}</strong>" Sponsorship.
               </p>
               <p>
                 Our team has received your request and will review it shortly. One of our representatives will get in touch with you soon to discuss the next steps.
@@ -343,6 +348,10 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
                     <input required type="text" name="contactPerson" value={formData.contactPerson} onChange={handleChange} placeholder="Full name" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                   </div>
                   <div className="space-y-1">
+                    <label className="text-[12px] font-bold text-brand-dark">Designation</label>
+                    <input type="text" name="designation" value={formData.designation} onChange={handleChange} placeholder="Job title" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
+                  </div>
+                  <div className="space-y-1">
                     <label className="text-[12px] font-bold text-brand-dark">Email <span className="text-red-500">*</span></label>
                     <input required type="email" name="email" value={formData.email} onChange={handleChange} placeholder="email@company.com" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                   </div>
@@ -384,8 +393,8 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
                       onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
                       className={`w-full px-4 py-3 text-[14px] border rounded-lg focus:outline-none transition-all cursor-pointer flex justify-between items-center ${isCategoryDropdownOpen ? 'border-brand-primary ring-2 ring-brand-primary/30 bg-white' : 'border-gray-300 bg-white hover:border-brand-primary/50'}`}
                     >
-                      <span className={formData.sponsorshipCategory ? "text-brand-dark font-bold" : "text-gray-500 font-medium"}>
-                        {formData.sponsorshipCategory || "Select a category..."}
+                      <span className={formData.sponsorshipTier ? "text-brand-dark font-bold" : "text-gray-500 font-medium"}>
+                        {formData.sponsorshipTier ? `${formData.sponsorshipTier} (${formData.sponsorshipCategory})` : "Select a category..."}
                       </span>
                       <svg className={`w-5 h-5 text-gray-500 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </div>
@@ -412,12 +421,13 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
                                   onClick={() => {
                                     setFormData(prev => ({ 
                                       ...prev, 
-                                      sponsorshipCategory: opt.label,
+                                      sponsorshipCategory: groupName,
+                                      sponsorshipTier: opt.label,
                                       basePrice: opt.price
                                     }));
                                     setIsCategoryDropdownOpen(false);
                                   }}
-                                  className={`px-4 py-3 text-[13px] cursor-pointer hover:bg-[#f3f7f0] transition-colors flex justify-between items-center ${formData.sponsorshipCategory === opt.label ? 'bg-[#f3f7f0] text-[#71954f] font-bold border-l-4 border-[#86af60]' : 'text-gray-700 font-medium border-l-4 border-transparent'}`}
+                                  className={`px-4 py-3 text-[13px] cursor-pointer hover:bg-[#f3f7f0] transition-colors flex justify-between items-center ${formData.sponsorshipTier === opt.label ? 'bg-[#f3f7f0] text-[#71954f] font-bold border-l-4 border-[#86af60]' : 'text-gray-700 font-medium border-l-4 border-transparent'}`}
                                 >
                                   <span>{opt.label}</span>
                                   <span className="text-gray-500 text-[12px] font-bold">
