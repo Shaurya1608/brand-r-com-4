@@ -670,6 +670,7 @@ exports.createOrder = async (req, res) => {
     delegate.razorpayOrderId = order.id;
     delegate.totalAmount = currentPricing.totalAmount;
     if (delegate.paymentStatus !== 'Paid') {
+      delegate.paymentStatus = 'Pending';
       delegate.amountPaid = 0;
       delegate.amountDue = currentPricing.totalAmount;
     }
