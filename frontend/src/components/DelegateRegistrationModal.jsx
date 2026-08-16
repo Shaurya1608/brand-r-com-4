@@ -370,7 +370,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
             const verifyData = await verifyRes.json();
             if (verifyData.success) {
               setRazorpayPaymentId(response.razorpay_payment_id);
-              setPaymentSuccess(true);
+              if (checkData.data.paymentStatus === 'Paid') { setPaymentSuccess(true); } else { setError('Payment failed. Please try again.'); }
             } else {
               setError('Payment received but verification failed. Please contact support with your payment ID: ' + response.razorpay_payment_id);
             }
@@ -418,7 +418,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
         try {
           const checkRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delegates/verify/${registeredDelegateId}`);
           const checkData = await checkRes.json();
-          if (checkData.success && checkData.data.paymentStatus === 'Paid') {
+          if (checkData.success && (checkData.data.paymentStatus === 'Paid' || checkData.data.paymentStatus === 'Failed')) {
             if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
             pollIntervalRef.current = null;
             

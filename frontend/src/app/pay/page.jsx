@@ -47,7 +47,7 @@ function PaymentContent() {
           setDelegateData(data.data);
           setIsNomination(false);
           if (data.data.paymentStatus === "Paid") {
-            setPaymentSuccess(true);
+            if (isPaid) { setPaymentSuccess(true); } else { alert('Payment failed. Please try again.'); }
           }
           setLoading(false);
         } else {
@@ -183,16 +183,18 @@ function PaymentContent() {
             headers: type === 'nominations' ? { Authorization: `Bearer ${localStorage.getItem('token') || ''}` } : undefined
           });
           
-          let isPaid = false;
+          let isPaid = false; let isFailed = false;
           const checkData = await checkRes.json();
           if (type === 'delegates') {
             isPaid = (checkData.success && checkData.data.paymentStatus === 'Paid');
+            isFailed = (checkData.success && checkData.data.paymentStatus === 'Failed');
           } else {
             const ourNom = checkData.data?.find(n => n._id === delegateData._id);
             if (ourNom && ourNom.paymentStatus === 'Paid') isPaid = true;
+            if (ourNom && ourNom.paymentStatus === 'Failed') isFailed = true;
           }
 
-          if (isPaid) {
+          if (isPaid || isFailed) {
             if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
             pollIntervalRef.current = null;
             
