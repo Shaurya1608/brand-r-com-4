@@ -56,7 +56,7 @@ const calculateDelegatePricing = (type, coupon) => {
 
   const taxableRs = coupon ? baseRs * 0.8 : baseRs;
   const gstRs = Math.round(taxableRs * 0.18);
-  const totalRs = 1; // Temporary for testing 1 rupee
+  const totalRs = 10; // Temporary for testing 10 rupees
 
   return {
     baseAmount: baseRs,
