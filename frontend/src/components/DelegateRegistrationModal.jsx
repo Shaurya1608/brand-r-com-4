@@ -281,10 +281,10 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   };
 
   // Amount calculations
-  const baseRs = 1; // pricingTier.amountRs;
-  const taxableRs = 1; // couponApplied ? baseRs * 0.8 : baseRs;
+  const baseRs = 10; // pricingTier.amountRs;
+  const taxableRs = 10; // couponApplied ? baseRs * 0.8 : baseRs;
   const gstRs = 0; // Math.round(taxableRs * 0.18);
-  const finalRs = 1; // taxableRs + gstRs;
+  const finalRs = 10; // taxableRs + gstRs;
 
   const baseUsd = 250;
   const taxableUsd = couponApplied ? 200 : 250;
