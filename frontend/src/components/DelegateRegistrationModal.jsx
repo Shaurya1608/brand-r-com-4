@@ -506,7 +506,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
 
                     <div className="w-full max-w-sm bg-gray-50 border border-gray-200/80 rounded-xl p-3.5 mb-4 text-left text-[11px] text-gray-700 space-y-2 leading-relaxed">
                       <p>📩 A confirmation email will be sent to your registered email address shortly.</p>
-                      <p>🎫 Your Event Entry Pass, QR Code, and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.</p>
+                      <p>🎫 Your Event Entry Pass and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.</p>
                     </div>
 
                     <p className="text-[#5e8e33] font-serif font-bold text-[13px] mb-5">

@@ -382,7 +382,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                   <p>Thank you for submitting your nomination for the BRAND R.Comm Awards 2026.</p>
                   <p>Your nomination details and payment have been received successfully.</p>
                   <p>Our external team (Market Research Agency Or Knowledge Partner) or Equivalent will verify your submission and supporting documents before forwarding your nomination to the Jury Panel for evaluation.</p>
-                  <p>Your Event Entry Pass, QR Code, and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.</p>
+                  <p>Your Event Entry Pass and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.</p>
                   <p>We look forward to welcoming you to BRAND R.Comm 2026.</p>
                 </div>
 

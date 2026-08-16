@@ -299,7 +299,7 @@ function PaymentContent() {
 
               <div className="bg-gray-50 border border-gray-200/80 rounded-xl p-4 text-left text-xs text-gray-700 space-y-2 leading-relaxed">
                 <p>📩 A confirmation email has been sent to your registered email address.</p>
-                <p>🎫 Your Event Entry Pass, QR Code, and complete guidelines will be shared 3 days prior to the event via email and mobile number.</p>
+                <p>🎫 Your Event Entry Pass and complete guidelines will be shared 3 days prior to the event via email and mobile number.</p>
               </div>
 
               <p className="text-[#5e8e33] font-serif font-bold text-sm">We look forward to welcoming you to BRAND R.Comm 2026.</p>
