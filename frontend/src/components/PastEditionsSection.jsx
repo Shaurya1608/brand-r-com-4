@@ -1,18 +1,35 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 export default function PastEditionsSection() {
-  const images = [
+  const previewImages = [
     "/Glimpse/1.JPG",
     "/Glimpse/2.JPG",
     "/Glimpse/3.JPG",
     "/Glimpse/4.JPG",
     "/Glimpse/5.JPG",
   ];
-  const galleryLink = "https://snail-integral.ptml.in/en/events/x7cv8/albums/sgcxk7yn";
+  
+  const allImages = [
+    "1.JPG", "2.JPG", "3.JPG", "4.JPG", "5.JPG", "6.JPG", "7.JPG", "8.JPG", "IMG_3991.JPG", "IMG_4078.JPG", "IMG_4083.JPG", "IMG_4105.JPG", "IMG_4188.JPG", "IMG_4202.JPG", "IMG_5510.JPG", "IMG_5521.JPG", "IMG_5525.JPG", "IMG_5536.JPG", "IMG_5557.JPG", "IMG_5559.JPG", "IMG_5560.JPG", "IMG_5562.JPG", "IMG_5563.JPG", "IMG_5569.JPG", "IMG_5684.JPG", "IMG_5723.JPG", "IMG_5738.JPG", "IMG_5745.JPG", "IMG_5775.JPG", "IMG_5809.JPG", "IMG_6181.JPG", "IMG_6261.JPG", "IMG_6274.JPG", "IMG_6595.JPG", "IMG_6598.JPG", "IMG_6623.JPG", "IMG_6625.JPG", "IMG_7163.JPG", "IMG_7166.JPG", "IMG_7177.JPG", "IMG_7188.JPG", "IMG_7191.JPG", "IMG_7193.JPG", "IMG_7198.JPG"
+  ].map(name => `/Glimpse/${name}`);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Stop body scroll when modal is open
+  React.useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isModalOpen]);
 
   return (
     <section id="past-editions" className="relative w-full py-12 md:py-16 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-white">
@@ -57,7 +74,7 @@ export default function PastEditionsSection() {
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-          {images.map((src, index) => (
+          {previewImages.map((src, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -78,10 +95,8 @@ export default function PastEditionsSection() {
           ))}
           
           {/* View Gallery Card */}
-          <motion.a
-            href={galleryLink}
-            target="_blank"
-            rel="noopener noreferrer"
+          <motion.div
+            onClick={() => setIsModalOpen(true)}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -104,9 +119,81 @@ export default function PastEditionsSection() {
                 VIEW GALLERY
               </div>
             </div>
-          </motion.a>
+          </motion.div>
         </div>
       </div>
+
+      {/* Gallery Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-[100] flex flex-col bg-white">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-white"
+            />
+            
+            {/* Modal Header */}
+            <div className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white/90 backdrop-blur-md sticky top-0">
+              <div>
+                <h3 className="font-serif text-2xl text-brand-dark">Event Gallery</h3>
+                <p className="text-xs text-brand-dark/60 font-medium mt-1 uppercase tracking-widest">{allImages.length} Photos</p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors text-gray-700"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Body - Masonry or Grid */}
+            <div className="relative z-10 flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
+              <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 max-w-7xl mx-auto pb-10">
+                {allImages.map((src, index) => (
+                  <motion.div 
+                    key={index} 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: (index % 15) * 0.05 }}
+                    className="relative break-inside-avoid rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer bg-gray-100"
+                  >
+                    {/* Using next/image with object-cover or object-contain. 
+                        Since masonry images can vary in height, standard <img> tag works better for pure CSS columns masonry, 
+                        or we can use layout="responsive" with an estimated aspect ratio.
+                        Let's use a standard <img> tag for masonry auto-height. */}
+                    <img 
+                      src={src} 
+                      alt={`Gallery Image ${index + 1}`} 
+                      className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+            
+            <style jsx>{`
+              .custom-scrollbar::-webkit-scrollbar {
+                width: 6px;
+              }
+              .custom-scrollbar::-webkit-scrollbar-track {
+                background: #f1f1f1;
+              }
+              .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 10px;
+              }
+              .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+              }
+            `}</style>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
