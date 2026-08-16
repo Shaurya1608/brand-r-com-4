@@ -267,26 +267,67 @@ exports.verifyPayment = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Payment verification failed: invalid signature' });
     }
 
-    const nomination = await AwardNomination.findById(nominationId);
-    if (!nomination) {
-      return res.status(404).json({ success: false, message: 'Nomination not found' });
+    // Signature valid — now verify the exact payment amount securely from Razorpay's API
+    const Razorpay = require('razorpay');
+    const razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+
+    const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
+    
+    const nominationCheck = await AwardNomination.findOne({ _id: nominationId, razorpayOrderId: razorpay_order_id });
+    if (!nominationCheck) {
+      return res.status(404).json({ success: false, message: 'Nomination or matching order not found' });
     }
 
-    const paidAmt = nomination.totalAmount || 9440;
-    nomination.paymentStatus = 'Paid';
-    nomination.paymentMethod = 'Online (Razorpay)';
-    nomination.razorpayPaymentId = razorpay_payment_id;
-    nomination.amountPaid = paidAmt;
-    nomination.amountDue = 0;
-    // Invalidate/Nullify payment resume token
-    nomination.resumeTokenHash = null;
-    nomination.paymentTokenExpires = null;
-    await nomination.save();
+    const expectedAmountPaise = Math.round((nominationCheck.totalAmount || 9440) * 100);
+    if (paymentDetails.amount !== expectedAmountPaise) {
+      console.error(`Amount mismatch! Expected: ${expectedAmountPaise}, Received: ${paymentDetails.amount}`);
+      return res.status(400).json({ success: false, message: 'Payment amount mismatch. Order flagged.' });
+    }
 
-    if (!nomination.paidEmailSent) {
-      sendNominationConfirmationEmail(nomination).catch(err => console.error('Error sending nomination paid email:', err));
-      nomination.paidEmailSent = true;
-      await nomination.save();
+    // CRITICAL SECURITY: Match both _id AND razorpayOrderId to prevent cross-registration payment spoofing!
+    let nomination = await AwardNomination.findOneAndUpdate(
+      { _id: nominationId, razorpayOrderId: razorpay_order_id, paymentStatus: { $ne: 'Paid' } },
+      [
+        {
+          $set: {
+            paymentStatus: 'Paid',
+            paymentMethod: 'Online (Razorpay)',
+            razorpayPaymentId: razorpay_payment_id,
+            amountPaid: { $ifNull: ['$totalAmount', 9440] },
+            amountDue: 0,
+            resumeTokenHash: null,
+            paymentTokenExpires: null,
+          }
+        }
+      ],
+      { new: true }
+    );
+
+    if (!nomination) {
+      nomination = await AwardNomination.findOne({ _id: nominationId, razorpayOrderId: razorpay_order_id });
+      if (!nomination) {
+        return res.status(404).json({ success: false, message: 'Nomination or matching order not found' });
+      }
+    }
+
+    // Atomic email lock
+    const emailLockedRecord = await AwardNomination.findOneAndUpdate(
+      { _id: nominationId, paidEmailSent: { $ne: true } },
+      { $set: { paidEmailSent: true } },
+      { new: true }
+    );
+
+    if (emailLockedRecord) {
+      try {
+        await sendNominationConfirmationEmail(emailLockedRecord);
+      } catch (err) {
+        console.error('Error sending nomination paid email:', err);
+        // Release lock on failure
+        await AwardNomination.updateOne({ _id: nominationId }, { $set: { paidEmailSent: false } });
+      }
     }
 
     res.status(200).json({

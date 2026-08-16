@@ -720,28 +720,70 @@ exports.verifyPayment = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Payment verification failed: invalid signature' });
     }
 
-    // Signature valid — update the delegate record & financial accounting fields
-    const delegate = await DelegateRegistration.findById(delegateId);
-    if (!delegate) {
-      return res.status(404).json({ success: false, message: 'Delegate not found' });
+    // Signature valid — now verify the exact payment amount securely from Razorpay's API
+    const Razorpay = require('razorpay');
+    const razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+
+    const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
+    
+    const delegateCheck = await DelegateRegistration.findOne({ _id: delegateId, razorpayOrderId: razorpay_order_id });
+    if (!delegateCheck) {
+      return res.status(404).json({ success: false, message: 'Delegate or matching order not found' });
     }
 
-    const paidAmt = delegate.totalAmount || 5664;
-    delegate.paymentStatus = 'Paid';
-    delegate.paymentMethod = 'Online (Razorpay)';
-    delegate.razorpayPaymentId = razorpay_payment_id;
-    delegate.amountPaid = paidAmt;
-    delegate.amountDue = 0;
-    // Invalidate/Nullify payment resume token so link cannot be reused after payment
-    delegate.resumeTokenHash = null;
-    delegate.paymentTokenExpires = null;
-    await delegate.save();
+    const expectedAmountPaise = Math.round((delegateCheck.totalAmount || 5664) * 100);
+    if (paymentDetails.amount !== expectedAmountPaise) {
+      console.error(`Amount mismatch! Expected: ${expectedAmountPaise}, Received: ${paymentDetails.amount}`);
+      return res.status(400).json({ success: false, message: 'Payment amount mismatch. Order flagged.' });
+    }
 
-    // Send paid confirmation email via Resend if not already sent
-    if (!delegate.paidEmailSent) {
-      sendDelegateConfirmationEmail(delegate).catch(err => console.error('Error sending paid confirmation email:', err));
-      delegate.paidEmailSent = true;
-      await delegate.save();
+    // Signature and amount valid — update the delegate record & financial accounting fields atomically
+    // Only update if not already paid to prevent accidental overwrites
+    // CRITICAL SECURITY: Match both _id AND razorpayOrderId to prevent cross-registration payment spoofing!
+    let delegate = await DelegateRegistration.findOneAndUpdate(
+      { _id: delegateId, razorpayOrderId: razorpay_order_id, paymentStatus: { $ne: 'Paid' } },
+      [
+        {
+          $set: {
+            paymentStatus: 'Paid',
+            paymentMethod: 'Online (Razorpay)',
+            razorpayPaymentId: razorpay_payment_id,
+            amountPaid: { $ifNull: ['$totalAmount', 5664] },
+            amountDue: 0,
+            resumeTokenHash: null,
+            paymentTokenExpires: null,
+          }
+        }
+      ],
+      { new: true }
+    );
+
+    // If it was already paid, we just fetch it to return
+    if (!delegate) {
+      delegate = await DelegateRegistration.findOne({ _id: delegateId, razorpayOrderId: razorpay_order_id });
+      if (!delegate) {
+        return res.status(404).json({ success: false, message: 'Delegate or matching order not found' });
+      }
+    }
+
+    // Atomic email lock
+    const emailLockedRecord = await DelegateRegistration.findOneAndUpdate(
+      { _id: delegateId, paidEmailSent: { $ne: true } },
+      { $set: { paidEmailSent: true } },
+      { new: true }
+    );
+
+    if (emailLockedRecord) {
+      try {
+        await sendDelegateConfirmationEmail(emailLockedRecord);
+      } catch (err) {
+        console.error('Error sending delegate paid confirmation email:', err);
+        // Release lock on failure
+        await DelegateRegistration.updateOne({ _id: delegateId }, { $set: { paidEmailSent: false } });
+      }
     }
 
     res.status(200).json({

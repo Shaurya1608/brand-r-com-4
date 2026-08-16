@@ -27,7 +27,10 @@ exports.handleRazorpayWebhook = async (req, res) => {
     .update(req.body)
     .digest('hex');
 
-  if (expectedSignature !== razorpaySignature) {
+  const expectedBuffer = Buffer.from(expectedSignature, 'utf-8');
+  const receivedBuffer = Buffer.from(razorpaySignature, 'utf-8');
+
+  if (expectedBuffer.length !== receivedBuffer.length || !crypto.timingSafeEqual(expectedBuffer, receivedBuffer)) {
     console.warn('Razorpay webhook: invalid signature — possible spoofed request');
     return res.status(400).json({ success: false, message: 'Invalid signature' });
   }
@@ -65,49 +68,111 @@ exports.handleRazorpayWebhook = async (req, res) => {
       const orderId = payment.order_id;
       const paymentId = payment.id;
 
-      // Try updating a delegate registration first
-      const delegate = await DelegateRegistration.findOneAndUpdate(
-        { razorpayOrderId: orderId },
-        {
-          paymentStatus: 'Paid',
-          paymentMethod: 'Online (Razorpay)',
-          razorpayPaymentId: paymentId,
-        },
-        { new: true }
-      );
+      const webhookAmount = payment.amount;
 
-      if (delegate) {
-        console.log(`✅ Delegate payment captured: ${delegate.fullName} (${paymentId})`);
-        if (!delegate.paidEmailSent) {
-          sendDelegateConfirmationEmail(delegate).catch(err => console.error('Webhook paid email error:', err));
-          delegate.paidEmailSent = true;
-          await delegate.save();
+      // Find registration first to verify amount
+      const delegateCheck = await DelegateRegistration.findOne({ razorpayOrderId: orderId });
+      let targetRegistrationId = null;
+      let isDelegate = false;
+
+      if (delegateCheck) {
+        const expectedPaise = Math.round((delegateCheck.totalAmount || 5664) * 100);
+        if (webhookAmount !== expectedPaise) {
+          console.error(`Webhook amount mismatch for Delegate ${orderId}. Expected: ${expectedPaise}, Received: ${webhookAmount}`);
+          return res.status(400).json({ success: false, message: 'Amount mismatch' });
         }
+        targetRegistrationId = delegateCheck._id;
+        isDelegate = true;
+      } else {
+        const nominationCheck = await AwardNomination.findOne({ razorpayOrderId: orderId });
+        if (nominationCheck) {
+          const expectedPaise = Math.round((nominationCheck.totalAmount || 9440) * 100);
+          if (webhookAmount !== expectedPaise) {
+            console.error(`Webhook amount mismatch for Nomination ${orderId}. Expected: ${expectedPaise}, Received: ${webhookAmount}`);
+            return res.status(400).json({ success: false, message: 'Amount mismatch' });
+          }
+          targetRegistrationId = nominationCheck._id;
+        }
+      }
+
+      if (!targetRegistrationId) {
+        console.warn(`payment.captured: no matching record found for orderId ${orderId}`);
         return;
       }
 
-      // If not a delegate, try nomination
-      const nomination = await AwardNomination.findOneAndUpdate(
-        { razorpayOrderId: orderId },
-        {
-          paymentStatus: 'Paid',
-          paymentMethod: 'Online (Razorpay)',
-          razorpayPaymentId: paymentId,
-        },
-        { new: true }
-      );
+      if (isDelegate) {
+        // Try updating a delegate registration first
+        const delegate = await DelegateRegistration.findOneAndUpdate(
+          { _id: targetRegistrationId, paymentStatus: { $ne: 'Paid' } },
+          {
+            $set: {
+              paymentStatus: 'Paid',
+              paymentMethod: 'Online (Razorpay)',
+              razorpayPaymentId: paymentId,
+              resumeTokenHash: null,
+              paymentTokenExpires: null,
+            }
+          },
+          { new: true }
+        );
 
-      if (nomination) {
-        console.log(`✅ Nomination payment captured: ${nomination.fullName} (${paymentId})`);
-        if (!nomination.paidEmailSent) {
-          sendNominationConfirmationEmail(nomination).catch(err => console.error('Webhook nomination paid email error:', err));
-          nomination.paidEmailSent = true;
-          await nomination.save();
+        if (delegate) {
+          console.log(`✅ Delegate payment captured (order: ${orderId})`);
+          
+          // Atomic email lock
+          const emailLockedRecord = await DelegateRegistration.findOneAndUpdate(
+            { _id: targetRegistrationId, paidEmailSent: { $ne: true } },
+            { $set: { paidEmailSent: true } },
+            { new: true }
+          );
+
+          if (emailLockedRecord) {
+            try {
+              await sendDelegateConfirmationEmail(emailLockedRecord);
+            } catch (err) {
+              console.error('Webhook delegate paid email error:', err);
+              await DelegateRegistration.updateOne({ _id: targetRegistrationId }, { $set: { paidEmailSent: false } });
+            }
+          }
+        }
+        return;
+      } else {
+        // If not a delegate, try nomination
+        const nomination = await AwardNomination.findOneAndUpdate(
+          { _id: targetRegistrationId, paymentStatus: { $ne: 'Paid' } },
+          {
+            $set: {
+              paymentStatus: 'Paid',
+              paymentMethod: 'Online (Razorpay)',
+              razorpayPaymentId: paymentId,
+              resumeTokenHash: null,
+              paymentTokenExpires: null,
+            }
+          },
+          { new: true }
+        );
+
+        if (nomination) {
+          console.log(`✅ Nomination payment captured (order: ${orderId})`);
+          
+          // Atomic email lock
+          const emailLockedRecord = await AwardNomination.findOneAndUpdate(
+            { _id: targetRegistrationId, paidEmailSent: { $ne: true } },
+            { $set: { paidEmailSent: true } },
+            { new: true }
+          );
+
+          if (emailLockedRecord) {
+            try {
+              await sendNominationConfirmationEmail(emailLockedRecord);
+            } catch (err) {
+              console.error('Webhook nomination paid email error:', err);
+              await AwardNomination.updateOne({ _id: targetRegistrationId }, { $set: { paidEmailSent: false } });
+            }
+          }
         }
         return;
       }
-
-      console.warn(`payment.captured: no matching record found for orderId ${orderId}`);
     }
 
     if (eventType === 'payment.failed') {
@@ -117,26 +182,48 @@ exports.handleRazorpayWebhook = async (req, res) => {
       // State Regression Protection: Only mark Failed if status is NOT already Paid
       const failedDelegate = await DelegateRegistration.findOneAndUpdate(
         { razorpayOrderId: orderId, paymentStatus: { $ne: 'Paid' } },
-        { paymentStatus: 'Failed' },
+        { $set: { paymentStatus: 'Failed' } },
         { new: true }
       );
 
-      if (failedDelegate && !failedDelegate.failedEmailSent) {
-        sendDelegateConfirmationEmail(failedDelegate).catch(err => console.error('Webhook failed email error:', err));
-        failedDelegate.failedEmailSent = true;
-        await failedDelegate.save();
+      if (failedDelegate) {
+        const emailLockedRecord = await DelegateRegistration.findOneAndUpdate(
+          { _id: failedDelegate._id, failedEmailSent: { $ne: true } },
+          { $set: { failedEmailSent: true } },
+          { new: true }
+        );
+
+        if (emailLockedRecord) {
+          try {
+            await sendDelegateConfirmationEmail(emailLockedRecord);
+          } catch (err) {
+            console.error('Webhook delegate failed email error:', err);
+            await DelegateRegistration.updateOne({ _id: failedDelegate._id }, { $set: { failedEmailSent: false } });
+          }
+        }
       }
 
       const failedNomination = await AwardNomination.findOneAndUpdate(
         { razorpayOrderId: orderId, paymentStatus: { $ne: 'Paid' } },
-        { paymentStatus: 'Failed' },
+        { $set: { paymentStatus: 'Failed' } },
         { new: true }
       );
 
-      if (failedNomination && !failedNomination.failedEmailSent) {
-        sendNominationConfirmationEmail(failedNomination).catch(err => console.error('Webhook failed nomination email error:', err));
-        failedNomination.failedEmailSent = true;
-        await failedNomination.save();
+      if (failedNomination) {
+        const emailLockedRecord = await AwardNomination.findOneAndUpdate(
+          { _id: failedNomination._id, failedEmailSent: { $ne: true } },
+          { $set: { failedEmailSent: true } },
+          { new: true }
+        );
+
+        if (emailLockedRecord) {
+          try {
+            await sendNominationConfirmationEmail(emailLockedRecord);
+          } catch (err) {
+            console.error('Webhook nomination failed email error:', err);
+            await AwardNomination.updateOne({ _id: failedNomination._id }, { $set: { failedEmailSent: false } });
+          }
+        }
       }
 
       console.log(`❌ Payment failed for orderId: ${orderId}`);
