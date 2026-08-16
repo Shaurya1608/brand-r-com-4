@@ -21,6 +21,7 @@ function loadRazorpayScript() {
 
 function PaymentContent() {
   const searchParams = useSearchParams();
+  const pollIntervalRef = useRef(null);
   const token = searchParams.get("token");
 
   const [loading, setLoading] = useState(true);
@@ -112,6 +113,7 @@ function PaymentContent() {
         description: isNomination ? `Award Nomination Payment - #${delegateData.nominationId || delegateData.registrationId}` : `Delegate Payment - ${delegateData.registrationId}`,
         order_id: orderData.orderId,
         handler: async function (response) {
+          if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
           try {
             const verifyPayload = isNomination 
               ? { razorpay_order_id: response.razorpay_order_id, razorpay_payment_id: response.razorpay_payment_id, razorpay_signature: response.razorpay_signature, nominationId: delegateData._id }
@@ -145,6 +147,7 @@ function PaymentContent() {
         theme: { color: "#5e8e33" },
         modal: {
           ondismiss: () => {
+            if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
             setPaymentLoading(false);
           },
         },
@@ -152,10 +155,60 @@ function PaymentContent() {
 
       const rzp = new window.Razorpay(options);
       rzp.on("payment.failed", function (response) {
+        if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
         alert(`Payment failed: ${response.error.description}`);
         setPaymentLoading(false);
       });
       rzp.open();
+
+      // Fallback Polling Loop
+      const MAX_POLLING_TIME_MS = 10 * 60 * 1000;
+      const POLLING_INTERVAL_MS = 4000;
+      const startTime = Date.now();
+
+      pollIntervalRef.current = setInterval(async () => {
+        if (Date.now() - startTime > MAX_POLLING_TIME_MS) {
+          if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+          pollIntervalRef.current = null;
+          return;
+        }
+
+        try {
+          const type = delegateData.nominationCategory ? 'nominations' : 'delegates';
+          const endpoint = type === 'delegates' 
+            ? `/delegates/verify/${delegateData._id}` 
+            : `/nominations`;
+            
+          const checkRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+            headers: type === 'nominations' ? { Authorization: `Bearer ${localStorage.getItem('token') || ''}` } : undefined
+          });
+          
+          let isPaid = false;
+          const checkData = await checkRes.json();
+          if (type === 'delegates') {
+            isPaid = (checkData.success && checkData.data.paymentStatus === 'Paid');
+          } else {
+            const ourNom = checkData.data?.find(n => n._id === delegateData._id);
+            if (ourNom && ourNom.paymentStatus === 'Paid') isPaid = true;
+          }
+
+          if (isPaid) {
+            if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+            pollIntervalRef.current = null;
+            
+            try { rzp.close(); } catch (e) { console.warn('Could not close rzp modal', e); }
+            
+            // Forcefully remove Razorpay iframe/container if it's stuck
+            const rzpElements = document.querySelectorAll('.razorpay-container');
+            rzpElements.forEach(el => el.remove());
+            
+            setPaymentSuccess(true);
+            setPaymentLoading(false);
+          }
+        } catch (err) {
+          // Silent catch for polling
+        }
+      }, POLLING_INTERVAL_MS);
     } catch (err) {
       console.error(err);
       alert("Something went wrong. Please try again.");

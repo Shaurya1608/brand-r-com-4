@@ -46,6 +46,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [razorpayPaymentId, setRazorpayPaymentId] = useState("");
   const [paymentCancelled, setPaymentCancelled] = useState(false);
+  const pollIntervalRef = useRef(null);
   const [isExistingRecord, setIsExistingRecord] = useState(false);
   const [existingData, setExistingData] = useState(null);
 

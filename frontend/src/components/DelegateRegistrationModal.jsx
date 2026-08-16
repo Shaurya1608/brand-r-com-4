@@ -421,7 +421,13 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
           if (checkData.success && checkData.data.paymentStatus === 'Paid') {
             if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
             pollIntervalRef.current = null;
+            
             try { rzp.close(); } catch (e) { console.warn('Could not close rzp modal', e); }
+            
+            // Forcefully remove Razorpay iframe/container if it's stuck
+            const rzpElements = document.querySelectorAll('.razorpay-container');
+            rzpElements.forEach(el => el.remove());
+            
             setPaymentSuccess(true);
             setPaymentLoading(false);
           }
