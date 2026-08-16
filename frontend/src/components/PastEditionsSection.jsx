@@ -150,27 +150,28 @@ export default function PastEditionsSection() {
               </button>
             </div>
 
-            {/* Modal Body - Masonry or Grid */}
-            <div className="relative z-10 flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
-              <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 max-w-7xl mx-auto pb-10">
+            {/* Modal Body - Optimized Grid with Next.js Image */}
+            <div className="relative z-10 flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 custom-scrollbar bg-gray-50/50">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 max-w-[1400px] mx-auto pb-10">
                 {allImages.map((src, index) => (
                   <motion.div 
                     key={index} 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: (index % 15) * 0.05 }}
-                    className="relative break-inside-avoid rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer bg-gray-100"
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true, margin: "50px" }}
+                    transition={{ duration: 0.4 }}
+                    className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group bg-gray-200"
                   >
-                    {/* Using next/image with object-cover or object-contain. 
-                        Since masonry images can vary in height, standard <img> tag works better for pure CSS columns masonry, 
-                        or we can use layout="responsive" with an estimated aspect ratio.
-                        Let's use a standard <img> tag for masonry auto-height. */}
-                    <img 
+                    <Image 
                       src={src} 
                       alt={`Gallery Image ${index + 1}`} 
-                      className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      quality={60}
                     />
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/10 transition-colors duration-300 pointer-events-none" />
                   </motion.div>
                 ))}
               </div>
@@ -178,14 +179,15 @@ export default function PastEditionsSection() {
             
             <style jsx>{`
               .custom-scrollbar::-webkit-scrollbar {
-                width: 6px;
+                width: 8px;
               }
               .custom-scrollbar::-webkit-scrollbar-track {
-                background: #f1f1f1;
+                background: #f8fafc;
               }
               .custom-scrollbar::-webkit-scrollbar-thumb {
                 background: #cbd5e1;
                 border-radius: 10px;
+                border: 2px solid #f8fafc;
               }
               .custom-scrollbar::-webkit-scrollbar-thumb:hover {
                 background: #94a3b8;
