@@ -25,6 +25,7 @@ import FaqSection from "@/components/FaqSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 export default function Home() {
   return (
@@ -56,6 +57,7 @@ export default function Home() {
       <ContactSection />
       <Footer />
       <WhatsAppButton />
+      <ScrollToTopButton />
     </main>
   );
 }
