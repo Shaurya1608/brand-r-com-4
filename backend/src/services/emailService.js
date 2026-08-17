@@ -335,22 +335,69 @@ const sendSpeakerConfirmationEmail = async (doc) => {
     <html lang="en">
     <head>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>${subject}</title>
       <style>
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px; color: #1a1a1a; }
-        .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; }
-        .header { border-bottom: 2px solid #7e22ce; padding-bottom: 12px; margin-bottom: 20px; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 0; color: #1a1a1a; }
+        .container { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header { background-color: #6a9a38; padding: 32px 24px; text-align: center; color: #ffffff; }
+        .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .header p { margin: 6px 0 0; font-size: 13px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px; }
+        .content { padding: 32px 28px; }
+        .greeting { font-size: 18px; font-weight: 700; color: #2d3748; margin-bottom: 12px; }
+        .message { font-size: 15px; line-height: 1.6; color: #4a5568; margin-bottom: 24px; }
+        .details-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+        .details-card h3 { margin-top: 0; margin-bottom: 16px; font-size: 15px; color: #6a9a38; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #6a9a38; padding-bottom: 8px; display: inline-block; }
+        .event-info { background: #1a202c; color: #ffffff; padding: 20px; border-radius: 12px; margin-bottom: 24px; text-align: center; }
+        .event-info h4 { margin: 0 0 8px; font-size: 16px; color: #a3e635; text-transform: uppercase; }
+        .event-info p { margin: 4px 0; font-size: 13px; color: #cbd5e1; }
+        .footer { background: #f1f5f9; padding: 20px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
+        .footer a { color: #6a9a38; text-decoration: none; font-weight: 600; }
       </style>
     </head>
     <body>
-      <div class="card">
+      <div class="container">
         <div class="header">
-          <h2 style="margin: 10px 0 0; font-size: 20px; color: #0f172a;">Speaker Enquiry Received</h2>
+          <h1>BRAND R.Comm 2026</h1>
+          <p>5th Agriculture & Rural Communication Summit & Awards</p>
         </div>
-        <p>Dear ${doc.fullName},</p>
-        <p>Thank you for expressing your interest in speaking at <strong>${eventName}</strong>. We have successfully received your enquiry and your details have been shared with our organizing committee.</p>
-        <p>Our team will review your profile and the proposed subject area (<em>${doc.subjectArea || 'N/A'}</em>), and we will get back to you shortly if there is a suitable speaking opportunity.</p>
-        <br>
-        <p>Best regards,<br><strong>Snail Integral Team</strong></p>
+        
+        <div class="content">
+          <div class="greeting">Dear ${doc.fullName},</div>
+          <div class="message">
+            Thank you for expressing your interest in speaking at <strong>${eventName}</strong>. We have successfully received your enquiry and your details have been shared with our organizing committee.
+            Our team will review your profile and the proposed subject area, and we will get back to you shortly if there is a suitable speaking opportunity.
+          </div>
+
+          <div class="details-card">
+            <h3>Enquiry Details</h3>
+            <table width="100%" style="border-collapse: collapse;">
+              <tr>
+                <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Enquiry ID:</td>
+                <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right; font-family: monospace;">#${doc._id ? doc._id.toString().slice(-8).toUpperCase() : 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Organization:</td>
+                <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.organization || 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Subject Area:</td>
+                <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.subjectArea || 'N/A'}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="event-info">
+            <h4>📅 Event Schedule & Venue</h4>
+            <p><strong>Date:</strong> Friday, 27th February 2026</p>
+            <p><strong>Venue:</strong> Holiday Inn, Aerocity, New Delhi</p>
+          </div>
+        </div>
+
+        <div class="footer">
+          <p>© 2026 BRAND R.Comm — Snail Integral. All rights reserved.</p>
+          <p>For any queries, contact us at <a href="mailto:info@brandrcomm.com">info@brandrcomm.com</a></p>
+        </div>
       </div>
     </body>
     </html>
@@ -393,22 +440,69 @@ const sendSponsorshipConfirmationEmail = async (doc) => {
     <html lang="en">
     <head>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>${subject}</title>
       <style>
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px; color: #1a1a1a; }
-        .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; }
-        .header { border-bottom: 2px solid #0d9488; padding-bottom: 12px; margin-bottom: 20px; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 0; color: #1a1a1a; }
+        .container { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header { background-color: #6a9a38; padding: 32px 24px; text-align: center; color: #ffffff; }
+        .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .header p { margin: 6px 0 0; font-size: 13px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px; }
+        .content { padding: 32px 28px; }
+        .greeting { font-size: 18px; font-weight: 700; color: #2d3748; margin-bottom: 12px; }
+        .message { font-size: 15px; line-height: 1.6; color: #4a5568; margin-bottom: 24px; }
+        .details-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+        .details-card h3 { margin-top: 0; margin-bottom: 16px; font-size: 15px; color: #6a9a38; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #6a9a38; padding-bottom: 8px; display: inline-block; }
+        .event-info { background: #1a202c; color: #ffffff; padding: 20px; border-radius: 12px; margin-bottom: 24px; text-align: center; }
+        .event-info h4 { margin: 0 0 8px; font-size: 16px; color: #a3e635; text-transform: uppercase; }
+        .event-info p { margin: 4px 0; font-size: 13px; color: #cbd5e1; }
+        .footer { background: #f1f5f9; padding: 20px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
+        .footer a { color: #6a9a38; text-decoration: none; font-weight: 600; }
       </style>
     </head>
     <body>
-      <div class="card">
+      <div class="container">
         <div class="header">
-          <h2 style="margin: 10px 0 0; font-size: 20px; color: #0f172a;">Sponsorship Booking Confirmed</h2>
+          <h1>BRAND R.Comm 2026</h1>
+          <p>5th Agriculture & Rural Communication Summit & Awards</p>
         </div>
-        <p>Dear ${doc.contactPerson},</p>
-        <p>Thank you for booking a sponsorship for <strong>${eventName}</strong> on behalf of <strong>${doc.companyName}</strong>.</p>
-        <p>We have securely received your details for the <strong>${doc.sponsorshipTier || doc.sponsorshipCategory || 'Sponsorship'}</strong> package. Our team will reach out to you shortly to process your booking and assist you with the next steps.</p>
-        <br>
-        <p>Best regards,<br><strong>Snail Integral Team</strong></p>
+        
+        <div class="content">
+          <div class="greeting">Dear ${doc.contactPerson},</div>
+          <div class="message">
+            Thank you for booking a sponsorship for <strong>${eventName}</strong> on behalf of <strong>${doc.companyName}</strong>. 
+            We have securely received your details for the <strong>${doc.sponsorshipTier || doc.sponsorshipCategory || 'Sponsorship'}</strong> package. Our team will reach out to you shortly to process your booking and assist you with the next steps.
+          </div>
+
+          <div class="details-card">
+            <h3>Booking Details</h3>
+            <table width="100%" style="border-collapse: collapse;">
+              <tr>
+                <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Booking ID:</td>
+                <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right; font-family: monospace;">#${doc._id ? doc._id.toString().slice(-8).toUpperCase() : 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Company Name:</td>
+                <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right;">${doc.companyName}</td>
+              </tr>
+              <tr>
+                <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Sponsorship Tier:</td>
+                <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.sponsorshipTier || doc.sponsorshipCategory || 'N/A'}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="event-info">
+            <h4>📅 Event Schedule & Venue</h4>
+            <p><strong>Date:</strong> Friday, 27th February 2026</p>
+            <p><strong>Venue:</strong> Holiday Inn, Aerocity, New Delhi</p>
+          </div>
+        </div>
+
+        <div class="footer">
+          <p>© 2026 BRAND R.Comm — Snail Integral. All rights reserved.</p>
+          <p>For any queries, contact us at <a href="mailto:info@brandrcomm.com">info@brandrcomm.com</a></p>
+        </div>
       </div>
     </body>
     </html>
