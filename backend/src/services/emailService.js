@@ -333,14 +333,27 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
 
     const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
     const isPaid = dataDoc.paymentStatus === 'Paid';
+    const isForeign = dataDoc.delegateType === 'foreign';
     const regId = dataDoc._id ? dataDoc._id.toString().slice(-8).toUpperCase() : 'N/A';
     const typeLabel = entityType === 'delegate' ? 'Delegate Registration' : 'Award Nomination';
 
-    const subject = isPaid
-      ? `💰 [PAYMENT RECEIVED] ${typeLabel} #${regId} — ${dataDoc.fullName}`
-      : `🚨 [NEW REGISTRATION] ${typeLabel} #${regId} — ${dataDoc.fullName} (Pending)`;
+    let subject = `🚨 [NEW REGISTRATION] ${typeLabel} #${regId} — ${dataDoc.fullName} (Pending)`;
+    if (isPaid) subject = `💰 [PAYMENT RECEIVED] ${typeLabel} #${regId} — ${dataDoc.fullName}`;
+    if (isForeign) subject = `🌐 [INTL DELEGATE] ${typeLabel} #${regId} — ${dataDoc.fullName}`;
 
-    const formattedAmount = dataDoc.delegateType === 'foreign'
+    let headerColor = isPaid ? '#16a34a' : '#ea580c';
+    if (isForeign) headerColor = '#2563eb';
+
+    let badgeBg = isPaid ? '#dcfce7' : '#ffedd5';
+    let badgeTextCol = isPaid ? '#15803d' : '#c2410c';
+    let badgeText = isPaid ? 'Payment Confirmed' : 'Registration Pending';
+    if (isForeign) {
+      badgeBg = '#dbeafe';
+      badgeTextCol = '#1d4ed8';
+      badgeText = 'International Registration';
+    }
+
+    const formattedAmount = isForeign
       ? `USD ${dataDoc.amountPaid || dataDoc.totalAmount || 250}`
       : `₹${(dataDoc.amountPaid || dataDoc.totalAmount || 5664).toLocaleString('en-IN')}`;
 
@@ -352,8 +365,8 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
       <style>
         body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px; color: #1a1a1a; }
         .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; }
-        .header { border-bottom: 2px solid ${isPaid ? '#16a34a' : '#ea580c'}; padding-bottom: 12px; margin-bottom: 20px; }
-        .badge { background: ${isPaid ? '#dcfce7' : '#ffedd5'}; color: ${isPaid ? '#15803d' : '#c2410c'}; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
+        .header { border-bottom: 2px solid ${headerColor}; padding-bottom: 12px; margin-bottom: 20px; }
+        .badge { background: ${badgeBg}; color: ${badgeTextCol}; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
         .table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .table td { padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 14px; }
         .label { color: #64748b; font-weight: 600; }
@@ -363,7 +376,7 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
     <body>
       <div class="card">
         <div class="header">
-          <span class="badge">${isPaid ? 'Payment Confirmed' : 'Registration Pending'}</span>
+          <span class="badge">${badgeText}</span>
           <h2 style="margin: 10px 0 0; font-size: 20px; color: #0f172a;">${subject}</h2>
         </div>
         <p style="font-size: 14px; color: #475569; margin-bottom: 16px;">
@@ -377,8 +390,8 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
           <tr><td class="label">Organization:</td><td class="value">${dataDoc.organization || 'N/A'}</td></tr>
           <tr><td class="label">Designation:</td><td class="value">${dataDoc.designation || 'N/A'}</td></tr>
           <tr><td class="label">City / State:</td><td class="value">${dataDoc.city ? `${dataDoc.city}, ${dataDoc.stateCountry}` : 'N/A'}</td></tr>
-          <tr><td class="label">Payment Status:</td><td class="value" style="color: ${isPaid ? '#16a34a' : '#ea580c'};">${dataDoc.paymentStatus}</td></tr>
-          <tr><td class="label">Amount (${isPaid ? 'Paid' : 'Due'}):</td><td class="value">${formattedAmount}</td></tr>
+          <tr><td class="label">Payment Status:</td><td class="value" style="color: ${headerColor};">${isForeign ? 'N/A (Intl)' : dataDoc.paymentStatus}</td></tr>
+          <tr><td class="label">Amount ${isForeign ? 'Applicable' : (isPaid ? 'Paid' : 'Due')}:</td><td class="value">${formattedAmount}</td></tr>
           ${dataDoc.razorpayPaymentId ? `<tr><td class="label">Razorpay Payment ID:</td><td class="value" style="font-family: monospace;">${dataDoc.razorpayPaymentId}</td></tr>` : ''}
           ${dataDoc.couponCode ? `<tr><td class="label">Coupon Used:</td><td class="value" style="color: #65a30d;">${dataDoc.couponCode}</td></tr>` : ''}
         </table>
