@@ -52,6 +52,13 @@ const getEmailConfig = (doc, isNomination) => {
     statusBadge = `<span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">Failed</span>`;
     showCTA = true;
     hideFinancials = false;
+  } else if (doc.delegateType === 'foreign') {
+    // Case: Foreign Delegate (No payment required immediately)
+    subject = `✅ Registration Confirmed: ${eventName} (${doc.fullName})`;
+    messageText = `Great news! Your registration for <strong>${eventName}</strong> has been securely received and confirmed. Our team will contact you shortly regarding international delegate details and visa-support.`;
+    statusBadge = `<span style="background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">Confirmed</span>`;
+    showCTA = false;
+    hideFinancials = true;
   } else {
     // Case 1: Website Registration + Pending
     subject = `⏳ Complete Your Registration: ${eventName} (${doc.fullName})`;

@@ -229,7 +229,11 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
           setIsAlreadyPaid(false);
           setExistingData(null);
         }
-        setSuccess(true);
+        if (delegateType === 'foreign') {
+          setPaymentSuccess(true);
+        } else {
+          setSuccess(true);
+        }
       } else {
         setError(data.message || 'Something went wrong. Please try again.');
       }
