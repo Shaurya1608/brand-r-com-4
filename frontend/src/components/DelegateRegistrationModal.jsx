@@ -231,9 +231,8 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
         }
         if (delegateType === 'foreign') {
           setPaymentSuccess(true);
-        } else {
-          setSuccess(true);
         }
+        setSuccess(true);
       } else {
         setError(data.message || 'Something went wrong. Please try again.');
       }
