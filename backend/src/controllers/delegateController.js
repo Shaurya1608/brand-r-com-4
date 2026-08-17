@@ -172,6 +172,16 @@ exports.registerDelegate = async (req, res) => {
     let existingDelegate = await DelegateRegistration.findOne({ $or: queryOr });
 
       if (existingDelegate) {
+        if (existingDelegate.paymentStatus === 'Paid') {
+          return res.status(200).json({
+            success: true,
+            isExisting: true,
+            alreadyPaid: true,
+            message: 'You are already fully registered! If you wish to register another delegate, please use their email address.',
+            data: existingDelegate
+          });
+        }
+        
         // Update existing record with latest user input
         existingDelegate.delegateType = delegateType || existingDelegate.delegateType;
         existingDelegate.fullName = fullName || existingDelegate.fullName;
