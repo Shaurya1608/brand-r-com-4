@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, AlertCircle, Lock, ShieldCheck, ArrowRight, RefreshCw, Mail, Phone, Calendar, MapPin } from "lucide-react";
 
