@@ -222,7 +222,6 @@ export default function JurySection() {
                   <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <div className="w-full flex flex-col items-center transition-transform duration-300 group-hover:-translate-y-1">
-                  <span className="text-[10px] md:text-[11px] font-bold text-brand-primary mb-1 uppercase tracking-wider">Jury Member</span>
                   <h4 className="text-[12px] md:text-[14px] font-bold text-brand-dark mb-1.5 font-serif leading-tight">{member.name}</h4>
                   {member.lines.map((line, i) => (
                     <p key={i} className="text-[9px] md:text-[10px] text-brand-dark/60 font-medium leading-[1.3]">{line}</p>
