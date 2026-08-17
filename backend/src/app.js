@@ -11,16 +11,34 @@ const app = express();
 
 // Middleware
 app.use(helmet()); // Security headers
-// Build allowed origins: always include localhost for dev + production URLs from .env
+// Parse comma-separated URLs from env variables if provided
+const parseEnvUrls = (envVar) => {
+  if (!envVar) return [];
+  return envVar.split(',').map(url => url.trim()).filter(Boolean);
+};
+
+// Build allowed origins: include localhosts, specific deployment URLs, and URLs from .env
 const allowedOrigins = [
-  'http://localhost:3000',           // frontend dev
+  'http://localhost:3000',           // legacy frontend dev
   'http://localhost:3001',           // admin dev
-  process.env.FRONTEND_URL,          // frontend production
+  'http://localhost:5173',           // vite frontend dev
+  'https://brand-r-com-4.vercel.app',// Vercel deployment
+  'https://brandrcomm.com',          // Production custom domain
+  process.env.FRONTEND_URL,          // legacy frontend production
   process.env.ADMIN_URL,             // admin production
-].filter(Boolean);                   // remove undefined/empty values
+  ...parseEnvUrls(process.env.FRONTEND_URLS), // dynamic multiple frontend URLs
+].filter(Boolean);
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true, // Allow cookies to be sent cross-origin
 }));
 app.use(cookieParser()); // Parse cookies — required for JWT cookie auth
