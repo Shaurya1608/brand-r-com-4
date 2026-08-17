@@ -1,4 +1,5 @@
 const SpeakerInterest = require('../models/SpeakerInterest');
+const { sendSpeakerConfirmationEmail } = require('../services/emailService');
 
 // @desc    Create a new speaker interest enquiry
 // @route   POST /api/speakers/create
@@ -27,6 +28,9 @@ const createSpeakerInterest = async (req, res) => {
       subjectArea: subjectArea || '',
       status: 'pending'
     });
+
+    // Send confirmation email to the speaker (which also triggers the admin notification)
+    sendSpeakerConfirmationEmail(speakerInterest).catch(err => console.error('Error in sendSpeakerConfirmationEmail:', err));
 
     res.status(201).json({
       success: true,

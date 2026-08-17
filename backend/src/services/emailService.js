@@ -319,6 +319,64 @@ const sendNominationConfirmationEmail = async (nomination, rawToken = null) => {
   }
 };
 
+const sendSpeakerConfirmationEmail = async (doc) => {
+  try {
+    const resend = getResendInstance();
+    if (!resend) return;
+
+    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
+    const eventName = 'BRAND R.Comm 2026';
+    const toEmail = doc.email.trim();
+
+    const subject = `Thank You for Your Interest in Speaking at ${eventName}`;
+
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px; color: #1a1a1a; }
+        .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; }
+        .header { border-bottom: 2px solid #7e22ce; padding-bottom: 12px; margin-bottom: 20px; }
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <div class="header">
+          <h2 style="margin: 10px 0 0; font-size: 20px; color: #0f172a;">Speaker Enquiry Received</h2>
+        </div>
+        <p>Dear ${doc.fullName},</p>
+        <p>Thank you for expressing your interest in speaking at <strong>${eventName}</strong>. We have successfully received your enquiry and your details have been shared with our organizing committee.</p>
+        <p>Our team will review your profile and the proposed subject area (<em>${doc.subjectArea || 'N/A'}</em>), and we will get back to you shortly if there is a suitable speaking opportunity.</p>
+        <br>
+        <p>Best regards,<br><strong>Snail Integral Team</strong></p>
+      </div>
+    </body>
+    </html>
+    `;
+
+    const { data, error } = await resend.emails.send({
+      from: senderEmail,
+      to: [toEmail],
+      subject,
+      html: htmlContent,
+    });
+
+    if (error) {
+      console.error('Error sending speaker confirmation email:', error);
+      return;
+    }
+    console.log('Speaker confirmation email sent to:', toEmail);
+
+    // Send internal team notification
+    sendAdminNotificationEmail('speaker', doc).catch(err => console.error('Error sending team speaker notification:', err));
+
+  } catch (err) {
+    console.error('Exception sending speaker confirmation email:', err.message);
+  }
+};
+
 const sendAdminNotificationEmail = async (entityType, dataDoc) => {
   try {
     const adminEmails = (process.env.ADMIN_NOTIFICATION_EMAILS || "")
@@ -335,14 +393,16 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
     const isPaid = dataDoc.paymentStatus === 'Paid';
     const isForeign = dataDoc.delegateType === 'foreign';
     const regId = dataDoc._id ? dataDoc._id.toString().slice(-8).toUpperCase() : 'N/A';
-    const typeLabel = entityType === 'delegate' ? 'Delegate Registration' : 'Award Nomination';
+    const typeLabel = entityType === 'delegate' ? 'Delegate Registration' : (entityType === 'speaker' ? 'Speaker Enquiry' : 'Award Nomination');
 
     let subject = `🚨 [NEW REGISTRATION] ${typeLabel} #${regId} — ${dataDoc.fullName} (Pending)`;
     if (isPaid) subject = `💰 [PAYMENT RECEIVED] ${typeLabel} #${regId} — ${dataDoc.fullName}`;
     if (isForeign) subject = `🌐 [INTL DELEGATE] ${typeLabel} #${regId} — ${dataDoc.fullName}`;
+    if (entityType === 'speaker') subject = `🎤 [NEW SPEAKER ENQUIRY] #${regId} — ${dataDoc.fullName}`;
 
     let headerColor = isPaid ? '#16a34a' : '#ea580c';
     if (isForeign) headerColor = '#2563eb';
+    if (entityType === 'speaker') headerColor = '#9333ea';
 
     let badgeBg = isPaid ? '#dcfce7' : '#ffedd5';
     let badgeTextCol = isPaid ? '#15803d' : '#c2410c';
@@ -351,6 +411,11 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
       badgeBg = '#dbeafe';
       badgeTextCol = '#1d4ed8';
       badgeText = 'International Registration';
+    }
+    if (entityType === 'speaker') {
+      badgeBg = '#f3e8ff';
+      badgeTextCol = '#7e22ce';
+      badgeText = 'Speaker Enquiry';
     }
 
     const formattedAmount = isForeign
@@ -390,8 +455,9 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
           <tr><td class="label">Organization:</td><td class="value">${dataDoc.organization || 'N/A'}</td></tr>
           <tr><td class="label">Designation:</td><td class="value">${dataDoc.designation || 'N/A'}</td></tr>
           <tr><td class="label">City / State:</td><td class="value">${dataDoc.city ? `${dataDoc.city}, ${dataDoc.stateCountry}` : 'N/A'}</td></tr>
-          <tr><td class="label">Payment Status:</td><td class="value" style="color: ${headerColor};">${isForeign ? 'N/A (Intl)' : dataDoc.paymentStatus}</td></tr>
-          <tr><td class="label">Amount ${isForeign ? 'Applicable' : (isPaid ? 'Paid' : 'Due')}:</td><td class="value">${formattedAmount}</td></tr>
+          ${entityType === 'speaker' ? `<tr><td class="label">Subject Area:</td><td class="value">${dataDoc.subjectArea || 'N/A'}</td></tr>` : ''}
+          ${entityType !== 'speaker' ? `<tr><td class="label">Payment Status:</td><td class="value" style="color: ${headerColor};">${isForeign ? 'N/A (Intl)' : dataDoc.paymentStatus}</td></tr>` : ''}
+          ${entityType !== 'speaker' ? `<tr><td class="label">Amount ${isForeign ? 'Applicable' : (isPaid ? 'Paid' : 'Due')}:</td><td class="value">${formattedAmount}</td></tr>` : ''}
           ${dataDoc.razorpayPaymentId ? `<tr><td class="label">Razorpay Payment ID:</td><td class="value" style="font-family: monospace;">${dataDoc.razorpayPaymentId}</td></tr>` : ''}
           ${dataDoc.couponCode ? `<tr><td class="label">Coupon Used:</td><td class="value" style="color: #65a30d;">${dataDoc.couponCode}</td></tr>` : ''}
         </table>
@@ -423,5 +489,7 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
 
 module.exports = {
   sendDelegateConfirmationEmail,
-  sendNominationConfirmationEmail
+  sendNominationConfirmationEmail,
+  sendSpeakerConfirmationEmail,
+  sendAdminNotificationEmail
 };
