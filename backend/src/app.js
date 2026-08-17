@@ -24,6 +24,7 @@ const allowedOrigins = [
   'http://localhost:5173',           // vite frontend dev
   'https://brand-r-com-4.vercel.app',// Vercel deployment
   'https://brandrcomm.com',          // Production custom domain
+  'https://www.brandrcomm.com',      // Production custom domain (www)
   process.env.FRONTEND_URL,          // legacy frontend production
   process.env.ADMIN_URL,             // admin production
   ...parseEnvUrls(process.env.FRONTEND_URLS), // dynamic multiple frontend URLs
@@ -33,9 +34,16 @@ app.use(cors({
   origin: (origin, callback) => {
     // allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
+    
+    // Always allow any localhost or 127.0.0.1 in development to avoid strict fetch errors
+    if (origin.match(/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/)) {
+      return callback(null, true);
+    }
+
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.warn(`[CORS] Blocked request from origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },

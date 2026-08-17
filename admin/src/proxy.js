@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
  * If not present, redirects the user to the login page (/).
  * If the user is already logged in and visits /, redirects to /dashboard.
  */
-export function middleware(request) {
+export function proxy(request) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('admin_token')?.value;
 
