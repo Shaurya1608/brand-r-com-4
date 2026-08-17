@@ -13,6 +13,24 @@ const createSponsorship = async (req, res) => {
       address, sponsorshipCategory, sponsorshipTier, registrationType, registeredBy, basePrice, totalAmount, logoUrl
     } = req.body;
 
+    // Check for duplicate
+    const cleanEmail = email ? email.toLowerCase().trim() : '';
+    const cleanMobile = mobileNumber ? mobileNumber.trim() : '';
+
+    let queryOr = [];
+    if (cleanEmail) queryOr.push({ email: cleanEmail });
+    if (cleanMobile) queryOr.push({ mobileNumber: cleanMobile });
+
+    if (queryOr.length > 0) {
+      const existingSponsorship = await Sponsorship.findOne({ $or: queryOr });
+      if (existingSponsorship) {
+        return res.status(200).json({
+          success: false,
+          message: 'You have already submitted a sponsorship booking with this email or mobile number! Our team will contact you shortly.'
+        });
+      }
+    }
+
     // Create sponsorship record
     const sponsorship = await Sponsorship.create({
       companyName,
