@@ -656,7 +656,7 @@ exports.createOrder = async (req, res) => {
 
     const order = await razorpay.orders.create({
       amount: amountPaise,
-      currency: 'INR',
+      currency: delegate.delegateType === 'foreign' ? 'USD' : 'INR',
       receipt: `delegate_${delegateId.toString().slice(-8)}`,
       notes: {
         delegateId: delegateId.toString(),
