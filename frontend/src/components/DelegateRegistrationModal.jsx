@@ -295,7 +295,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   
   const finalAmountString = delegateType === 'indian' 
     ? `₹ ${formatINR(finalRs)}` 
-    : `USD ${taxableUsd} + Tax`;
+    : `USD ${taxableUsd}`;
 
   const totalAmountDisplay = delegateType === 'indian' ? (
     <div className="flex flex-col items-end">
@@ -311,11 +311,11 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     <div className="flex flex-col items-end">
       {couponApplied && (
         <div className="text-[12px] font-sans font-medium text-brand-dark/40 line-through mb-0.5 tracking-wide">
-          USD 250 + Tax
+          USD 250
         </div>
       )}
       <span className="font-serif font-bold text-3xl text-brand-dark">
-        USD {taxableUsd} <span className="text-lg font-sans font-medium text-brand-dark/60">+ Tax</span>
+        USD {taxableUsd}
       </span>
     </div>
   );
