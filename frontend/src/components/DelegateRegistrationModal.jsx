@@ -839,7 +839,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                     disabled={loading}
                     className="w-full py-3.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    {loading ? 'PROCESSING...' : 'PROCEED TO PAYMENT'}
+                    {loading ? 'PROCESSING...' : (delegateType === 'foreign' ? 'SUBMIT REGISTRATION' : 'PROCEED TO PAYMENT')}
                   </button>
                 </div>
               </div>

@@ -174,11 +174,8 @@ exports.registerDelegate = async (req, res) => {
       if (existingDelegate) {
         if (existingDelegate.paymentStatus === 'Paid') {
           return res.status(200).json({
-            success: true,
-            isExisting: true,
-            alreadyPaid: true,
-            message: 'You are already fully registered! If you wish to register another delegate, please use their email address.',
-            data: existingDelegate
+            success: false,
+            message: `You have already registered this email as an ${existingDelegate.delegateType === 'indian' ? 'Indian' : 'International'} delegate! Please use another email or contact our team if you need assistance.`
           });
         }
         
