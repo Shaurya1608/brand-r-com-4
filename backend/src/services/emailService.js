@@ -383,16 +383,21 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
     </html>
     `;
 
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: senderEmail,
       to: adminEmails,
       subject: subject,
       html: htmlContent,
     });
 
+    if (error) {
+      console.error(`⚠️ Error from Resend when sending internal team notification:`, error);
+      return;
+    }
+
     console.log(`📩 Internal team notification (${dataDoc.paymentStatus}) sent to ${adminEmails.length} recipients: ${adminEmails.join(', ')}`);
   } catch (err) {
-    console.error('⚠️ Error sending internal team notification email:', err.message);
+    console.error('⚠️ Exception sending internal team notification email:', err.message);
   }
 };
 
