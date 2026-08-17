@@ -9,6 +9,9 @@ const { errorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 
+// Trust the first proxy (Render's load balancer) so express-rate-limit works accurately
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(helmet()); // Security headers
 // Parse comma-separated URLs from env variables if provided
