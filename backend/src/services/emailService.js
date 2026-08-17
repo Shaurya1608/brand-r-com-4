@@ -377,6 +377,64 @@ const sendSpeakerConfirmationEmail = async (doc) => {
   }
 };
 
+const sendSponsorshipConfirmationEmail = async (doc) => {
+  try {
+    const resend = getResendInstance();
+    if (!resend) return;
+
+    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
+    const eventName = 'BRAND R.Comm 2026';
+    const toEmail = doc.email.trim();
+
+    const subject = `Sponsorship Booking Received: ${eventName}`;
+
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px; color: #1a1a1a; }
+        .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; }
+        .header { border-bottom: 2px solid #0d9488; padding-bottom: 12px; margin-bottom: 20px; }
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <div class="header">
+          <h2 style="margin: 10px 0 0; font-size: 20px; color: #0f172a;">Sponsorship Booking Confirmed</h2>
+        </div>
+        <p>Dear ${doc.contactPerson},</p>
+        <p>Thank you for booking a sponsorship for <strong>${eventName}</strong> on behalf of <strong>${doc.companyName}</strong>.</p>
+        <p>We have securely received your details for the <strong>${doc.sponsorshipTier || doc.sponsorshipCategory || 'Sponsorship'}</strong> package. Our team will reach out to you shortly to process your booking and assist you with the next steps.</p>
+        <br>
+        <p>Best regards,<br><strong>Snail Integral Team</strong></p>
+      </div>
+    </body>
+    </html>
+    `;
+
+    const { data, error } = await resend.emails.send({
+      from: senderEmail,
+      to: [toEmail],
+      subject,
+      html: htmlContent,
+    });
+
+    if (error) {
+      console.error('Error sending sponsorship confirmation email:', error);
+      return;
+    }
+    console.log('Sponsorship confirmation email sent to:', toEmail);
+
+    // Send internal team notification
+    sendAdminNotificationEmail('sponsorship', doc).catch(err => console.error('Error sending team sponsorship notification:', err));
+
+  } catch (err) {
+    console.error('Exception sending sponsorship confirmation email:', err.message);
+  }
+};
+
 const sendAdminNotificationEmail = async (entityType, dataDoc) => {
   try {
     const adminEmails = (process.env.ADMIN_NOTIFICATION_EMAILS || "")
@@ -393,16 +451,19 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
     const isPaid = dataDoc.paymentStatus === 'Paid';
     const isForeign = dataDoc.delegateType === 'foreign';
     const regId = dataDoc._id ? dataDoc._id.toString().slice(-8).toUpperCase() : 'N/A';
-    const typeLabel = entityType === 'delegate' ? 'Delegate Registration' : (entityType === 'speaker' ? 'Speaker Enquiry' : 'Award Nomination');
+    const typeLabel = entityType === 'delegate' ? 'Delegate Registration' : (entityType === 'speaker' ? 'Speaker Enquiry' : (entityType === 'sponsorship' ? 'Sponsorship Booking' : 'Award Nomination'));
+    const displayName = dataDoc.companyName || dataDoc.fullName || 'N/A';
 
-    let subject = `🚨 [NEW REGISTRATION] ${typeLabel} #${regId} — ${dataDoc.fullName} (Pending)`;
-    if (isPaid) subject = `💰 [PAYMENT RECEIVED] ${typeLabel} #${regId} — ${dataDoc.fullName}`;
-    if (isForeign) subject = `🌐 [INTL DELEGATE] ${typeLabel} #${regId} — ${dataDoc.fullName}`;
-    if (entityType === 'speaker') subject = `🎤 [NEW SPEAKER ENQUIRY] #${regId} — ${dataDoc.fullName}`;
+    let subject = `🚨 [NEW REGISTRATION] ${typeLabel} #${regId} — ${displayName} (Pending)`;
+    if (isPaid) subject = `💰 [PAYMENT RECEIVED] ${typeLabel} #${regId} — ${displayName}`;
+    if (isForeign) subject = `🌐 [INTL DELEGATE] ${typeLabel} #${regId} — ${displayName}`;
+    if (entityType === 'speaker') subject = `🎤 [NEW SPEAKER ENQUIRY] #${regId} — ${displayName}`;
+    if (entityType === 'sponsorship') subject = `🏢 [NEW SPONSORSHIP] #${regId} — ${displayName}`;
 
     let headerColor = isPaid ? '#16a34a' : '#ea580c';
     if (isForeign) headerColor = '#2563eb';
     if (entityType === 'speaker') headerColor = '#9333ea';
+    if (entityType === 'sponsorship') headerColor = '#0d9488';
 
     let badgeBg = isPaid ? '#dcfce7' : '#ffedd5';
     let badgeTextCol = isPaid ? '#15803d' : '#c2410c';
@@ -416,6 +477,11 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
       badgeBg = '#f3e8ff';
       badgeTextCol = '#7e22ce';
       badgeText = 'Speaker Enquiry';
+    }
+    if (entityType === 'sponsorship') {
+      badgeBg = '#ccfbf1';
+      badgeTextCol = '#0f766e';
+      badgeText = 'Sponsorship Booking';
     }
 
     const formattedAmount = isForeign
@@ -448,15 +514,17 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
           An update has occurred on <strong>BRAND R.Comm 2026</strong>. Here are the details for your team records:
         </p>
         <table class="table">
-          <tr><td class="label">Attendee Name:</td><td class="value">${dataDoc.fullName}</td></tr>
+          ${entityType === 'sponsorship' ? `<tr><td class="label">Company Name:</td><td class="value">${dataDoc.companyName}</td></tr>` : ''}
+          <tr><td class="label">${entityType === 'sponsorship' ? 'Contact Person' : 'Attendee Name'}:</td><td class="value">${entityType === 'sponsorship' ? dataDoc.contactPerson : dataDoc.fullName}</td></tr>
           <tr><td class="label">Registration ID:</td><td class="value" style="font-family: monospace;">#${regId}</td></tr>
           <tr><td class="label">Email Address:</td><td class="value"><a href="mailto:${dataDoc.email}">${dataDoc.email}</a></td></tr>
           <tr><td class="label">Mobile Number:</td><td class="value"><a href="tel:${dataDoc.mobileNumber}">${dataDoc.mobileNumber}</a></td></tr>
-          <tr><td class="label">Organization:</td><td class="value">${dataDoc.organization || 'N/A'}</td></tr>
+          ${entityType !== 'sponsorship' ? `<tr><td class="label">Organization:</td><td class="value">${dataDoc.organization || 'N/A'}</td></tr>` : ''}
           <tr><td class="label">Designation:</td><td class="value">${dataDoc.designation || 'N/A'}</td></tr>
           <tr><td class="label">City / State:</td><td class="value">${dataDoc.city ? `${dataDoc.city}, ${dataDoc.stateCountry}` : 'N/A'}</td></tr>
+          ${entityType === 'sponsorship' ? `<tr><td class="label">Sponsorship Tier:</td><td class="value">${dataDoc.sponsorshipTier || dataDoc.sponsorshipCategory || 'N/A'}</td></tr>` : ''}
           ${entityType === 'speaker' ? `<tr><td class="label">Subject Area:</td><td class="value">${dataDoc.subjectArea || 'N/A'}</td></tr>` : ''}
-          ${entityType !== 'speaker' ? `<tr><td class="label">Payment Status:</td><td class="value" style="color: ${headerColor};">${isForeign ? 'N/A (Intl)' : dataDoc.paymentStatus}</td></tr>` : ''}
+          ${(entityType !== 'speaker' && entityType !== 'sponsorship') ? `<tr><td class="label">Payment Status:</td><td class="value" style="color: ${headerColor};">${isForeign ? 'N/A (Intl)' : dataDoc.paymentStatus}</td></tr>` : ''}
           ${entityType !== 'speaker' ? `<tr><td class="label">Amount ${isForeign ? 'Applicable' : (isPaid ? 'Paid' : 'Due')}:</td><td class="value">${formattedAmount}</td></tr>` : ''}
           ${dataDoc.razorpayPaymentId ? `<tr><td class="label">Razorpay Payment ID:</td><td class="value" style="font-family: monospace;">${dataDoc.razorpayPaymentId}</td></tr>` : ''}
           ${dataDoc.couponCode ? `<tr><td class="label">Coupon Used:</td><td class="value" style="color: #65a30d;">${dataDoc.couponCode}</td></tr>` : ''}
@@ -491,5 +559,6 @@ module.exports = {
   sendDelegateConfirmationEmail,
   sendNominationConfirmationEmail,
   sendSpeakerConfirmationEmail,
+  sendSponsorshipConfirmationEmail,
   sendAdminNotificationEmail
 };

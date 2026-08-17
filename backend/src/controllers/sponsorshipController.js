@@ -1,5 +1,6 @@
 const Sponsorship = require('../models/Sponsorship');
 const DelegateRegistration = require('../models/DelegateRegistration');
+const { sendSponsorshipConfirmationEmail } = require('../services/emailService');
 
 // @desc    Create a new sponsorship booking
 // @route   POST /api/sponsorships/create
@@ -33,6 +34,9 @@ const createSponsorship = async (req, res) => {
       logoUrl,
       status: 'completed'
     });
+
+    // Send confirmation email to the sponsor (which also triggers the admin notification)
+    sendSponsorshipConfirmationEmail(sponsorship).catch(err => console.error('Error in sendSponsorshipConfirmationEmail:', err));
 
     res.status(201).json({
       success: true,
