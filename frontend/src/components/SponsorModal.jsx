@@ -27,6 +27,7 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
   
   const categoryDropdownRef = useRef(null);
 
@@ -106,16 +107,18 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setError('');
+
     // Email & Mobile format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email || !emailRegex.test(String(formData.email).trim().toLowerCase())) {
-      alert('Please enter a valid email address (e.g. name@company.com)');
+      setError('Please enter a valid email address (e.g. name@company.com)');
       return;
     }
 
     const mobileDigits = String(formData.contactNumber || formData.mobileNumber || '').replace(/\D/g, '');
     if (!mobileDigits || mobileDigits.length < 10 || mobileDigits.length > 15) {
-      alert('Please enter a valid 10-digit mobile number (e.g. 9876543210 or +91 9876543210)');
+      setError('Please enter a valid 10-digit mobile number (e.g. 9876543210 or +91 9876543210)');
       return;
     }
 
@@ -156,11 +159,11 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
       if (data.success) {
         setSuccess(true);
       } else {
-        alert(data.message || 'Failed to submit booking. Please try again.');
+        setError(data.message || 'Failed to submit booking. Please try again.');
       }
     } catch (err) {
       console.error(err);
-      alert('Network error. Please try again later.');
+      setError('Network error. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -332,6 +335,16 @@ export default function SponsorModal({ isOpen, onClose, initialCategory = "" }) 
 
             {/* Form Body */}
             <div className="overflow-y-auto custom-scrollbar flex-1 p-5 md:p-6 bg-white">
+              
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 flex items-start gap-3">
+                  <svg className="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <span className="font-medium">{error}</span>
+                </div>
+              )}
+
               <form id="sponsor-form" onSubmit={handleSubmit} className="space-y-6 w-full mx-auto">
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
