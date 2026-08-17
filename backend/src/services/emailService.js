@@ -242,7 +242,7 @@ const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
       return { success: false, error: 'Resend not configured' };
     }
 
-    const senderEmail = process.env.RESEND_FROM_EMAIL || 'BRAND R.Comm 2026 <onboarding@resend.dev>';
+    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
     const config = getEmailConfig(delegate, false);
     const htmlContent = buildHtmlTemplate(delegate, false, config, rawToken);
 
@@ -285,7 +285,7 @@ const sendNominationConfirmationEmail = async (nomination, rawToken = null) => {
       return { success: false, error: 'Resend not configured' };
     }
 
-    const senderEmail = process.env.RESEND_FROM_EMAIL || 'BRAND R.Comm 2026 <onboarding@resend.dev>';
+    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
     const config = getEmailConfig(nomination, true);
     const htmlContent = buildHtmlTemplate(nomination, true, config, rawToken);
 
@@ -324,7 +324,7 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
     const resend = getResendInstance();
     if (!resend) return;
 
-    const senderEmail = process.env.RESEND_FROM_EMAIL || 'BRAND R.Comm 2026 <onboarding@resend.dev>';
+    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
     const isPaid = dataDoc.paymentStatus === 'Paid';
     const regId = dataDoc._id ? dataDoc._id.toString().slice(-8).toUpperCase() : 'N/A';
     const typeLabel = entityType === 'delegate' ? 'Delegate Registration' : 'Award Nomination';
