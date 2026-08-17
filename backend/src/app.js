@@ -12,6 +12,11 @@ const app = express();
 // Trust the first proxy (Render's load balancer) so express-rate-limit works accurately
 app.set('trust proxy', 1);
 
+// Force www. for FRONTEND_URL to ensure payment links load correctly
+if (process.env.FRONTEND_URL === 'https://brandrcomm.com') {
+  process.env.FRONTEND_URL = 'https://www.brandrcomm.com';
+}
+
 // Middleware
 app.use(helmet()); // Security headers
 // Parse comma-separated URLs from env variables if provided
