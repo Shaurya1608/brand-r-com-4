@@ -169,8 +169,10 @@ exports.createNomination = async (req, res) => {
 
     const savedNomination = await newNomination.save();
 
-    // Send initial nomination email via Resend
-    if (!savedNomination.initialEmailSent) {
+    // Only send the initial email immediately if the registration is manually created by an admin
+    // OR if the payment status is already 'Paid' (e.g. Free registration).
+    // For regular frontend forms, wait until the payment is captured via webhook.
+    if (!savedNomination.initialEmailSent && (savedNomination.isManuallyCreated || savedNomination.paymentStatus === 'Paid')) {
       sendNominationConfirmationEmail(savedNomination, rawToken).catch(err => console.error('Error sending initial nomination email:', err));
       savedNomination.initialEmailSent = true;
       await savedNomination.save();
