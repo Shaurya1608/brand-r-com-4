@@ -139,6 +139,21 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
         <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.attendeeCategory || 'DELEGATE'}</td>
       </tr>
     `;
+    if (doc.sponsorshipCompany) {
+      specificRows += `
+      <tr>
+        <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Sponsored By:</td>
+        <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.sponsorshipCompany}</td>
+      </tr>
+      `;
+    } else if (doc.awardNominationName) {
+      specificRows += `
+      <tr>
+        <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Nomination Link:</td>
+        <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.awardNominationName}</td>
+      </tr>
+      `;
+    }
   }
 
   return `
@@ -184,7 +199,7 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
           <table width="100%" style="border-collapse: collapse;">
             <tr>
               <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Registration ID:</td>
-              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right; font-family: monospace;">#${doc._id.toString().slice(-8).toUpperCase()}</td>
+              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right; font-family: monospace;">${isNomination ? 'NOM-' : 'DEL-'}${doc._id.toString().slice(-5).toUpperCase()}</td>
             </tr>
             <tr>
               <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">${isNomination ? 'Nominee Name' : 'Full Name'}:</td>
