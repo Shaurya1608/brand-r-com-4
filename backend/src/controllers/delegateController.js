@@ -36,29 +36,27 @@ const calculateDelegatePricing = (type, coupon) => {
     };
   }
 
-  const now = new Date();
-  const minute = now.getMinutes();
+  const { year, month } = getISTDate();
+  let baseRs = 10000;
+  let tierName = 'After 31 October 2026';
 
-  let totalRs = 10;
-  let tierName = 'Standard Tier';
-
-  if (minute >= 55 && minute < 57) {
-    totalRs = 1;
-    tierName = 'Test Tier: 10:55 (₹1)';
-  } else if (minute >= 57 && minute < 59) {
-    totalRs = 2;
-    tierName = 'Test Tier: 10:57 (₹2)';
-  } else if (minute === 59 || minute === 0 || minute === 1) {
-    totalRs = 5;
-    tierName = 'Test Tier: 10:59 (₹5)';
+  if (year < 2026 || (year === 2026 && month <= 8)) {
+    baseRs = 6000;
+    tierName = 'Till 31 August 2026';
+  } else if (year === 2026 && month === 9) {
+    baseRs = 7000;
+    tierName = 'Till 30 September 2026';
+  } else if (year === 2026 && month === 10) {
+    baseRs = 8000;
+    tierName = 'Till 31 October 2026';
   } else {
-    totalRs = 7;
-    tierName = 'Test Tier: 11:02+ (₹7)';
+    baseRs = 10000;
+    tierName = 'After 31 October 2026';
   }
 
-  const baseRs = totalRs;
-  const taxableRs = totalRs;
-  const gstRs = 0;
+  const taxableRs = coupon ? baseRs * 0.8 : baseRs;
+  const gstRs = Math.round(taxableRs * 0.18);
+  const totalRs = 10; // Temporary for testing 10 rupees
 
   return {
     baseAmount: baseRs,
