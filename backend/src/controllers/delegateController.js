@@ -115,6 +115,8 @@ exports.registerDelegate = async (req, res) => {
       registeredBy,
       sponsorshipId,
       sponsorshipCompany,
+      awardNominationId,
+      awardNominationName
     } = req.body;
 
     const cleanEmail = (email && typeof email === 'string') ? email.trim().toLowerCase() : '';
@@ -194,6 +196,8 @@ exports.registerDelegate = async (req, res) => {
         if (couponCode) existingDelegate.couponCode = couponCode;
         if (sponsorshipId) existingDelegate.sponsorshipId = sponsorshipId;
         if (sponsorshipCompany) existingDelegate.sponsorshipCompany = sponsorshipCompany;
+        if (awardNominationId) existingDelegate.awardNominationId = awardNominationId;
+        if (awardNominationName) existingDelegate.awardNominationName = awardNominationName;
         if (attendeeCategory) existingDelegate.attendeeCategory = attendeeCategory;
         if (paymentStatus) existingDelegate.paymentStatus = paymentStatus;
         if (paymentMethod) existingDelegate.paymentMethod = paymentMethod;
@@ -263,6 +267,8 @@ exports.registerDelegate = async (req, res) => {
         registeredBy: registeredBy || '',
         sponsorshipId: sponsorshipId || null,
         sponsorshipCompany: sponsorshipCompany || '',
+        awardNominationId: awardNominationId || null,
+        awardNominationName: awardNominationName || '',
         totalAmount: pricing.totalAmount,
         amountPaid: isPaid ? pricing.totalAmount : 0,
         amountDue: isPaid ? 0 : pricing.totalAmount,

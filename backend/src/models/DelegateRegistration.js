@@ -127,6 +127,15 @@ const delegateRegistrationSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  awardNominationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AwardNomination',
+    default: null,
+  },
+  awardNominationName: {
+    type: String,
+    default: '',
+  },
   isManuallyCreated: {
     type: Boolean,
     default: false,

@@ -25,6 +25,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
     applyCoupon: false,
     sponsorshipId: null,
     sponsorshipCompany: '',
+    awardNominationId: null,
+    awardNominationName: '',
   });
   
   const [successData, setSuccessData] = useState(null);
@@ -144,6 +146,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         paymentStatus: presetNomination.paymentStatus || 'Paid',
         sponsorshipId: null,
         sponsorshipCompany: '',
+        awardNominationId: presetNomination._id,
+        awardNominationName: presetNomination.fullName,
       }));
     }
   }, [isOpen, presetSponsorship, presetNomination, editingDelegate]);
@@ -188,6 +192,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
       applyCoupon: false,
       sponsorshipId: null,
       sponsorshipCompany: '',
+      awardNominationId: null,
+      awardNominationName: '',
     });
   };
 
