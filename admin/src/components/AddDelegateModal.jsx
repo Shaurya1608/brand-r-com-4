@@ -260,7 +260,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
           sponsorshipCompany: formData.sponsorshipCompany || null,
           paymentMethod: formData.paymentMethod,
           paymentStatus: formData.paymentMethod === 'Cash' || formData.paymentMethod === 'CASH' ? 'Paid' : (data.data?.paymentStatus || formData.paymentStatus || 'Pending'),
-          amountDue: data.data?.amountDue ?? (formData.paymentStatus === 'Paid' ? 0 : 7080),
+          amountDue: data.data?.amountDue ?? (formData.paymentStatus === 'Paid' ? 0 : data.data?.totalAmount ?? 0),
           paymentUrl: paymentUrl
         });
         onDelegateAdded();
