@@ -195,7 +195,10 @@ export default function AwardsSection() {
               <button onClick={() => setIsNominationModalOpen(true)} className="w-full sm:w-auto px-8 py-4 bg-[#f05a28] text-white text-[11px] font-bold uppercase tracking-widest rounded-xl shadow-lg hover:shadow-xl hover:bg-[#d9481a] hover:-translate-y-0.5 transition-all duration-300">
                 Nominate for Awards
               </button>
-              <button className="w-full sm:w-auto px-8 py-4 bg-white border border-brand-primary/20 text-brand-dark text-[11px] font-bold uppercase tracking-widest rounded-xl shadow-sm hover:border-brand-primary/50 hover:bg-brand-surface transition-all duration-300">
+              <button 
+                onClick={() => window.open('/BRC 4 Award Brochure.pdf', '_blank')}
+                className="w-full sm:w-auto px-8 py-4 bg-white border border-brand-primary/20 text-brand-dark text-[11px] font-bold uppercase tracking-widest rounded-xl shadow-sm hover:border-brand-primary/50 hover:bg-brand-surface transition-all duration-300"
+              >
                 Download Brochure
               </button>
             </motion.div>

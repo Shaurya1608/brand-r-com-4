@@ -44,7 +44,7 @@ export default function JurySection() {
     {
       name: "Dr. KC Ravi",
       lines: [
-        "Chief Sustainability Officer",
+        "Ex Chief Sustainability Officer",
         "Syngenta India Limited"
       ],
       image: "/jury/Dr. KC Ravi.png"
