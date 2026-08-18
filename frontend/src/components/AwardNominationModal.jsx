@@ -738,14 +738,14 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                       <div className="space-y-5 pt-3">
                         <div>
                           <div className="space-y-2">
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                               <label className="text-[12px] font-bold text-brand-dark">Brief Summary of Organization/ Initiatives/ Individual <span className="text-red-500">*</span></label>
-                              <div className="relative">
-                                <label className="cursor-pointer bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[10px] uppercase tracking-wide px-3 py-1.5 rounded-full transition-colors whitespace-nowrap inline-block shadow-sm">
+                              <div className="flex items-center gap-2 self-end sm:self-auto">
+                                {summaryDocumentFile && <span className="text-[10px] text-gray-500 truncate max-w-[120px]" title={summaryDocumentFile.name}>{summaryDocumentFile.name}</span>}
+                                <label className="cursor-pointer bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[10px] uppercase tracking-wide px-3 py-1.5 rounded-full transition-colors whitespace-nowrap inline-block shadow-sm shrink-0">
                                   OR Attach File
                                   <input type="file" onChange={handleSummaryFileChange} className="hidden" />
                                 </label>
-                                {summaryDocumentFile && <span className="absolute top-1/2 -translate-y-1/2 right-[calc(100%+10px)] text-[10px] text-gray-500 truncate max-w-[100px]">{summaryDocumentFile.name}</span>}
                               </div>
                             </div>
                             <textarea 
