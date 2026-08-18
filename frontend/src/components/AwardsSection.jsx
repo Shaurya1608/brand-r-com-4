@@ -165,10 +165,25 @@ export default function AwardsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-brand-dark/70 text-base md:text-lg leading-relaxed max-w-xl mb-10"
+              className="text-brand-dark/70 text-base md:text-lg leading-relaxed max-w-xl mb-6"
             >
               The BRAND R.COMM Awards are a peer-reviewed honour — not a paid citation. Every entry must carry senior-management approval and go through a validated screening before it reaches the jury.
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.25 }}
+              className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg max-w-xl mb-10 flex items-start gap-3 shadow-sm"
+            >
+              <svg className="w-5 h-5 text-red-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-sm font-semibold text-red-800 leading-tight">
+                Sponsors, Co-Sponsors, or sponsors in any category are not eligible to participate in the awards.
+              </p>
+            </motion.div>
 
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
