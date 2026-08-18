@@ -49,6 +49,7 @@ router.get('/:id/payment-link', protect, nominationController.getNominationPayme
 
 // Protected route for fetching all nominations (Admin)
 router.get('/', protect, nominationController.getNominations);
+router.get('/:id/delegates', protect, nominationController.getNominationDelegates);
 router.put('/:id', protect, nominationController.updateNomination);
 router.delete('/:id', protect, nominationController.deleteNomination);
 

@@ -4,6 +4,7 @@ import { Award, Search, Download, ExternalLink, FileText, Edit2, UserPlus, X, Gl
 import Cookies from 'js-cookie';
 import AddDelegateModal from '../../../components/AddDelegateModal';
 import ManualNominationModal from '../../../components/ManualNominationModal';
+import NominationDelegatesModal from '../../../components/NominationDelegatesModal';
 
 export default function NominationsPage() {
   const [nominations, setNominations] = useState([]);
@@ -23,6 +24,8 @@ export default function NominationsPage() {
   const [selectedContact, setSelectedContact] = useState(null);
   const [isAddDelegateOpen, setIsAddDelegateOpen] = useState(false);
   const [selectedNominationForDelegate, setSelectedNominationForDelegate] = useState(null);
+  const [isViewDelegatesModalOpen, setIsViewDelegatesModalOpen] = useState(false);
+  const [selectedNominationForViewDelegates, setSelectedNominationForViewDelegates] = useState(null);
   const [isAddNominationOpen, setIsAddNominationOpen] = useState(false);
   const [editingNomination, setEditingNomination] = useState(null);
   const [deletingNomination, setDeletingNomination] = useState(null);
@@ -617,6 +620,22 @@ export default function NominationsPage() {
                           >
                             Add Delegate
                           </button>
+                          
+                          {/* View Linked Delegates Badge / Button */}
+                          <button
+                            onClick={() => {
+                              setSelectedNominationForViewDelegates(nomination);
+                              setIsViewDelegatesModalOpen(true);
+                            }}
+                            className={`px-2.5 py-1 text-[9px] font-black rounded-full transition-colors cursor-pointer whitespace-nowrap border ${
+                              (nomination.delegatesCount || 0) > 0
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
+                                : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-gray-100'
+                            }`}
+                            title="View linked delegates for this nomination"
+                          >
+                            Delegates ({nomination.delegatesCount || 0})
+                          </button>
                           <button
                             onClick={() => setDeletingNomination({ id: nomination._id, name: nomination.fullName || nomination.organization })}
                             className="px-2 py-1 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 text-[9px] font-black rounded-full border border-red-200 shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap flex items-center gap-1"
@@ -902,6 +921,16 @@ export default function NominationsPage() {
           <p className="text-sm font-medium">{toastMessage}</p>
         </div>
       )}
+
+      {/* View Delegates Modal */}
+      <NominationDelegatesModal
+        isOpen={isViewDelegatesModalOpen}
+        onClose={() => {
+          setIsViewDelegatesModalOpen(false);
+          setSelectedNominationForViewDelegates(null);
+        }}
+        nomination={selectedNominationForViewDelegates}
+      />
     </div>
   );
 }

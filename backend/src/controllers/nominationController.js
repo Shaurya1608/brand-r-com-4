@@ -171,13 +171,63 @@ exports.createNomination = async (req, res) => {
 exports.getNominations = async (req, res) => {
   try {
     const nominations = await AwardNomination.find().sort({ createdAt: -1 });
+    const nominationIds = nominations.map(n => n._id);
+
+    const DelegateRegistration = require('../models/DelegateRegistration');
+    
+    // Count delegates linked to each nomination
+    const delegateCounts = await DelegateRegistration.aggregate([
+      { $match: { awardNominationId: { $in: nominationIds } } },
+      { $group: { _id: "$awardNominationId", count: { $sum: 1 } } }
+    ]);
+
+    const countMap = {};
+    delegateCounts.forEach(c => {
+      countMap[c._id.toString()] = c.count;
+    });
+
+    const dataWithCounts = nominations.map(n => {
+      const doc = n.toObject();
+      doc.delegatesCount = countMap[n._id.toString()] || 0;
+      return doc;
+    });
+
     res.status(200).json({
       success: true,
-      data: nominations,
+      data: dataWithCounts,
     });
   } catch (error) {
     console.error('Error fetching nominations:', error);
     res.status(500).json({ success: false, message: 'Server Error.' });
+  }
+};
+
+// @desc    Get delegates linked to a nomination
+// @route   GET /api/nominations/:id/delegates
+// @access  Private (Admin)
+exports.getNominationDelegates = async (req, res) => {
+  try {
+    const nomination = await AwardNomination.findById(req.params.id);
+    if (!nomination) {
+      return res.status(404).json({ success: false, message: 'Nomination not found' });
+    }
+
+    const DelegateRegistration = require('../models/DelegateRegistration');
+    const delegates = await DelegateRegistration.find({
+      $or: [
+        { awardNominationId: nomination._id },
+        { awardNominationName: { $regex: new RegExp('^' + nomination.fullName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$', 'i') } }
+      ]
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: delegates.length,
+      data: delegates
+    });
+  } catch (error) {
+    console.error('Error fetching nomination delegates:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
