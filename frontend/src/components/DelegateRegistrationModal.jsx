@@ -40,13 +40,7 @@ function getIndianPricingTier() {
   const { year, month, day } = getISTDate();
 
   if (year < 2026 || (year === 2026 && month <= 8)) {
-    return { label: 'Early Bird', amount: '₹ 6,000 + GST', amountRs: 6000, color: 'bg-emerald-100 text-emerald-700' };
-  } else if (year === 2026 && month === 9) {
-    return { label: 'Standard',   amount: '₹ 7,000 + GST', amountRs: 7000, color: 'bg-blue-100 text-blue-700' };
-  } else if (year === 2026 && month === 10) {
-    return { label: 'Late',       amount: '₹ 8,000 + GST', amountRs: 8000, color: 'bg-amber-100 text-amber-700' };
-  } else {
-    return { label: 'On-Spot',   amount: '₹ 10,000 + GST', amountRs: 10000, color: 'bg-red-100 text-red-700' };
+    return { label: 'Testing', amount: '₹ 10 (Testing)', amountRs: 10, color: 'bg-emerald-100 text-emerald-700' };
   }
 }
 
@@ -283,11 +277,11 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     }
   };
 
-  // Amount calculations
-  const baseRs = pricingTier.amountRs;
-  const taxableRs = couponApplied ? baseRs * 0.8 : baseRs;
-  const gstRs = Math.round(taxableRs * 0.18);
-  const finalRs = taxableRs + gstRs;
+  // Amount calculations - TESTING ONLY (10 Rupees)
+  const baseRs = 10;
+  const taxableRs = 10;
+  const gstRs = 0;
+  const finalRs = 10;
 
   const baseUsd = 250;
   const taxableUsd = couponApplied ? 200 : 250;
