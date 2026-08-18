@@ -174,7 +174,7 @@ exports.registerDelegate = async (req, res) => {
     let existingDelegate = await DelegateRegistration.findOne({ $or: queryOr });
 
       if (existingDelegate) {
-        if (existingDelegate.paymentStatus === 'Paid' || existingDelegate.delegateType === 'foreign') {
+        if (existingDelegate.paymentStatus === 'Paid' || existingDelegate.delegateType !== delegateType) {
           return res.status(200).json({
             success: false,
             message: `You have already registered this email as an ${existingDelegate.delegateType === 'indian' ? 'Indian' : 'International'} delegate! Please use another email or contact our team if you need assistance.`

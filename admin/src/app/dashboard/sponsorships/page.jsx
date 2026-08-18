@@ -244,8 +244,35 @@ export default function SponsorshipsPage() {
           </p>
         </div>
 
-        {/* Compact Top Action Button */}
-        <div>
+        {/* Compact Top Action Buttons */}
+        <div className="flex items-center gap-2">
+          {/* Export Dropdown */}
+          <div className="relative group">
+            <button
+              className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 text-[11px] font-black uppercase tracking-wider text-gray-800 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 shadow-sm transition-colors cursor-pointer"
+            >
+              <Download size={14} />
+              <span>Export</span>
+              <svg className="w-3.5 h-3.5 text-gray-500 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div className="absolute right-0 top-full mt-1 w-28 bg-white border border-gray-200 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all z-50 overflow-hidden">
+              <button
+                onClick={handleExportCSV}
+                className="w-full px-4 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-[#6a9a38]/10 hover:text-[#6a9a38] transition-colors cursor-pointer"
+              >
+                CSV
+              </button>
+              <button
+                onClick={handleExportXLS}
+                className="w-full px-4 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-[#6a9a38]/10 hover:text-[#6a9a38] transition-colors border-t border-gray-100 cursor-pointer"
+              >
+                XLS
+              </button>
+            </div>
+          </div>
+
           <button
             onClick={() => {
               setEditingSponsorship(null);
@@ -361,36 +388,8 @@ export default function SponsorshipsPage() {
               Reset Filters
             </button>
 
-            {/* Right Group: Export & Sort by */}
-            <div className="flex items-center gap-2 ml-auto">
-              {/* 6. Export Dropdown */}
-              <div className="relative group">
-                <button
-                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-gray-800 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors shadow-sm"
-                >
-                  <Download size={14} />
-                  <span>Export</span>
-                  <svg className="w-3.5 h-3.5 text-gray-500 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <div className="absolute right-0 top-full mt-1 w-28 bg-white border border-gray-200 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all z-50 overflow-hidden">
-                  <button
-                    onClick={handleExportCSV}
-                    className="w-full px-4 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-[#6a9a38]/10 hover:text-[#6a9a38] transition-colors cursor-pointer"
-                  >
-                    CSV
-                  </button>
-                  <button
-                    onClick={handleExportXLS}
-                    className="w-full px-4 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-[#6a9a38]/10 hover:text-[#6a9a38] transition-colors border-t border-gray-100 cursor-pointer"
-                  >
-                    XLS
-                  </button>
-                </div>
-              </div>
-
-              {/* 7. Sort by Dropdown */}
+            {/* Sort by Dropdown */}
+            <div className="ml-auto">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
