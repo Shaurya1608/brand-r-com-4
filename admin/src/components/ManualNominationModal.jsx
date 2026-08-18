@@ -224,7 +224,8 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
             nominationId: `NOM-${updateData.data._id.slice(-5).toUpperCase()}`,
             awardCategory: updateData.data.awardCategory || formData.awardCategory,
             paymentStatus: updateData.data.paymentStatus || formData.paymentStatus,
-            paymentUrl: ''
+            paymentUrl: '',
+            totalAmount: updateData.data.totalAmount || 14160
           });
           onNominationAdded && onNominationAdded();
         } else {
@@ -298,7 +299,8 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           nominationId: `NOM-${finalNomination._id.slice(-5).toUpperCase()}`,
           awardCategory: finalNomination.awardCategory || formData.awardCategory,
           paymentStatus: formData.paymentMethod === 'Cash' || formData.paymentMethod === 'CASH' ? 'Paid' : (finalNomination.paymentStatus || formData.paymentStatus || 'Pending'),
-          paymentUrl: paymentUrl
+          paymentUrl: paymentUrl || '',
+          totalAmount: finalNomination.totalAmount || 14160
         });
 
         onNominationAdded && onNominationAdded();
@@ -384,7 +386,7 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   <span className={`font-extrabold uppercase px-2 py-0.5 rounded-full text-[10px] ${
                     successData.paymentStatus === 'Pending' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
                   }`}>
-                    {successData.paymentStatus === 'Pending' ? '🟠 Pending (₹9,440 Due)' : '🟢 Paid'}
+                    {successData.paymentStatus === 'Pending' ? `🟠 Pending (₹${(successData.totalAmount || 14160).toLocaleString('en-IN')} Due)` : '🟢 Paid'}
                   </span>
                 </div>
               </div>
