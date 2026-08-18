@@ -22,9 +22,9 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${cormorantGaramond.variable} h-full antialiased`}
+      className={`${inter.variable} ${cormorantGaramond.variable} h-full antialiased overflow-x-hidden`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-[#0A0A0A] text-[#F5F2EB]">
+      <body className="min-h-full flex flex-col font-sans bg-[#0A0A0A] text-[#F5F2EB] overflow-x-hidden">
         {children}
       </body>
     </html>

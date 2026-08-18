@@ -94,7 +94,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Links */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
             {navLinks.map((link) => (
               <div key={link.name} className="relative group">
                 {link.dropdown ? (
