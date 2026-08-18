@@ -115,6 +115,24 @@ exports.createNomination = async (req, res) => {
     const rawToken = crypto.randomBytes(32).toString('hex');
     const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
 
+    // Securely check if request is from an admin
+    let isAdmin = false;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      const jwt = require('jsonwebtoken');
+      try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+        if (decoded.role === 'admin') isAdmin = true;
+      } catch (err) {}
+    }
+
+    const { paymentStatus, paymentMethod, registrationType } = req.body;
+    
+    const finalPaymentStatus = isAdmin && paymentStatus ? paymentStatus : 'Pending';
+    const finalPaymentMethod = isAdmin && paymentMethod ? paymentMethod : 'Online (Razorpay)';
+    const isPaid = finalPaymentStatus === 'Paid';
+    const finalIsManuallyCreated = isAdmin && registrationType === 'Manual Registration' ? true : false;
+
     const newNomination = new AwardNomination({
       applicantType,
       awardCategory,
@@ -139,12 +157,14 @@ exports.createNomination = async (req, res) => {
       summaryDocumentUrl,
       profileDocumentUrl,
       supportingDocumentUrl,
-      paymentStatus: 'Pending',
+      paymentStatus: finalPaymentStatus,
+      paymentMethod: finalPaymentMethod,
+      isManuallyCreated: finalIsManuallyCreated,
       totalAmount: 14160,
-      amountPaid: 0,
-      amountDue: 14160,
-      resumeTokenHash: tokenHash,
-      paymentTokenExpires: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+      amountPaid: isPaid ? 14160 : 0,
+      amountDue: isPaid ? 0 : 14160,
+      resumeTokenHash: isPaid ? null : tokenHash,
+      paymentTokenExpires: isPaid ? null : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
     });
 
     const savedNomination = await newNomination.save();
