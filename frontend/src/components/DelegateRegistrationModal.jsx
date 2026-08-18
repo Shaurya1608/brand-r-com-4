@@ -465,7 +465,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-[480px] bg-white rounded-[24px] shadow-2xl overflow-hidden flex flex-col font-sans"
+            className={`relative w-full ${success && delegateType === 'foreign' ? 'max-w-5xl' : 'max-w-[480px]'} bg-white rounded-[24px] shadow-2xl overflow-hidden flex flex-col font-sans max-h-[90vh] transition-all duration-300`}
           >
             {success ? (
               <div className="relative p-8 md:p-10 flex flex-col items-center text-center bg-white">
@@ -479,7 +479,112 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                   </svg>
                 </button>
 
-                {paymentSuccess || isAlreadyPaid ? (
+                {delegateType === 'foreign' ? (
+                  // ── Foreign Delegate Success ────────────────────────────────
+                  <div className="w-full h-full overflow-y-auto custom-scrollbar flex flex-col items-center">
+                    <h2 className="text-2xl md:text-3xl font-serif font-black text-brand-dark mb-3 tracking-wide uppercase">
+                      THANK YOU!
+                    </h2>
+                    
+                    <div className="max-w-3xl space-y-3 text-brand-dark/90 font-medium text-[13px] md:text-[14px] leading-relaxed mb-6 px-4">
+                      <p>
+                        Thank you for submitting your registration. Your form has been submitted successfully.
+                      </p>
+                      <p>
+                        Our team will reach out to you shortly regarding the next steps for international delegates, including visa-support letters and concierge services.
+                      </p>
+                      <p>
+                        If you need any immediate assistance, please feel free to contact us using the details below.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl px-4 mb-6">
+                      {/* Card 1 */}
+                      <div className="bg-white border border-gray-100 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] p-4 flex flex-col items-center hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all">
+                        <h4 className="text-[#0d2a4a] font-bold text-[14px] mb-1">Amit BK Khare</h4>
+                        <p className="text-[#86af60] font-bold text-[8px] uppercase tracking-wider mb-4">Founder and Managing Partner</p>
+                        
+                        <div className="w-full space-y-2 mb-4 text-left">
+                          <div className="flex items-start gap-2 text-[10px] text-gray-600">
+                            <svg className="w-3.5 h-3.5 text-[#86af60] mt-[1px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                            <div>
+                              <p>+91 8750807676</p>
+                              <p>+91 9354342588</p>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-2 text-[10px] text-gray-600">
+                            <svg className="w-3.5 h-3.5 text-[#86af60] mt-[1px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            <div>
+                              <p>amit.khare@snailintegral.com</p>
+                              <p>snailintegral@gmail.com</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-center">
+                          <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=BEGIN%3AVCARD%0AVERSION%3A3.0%0AN%3AKhare%3BAmit%3BBK%3B%3B%0AFN%3AAmit+BK+Khare%0AORG%3ASnail+Integral%0ATITLE%3AFounder+and+Managing+Partner%0ATEL%3BTYPE%3DWORK%2CVOICE%3A%2B918750807676%0ATEL%3BTYPE%3DCELL%2CVOICE%3A%2B919354342588%0AEMAIL%3BTYPE%3DPREF%2CINTERNET%3Aamit.khare%40snailintegral.com%0AEND%3AVCARD" alt="QR Code" className="w-20 h-20 mb-2 border p-1 rounded-md" />
+                          <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">Scan for contact info</span>
+                        </div>
+                      </div>
+
+                      {/* Card 2 */}
+                      <div className="bg-white border border-gray-100 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] p-4 flex flex-col items-center hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all">
+                        <h4 className="text-[#0d2a4a] font-bold text-[14px] mb-1">Arpita Kaur Matharu</h4>
+                        <p className="text-[#86af60] font-bold text-[8px] uppercase tracking-wider mb-4">Lead, Digital Marketing</p>
+                        
+                        <div className="w-full space-y-2 mb-4 text-left">
+                          <div className="flex items-start gap-2 text-[10px] text-gray-600">
+                            <svg className="w-3.5 h-3.5 text-[#86af60] mt-[1px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                            <div>
+                              <p>+91 8700178106</p>
+                              <p>+91 8750807676</p>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-2 text-[10px] text-gray-600">
+                            <svg className="w-3.5 h-3.5 text-[#86af60] mt-[1px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            <div>
+                              <p>info@snailintegral.com</p>
+                              <p>snailintegral@gmail.com</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-center">
+                          <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=BEGIN%3AVCARD%0AVERSION%3A3.0%0AN%3AMatharu%3BArpita%3BKaur%3B%3B%0AFN%3AArpita+Kaur+Matharu%0AORG%3ASnail+Integral%0ATITLE%3ALead%2C+Digital+Marketing%0ATEL%3BTYPE%3DWORK%2CVOICE%3A%2B918700178106%0ATEL%3BTYPE%3DCELL%2CVOICE%3A%2B918750807676%0AEMAIL%3BTYPE%3DPREF%2CINTERNET%3Ainfo%40snailintegral.com%0AEND%3AVCARD" alt="QR Code" className="w-20 h-20 mb-2 border p-1 rounded-md" />
+                          <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">Scan for contact info</span>
+                        </div>
+                      </div>
+
+                      {/* Card 3 */}
+                      <div className="bg-white border border-gray-100 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] p-4 flex flex-col items-center hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all">
+                        <h4 className="text-[#0d2a4a] font-bold text-[14px] mb-1">Yashasvi Sharma</h4>
+                        <p className="text-[#86af60] font-bold text-[8px] uppercase tracking-wider mb-4">Lead, Business Support</p>
+                        
+                        <div className="w-full space-y-2 mb-4 text-left">
+                          <div className="flex items-start gap-2 text-[10px] text-gray-600">
+                            <svg className="w-3.5 h-3.5 text-[#86af60] mt-[1px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                            <div>
+                              <p>+91 8527552425</p>
+                              <p>+91 8750807676</p>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-2 text-[10px] text-gray-600">
+                            <svg className="w-3.5 h-3.5 text-[#86af60] mt-[1px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            <div>
+                              <p>marketing@snailintegral.com</p>
+                              <p>snailintegral2@gmail.com</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-center">
+                          <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=BEGIN%3AVCARD%0AVERSION%3A3.0%0AN%3ASharma%3BYashasvi%3B%3B%3B%0AFN%3AYashasvi+Sharma%0AORG%3ASnail+Integral%0ATITLE%3ALead%2C+Business+Support%0ATEL%3BTYPE%3DWORK%2CVOICE%3A%2B918527552425%0ATEL%3BTYPE%3DCELL%2CVOICE%3A%2B918750807676%0AEMAIL%3BTYPE%3DPREF%2CINTERNET%3Amarketing%40snailintegral.com%0AEND%3AVCARD" alt="QR Code" className="w-20 h-20 mb-2 border p-1 rounded-md" />
+                          <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">Scan for contact info</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : paymentSuccess || isAlreadyPaid ? (
                   // ── Payment confirmed / Already Registered ─────────────────
                   <>
                     <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
