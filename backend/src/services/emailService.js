@@ -217,8 +217,8 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
 
         <div class="event-info">
           <h4>${isNomination ? '🏆 Awards Ceremony' : '📅 Event Schedule & Venue'}</h4>
-          <p><strong>Date:</strong> Friday, 27th February 2026</p>
-          <p><strong>Venue:</strong> Holiday Inn, Aerocity, New Delhi</p>
+          <p><strong>Date:</strong> Friday, 4th December 2026</p>
+          <p><strong>Venue:</strong> New Delhi, India</p>
         </div>
 
         <p style="font-size: 13px; color: #718096; line-height: 1.5; text-align: center;">
@@ -389,8 +389,8 @@ const sendSpeakerConfirmationEmail = async (doc) => {
 
           <div class="event-info">
             <h4>📅 Event Schedule & Venue</h4>
-            <p><strong>Date:</strong> Friday, 27th February 2026</p>
-            <p><strong>Venue:</strong> Holiday Inn, Aerocity, New Delhi</p>
+            <p><strong>Date:</strong> Friday, 4th December 2026</p>
+            <p><strong>Venue:</strong> New Delhi, India</p>
           </div>
         </div>
 
@@ -494,8 +494,8 @@ const sendSponsorshipConfirmationEmail = async (doc) => {
 
           <div class="event-info">
             <h4>📅 Event Schedule & Venue</h4>
-            <p><strong>Date:</strong> Friday, 27th February 2026</p>
-            <p><strong>Venue:</strong> Holiday Inn, Aerocity, New Delhi</p>
+            <p><strong>Date:</strong> Friday, 4th December 2026</p>
+            <p><strong>Venue:</strong> New Delhi, India</p>
           </div>
         </div>
 
