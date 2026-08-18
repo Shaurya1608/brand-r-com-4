@@ -290,10 +290,15 @@ exports.registerDelegate = async (req, res) => {
       throw createError;
     }
 
-    // Only send the initial email immediately if the registration is manually created by an admin
-    // OR if the payment status is already 'Paid' (e.g. Free registration).
-    // For regular frontend forms, wait until the payment is captured via webhook.
-    if (!newDelegate.initialEmailSent && (newDelegate.isManuallyCreated || newDelegate.paymentStatus === 'Paid')) {
+    // Only send the initial email immediately if the payment status is 'Paid' or 'Invitee',
+    // or if the payment method is 'Free' / 'Complimentary'.
+    // We never send an email for 'Pending' status anymore (not even for manually created ones).
+    const isActuallyPaidOrFree = 
+      newDelegate.paymentStatus === 'Paid' || 
+      newDelegate.paymentStatus === 'Invitee' || 
+      (newDelegate.paymentMethod && ['free', 'complimentary'].includes(newDelegate.paymentMethod.toLowerCase()));
+
+    if (!newDelegate.initialEmailSent && isActuallyPaidOrFree) {
       sendDelegateConfirmationEmail(newDelegate, rawToken).catch(err => console.error('Error sending initial registration email:', err));
       newDelegate.initialEmailSent = true;
       newDelegate.emailSent = true;

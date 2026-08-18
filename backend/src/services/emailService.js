@@ -321,7 +321,7 @@ const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
 
     const { data, error } = await resend.emails.send({
       from: senderEmail,
-      to: ['snailintegral2@gmail.com', 'shaurya098n@gmail.com'], // [delegate.email]
+      to: [delegate.email],
       subject: config.subject,
       html: htmlContent,
     });
@@ -364,7 +364,7 @@ const sendNominationConfirmationEmail = async (nomination, rawToken = null) => {
 
     const { data, error } = await resend.emails.send({
       from: senderEmail,
-      to: ['snailintegral2@gmail.com', 'shaurya098n@gmail.com'], // [nomination.email]
+      to: [nomination.email],
       subject: config.subject,
       html: htmlContent,
     });
@@ -471,7 +471,7 @@ const sendSpeakerConfirmationEmail = async (doc) => {
 
     const { data, error } = await resend.emails.send({
       from: senderEmail,
-      to: ['snailintegral2@gmail.com', 'shaurya098n@gmail.com'], // [toEmail]
+      to: [toEmail],
       subject,
       html: htmlContent,
     });
@@ -576,7 +576,7 @@ const sendSponsorshipConfirmationEmail = async (doc) => {
 
     const { data, error } = await resend.emails.send({
       from: senderEmail,
-      to: ['snailintegral2@gmail.com', 'shaurya098n@gmail.com'], // [toEmail]
+      to: [toEmail],
       subject,
       html: htmlContent,
     });
@@ -707,7 +707,7 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
 
     const { data, error } = await resend.emails.send({
       from: senderEmail,
-      to: ['snailintegral2@gmail.com', 'shaurya098n@gmail.com'], // adminEmails
+      to: adminEmails,
       subject: subject,
       html: htmlContent,
     });

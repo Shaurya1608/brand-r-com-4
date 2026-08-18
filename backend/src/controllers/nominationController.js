@@ -169,10 +169,15 @@ exports.createNomination = async (req, res) => {
 
     const savedNomination = await newNomination.save();
 
-    // Only send the initial email immediately if the registration is manually created by an admin
-    // OR if the payment status is already 'Paid' (e.g. Free registration).
-    // For regular frontend forms, wait until the payment is captured via webhook.
-    if (!savedNomination.initialEmailSent && (savedNomination.isManuallyCreated || savedNomination.paymentStatus === 'Paid')) {
+    // Only send the initial email immediately if the payment status is 'Paid' or 'Invitee',
+    // or if the payment method is 'Free' / 'Complimentary'.
+    // We never send an email for 'Pending' status anymore (not even for manually created ones).
+    const isActuallyPaidOrFree = 
+      savedNomination.paymentStatus === 'Paid' || 
+      savedNomination.paymentStatus === 'Invitee' || 
+      (savedNomination.paymentMethod && ['free', 'complimentary'].includes(savedNomination.paymentMethod.toLowerCase()));
+
+    if (!savedNomination.initialEmailSent && isActuallyPaidOrFree) {
       sendNominationConfirmationEmail(savedNomination, rawToken).catch(err => console.error('Error sending initial nomination email:', err));
       savedNomination.initialEmailSent = true;
       await savedNomination.save();
