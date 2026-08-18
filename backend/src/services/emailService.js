@@ -83,7 +83,7 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
   const resumeUrl = `${process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app'}/pay${tokenParam}`;
 
   const headerTitle = isNomination ? 'BRAND R.Comm Awards 2026' : 'BRAND R.Comm 2026';
-  const headerSub = '5th Agriculture & Rural Communication Summit & Awards';
+  const headerSub = 'Agriculture & Rural Communication Summit & Awards';
   
   let financialRows = '';
   if (!hideFinancials) {
@@ -359,7 +359,7 @@ const sendSpeakerConfirmationEmail = async (doc) => {
       <div class="container">
         <div class="header">
           <h1>BRAND R.Comm 2026</h1>
-          <p>5th Agriculture & Rural Communication Summit & Awards</p>
+          <p>Agriculture & Rural Communication Summit & Awards</p>
         </div>
         
         <div class="content">
@@ -464,7 +464,7 @@ const sendSponsorshipConfirmationEmail = async (doc) => {
       <div class="container">
         <div class="header">
           <h1>BRAND R.Comm 2026</h1>
-          <p>5th Agriculture & Rural Communication Summit & Awards</p>
+          <p>Agriculture & Rural Communication Summit & Awards</p>
         </div>
         
         <div class="content">
