@@ -142,6 +142,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         attendeeCategory: 'AWARD_NOMINEE',
         paymentMethod: presetNomination.paymentMethod || 'Online (Razorpay)',
         paymentStatus: presetNomination.paymentStatus || 'Paid',
+        sponsorshipId: null,
+        sponsorshipCompany: '',
       }));
     }
   }, [isOpen, presetSponsorship, presetNomination, editingDelegate]);

@@ -563,7 +563,14 @@ export default function DelegatesPage() {
                     <td className="px-4 py-2.5 min-w-[200px] max-w-[220px] sm:sticky sm:left-[198px] z-20 bg-white group-hover:bg-gray-50 sm:shadow-[1px_0_0_0_#e5e7eb]">
                       <div className="font-semibold text-gray-900 flex items-center gap-1.5 flex-wrap">
                         <span className="truncate max-w-[120px]" title={delegate.fullName}>{delegate.fullName}</span>
-                        {delegate.sponsorshipId || delegate.sponsorshipCompany ? (
+                        {delegate.attendeeCategory === 'AWARD_NOMINEE' ? (
+                          <span 
+                            className="px-1.5 py-0.5 bg-green-100 text-green-800 border border-green-300 text-[9px] font-extrabold uppercase tracking-wider rounded-md inline-flex items-center gap-0.5 shadow-xs" 
+                            title="Added from Nomination Page"
+                          >
+                            FROM NOMINATION
+                          </span>
+                        ) : delegate.sponsorshipId || delegate.sponsorshipCompany ? (
                           <span 
                             className="px-1.5 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-extrabold uppercase tracking-wider rounded-md inline-flex items-center gap-0.5 shadow-xs" 
                             title={`Registered via Sponsorship Page (${delegate.sponsorshipCompany || delegate.organization})`}
@@ -633,7 +640,7 @@ export default function DelegatesPage() {
                     {/* Organization */}
                     <td className="px-4 py-2.5 whitespace-nowrap">
                       <span>{delegate.organization}</span>
-                      {delegate.sponsorshipCompany && (
+                      {delegate.sponsorshipCompany && delegate.attendeeCategory !== 'AWARD_NOMINEE' && (
                         <span className="ml-1 text-[9px] font-extrabold text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
                           Sponsor
                         </span>
