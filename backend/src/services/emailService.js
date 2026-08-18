@@ -644,9 +644,17 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
       badgeText = 'Sponsorship Booking';
     }
 
-    const formattedAmount = isForeign
-      ? `USD ${dataDoc.amountPaid || dataDoc.totalAmount || 250}`
-      : `₹${(dataDoc.amountPaid || dataDoc.totalAmount || 5664).toLocaleString('en-IN')}`;
+    const paymentMethod = (dataDoc.paymentMethod || '').toLowerCase();
+    const isFree = paymentMethod === 'free' || paymentMethod === 'complimentary';
+
+    let formattedAmount;
+    if (isFree) {
+      formattedAmount = isForeign ? 'USD 0 (Free)' : '₹0 (Free)';
+    } else {
+      formattedAmount = isForeign
+        ? `USD ${dataDoc.amountPaid || dataDoc.totalAmount || 250}`
+        : `₹${(dataDoc.amountPaid || dataDoc.totalAmount || 5664).toLocaleString('en-IN')}`;
+    }
 
     const htmlContent = `
     <!DOCTYPE html>
