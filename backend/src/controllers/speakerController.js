@@ -29,8 +29,8 @@ const createSpeakerInterest = async (req, res) => {
       status: 'pending'
     });
 
-    // Send confirmation email to the speaker (which also triggers the admin notification)
-    sendSpeakerConfirmationEmail(speakerInterest).catch(err => console.error('Error in sendSpeakerConfirmationEmail:', err));
+    // As requested, do NOT send any email to anyone for speaker interest form submissions.
+    // sendSpeakerConfirmationEmail(speakerInterest).catch(err => console.error('Error in sendSpeakerConfirmationEmail:', err));
 
     res.status(201).json({
       success: true,
