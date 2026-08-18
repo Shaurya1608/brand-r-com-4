@@ -175,7 +175,7 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
         <p style="font-size: 15px; color: #1a202c; font-weight: 700; margin: 0 0 8px 0;">Thank you for registering for BRAND R.Comm – Agriculture & Rural Communication Summit & Awards 2026.</p>
         
         <p style="font-size: 14px; color: #4a5568; margin: 0 0 24px 0;">
-          Your registration has been successfully processed, and your ${isNomination ? 'nomination entry' : 'delegate registration'} has been confirmed.
+          ${messageText}
         </p>
         
         ${doc.sponsorshipCompany ? `<p style="font-size: 14px; color: #6a9a38; font-weight: 700; margin: 0 0 24px 0;">You have been registered under Sponsorship by: ${doc.sponsorshipCompany}</p>` : ''}
