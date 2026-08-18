@@ -253,7 +253,7 @@ export default function DelegatesPage() {
         `"${(d.pinCode || '').replace(/"/g, '""')}"`,
         `"${(d.address || '').replace(/"/g, '""')}"`,
         `"${d.registrationType || 'Online'}"`,
-        `"${d.amountPaid ? (d.delegateType === 'foreign' ? `USD ${d.amountPaid}` : `INR ${d.amountPaid}`) : (d.delegateType === 'foreign' ? 'USD 250 + Tax' : 'INR 7080')}"`,
+        `"${d.totalAmount != null ? (d.delegateType === 'foreign' ? `USD ${d.totalAmount}` : `INR ${d.totalAmount}`) : d.amountPaid != null ? (d.delegateType === 'foreign' ? `USD ${d.amountPaid}` : `INR ${d.amountPaid}`) : (d.delegateType === 'foreign' ? 'USD 250 + Tax' : 'INR 7080')}"`,
         `"${d.paymentStatus || ''}"`,
         `"${d.paymentMethod || 'Online'}"`,
         `"${d.razorpayPaymentId || ''}"`,
@@ -682,9 +682,11 @@ export default function DelegatesPage() {
 
                     {/* Amount */}
                     <td className="px-4 py-2.5 whitespace-nowrap text-right font-semibold text-gray-800">
-                      {delegate.amountPaid 
-                        ? (delegate.delegateType === 'foreign' ? `USD ${delegate.amountPaid}` : `₹${delegate.amountPaid.toLocaleString('en-IN')}`)
-                        : (delegate.delegateType === 'foreign' ? 'USD 250 + Tax' : '₹7,080')
+                      {delegate.totalAmount != null
+                        ? (delegate.delegateType === 'foreign' ? `USD ${delegate.totalAmount}` : `₹${delegate.totalAmount.toLocaleString('en-IN')}`)
+                        : delegate.amountPaid != null 
+                          ? (delegate.delegateType === 'foreign' ? `USD ${delegate.amountPaid}` : `₹${delegate.amountPaid.toLocaleString('en-IN')}`)
+                          : (delegate.delegateType === 'foreign' ? 'USD 250 + Tax' : '₹7,080')
                       }
                     </td>
 
