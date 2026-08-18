@@ -184,7 +184,7 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
           <table width="100%" style="border-collapse: collapse;">
             <tr>
               <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Registration ID:</td>
-              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right; font-family: monospace;">${doc._id}</td>
+              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right; font-family: monospace;">#${doc._id.toString().slice(-8).toUpperCase()}</td>
             </tr>
             <tr>
               <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">${isNomination ? 'Nominee Name' : 'Full Name'}:</td>
