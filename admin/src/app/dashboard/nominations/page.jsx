@@ -277,7 +277,7 @@ export default function NominationsPage() {
 
       {/* Control & Filters Bar */}
       <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-3">
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex items-center gap-2.5 overflow-x-auto pb-2 w-full custom-scrollbar">
           {/* Search Box */}
           <div className="relative flex-1 min-w-[200px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={15} />

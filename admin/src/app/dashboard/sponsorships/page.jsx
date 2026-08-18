@@ -298,7 +298,7 @@ export default function SponsorshipsPage() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Table Controls & Filter Bar (Matching Design Wireframe) */}
         <div className="p-4 md:p-5 border-b border-gray-100 flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-2 w-full custom-scrollbar">
             {/* 1. Search Box */}
             <div className="relative min-w-[200px] max-w-xs">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
