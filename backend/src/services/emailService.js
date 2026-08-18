@@ -24,13 +24,13 @@ const getEmailConfig = (doc, isNomination) => {
   const eventName = isNomination ? 'BRAND R.Comm Awards 2026' : 'BRAND R.Comm 2026';
   const passType = isNomination ? 'nomination entry' : 'delegate pass';
 
-  if (isManuallyCreated && (isPaid || paymentMethod === 'cash' || paymentMethod === 'complimentary')) {
-    // Case 4: Admin Registration + Cash/Complimentary/Paid
+  if (isManuallyCreated && (isPaid || paymentMethod === 'cash' || paymentMethod === 'complimentary' || paymentMethod === 'free')) {
+    // Case 4: Admin Registration + Cash/Complimentary/Paid/Free
     subject = `🎉 Registration Confirmed by Snail Integral Team`;
     messageText = `Your registration for <strong>${eventName}</strong> has been successfully processed by the Snail Integral team. We are excited to have you join us. Your ${passType} is fully confirmed!`;
-    statusBadge = `<span style="background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">${paymentMethod === 'complimentary' ? 'Confirmed' : 'Paid'}</span>`;
+    statusBadge = `<span style="background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">${paymentMethod === 'complimentary' || paymentMethod === 'free' ? 'Confirmed' : 'Paid'}</span>`;
     showCTA = false;
-    hideFinancials = (paymentMethod === 'complimentary');
+    hideFinancials = (paymentMethod === 'complimentary' || paymentMethod === 'free');
   } else if (isManuallyCreated && isPending && paymentMethod === 'online') {
     // Case 5: Admin Registration + Online/Pending
     subject = `⏳ Registration Created — Payment Required (${doc.fullName})`;
@@ -111,15 +111,15 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
         <td style="padding: 6px 0; color: #6a9a38; font-size: 15px; font-weight: 700; text-align: right;">${formattedAmount}</td>
       </tr>
     `;
-  } else if (doc.paymentMethod && doc.paymentMethod.toLowerCase() === 'complimentary') {
+  } else if (doc.paymentMethod && (doc.paymentMethod.toLowerCase() === 'complimentary' || doc.paymentMethod.toLowerCase() === 'free')) {
     financialRows += `
       <tr>
         <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Payment Method:</td>
-        <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">Complimentary</td>
+        <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right; text-transform: capitalize;">${doc.paymentMethod}</td>
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Amount:</td>
-        <td style="padding: 6px 0; color: #6a9a38; font-size: 15px; font-weight: 700; text-align: right;">₹0</td>
+        <td style="padding: 6px 0; color: #6a9a38; font-size: 15px; font-weight: 700; text-align: right;">Free</td>
       </tr>
     `;
   }
