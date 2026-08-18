@@ -14,6 +14,7 @@ import AwardCategoriesSection from "@/components/AwardCategoriesSection";
 import WinnerBenefitsSection from "@/components/WinnerBenefitsSection";
 import RequiredDocumentsSection from "@/components/RequiredDocumentsSection";
 import DelegateRegistrationSection from "@/components/DelegateRegistrationSection";
+import CoffeeTableBook from "@/components/CoffeeTableBook";
 import SponsorshipSection from "@/components/SponsorshipSection";
 import GeneralSponsorshipSection from "@/components/GeneralSponsorshipSection";
 import RegistrationFlowSection from "@/components/RegistrationFlowSection";
@@ -48,6 +49,7 @@ export default function Home() {
       <SponsorshipSection />
       <GeneralSponsorshipSection />
       <DelegateRegistrationSection />
+      <CoffeeTableBook />
       {/* <RegistrationFlowSection /> */}
       <PastEditionsSection />
       {/* <TestimonialsSection /> */}

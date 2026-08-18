@@ -50,7 +50,8 @@ export default function Hero() {
             "Nomination for Awards",
             "Register as Delegate",
             "Speaker Interest",
-            "Event Brochure"
+            "Event Brochure",
+            "Coffee Table Feature"
           ].map((text, i) => (
             <button 
               key={i} 
@@ -65,6 +66,9 @@ export default function Hero() {
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 } else if (text === "Speaker Interest") {
                   setIsSpeakerModalOpen(true);
+                } else if (text === "Coffee Table Feature") {
+                  const el = document.getElementById("coffee-table-book");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
                 } else if (text === "Nomination for Awards") {
                   const el = document.getElementById("awards");
                   if (el) el.scrollIntoView({ behavior: "smooth" });

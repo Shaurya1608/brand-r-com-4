@@ -32,7 +32,7 @@ export default function PastEditionsSection() {
   }, [isModalOpen]);
 
   return (
-    <section id="past-editions" className="relative w-full py-12 md:py-16 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-white">
+    <section id="past-editions" className="relative w-full py-12 md:py-16 text-brand-dark overflow-hidden border-t border-brand-primary/10 bg-brand-surface">
       
       {/* Background Vertical Lines */}
       <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">

@@ -12,7 +12,8 @@ import {
   AlertTriangle,
   Mic,
   Calendar,
-  ChevronRight
+  ChevronRight,
+  BookOpen
 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -40,6 +41,7 @@ export default function DashboardSidebar() {
     { name: 'Nominations', href: '/dashboard/nominations', icon: Award, badge: null },
     { name: 'Sponsorships', href: '/dashboard/sponsorships', icon: FileText, badge: null },
     { name: 'Speaker Interest', href: '/dashboard/speakers', icon: Mic, badge: null },
+    { name: 'Coffee Table', href: '/dashboard/coffee-table', icon: BookOpen, badge: null },
   ];
 
   return (
