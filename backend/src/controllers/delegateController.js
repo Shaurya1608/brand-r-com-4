@@ -36,17 +36,6 @@ const calculateDelegatePricing = (type, coupon) => {
     };
   }
 
-  const { year, month } = getISTDate();
-  let baseRs = 10000;
-  let tierName = 'After 31 October 2026';
-
-  if (year < 2026 || (year === 2026 && month <= 8)) {
-    baseRs = 6000;
-    tierName = 'Till 31 August 2026';
-  } else if (year === 2026 && month === 9) {
-    baseRs = 7000;
-    tierName = 'Till 30 September 2026';
-  } else if (year === 2026 && month === 10) {
   return {
     baseAmount: 10,
     taxableAmount: 10,
