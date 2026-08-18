@@ -140,9 +140,9 @@ exports.createNomination = async (req, res) => {
       profileDocumentUrl,
       supportingDocumentUrl,
       paymentStatus: 'Pending',
-      totalAmount: 17700,
+      totalAmount: 14160,
       amountPaid: 0,
-      amountDue: 17700,
+      amountDue: 14160,
       resumeTokenHash: tokenHash,
       paymentTokenExpires: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
     });
@@ -189,7 +189,7 @@ exports.createOrder = async (req, res) => {
   try {
     const { nominationId, amountRs } = req.body;
 
-    const targetAmount = amountRs || 17700; // Default ₹15,000 + 18% GST = ₹17,700
+    const targetAmount = amountRs || 14160; // Default ₹12,000 + 18% GST = ₹14,160
 
     if (!nominationId) {
       return res.status(400).json({ success: false, message: 'nominationId is required' });
@@ -419,9 +419,9 @@ exports.resumePayment = async (req, res) => {
         awardCategory: nomination.awardCategory,
         organization: nomination.organization,
         paymentStatus: nomination.paymentStatus,
-        totalAmount: nomination.totalAmount || 17700,
-        amountPaid: nomination.amountPaid || 0,
-        amountDue: nomination.paymentStatus === 'Paid' ? 0 : (nomination.amountDue || nomination.totalAmount || 17700),
+        totalAmount: nomination.totalAmount || 14160,
+        amountPaid: nomination.paymentStatus === 'Paid' ? (nomination.amountPaid || nomination.totalAmount || 14160) : 0,
+        amountDue: nomination.paymentStatus === 'Paid' ? 0 : (nomination.amountDue || nomination.totalAmount || 14160),
       }
     });
   } catch (error) {
