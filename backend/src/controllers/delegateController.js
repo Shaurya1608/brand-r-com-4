@@ -159,9 +159,22 @@ exports.registerDelegate = async (req, res) => {
       });
     }
 
+    // Securely check if request is from an admin
+    let isAdmin = false;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      const jwt = require('jsonwebtoken');
+      try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+        if (decoded.role === 'admin') isAdmin = true;
+      } catch (err) {}
+    }
+
     const pricing = calculateDelegatePricing(delegateType, couponCode);
-    const initialStatus = paymentStatus || 'Pending';
-    const isPaid = initialStatus === 'Paid';
+    const finalPaymentStatus = isAdmin && paymentStatus ? paymentStatus : 'Pending';
+    const finalPaymentMethod = isAdmin && paymentMethod ? paymentMethod : 'Online';
+    const finalIsManuallyCreated = isAdmin && isManuallyCreated ? true : false;
+    const isPaid = finalPaymentStatus === 'Paid';
 
     // Check if delegate already registered by Email OR Mobile Number (comparing core 10 digits)
     const last10Digits = mobileDigits.slice(-10);
@@ -199,10 +212,10 @@ exports.registerDelegate = async (req, res) => {
         if (awardNominationId) existingDelegate.awardNominationId = awardNominationId;
         if (awardNominationName) existingDelegate.awardNominationName = awardNominationName;
         if (attendeeCategory) existingDelegate.attendeeCategory = attendeeCategory;
-        if (paymentStatus) existingDelegate.paymentStatus = paymentStatus;
-        if (paymentMethod) existingDelegate.paymentMethod = paymentMethod;
+        if (paymentStatus) existingDelegate.paymentStatus = finalPaymentStatus;
+        if (paymentMethod) existingDelegate.paymentMethod = finalPaymentMethod;
         if (registeredBy) existingDelegate.registeredBy = registeredBy;
-        if (isManuallyCreated) existingDelegate.isManuallyCreated = true;
+        if (finalIsManuallyCreated) existingDelegate.isManuallyCreated = true;
 
         // Financial fields accounting
         existingDelegate.totalAmount = pricing.totalAmount;
@@ -260,9 +273,9 @@ exports.registerDelegate = async (req, res) => {
         gstNumber: gstNumber ? gstNumber.trim().toUpperCase() : '',
         address,
         couponCode: couponCode || null,
-        isManuallyCreated: isManuallyCreated || false,
-        paymentStatus: initialStatus,
-        paymentMethod: paymentMethod || 'Online',
+        isManuallyCreated: finalIsManuallyCreated,
+        paymentStatus: finalPaymentStatus,
+        paymentMethod: finalPaymentMethod,
         attendeeCategory: normAttendeeCategory,
         registeredBy: registeredBy || '',
         sponsorshipId: sponsorshipId || null,

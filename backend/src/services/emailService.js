@@ -136,7 +136,7 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
     specificRows = `
       <tr>
         <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Category:</td>
-        <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.attendeeCategory || 'DELEGATE'}</td>
+        <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${(doc.attendeeCategory || 'DELEGATE').replace('_', ' ')}</td>
       </tr>
     `;
     if (doc.sponsorshipCompany) {
