@@ -163,41 +163,45 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
   if (!showCTA) {
     // Confirmed Layout (like the frontend modal)
     contentHtml = `
-      <div style="background-color: #ffffff; padding: 40px 20px; text-align: center;">
-        <div style="margin-bottom: 20px;">
-          <div style="width: 60px; height: 60px; background-color: #dcfce7; border-radius: 50%; display: inline-block; line-height: 60px; text-align: center;">
-            <span style="color: #15803d; font-size: 30px; font-weight: bold;">✓</span>
+      <div style="background-color: #ffffff; padding: 24px 16px; text-align: center;">
+        <div style="margin-bottom: 16px;">
+          <div style="width: 48px; height: 48px; background-color: #dcfce7; border-radius: 50%; display: inline-block; line-height: 48px; text-align: center;">
+            <span style="color: #15803d; font-size: 24px; font-weight: bold;">✓</span>
           </div>
         </div>
         
-        <h2 style="font-family: serif; font-weight: 800; font-size: 24px; color: #1a202c; letter-spacing: 1px; margin: 0 0 16px 0;">REGISTRATION CONFIRMED!</h2>
+        <h2 style="font-family: serif; font-weight: 800; font-size: 20px; color: #1a202c; letter-spacing: 1px; margin: 0 0 12px 0;">REGISTRATION CONFIRMED!</h2>
         
-        <p style="font-size: 15px; color: #1a202c; font-weight: 700; margin: 0 0 8px 0;">Thank you for registering for BRAND R.Comm – Agriculture & Rural Communication Summit & Awards 2026.</p>
+        <p style="font-size: 14px; color: #1a202c; font-weight: 700; margin: 0 0 8px 0;">Thank you for registering for BRAND R.Comm – Agriculture & Rural Communication Summit & Awards 2026.</p>
         
-        <p style="font-size: 14px; color: #4a5568; margin: 0 0 24px 0;">
+        <p style="font-size: 13px; color: #4a5568; margin: 0 0 16px 0;">
           Your registration has been successfully processed, and your ${isNomination ? 'nomination entry' : 'delegate registration'} has been confirmed.
         </p>
         
-        ${doc.sponsorshipCompany ? `<p style="font-size: 14px; color: #6a9a38; font-weight: 700; margin: 0 0 24px 0;">You have been registered under Sponsorship by: ${doc.sponsorshipCompany}</p>` : ''}
-        ${doc.awardNominationName ? `<p style="font-size: 14px; color: #6a9a38; font-weight: 700; margin: 0 0 24px 0;">You have been registered under Nomination by: ${doc.awardNominationName}</p>` : ''}
+        <p style="font-size: 13px; color: #4a5568; font-weight: 700; margin: 0 0 8px 0;">
+          Category: <span style="color: #1a202c; text-transform: uppercase;">${isNomination ? (doc.awardCategory || 'N/A') : (doc.attendeeCategory || 'DELEGATE')}</span>
+        </p>
 
-        <div style="background-color: #f0fdf4; border: 1px solid #dcfce7; border-radius: 12px; padding: 20px; margin: 0 auto 24px auto; max-width: 300px;">
-          <div style="font-size: 11px; font-weight: 800; color: #166534; letter-spacing: 1px; margin-bottom: 8px;">REGISTRATION ID</div>
-          <div style="font-size: 24px; font-weight: 800; color: #14532d; font-family: monospace; letter-spacing: 2px;">
+        ${doc.sponsorshipCompany ? `<p style="font-size: 13px; color: #6a9a38; font-weight: 700; margin: 0 0 16px 0;">You have been registered under Sponsorship by: ${doc.sponsorshipCompany}</p>` : ''}
+        ${doc.awardNominationName ? `<p style="font-size: 13px; color: #6a9a38; font-weight: 700; margin: 0 0 16px 0;">You have been registered under Nomination by: ${doc.awardNominationName}</p>` : ''}
+
+        <div style="background-color: #f0fdf4; border: 1px solid #dcfce7; border-radius: 12px; padding: 16px; margin: 0 auto 24px auto; max-width: 260px;">
+          <div style="font-size: 10px; font-weight: 800; color: #166534; letter-spacing: 1px; margin-bottom: 6px;">REGISTRATION ID</div>
+          <div style="font-size: 20px; font-weight: 800; color: #14532d; font-family: monospace; letter-spacing: 2px;">
             ${regIdFormatted}
           </div>
         </div>
 
-        <div style="background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 12px; padding: 20px; text-align: left; margin: 0 auto; max-width: 450px;">
-          <p style="font-size: 13px; color: #475569; margin: 0 0 12px 0;">
+        <div style="background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 12px; padding: 16px; text-align: left; margin: 0 auto; max-width: 450px;">
+          <p style="font-size: 12px; color: #475569; margin: 0 0 10px 0;">
             📥 A confirmation email has been sent to your registered email address.
           </p>
-          <p style="font-size: 13px; color: #475569; margin: 0;">
+          <p style="font-size: 12px; color: #475569; margin: 0;">
             🎫 Your Event Entry Pass and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.
           </p>
         </div>
         
-        <p style="font-size: 13px; color: #6a9a38; font-weight: 700; font-style: italic; margin-top: 24px;">
+        <p style="font-size: 12px; color: #6a9a38; font-weight: 700; font-style: italic; margin-top: 20px;">
           We look forward to welcoming you to BRAND R.Comm 2026.
         </p>
       </div>
