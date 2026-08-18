@@ -458,12 +458,8 @@ exports.resumePayment = async (req, res) => {
       });
     }
 
-    if (nomination.paymentTokenExpires && nomination.paymentTokenExpires < new Date()) {
-      return res.status(400).json({
-        success: false,
-        message: 'This payment link has expired. Please contact support or request a new link.'
-      });
-    }
+    // Payment links never expire as requested.
+    // if (nomination.paymentTokenExpires && nomination.paymentTokenExpires < new Date()) { ... }
 
     const maskName = (str) => {
       if (!str) return '';
