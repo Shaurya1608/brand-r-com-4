@@ -156,6 +156,110 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
     }
   }
 
+  }
+
+  const regIdFormatted = `${isNomination ? 'NOM-' : 'DEL-'}${doc._id.toString().slice(-5).toUpperCase()}`;
+
+  let contentHtml = '';
+  
+  if (!showCTA) {
+    // Confirmed Layout (like the frontend modal)
+    contentHtml = `
+      <div style="background-color: #ffffff; padding: 40px 20px; text-align: center;">
+        <div style="margin-bottom: 20px;">
+          <div style="width: 60px; height: 60px; background-color: #dcfce7; border-radius: 50%; display: inline-block; line-height: 60px; text-align: center;">
+            <span style="color: #15803d; font-size: 30px; font-weight: bold;">✓</span>
+          </div>
+        </div>
+        
+        <h2 style="font-family: serif; font-weight: 800; font-size: 24px; color: #1a202c; letter-spacing: 1px; margin: 0 0 16px 0;">REGISTRATION CONFIRMED!</h2>
+        
+        <p style="font-size: 15px; color: #1a202c; font-weight: 700; margin: 0 0 8px 0;">Thank you for registering for BRAND R.Comm – Agriculture & Rural Communication Summit & Awards 2026.</p>
+        
+        <p style="font-size: 14px; color: #4a5568; margin: 0 0 24px 0;">
+          Your registration has been successfully processed, and your ${isNomination ? 'nomination entry' : 'delegate registration'} has been confirmed.
+        </p>
+        
+        ${doc.sponsorshipCompany ? `<p style="font-size: 14px; color: #6a9a38; font-weight: 700; margin: 0 0 24px 0;">You have been registered under Sponsorship by: ${doc.sponsorshipCompany}</p>` : ''}
+        ${doc.awardNominationName ? `<p style="font-size: 14px; color: #6a9a38; font-weight: 700; margin: 0 0 24px 0;">You have been registered under Nomination by: ${doc.awardNominationName}</p>` : ''}
+
+        <div style="background-color: #f0fdf4; border: 1px solid #dcfce7; border-radius: 12px; padding: 20px; margin: 0 auto 24px auto; max-width: 300px;">
+          <div style="font-size: 11px; font-weight: 800; color: #166534; letter-spacing: 1px; margin-bottom: 8px;">REGISTRATION ID</div>
+          <div style="font-size: 24px; font-weight: 800; color: #14532d; font-family: monospace; letter-spacing: 2px;">
+            ${regIdFormatted}
+          </div>
+        </div>
+
+        <div style="background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 12px; padding: 20px; text-align: left; margin: 0 auto; max-width: 450px;">
+          <p style="font-size: 13px; color: #475569; margin: 0 0 12px 0;">
+            📥 A confirmation email has been sent to your registered email address.
+          </p>
+          <p style="font-size: 13px; color: #475569; margin: 0;">
+            🎫 Your Event Entry Pass and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.
+          </p>
+        </div>
+        
+        <p style="font-size: 13px; color: #6a9a38; font-weight: 700; font-style: italic; margin-top: 24px;">
+          We look forward to welcoming you to BRAND R.Comm 2026.
+        </p>
+      </div>
+    `;
+  } else {
+    // Pending / Action Required Layout (with table and CTA)
+    contentHtml = `
+      <div class="content">
+        <div class="greeting">Dear ${doc.fullName},</div>
+        <div class="message">
+          ${messageText}
+        </div>
+
+        <div class="details-card">
+          <h3>Registration Details</h3>
+          <table width="100%" style="border-collapse: collapse;">
+            <tr>
+              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Registration ID:</td>
+              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right; font-family: monospace;">${regIdFormatted}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">${isNomination ? 'Nominee Name' : 'Full Name'}:</td>
+              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right;">${doc.fullName}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Organization:</td>
+              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.organization}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Designation:</td>
+              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.designation}</td>
+            </tr>
+            ${specificRows}
+            <tr>
+              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Payment Status:</td>
+              <td style="padding: 6px 0; text-align: right;">${statusBadge}</td>
+            </tr>
+            ${financialRows}
+          </table>
+        </div>
+
+        <div style="text-align: center; margin: 28px 0;">
+          <a href="${resumeUrl}" style="background-color: #6a9a38; color: #ffffff; padding: 14px 28px; font-size: 14px; font-weight: 700; border-radius: 8px; text-decoration: none; display: inline-block; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(106, 154, 56, 0.3);">
+            Complete Your Payment →
+          </a>
+        </div>
+
+        <div class="event-info">
+          <h4>${isNomination ? '🏆 Awards Ceremony' : '📅 Event Schedule & Venue'}</h4>
+          <p><strong>Date:</strong> Friday, 4th December 2026</p>
+          <p><strong>Venue:</strong> New Delhi, India</p>
+        </div>
+
+        <p style="font-size: 13px; color: #718096; line-height: 1.5; text-align: center;">
+          ${isNomination ? 'Our jury screening panel will evaluate your entry and update you on further announcements.' : 'Please carry a copy of this email or your Registration ID on the day of the event for seamless check-in.'}
+        </p>
+      </div>
+    `;
+  }
+
   return `
   <!DOCTYPE html>
   <html lang="en">
@@ -188,58 +292,7 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
         <p>${headerSub}</p>
       </div>
       
-      <div class="content">
-        <div class="greeting">Dear ${doc.fullName},</div>
-        <div class="message">
-          ${messageText}
-        </div>
-
-        <div class="details-card">
-          <h3>Registration Details</h3>
-          <table width="100%" style="border-collapse: collapse;">
-            <tr>
-              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Registration ID:</td>
-              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right; font-family: monospace;">${isNomination ? 'NOM-' : 'DEL-'}${doc._id.toString().slice(-5).toUpperCase()}</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">${isNomination ? 'Nominee Name' : 'Full Name'}:</td>
-              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 700; text-align: right;">${doc.fullName}</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Organization:</td>
-              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.organization}</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Designation:</td>
-              <td style="padding: 6px 0; color: #1a202c; font-size: 14px; font-weight: 600; text-align: right;">${doc.designation}</td>
-            </tr>
-            ${specificRows}
-            <tr>
-              <td style="padding: 6px 0; color: #718096; font-size: 14px; font-weight: 600;">Payment Status:</td>
-              <td style="padding: 6px 0; text-align: right;">${statusBadge}</td>
-            </tr>
-            ${financialRows}
-          </table>
-        </div>
-
-        ${showCTA ? `
-        <div style="text-align: center; margin: 28px 0;">
-          <a href="${resumeUrl}" style="background-color: #6a9a38; color: #ffffff; padding: 14px 28px; font-size: 14px; font-weight: 700; border-radius: 8px; text-decoration: none; display: inline-block; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(106, 154, 56, 0.3);">
-            Complete Your Payment →
-          </a>
-        </div>
-        ` : ''}
-
-        <div class="event-info">
-          <h4>${isNomination ? '🏆 Awards Ceremony' : '📅 Event Schedule & Venue'}</h4>
-          <p><strong>Date:</strong> Friday, 4th December 2026</p>
-          <p><strong>Venue:</strong> New Delhi, India</p>
-        </div>
-
-        <p style="font-size: 13px; color: #718096; line-height: 1.5; text-align: center;">
-          ${isNomination ? 'Our jury screening panel will evaluate your entry and update you on further announcements.' : 'Please carry a copy of this email or your Registration ID on the day of the event for seamless check-in.'}
-        </p>
-      </div>
+      ${contentHtml}
 
       <div class="footer">
         <p>© 2026 BRAND R.Comm — Snail Integral. All rights reserved.</p>
