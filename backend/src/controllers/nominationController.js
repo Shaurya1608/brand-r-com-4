@@ -99,8 +99,8 @@ exports.createNomination = async (req, res) => {
 
       await existingNomination.save();
 
-      // Send email with rawToken
-      sendNominationConfirmationEmail(existingNomination, rawToken).catch(err => console.error('Error sending confirmation email:', err));
+      // Email sending is disabled for Pending/Duplicate registrations. 
+      // Users will only receive an email when their payment is successfully verified.
 
       return res.status(200).json({
         success: true,
