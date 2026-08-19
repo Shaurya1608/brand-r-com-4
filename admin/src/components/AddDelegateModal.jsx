@@ -20,7 +20,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
     address: '',
     registeredBy: '',
     paymentMethod: 'Online (Razorpay)',
-    paymentStatus: 'Invitee',
+    paymentStatus: 'Paid',
     attendeeCategory: 'DELEGATE',
     applyCoupon: false,
     sponsorshipId: null,
@@ -180,7 +180,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
       address: '',
       registeredBy: '',
       paymentMethod: 'Online (Razorpay)',
-      paymentStatus: 'Invitee',
+      paymentStatus: 'Pending',
       attendeeCategory: 'DELEGATE',
       applyCoupon: false,
       sponsorshipId: null,
@@ -592,7 +592,15 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
                 >
-                  <option value="Invitee">Invitee</option>
+                  {presetSponsorship || presetNomination ? (
+                    <option value="Invitee">Invitee</option>
+                  ) : (
+                    <>
+                      <option value="Paid">Paid</option>
+                      <option value="Invitee">Invitee</option>
+                      <option value="Pending">Pending</option>
+                    </>
+                  )}
                 </select>
               </div>
 
