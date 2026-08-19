@@ -335,7 +335,7 @@ export default function CoffeeTableModal({ isOpen, onClose }) {
                   Thank You for Your Interest!
                 </h3>
                 <p className="text-brand-dark/70 text-sm mb-4 max-w-sm mx-auto leading-relaxed">
-                  Your Coffee Table Enquiry has been submitted successfully. Our team will carefully review your submission.
+                  Your Coffee Table Book Enquiry has been submitted successfully. Our team will carefully review your submission.
                 </p>
                 <p className="text-brand-dark/70 text-sm mb-8 max-w-sm mx-auto leading-relaxed">
                   We will get in touch with you regarding the next steps. Thank you for your interest in the BRAND R.Comm 2026 Coffee Table Book.

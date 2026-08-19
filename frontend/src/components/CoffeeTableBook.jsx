@@ -23,11 +23,7 @@ export default function CoffeeTableBook() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mb-12">
-          <AnimatedText delay={0.1}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-semibold uppercase tracking-wider mb-6">
-              Initiative 03
-            </div>
-          </AnimatedText>
+
           <AnimatedText delay={0.2}>
             <div className="flex justify-center mb-5">
               <Image
