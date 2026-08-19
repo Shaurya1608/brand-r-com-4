@@ -480,9 +480,18 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       THANK YOU!
                     </h2>
                     
-                    <div className="max-w-3xl space-y-3 text-brand-dark/90 font-medium text-[14px] md:text-[15px] leading-relaxed mb-6 px-4 text-center">
+                    <div className="max-w-3xl space-y-3 text-brand-dark/90 font-medium text-[13px] md:text-[14px] leading-relaxed mb-6 px-4 text-center">
+                      <p className="font-bold mb-4">
+                        Your International Delegate Registration Has Been Successfully Submitted.
+                      </p>
                       <p>
-                        Detail submitted successfully, Our team will contact you shortly.
+                        Thank you for registering your interest as an International Delegate for the upcoming event.
+                      </p>
+                      <p>
+                        We have successfully received your registration details. Our team will now review your submission and proceed with the registration process.
+                      </p>
+                      <p>
+                        If you have any questions or require additional information in the meantime, please feel free to connect with our team.
                       </p>
                     </div>
 
