@@ -158,6 +158,17 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
     const { name, value, type, checked } = e.target;
     setFormData(prev => {
       const next = { ...prev, [name]: type === 'checkbox' ? checked : value };
+      if (name === 'paymentMethod') {
+        if (value === 'Free') {
+          next.paymentStatus = 'Invitee';
+        } else if (prev.paymentStatus === 'Invitee') {
+          next.paymentStatus = 'Paid';
+        }
+      } else if (name === 'paymentStatus') {
+        if (value === 'Invitee') {
+          next.paymentMethod = 'Free';
+        }
+      }
       return next;
     });
   };
