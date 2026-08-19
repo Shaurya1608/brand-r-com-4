@@ -224,8 +224,10 @@ exports.registerDelegate = async (req, res) => {
 
         await existingDelegate.save();
 
-        // Send email with rawToken
-        sendDelegateConfirmationEmail(existingDelegate, rawToken).catch(err => console.error('Error sending confirmation email:', err));
+        // Send email with rawToken (Skip if manually created by Admin; they only receive emails post-payment)
+        if (!finalIsManuallyCreated) {
+          sendDelegateConfirmationEmail(existingDelegate, rawToken).catch(err => console.error('Error sending confirmation email:', err));
+        }
 
         const frontendUrl = process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
         const paymentUrl = `${frontendUrl}/pay?token=${rawToken}`;
@@ -309,7 +311,7 @@ exports.registerDelegate = async (req, res) => {
       newDelegate.paymentStatus === 'Invitee' || 
       (newDelegate.paymentMethod && ['free', 'complimentary'].includes(newDelegate.paymentMethod.toLowerCase()));
 
-    if (!newDelegate.initialEmailSent && isActuallyPaidOrFree) {
+    if (!newDelegate.initialEmailSent && isActuallyPaidOrFree && !finalIsManuallyCreated) {
       sendDelegateConfirmationEmail(newDelegate, rawToken).catch(err => console.error('Error sending initial registration email:', err));
       newDelegate.initialEmailSent = true;
       newDelegate.emailSent = true;

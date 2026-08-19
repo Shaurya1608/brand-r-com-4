@@ -688,7 +688,7 @@ export default function DelegatesPage() {
                           <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-900 border border-emerald-300 mt-0.5">
                             Nomination Page
                           </span>
-                        ) : delegate.registrationType && delegate.registrationType !== 'Online' ? (
+                        ) : delegate.registrationType && delegate.registrationType !== 'Online' && delegate.registrationType !== 'Manual' ? (
                           <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200/50 mt-0.5">
                             {delegate.registrationType}
                           </span>
