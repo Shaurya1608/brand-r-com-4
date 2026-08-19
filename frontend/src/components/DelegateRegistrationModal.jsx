@@ -582,32 +582,51 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                     </div>
 
                     <h2 className="text-2xl md:text-3xl font-serif font-black text-brand-dark mb-2 tracking-wide uppercase">
-                      REGISTRATION CONFIRMED!
+                      {delegateType === 'foreign' ? 'THANK YOU!' : 'REGISTRATION CONFIRMED!'}
                     </h2>
                     
-                    <p className="text-brand-dark/90 font-bold text-[13px] leading-snug max-w-sm mb-2">
-                      Thank you for registering for BRAND R.Comm – Agriculture &amp; Rural Communication Summit &amp; Awards 2026.
-                    </p>
+                    {delegateType === 'foreign' ? (
+                      <>
+                        <p className="text-brand-dark/90 font-bold text-[13px] leading-snug max-w-sm mb-4">
+                          Your International Delegate Registration Has Been Successfully Submitted.
+                        </p>
+                        <p className="text-brand-dark/75 text-[12px] leading-relaxed max-w-sm mb-4">
+                          Thank you for registering your interest as an International Delegate for the upcoming event.
+                        </p>
+                        <p className="text-brand-dark/75 text-[12px] leading-relaxed max-w-sm mb-4">
+                          We have successfully received your registration details. Our team will now review your submission and proceed with the registration process.
+                        </p>
+                        <p className="text-brand-dark/75 text-[12px] leading-relaxed max-w-sm mb-6">
+                          If you have any questions or require additional information in the meantime, please feel free to connect with our team.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-brand-dark/90 font-bold text-[13px] leading-snug max-w-sm mb-2">
+                          Thank you for registering for BRAND R.Comm – Agriculture &amp; Rural Communication Summit &amp; Awards 2026.
+                        </p>
 
-                    <p className="text-brand-dark/75 text-[12px] leading-relaxed max-w-sm mb-4">
-                      Your payment has been received successfully, and your delegate registration has been confirmed.
-                    </p>
+                        <p className="text-brand-dark/75 text-[12px] leading-relaxed max-w-sm mb-4">
+                          Your payment has been received successfully, and your delegate registration has been confirmed.
+                        </p>
 
-                    <div className="w-full max-w-sm bg-emerald-50 border border-emerald-200/80 rounded-xl p-3.5 mb-4 text-center space-y-1 shadow-2xs">
-                      <span className="text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest block">Registration ID</span>
-                      <span className="font-mono text-xl font-black text-emerald-900 tracking-wider block">
-                        #{registeredDelegateId?.slice(-8).toUpperCase() || 'A1B2C3D4'}
-                      </span>
-                    </div>
+                        <div className="w-full max-w-sm bg-emerald-50 border border-emerald-200/80 rounded-xl p-3.5 mb-4 text-center space-y-1 shadow-2xs">
+                          <span className="text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest block">Registration ID</span>
+                          <span className="font-mono text-xl font-black text-emerald-900 tracking-wider block">
+                            #{registeredDelegateId?.slice(-8).toUpperCase() || 'A1B2C3D4'}
+                          </span>
+                        </div>
 
-                    <div className="w-full max-w-sm bg-gray-50 border border-gray-200/80 rounded-xl p-3.5 mb-4 text-left text-[11px] text-gray-700 space-y-2 leading-relaxed">
-                      <p>📩 A confirmation email will be sent to your registered email address shortly.</p>
-                      <p>🎫 Your Event Entry Pass and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.</p>
-                    </div>
+                        <div className="w-full max-w-sm bg-gray-50 border border-gray-200/80 rounded-xl p-3.5 mb-4 text-left text-[11px] text-gray-700 space-y-2 leading-relaxed">
+                          <p>📩 A confirmation email will be sent to your registered email address shortly.</p>
+                          <p>🎫 Your Event Entry Pass and complete event guidelines will be shared with you 3 days prior to the event via your registered email and mobile number.</p>
+                        </div>
 
-                    <p className="text-[#5e8e33] font-serif font-bold text-[13px] mb-5">
-                      We look forward to welcoming you to BRAND R.Comm 2026.
-                    </p>
+                        <p className="text-[#5e8e33] font-serif font-bold text-[13px] mb-5">
+                          We look forward to welcoming you to BRAND R.Comm 2026.
+                        </p>
+                      </>
+                    )}
 
                     <button
                       onClick={onClose}
