@@ -36,13 +36,35 @@ const calculateDelegatePricing = (type, coupon) => {
     };
   }
 
+  const { year, month } = getISTDate();
+  let baseRs = 10000;
+  let tierName = 'After 31 October 2026';
+
+  if (year < 2026 || (year === 2026 && month <= 8)) {
+    baseRs = 6000;
+    tierName = 'Till 31 August 2026';
+  } else if (year === 2026 && month === 9) {
+    baseRs = 7000;
+    tierName = 'Till 30 September 2026';
+  } else if (year === 2026 && month === 10) {
+    baseRs = 8000;
+    tierName = 'Till 31 October 2026';
+  } else {
+    baseRs = 10000;
+    tierName = 'After 31 October 2026';
+  }
+
+  const taxableRs = coupon ? baseRs * 0.8 : baseRs;
+  const gstRs = Math.round(taxableRs * 0.18);
+  const totalRs = taxableRs + gstRs;
+
   return {
-    baseAmount: 1,
-    taxableAmount: 1,
-    gstAmount: 0,
-    totalAmount: 1,
-    amountDue: 1,
-    tierName: 'Testing (1 Rupee)'
+    baseAmount: baseRs,
+    taxableAmount: taxableRs,
+    gstAmount: gstRs,
+    totalAmount: totalRs,
+    amountDue: totalRs,
+    tierName
   };
 };
 

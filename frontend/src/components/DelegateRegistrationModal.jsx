@@ -279,11 +279,11 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     }
   };
 
-  // Amount calculations - TESTING ONLY (1 Rupee)
-  const baseRs = 1;
-  const taxableRs = 1;
-  const gstRs = 0;
-  const finalRs = 1;
+  // Amount calculations
+  const baseRs = pricingTier.amountRs;
+  const taxableRs = couponApplied ? baseRs * 0.8 : baseRs;
+  const gstRs = Math.round(taxableRs * 0.18);
+  const finalRs = taxableRs + gstRs;
 
   const baseUsd = 250;
   const taxableUsd = couponApplied ? 200 : 250;
