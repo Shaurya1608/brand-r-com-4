@@ -185,8 +185,8 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     }
 
     const mobileDigits = String(formData.mobileNumber || '').replace(/\D/g, '');
-    if (!mobileDigits || mobileDigits.length < 10 || mobileDigits.length > 15) {
-      setError('Please enter a valid 10-digit mobile number (e.g. 9876543210 or +91 9876543210)');
+    if (!mobileDigits || mobileDigits.length < 7 || mobileDigits.length > 15) {
+      setError('Please enter a valid mobile number (7-15 digits).');
       return;
     }
 

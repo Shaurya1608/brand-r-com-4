@@ -130,10 +130,10 @@ exports.registerDelegate = async (req, res) => {
     }
 
     const mobileDigits = cleanMobile.replace(/\D/g, '');
-    if (!cleanMobile || mobileDigits.length < 10 || mobileDigits.length > 15) {
+    if (!cleanMobile || mobileDigits.length < 7 || mobileDigits.length > 15) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide a valid 10-digit mobile number.'
+        message: 'Please provide a valid mobile number (7-15 digits).'
       });
     }
 
