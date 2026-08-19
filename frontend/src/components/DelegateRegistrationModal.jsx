@@ -277,11 +277,11 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     }
   };
 
-  // Amount calculations - TESTING ONLY (10 Rupees)
-  const baseRs = 10;
-  const taxableRs = 10;
+  // Amount calculations - TESTING ONLY (1 Rupee)
+  const baseRs = 1;
+  const taxableRs = 1;
   const gstRs = 0;
-  const finalRs = 10;
+  const finalRs = 1;
 
   const baseUsd = 250;
   const taxableUsd = couponApplied ? 200 : 250;

@@ -37,12 +37,12 @@ const calculateDelegatePricing = (type, coupon) => {
   }
 
   return {
-    baseAmount: 10,
-    taxableAmount: 10,
+    baseAmount: 1,
+    taxableAmount: 1,
     gstAmount: 0,
-    totalAmount: 10,
-    amountDue: 10,
-    tierName: 'Testing (10 Rupees)'
+    totalAmount: 1,
+    amountDue: 1,
+    tierName: 'Testing (1 Rupee)'
   };
 };
 
