@@ -224,10 +224,8 @@ exports.registerDelegate = async (req, res) => {
 
         await existingDelegate.save();
 
-        // Send email with rawToken (Skip if manually created by Admin; they only receive emails post-payment)
-        if (!finalIsManuallyCreated) {
-          sendDelegateConfirmationEmail(existingDelegate, rawToken).catch(err => console.error('Error sending confirmation email:', err));
-        }
+        // Email sending is disabled for Pending/Duplicate registrations. 
+        // Users will only receive an email when their payment is successfully verified.
 
         const frontendUrl = process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
         const paymentUrl = `${frontendUrl}/pay?token=${rawToken}`;

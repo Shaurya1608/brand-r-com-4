@@ -596,7 +596,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                     <div className="w-full max-w-sm bg-emerald-50 border border-emerald-200/80 rounded-xl p-3.5 mb-4 text-center space-y-1 shadow-2xs">
                       <span className="text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest block">Registration ID</span>
                       <span className="font-mono text-xl font-black text-emerald-900 tracking-wider block">
-                        DEL-{registeredDelegateId?.slice(-5).toUpperCase() || 'A1B2C'}
+                        #{registeredDelegateId?.slice(-8).toUpperCase() || 'A1B2C3D4'}
                       </span>
                     </div>
 
@@ -649,7 +649,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       </div>
                       <div className="flex justify-between text-[13px]">
                         <span className="text-brand-dark/60 font-medium">Registration #</span>
-                        <span className="font-mono font-bold text-brand-dark">DEL-{registeredDelegateId?.slice(-5).toUpperCase() || 'A1B2C'}</span>
+                        <span className="font-mono font-bold text-brand-dark">#{registeredDelegateId?.slice(-8).toUpperCase() || 'A1B2C3D4'}</span>
                       </div>
                       <div className="flex justify-between text-[13px]">
                         <span className="text-brand-dark/60 font-medium">Payment Status</span>
