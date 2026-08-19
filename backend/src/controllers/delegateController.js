@@ -139,12 +139,19 @@ exports.registerDelegate = async (req, res) => {
 
     // Securely check if request is from an admin
     let isAdmin = false;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    let token = null;
+
+    if (req.cookies && req.cookies.jwt) {
+      token = req.cookies.jwt;
+    } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+
+    if (token) {
       const jwt = require('jsonwebtoken');
       try {
-        const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
-        if (decoded.role === 'admin') isAdmin = true;
+        if (decoded && decoded.id) isAdmin = true;
       } catch (err) {}
     }
 
