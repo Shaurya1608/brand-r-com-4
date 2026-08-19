@@ -723,7 +723,7 @@ export default function DelegatesPage() {
                             ({delegate.paymentMethod || 'Online'})
                           </span>
                         </div>
-                        {delegate.paymentStatus !== 'Paid' && (
+                        {delegate.paymentStatus !== 'Paid' && delegate.paymentStatus !== 'Invitee' && (
                           <button
                             onClick={async () => {
                               try {
