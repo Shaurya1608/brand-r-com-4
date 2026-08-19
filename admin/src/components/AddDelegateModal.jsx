@@ -101,7 +101,7 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         address: presetSponsorship.address || prev.address,
         attendeeCategory: 'SPONSOR',
         paymentMethod: 'Free',
-        paymentStatus: 'Paid',
+        paymentStatus: 'Invitee',
         registeredBy: '',
         sponsorshipId: presetSponsorship._id,
         sponsorshipCompany: presetSponsorship.companyName,
@@ -142,8 +142,8 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         pinCode: presetNomination.pinCode || prev.pinCode,
         address: presetNomination.address || prev.address,
         attendeeCategory: 'AWARD_NOMINEE',
-        paymentMethod: presetNomination.paymentMethod || 'Online (Razorpay)',
-        paymentStatus: presetNomination.paymentStatus || 'Paid',
+        paymentMethod: 'Free',
+        paymentStatus: 'Invitee',
         sponsorshipId: null,
         sponsorshipCompany: '',
         awardNominationId: presetNomination._id,
@@ -570,10 +570,16 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38]"
                 >
-                  <option value="Online (Razorpay)">Online (Razorpay)</option>
-                  <option value="CASH">CASH</option>
-                  <option value="UPI">UPI</option>
-                  <option value="Free">Free</option>
+                  {presetSponsorship || presetNomination ? (
+                    <option value="Free">Free</option>
+                  ) : (
+                    <>
+                      <option value="Online (Razorpay)">Online (Razorpay)</option>
+                      <option value="CASH">CASH</option>
+                      <option value="UPI">UPI</option>
+                      <option value="Free">Free</option>
+                    </>
+                  )}
                 </select>
               </div>
 
