@@ -205,6 +205,8 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
         body: JSON.stringify({
           delegateType,
           ...formData,
+          pinCode: delegateType === 'foreign' ? '-' : formData.pinCode,
+          gstNumber: delegateType === 'foreign' ? '-' : formData.gstNumber,
           mobileNumber: formattedMobile,
           couponCode: couponApplied ? '#IAP2026' : null,
         }),
