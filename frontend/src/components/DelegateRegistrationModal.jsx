@@ -831,18 +831,22 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">State / Country *</label>
                         <input required type="text" name="stateCountry" value={formData.stateCountry} onChange={handleChange} placeholder="Maharashtra, India" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
                       </div>
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Pin Code *</label>
-                        <input required type="text" name="pinCode" value={formData.pinCode} onChange={handleChange} placeholder="400001" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
-                      </div>
+                      {delegateType === 'indian' && (
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Pin Code *</label>
+                          <input required type="text" name="pinCode" value={formData.pinCode} onChange={handleChange} placeholder="400001" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
+                        </div>
+                      )}
                       <div className="space-y-1">
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Email Address *</label>
                         <input required type="email" name="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium" />
                       </div>
-                      <div className="space-y-1 sm:col-span-2">
-                        <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Company GST No. <span className="text-brand-dark/40 font-normal lowercase">(optional for tax invoice)</span></label>
-                        <input type="text" name="gstNumber" value={formData.gstNumber} onChange={handleChange} placeholder="27AAAAA0000A1Z5" className="w-full px-3 py-2 text-[13px] uppercase border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 placeholder:normal-case shadow-sm text-brand-dark font-medium" />
-                      </div>
+                      {delegateType === 'indian' && (
+                        <div className="space-y-1 sm:col-span-2">
+                          <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Company GST No. <span className="text-brand-dark/40 font-normal lowercase">(optional for tax invoice)</span></label>
+                          <input type="text" name="gstNumber" value={formData.gstNumber} onChange={handleChange} placeholder="27AAAAA0000A1Z5" className="w-full px-3 py-2 text-[13px] uppercase border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 placeholder:normal-case shadow-sm text-brand-dark font-medium" />
+                        </div>
+                      )}
                       <div className="space-y-1 sm:col-span-2">
                         <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Full Address *</label>
                         <textarea required name="address" value={formData.address} onChange={handleChange} placeholder="Building, Street, Landmark..." rows="2" className="w-full px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all placeholder:text-brand-dark/30 shadow-sm text-brand-dark font-medium resize-none" />
