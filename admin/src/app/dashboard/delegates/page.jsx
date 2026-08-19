@@ -670,7 +670,7 @@ export default function DelegatesPage() {
                     {/* Reg. Type */}
                     <td className="px-4 py-2.5 whitespace-nowrap">
                       <div className="flex flex-col gap-1 items-start">
-                        {delegate.isManuallyCreated ? (
+                        {delegate.isManuallyCreated || delegate.sponsorshipId || delegate.sponsorshipCompany || delegate.awardNominationId || delegate.awardNominationName ? (
                           <span className="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-indigo-100 text-indigo-800 border border-indigo-200">
                             Manual
                           </span>
