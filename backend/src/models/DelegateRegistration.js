@@ -44,7 +44,7 @@ const delegateRegistrationSchema = new mongoose.Schema({
   },
   pinCode: {
     type: String,
-    required: true,
+    required: function() { return this.delegateType === 'indian'; },
     trim: true,
   },
   gstNumber: {
