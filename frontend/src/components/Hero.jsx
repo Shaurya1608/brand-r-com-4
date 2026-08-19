@@ -51,7 +51,7 @@ export default function Hero() {
             "Register as Delegate",
             "Speaker Interest",
             "Event Brochure",
-            "Coffee Table Feature"
+            "Feature in Coffee Table Book"
           ].map((text, i) => (
             <button 
               key={i} 
@@ -66,7 +66,7 @@ export default function Hero() {
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 } else if (text === "Speaker Interest") {
                   setIsSpeakerModalOpen(true);
-                } else if (text === "Coffee Table Feature") {
+                } else if (text === "Feature in Coffee Table Book") {
                   const el = document.getElementById("coffee-table-book");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 } else if (text === "Nomination for Awards") {
