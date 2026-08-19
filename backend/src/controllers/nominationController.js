@@ -370,19 +370,17 @@ exports.verifyPayment = async (req, res) => {
     // CRITICAL SECURITY: Match both _id AND razorpayOrderId to prevent cross-registration payment spoofing!
     let nomination = await AwardNomination.findOneAndUpdate(
       { _id: nominationId, razorpayOrderId: razorpay_order_id, paymentStatus: { $ne: 'Paid' } },
-      [
-        {
-          $set: {
-            paymentStatus: 'Paid',
-            paymentMethod: 'Online (Razorpay)',
-            razorpayPaymentId: razorpay_payment_id,
-            amountPaid: { $ifNull: ['$totalAmount', 9440] },
-            amountDue: 0,
-            resumeTokenHash: null,
-            paymentTokenExpires: null,
-          }
+      {
+        $set: {
+          paymentStatus: 'Paid',
+          paymentMethod: 'Online (Razorpay)',
+          razorpayPaymentId: razorpay_payment_id,
+          amountPaid: nominationCheck.totalAmount || 9440,
+          amountDue: 0,
+          resumeTokenHash: null,
+          paymentTokenExpires: null,
         }
-      ],
+      },
       { returnDocument: 'after' }
     );
 
