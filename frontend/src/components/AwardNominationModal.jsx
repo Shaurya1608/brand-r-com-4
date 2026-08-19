@@ -105,7 +105,8 @@ export default function AwardNominationModal({ isOpen, onClose }) {
         "Fertilizer & Plant Nutrition",
         "Farm Machinery & Agri-Tech",
         "Irrigation & Water Management",
-        "Agri Startup"
+        "Agri Startup",
+        "Research & Development (R&D)"
       ]
     },
     "Emerging Company of the Year Award",

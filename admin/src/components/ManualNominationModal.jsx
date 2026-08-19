@@ -21,7 +21,8 @@ const INDUSTRY_EXCELLENCE_OPTIONS = [
   "Fertilizer & Plant Nutrition",
   "Farm Machinery & Agri-Tech",
   "Irrigation & Water Management",
-  "Agri Startup"
+  "Agri Startup",
+  "Research & Development (R&D)"
 ];
 
 const OTHER_ORGANIZATION_CATEGORIES = [
