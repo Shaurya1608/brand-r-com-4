@@ -163,9 +163,9 @@ exports.createNomination = async (req, res) => {
       paymentStatus: finalPaymentStatus,
       paymentMethod: finalPaymentMethod,
       isManuallyCreated: finalIsManuallyCreated,
-      totalAmount: 1,
-      amountPaid: isPaid ? 1 : 0,
-      amountDue: isPaid ? 0 : 1,
+      totalAmount: 14160,
+      amountPaid: isPaid ? 14160 : 0,
+      amountDue: isPaid ? 0 : 14160,
       resumeTokenHash: isPaid ? null : tokenHash,
       paymentTokenExpires: isPaid ? null : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
     });
