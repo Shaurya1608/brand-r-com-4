@@ -69,7 +69,7 @@ const delegateRegistrationSchema = new mongoose.Schema({
   },
   registrationType: {
     type: String,
-    enum: ['Online', 'On-Spot', 'Group'],
+    enum: ['Online', 'On-Spot', 'Group', 'Manual'],
     default: 'Online'
   },
   paymentMethod: {

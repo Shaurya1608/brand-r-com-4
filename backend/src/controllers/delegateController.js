@@ -193,7 +193,10 @@ exports.registerDelegate = async (req, res) => {
         if (paymentStatus) existingDelegate.paymentStatus = finalPaymentStatus;
         if (paymentMethod) existingDelegate.paymentMethod = finalPaymentMethod;
         if (registeredBy) existingDelegate.registeredBy = registeredBy;
-        if (finalIsManuallyCreated) existingDelegate.isManuallyCreated = true;
+        if (finalIsManuallyCreated) {
+          existingDelegate.isManuallyCreated = true;
+          existingDelegate.registrationType = 'Manual';
+        }
 
         // Financial fields accounting
         existingDelegate.totalAmount = pricing.totalAmount;
@@ -252,6 +255,7 @@ exports.registerDelegate = async (req, res) => {
         address,
         couponCode: couponCode || null,
         isManuallyCreated: finalIsManuallyCreated,
+        registrationType: finalIsManuallyCreated ? 'Manual' : 'Online',
         paymentStatus: finalPaymentStatus,
         paymentMethod: finalPaymentMethod,
         attendeeCategory: normAttendeeCategory,
