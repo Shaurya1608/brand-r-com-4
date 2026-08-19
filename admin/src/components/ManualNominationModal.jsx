@@ -222,7 +222,7 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           setSuccessData({
             isEditing: true,
             fullName: updateData.data.fullName || formData.fullName,
-            nominationId: `NOM-${updateData.data._id.slice(-5).toUpperCase()}`,
+            nominationId: `#${updateData.data._id.slice(-8).toUpperCase()}`,
             awardCategory: updateData.data.awardCategory || formData.awardCategory,
             paymentStatus: updateData.data.paymentStatus || formData.paymentStatus,
             paymentUrl: '',
@@ -297,7 +297,7 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
         setSuccessData({
           isExisting: result.isExisting,
           fullName: finalNomination.fullName || formData.fullName,
-          nominationId: `NOM-${finalNomination._id.slice(-5).toUpperCase()}`,
+          nominationId: `#${finalNomination._id.slice(-8).toUpperCase()}`,
           awardCategory: finalNomination.awardCategory || formData.awardCategory,
           paymentStatus: formData.paymentMethod === 'Cash' || formData.paymentMethod === 'CASH' ? 'Paid' : (finalNomination.paymentStatus || formData.paymentStatus || 'Pending'),
           paymentUrl: paymentUrl || '',

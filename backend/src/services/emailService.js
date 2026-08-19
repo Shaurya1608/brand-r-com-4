@@ -156,7 +156,7 @@ const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
     }
   }
 
-  const regIdFormatted = `${isNomination ? 'NOM-' : 'DEL-'}${doc._id.toString().slice(-5).toUpperCase()}`;
+  const regIdFormatted = `#${doc._id.toString().slice(-8).toUpperCase()}`;
 
   let contentHtml = '';
   
