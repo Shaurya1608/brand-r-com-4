@@ -257,19 +257,24 @@ export default function AddDelegateModal({ isOpen, onClose, onDelegateAdded, pre
         const rawToken = data.rawToken || (data.data?.resumeTokenHash ? 'token' : '');
         const paymentUrl = data.paymentUrl || (rawToken ? `${window.location.origin.replace(':3001', ':3000')}/pay?token=${rawToken}` : '');
 
-        setSuccessData({
-          isExisting: isEditing ? false : data.isExisting,
-          isEditing,
-          delegateName: data.data?.fullName || formData.fullName,
-          delegateId: data.data?._id ? `DEL-${data.data._id.slice(-5).toUpperCase()}` : 'DEL-CONFIRMED',
-          category: formData.attendeeCategory || 'DELEGATE',
-          sponsorshipCompany: formData.sponsorshipCompany || null,
-          paymentMethod: formData.paymentMethod,
-          paymentStatus: formData.paymentMethod === 'Cash' || formData.paymentMethod === 'CASH' ? 'Paid' : (data.data?.paymentStatus || formData.paymentStatus || 'Pending'),
-          amountDue: data.data?.amountDue ?? (formData.paymentStatus === 'Paid' ? 0 : data.data?.totalAmount ?? 0),
-          paymentUrl: paymentUrl
-        });
-        onDelegateAdded();
+        if (presetSponsorship) {
+          onDelegateAdded();
+          handleCloseAndReset();
+        } else {
+          setSuccessData({
+            isExisting: isEditing ? false : data.isExisting,
+            isEditing,
+            delegateName: data.data?.fullName || formData.fullName,
+            delegateId: data.data?._id ? `DEL-${data.data._id.slice(-5).toUpperCase()}` : 'DEL-CONFIRMED',
+            category: formData.attendeeCategory || 'DELEGATE',
+            sponsorshipCompany: formData.sponsorshipCompany || null,
+            paymentMethod: formData.paymentMethod,
+            paymentStatus: formData.paymentMethod === 'Cash' || formData.paymentMethod === 'CASH' ? 'Paid' : (data.data?.paymentStatus || formData.paymentStatus || 'Pending'),
+            amountDue: data.data?.amountDue ?? (formData.paymentStatus === 'Paid' ? 0 : data.data?.totalAmount ?? 0),
+            paymentUrl: paymentUrl
+          });
+          onDelegateAdded();
+        }
       } else {
         setError(data.message || 'Failed to save delegate');
       }
