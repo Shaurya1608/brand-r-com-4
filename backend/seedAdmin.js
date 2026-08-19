@@ -7,17 +7,18 @@ const seedAdmin = async () => {
   try {
     await connectDB();
 
-    await Admin.deleteMany(); // Clear existing admins for a fresh start
+    await mongoose.connection.db.dropDatabase();
+    console.log('Database dropped successfully');
 
     const admin = new Admin({
-      email: 'admin@brandrcomm.com',
-      password: 'password123',
+      email: 'snailintegral2@gmail.com',
+      password: 'admin123',
       role: 'superadmin'
     });
 
     await admin.save();
 
-    console.log('Admin user seeded successfully: admin@brandrcomm.com / password123');
+    console.log('Admin user seeded successfully: snailintegral2@gmail.com / admin123');
     process.exit(0);
   } catch (error) {
     console.error('Error seeding admin:', error);
