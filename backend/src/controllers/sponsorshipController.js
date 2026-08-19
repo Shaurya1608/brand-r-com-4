@@ -10,7 +10,8 @@ const createSponsorship = async (req, res) => {
     const { 
       companyName, gstNumber, contactPerson, designation, email, 
       mobileNumber, city, stateCountry, pinCode, 
-      address, sponsorshipCategory, sponsorshipTier, registrationType, registeredBy, basePrice, totalAmount, logoUrl
+      address, sponsorshipCategory, sponsorshipTier, registrationType, registeredBy, basePrice, totalAmount, logoUrl,
+      applicationFilledBy, fillerName, fillerDesignation, fillerContactNo, fillerEmail
     } = req.body;
 
     // Check for duplicate
@@ -50,6 +51,11 @@ const createSponsorship = async (req, res) => {
       basePrice: basePrice || 0,
       totalAmount: totalAmount || 0,
       logoUrl,
+      applicationFilledBy: applicationFilledBy || 'Self',
+      fillerName: fillerName || '',
+      fillerDesignation: fillerDesignation || '',
+      fillerContactNo: fillerContactNo || '',
+      fillerEmail: fillerEmail || '',
       status: 'completed'
     });
 

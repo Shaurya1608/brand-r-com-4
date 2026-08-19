@@ -21,6 +21,7 @@ exports.createNomination = async (req, res) => {
       pinCode,
       address,
       briefSummary,
+      registeredBy,
       applicationFilledBy,
       fillerName,
       fillerDesignation,
@@ -77,6 +78,7 @@ exports.createNomination = async (req, res) => {
       existingNomination.pinCode = pinCode || existingNomination.pinCode;
       existingNomination.address = address || existingNomination.address;
       existingNomination.briefSummary = briefSummary || existingNomination.briefSummary;
+      existingNomination.registeredBy = registeredBy || existingNomination.registeredBy;
       existingNomination.applicationFilledBy = applicationFilledBy || existingNomination.applicationFilledBy;
       existingNomination.fillerName = fillerName || existingNomination.fillerName;
       existingNomination.fillerDesignation = fillerDesignation || existingNomination.fillerDesignation;
@@ -149,6 +151,7 @@ exports.createNomination = async (req, res) => {
       pinCode,
       address,
       briefSummary,
+      registeredBy,
       applicationFilledBy,
       fillerName,
       fillerDesignation,

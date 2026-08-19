@@ -82,6 +82,11 @@ const awardNominationSchema = new mongoose.Schema({
   supportingDocumentUrl: {
     type: String,
   },
+  registeredBy: {
+    type: String,
+    trim: true,
+    default: ''
+  },
   applicationFilledBy: {
     type: String,
     enum: ['Self', 'Office Barrier'],
