@@ -5,37 +5,31 @@ import Link from "next/link";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({
-    days: 140,
-    hours: 18,
-    minutes: 2,
-    seconds: 34,
-  });
+  const calculateTimeLeft = () => {
+    const targetDate = new Date('2026-12-04T00:00:00');
+    const now = new Date();
+    const difference = targetDate - now;
+
+    if (difference <= 0) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+
+    return {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+    };
+  };
+
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setTimeLeft(calculateTimeLeft());
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        let { days, hours, minutes, seconds } = prev;
-        if (seconds > 0) {
-          seconds--;
-        } else {
-          seconds = 59;
-          if (minutes > 0) {
-            minutes--;
-          } else {
-            minutes = 59;
-            if (hours > 0) {
-              hours--;
-            } else {
-              hours = 23;
-              if (days > 0) {
-                days--;
-              }
-            }
-          }
-        }
-        return { days, hours, minutes, seconds };
-      });
+      setTimeLeft(calculateTimeLeft());
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -70,14 +64,14 @@ export default function Navbar() {
           <span className="whitespace-nowrap">SPONSORSHIP OPEN</span>
         </div>
         <div className="flex-1 flex justify-center xl:justify-end font-mono whitespace-nowrap text-[10px] sm:text-[11px] md:text-sm w-full xl:w-auto mt-0.5 xl:mt-0">
-          <div className="flex items-center space-x-1 sm:space-x-1.5">
-            <div className="bg-black/20 backdrop-blur-sm rounded px-1.5 py-0.5 min-w-[2ch] text-center">{timeLeft.days.toString().padStart(3, '0')}</div>
+          <div className="flex items-center space-x-1 font-mono text-[10px] md:text-xs">
+            <div className="bg-black/20 backdrop-blur-sm rounded px-1.5 py-0.5 min-w-[3ch] text-center">{mounted ? timeLeft.days.toString().padStart(3, '0') : '000'}</div>
+            <span className="text-white/70">:</span>
+            <div className="bg-black/20 backdrop-blur-sm rounded px-1.5 py-0.5 min-w-[2ch] text-center">{mounted ? timeLeft.hours.toString().padStart(2, '0') : '00'}</div>
             <span className="text-white/70 animate-pulse">:</span>
-            <div className="bg-black/20 backdrop-blur-sm rounded px-1.5 py-0.5 min-w-[2ch] text-center">{timeLeft.hours.toString().padStart(2, '0')}</div>
+            <div className="bg-black/20 backdrop-blur-sm rounded px-1.5 py-0.5 min-w-[2ch] text-center">{mounted ? timeLeft.minutes.toString().padStart(2, '0') : '00'}</div>
             <span className="text-white/70 animate-pulse">:</span>
-            <div className="bg-black/20 backdrop-blur-sm rounded px-1.5 py-0.5 min-w-[2ch] text-center">{timeLeft.minutes.toString().padStart(2, '0')}</div>
-            <span className="text-white/70 animate-pulse">:</span>
-            <div className="bg-black/20 backdrop-blur-sm rounded px-1.5 py-0.5 min-w-[2ch] text-center text-brand-surface">{timeLeft.seconds.toString().padStart(2, '0')}</div>
+            <div className="bg-black/20 backdrop-blur-sm rounded px-1.5 py-0.5 min-w-[2ch] text-center text-brand-surface">{mounted ? timeLeft.seconds.toString().padStart(2, '0') : '00'}</div>
           </div>
         </div>
       </div>
