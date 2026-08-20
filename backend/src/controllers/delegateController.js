@@ -97,7 +97,7 @@ exports.getPricingTier = async (req, res) => {
 // @access  Public
 exports.registerDelegate = async (req, res) => {
   try {
-    const {
+    let {
       delegateType,
       fullName,
       email,
