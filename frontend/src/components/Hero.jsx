@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { Calendar, MapPin } from "lucide-react";
 import SponsorModal from "./SponsorModal";
 import DelegateRegistrationModal from "./DelegateRegistrationModal";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
@@ -29,12 +30,25 @@ export default function Hero() {
         </div>
 
         {/* Subtitle / Edition */}
-        <div className="inline-flex items-center justify-center bg-black/40 border-t border-b border-brand-primary/80 px-4 py-2 md:px-5 md:py-1 mb-4 md:mb-3 backdrop-blur-sm w-[90%] sm:w-auto max-w-[320px] md:max-w-none">
-          <div className="hidden md:block h-px w-6 bg-brand-primary mr-3" />
-          <span className="text-white tracking-[0.15em] md:tracking-[0.2em] text-[8.5px] sm:text-[9px] md:text-[11px] font-bold uppercase text-center w-full md:w-auto">
-            4th Edition • New Delhi, India
-          </span>
-          <div className="hidden md:block h-px w-6 bg-brand-primary ml-3" />
+        <div className="inline-flex items-center justify-center bg-[#0a1e35] rounded-lg md:rounded-full px-4 py-2.5 md:px-6 md:py-3 mb-6 md:mb-5 shadow-xl border border-white/10 w-[95%] sm:w-auto max-w-3xl">
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-white">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 md:w-5 md:h-5 text-white/90" />
+              <span className="text-[13px] md:text-[15px] font-bold tracking-wide whitespace-nowrap">
+                Friday, 4<sup className="text-[9px] md:text-[10px]">th</sup> Dec 2026
+              </span>
+            </div>
+            
+            <div className="hidden md:block h-6 w-[1.5px] bg-white/30" />
+            <div className="md:hidden h-[1px] w-full bg-white/20" />
+            
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 md:w-5 md:h-5 text-white/90" />
+              <span className="text-[13px] md:text-[15px] font-bold tracking-wide text-center md:text-left">
+                Holiday Inn, Aerocity, New Delhi, India
+              </span>
+            </div>
+          </div>
         </div>
         
         {/* Main Headline */}
