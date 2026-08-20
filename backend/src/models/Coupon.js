@@ -11,7 +11,12 @@ const couponSchema = new mongoose.Schema({
   sponsorshipId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Sponsorship',
-    required: true,
+    default: null,
+  },
+  nominationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AwardNomination',
+    default: null,
   },
   sponsorName: {
     type: String,

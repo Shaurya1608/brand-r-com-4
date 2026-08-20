@@ -5,7 +5,7 @@ import { X, Copy, CheckCircle2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { toast } from 'react-hot-toast';
 
-const GenerateCouponModal = ({ isOpen, onClose, sponsorship }) => {
+const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination }) => {
   const [loading, setLoading] = useState(false);
   const [successData, setSuccessData] = useState(null);
   
@@ -15,23 +15,25 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship }) => {
   const [startsAt, setStartsAt] = useState('');
   const [expiresAt, setExpiresAt] = useState('');
 
+  // Source entity details
+  const entityId = sponsorship?._id || nomination?._id;
+  const entityName = sponsorship?.companyName || nomination?.organizationName || nomination?.fullName || 'Organization';
+  const entityType = sponsorship ? 'sponsorships' : 'nominations';
+
   useEffect(() => {
     if (isOpen) {
       setSuccessData(null);
-      // Auto-generate a preview code
-      const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
-      setCode(`BRAND-${randomPart}`);
-      
-      const now = new Date();
-      setStartsAt(now.toISOString().split('T')[0]);
+      setCode('');
+      setMaxUses(50);
+      setStartsAt(new Date().toISOString().slice(0, 16));
       
       const nextMonth = new Date();
       nextMonth.setMonth(nextMonth.getMonth() + 1);
-      setExpiresAt(nextMonth.toISOString().split('T')[0]);
+      setExpiresAt(nextMonth.toISOString().slice(0, 16));
     }
   }, [isOpen]);
 
-  if (!isOpen || !sponsorship) return null;
+  if (!isOpen || !entityId) return null;
 
   const handleGenerate = async (e) => {
     e.preventDefault();
@@ -40,27 +42,34 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship }) => {
     try {
       const token = Cookies.get('admin_token');
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/sponsorships/${sponsorship._id}/coupons`,
+        `${process.env.NEXT_PUBLIC_API_URL}/${entityType}/${entityId}/coupons`,
         { 
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ code, maxUses: parseInt(maxUses), startsAt, expiresAt })
+          body: JSON.stringify({ code, maxUses, startsAt, expiresAt })
         }
       );
-
+      
       const data = await response.json();
-
+      
       if (data.success) {
-        toast.success('Coupon generated successfully!');
         setSuccessData(data.coupon);
+        toast.success('Coupon generated successfully!', {
+          style: { background: '#10B981', color: '#fff', fontWeight: 'bold' }
+        });
       } else {
-        toast.error(data.message || 'Failed to generate coupon');
+        toast.error(data.message || 'Failed to generate coupon', {
+          style: { background: '#EF4444', color: '#fff', fontWeight: 'bold' }
+        });
       }
-    } catch (error) {
-      toast.error('Failed to generate coupon');
+    } catch (err) {
+      console.error(err);
+      toast.error('An error occurred. Please try again.', {
+        style: { background: '#EF4444', color: '#fff', fontWeight: 'bold' }
+      });
     } finally {
       setLoading(false);
     }
@@ -76,7 +85,7 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship }) => {
       <div className="bg-white border border-gray-100 rounded-2xl w-full max-w-lg shadow-2xl relative my-8 transform transition-all animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-white rounded-t-2xl">
-          <h2 className="text-xl font-black text-gray-900 tracking-tight">Generate Sponsor Coupon</h2>
+          <h2 className="text-xl font-black text-gray-900 tracking-tight">Generate Coupon</h2>
           <button 
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-gray-800"
@@ -92,7 +101,7 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship }) => {
             </div>
             <div>
               <h3 className="text-2xl font-black text-gray-900 mb-2">Coupon Created!</h3>
-              <p className="text-sm font-medium text-gray-500">The 100% Free coupon for <strong className="text-gray-800">{sponsorship.companyName}</strong> is ready.</p>
+              <p className="text-sm font-medium text-gray-500">The 100% Free coupon for <strong className="text-gray-800">{entityName}</strong> is ready.</p>
             </div>
 
             <div className="space-y-4 pt-2">
@@ -136,11 +145,11 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship }) => {
           </div>
         ) : (
           <form onSubmit={handleGenerate} className="p-6 space-y-6">
-            <div className="space-y-5">
+            <div className="space-y-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Sponsor</label>
+                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Organization</label>
                 <div className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 font-semibold shadow-inner">
-                  {sponsorship.companyName}
+                  {entityName}
                 </div>
               </div>
 

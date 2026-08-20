@@ -44,8 +44,14 @@ router.get('/resume-payment/:token', nominationController.resumePayment);
 router.post('/create-order', orderLimiter, nominationController.createOrder);
 router.post('/verify-payment', nominationController.verifyPayment);
 
+const { generateNominationCoupon, getCouponsByNomination } = require('../controllers/couponController');
+
 // Protected route for generating shareable payment link (Admin)
 router.get('/:id/payment-link', protect, nominationController.getNominationPaymentLink);
+
+// Protected routes to manage coupons for an award nomination (Admin)
+router.post('/:nominationId/coupons', protect, generateNominationCoupon);
+router.get('/:nominationId/coupons', protect, getCouponsByNomination);
 
 // Protected route for fetching all nominations (Admin)
 router.get('/', protect, nominationController.getNominations);

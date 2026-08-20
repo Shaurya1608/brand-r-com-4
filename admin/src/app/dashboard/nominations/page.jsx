@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Award, Search, Download, ExternalLink, FileText, Edit2, UserPlus, X, Globe, Eye, MapPin, Phone, Mail, User, Trash2 } from 'lucide-react';
+import { Award, Search, Download, ExternalLink, FileText, Edit2, UserPlus, X, Globe, Eye, MapPin, Phone, Mail, User, Trash2, Ticket } from 'lucide-react';
 import Cookies from 'js-cookie';
 import AddDelegateModal from '../../../components/AddDelegateModal';
 import ManualNominationModal from '../../../components/ManualNominationModal';
 import NominationDelegatesModal from '../../../components/NominationDelegatesModal';
+import GenerateCouponModal from '../../../components/GenerateCouponModal';
 
 export default function NominationsPage() {
   const [nominations, setNominations] = useState([]);
@@ -29,6 +30,8 @@ export default function NominationsPage() {
   const [isAddNominationOpen, setIsAddNominationOpen] = useState(false);
   const [editingNomination, setEditingNomination] = useState(null);
   const [deletingNomination, setDeletingNomination] = useState(null);
+  const [isGenerateCouponModalOpen, setIsGenerateCouponModalOpen] = useState(false);
+  const [selectedNominationForCoupon, setSelectedNominationForCoupon] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [statusUpdateLoading, setStatusUpdateLoading] = useState({});
 
@@ -611,15 +614,31 @@ export default function NominationsPage() {
                             <Edit2 size={10} />
                             <span>Edit</span>
                           </button>
-                          <button
-                            onClick={() => {
-                              setSelectedNominationForDelegate(nomination);
-                              setIsAddDelegateOpen(true);
-                            }}
-                            className="px-2.5 py-1 bg-[#800000] hover:bg-[#600000] text-white text-[9px] font-black rounded-full shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap"
-                          >
-                            Add Delegate
-                          </button>
+                          <div className="flex flex-wrap items-center gap-1.5 mt-2 pt-2 border-t border-gray-100">
+                            {/* Actions Group 1 */}
+                            <button
+                              onClick={() => {
+                                setSelectedNominationForCoupon(nomination);
+                                setIsGenerateCouponModalOpen(true);
+                              }}
+                              className="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 text-[9px] font-black rounded-full border border-amber-200 shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap flex items-center gap-1"
+                              title="Generate Coupon"
+                            >
+                              <Ticket size={10} />
+                              Generate Coupon
+                            </button>
+                            
+                            <button
+                              onClick={() => {
+                                setSelectedNominationForDelegate(nomination);
+                                setIsAddDelegateOpen(true);
+                              }}
+                              className="px-2.5 py-1 bg-[#800000] hover:bg-[#600000] text-white text-[9px] font-black rounded-full shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap flex items-center gap-1"
+                            >
+                              <UserPlus size={10} />
+                              Add Delegate
+                            </button>
+                          </div>
                           
                           {/* View Linked Delegates Badge / Button */}
                           <button
@@ -930,6 +949,15 @@ export default function NominationsPage() {
           setSelectedNominationForViewDelegates(null);
         }}
         nomination={selectedNominationForViewDelegates}
+      />
+
+      <GenerateCouponModal
+        isOpen={isGenerateCouponModalOpen}
+        onClose={() => {
+          setIsGenerateCouponModalOpen(false);
+          setSelectedNominationForCoupon(null);
+        }}
+        nomination={selectedNominationForCoupon}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 const Coupon = require('../models/Coupon');
 const Sponsorship = require('../models/Sponsorship');
+const AwardNomination = require('../models/AwardNomination');
 const DelegateRegistration = require('../models/DelegateRegistration');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
@@ -60,6 +61,60 @@ exports.generateCoupon = async (req, res) => {
     res.status(201).json({ success: true, coupon });
   } catch (error) {
     console.error('Error generating coupon:', error);
+    res.status(500).json({ success: false, message: 'Failed to generate coupon' });
+  }
+};
+
+// 1B. Generate Coupon from Nomination
+exports.generateNominationCoupon = async (req, res) => {
+  try {
+    const { nominationId } = req.params;
+    let { code, maxUses, startsAt, expiresAt } = req.body;
+
+    const nomination = await AwardNomination.findById(nominationId);
+    if (!nomination) {
+      return res.status(404).json({ success: false, message: 'Award Nomination not found' });
+    }
+
+    // STRICT RULE: Only ONE active coupon allowed per nomination at a time
+    const existingActiveCoupon = await Coupon.findOne({ 
+      nominationId, 
+      isActive: true, 
+      deletedAt: null 
+    });
+
+    if (existingActiveCoupon) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'An active coupon already exists for this nomination. Deactivate it first before creating a new one.',
+        existingCoupon: existingActiveCoupon
+      });
+    }
+
+    if (!code) {
+      code = generateCouponCode();
+    } else {
+      code = code.toUpperCase().trim();
+      const existing = await Coupon.findOne({ code });
+      if (existing) {
+        return res.status(400).json({ success: false, message: 'Coupon code already exists. Please try another.' });
+      }
+    }
+
+    const coupon = new Coupon({
+      code,
+      nominationId,
+      sponsorName: nomination.organizationName || nomination.fullName,
+      maxUses: maxUses || 50,
+      startsAt: startsAt ? new Date(startsAt) : new Date(),
+      expiresAt: expiresAt ? new Date(expiresAt) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days default
+      isActive: true
+    });
+
+    await coupon.save();
+    res.status(201).json({ success: true, coupon });
+  } catch (error) {
+    console.error('Error generating nomination coupon:', error);
     res.status(500).json({ success: false, message: 'Failed to generate coupon' });
   }
 };
@@ -127,6 +182,18 @@ exports.getCouponsBySponsorship = async (req, res) => {
     res.status(200).json({ success: true, coupons });
   } catch (error) {
     console.error('Error getting coupons by sponsorship:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch coupons' });
+  }
+};
+
+// 4B. Get coupons by Nomination (Admin)
+exports.getCouponsByNomination = async (req, res) => {
+  try {
+    const { nominationId } = req.params;
+    const coupons = await Coupon.find({ nominationId, deletedAt: null }).sort({ createdAt: -1 });
+    res.status(200).json({ success: true, coupons });
+  } catch (error) {
+    console.error('Error getting coupons by nomination:', error);
     res.status(500).json({ success: false, message: 'Failed to fetch coupons' });
   }
 };

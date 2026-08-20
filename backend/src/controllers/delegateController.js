@@ -224,6 +224,15 @@ exports.registerDelegate = async (req, res) => {
           finalPaymentStatus = 'Free';
           finalPaymentMethod = 'Coupon';
           isPaid = true;
+          
+          // Automatically link the delegate to the sponsor or nomination that generated this coupon
+          if (validCoupon.sponsorshipId) {
+            sponsorshipId = validCoupon.sponsorshipId;
+            sponsorshipCompany = validCoupon.sponsorName;
+          } else if (validCoupon.nominationId) {
+            awardNominationId = validCoupon.nominationId;
+            awardNominationName = validCoupon.sponsorName;
+          }
         }
       }
 
