@@ -292,6 +292,7 @@ exports.createOrder = async (req, res) => {
       amount: amountPaise,
       currency: 'INR',
       receipt: `nomination_${nominationId.toString().slice(-8)}`,
+      payment_capture: 1, // Explicitly enforce auto-capture
       notes: {
         nominationId: nominationId.toString(),
         fullName: nomination.fullName,

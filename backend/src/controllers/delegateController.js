@@ -702,6 +702,7 @@ exports.createOrder = async (req, res) => {
       amount: amountPaise,
       currency: delegate.delegateType === 'foreign' ? 'USD' : 'INR',
       receipt: `delegate_${delegateId.toString().slice(-8)}`,
+      payment_capture: 1, // Explicitly enforce auto-capture
       notes: {
         delegateId: delegateId.toString(),
         fullName: delegate.fullName,
