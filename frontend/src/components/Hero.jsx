@@ -30,21 +30,21 @@ export default function Hero() {
         </div>
 
         {/* Subtitle / Edition */}
-        <div className="inline-flex items-center justify-center bg-[#0a1e35] rounded-lg md:rounded-full px-4 py-2.5 md:px-6 md:py-3 mb-6 md:mb-5 shadow-xl border border-white/10 w-[95%] sm:w-auto max-w-3xl">
+        <div className="inline-flex items-center justify-center bg-[#0d2a45] rounded-md px-3 py-1.5 md:px-5 md:py-2 mb-4 md:mb-3 shadow-md border border-white/10 w-[95%] sm:w-auto max-w-2xl">
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-white">
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 md:w-5 md:h-5 text-white/90" />
-              <span className="text-[13px] md:text-[15px] font-bold tracking-wide whitespace-nowrap">
-                Friday, 4<sup className="text-[9px] md:text-[10px]">th</sup> Dec 2026
+              <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 text-white/90" />
+              <span className="text-[11px] md:text-[13px] font-bold tracking-wide whitespace-nowrap">
+                Friday, 4<sup className="text-[8px] md:text-[9px]">th</sup> Dec 2026
               </span>
             </div>
             
-            <div className="hidden md:block h-6 w-[1.5px] bg-white/30" />
+            <div className="hidden md:block h-4 w-[1px] bg-white/30" />
             <div className="md:hidden h-[1px] w-full bg-white/20" />
             
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 md:w-5 md:h-5 text-white/90" />
-              <span className="text-[13px] md:text-[15px] font-bold tracking-wide text-center md:text-left">
+              <MapPin className="w-3.5 h-3.5 md:w-4 md:h-4 text-white/90" />
+              <span className="text-[11px] md:text-[13px] font-bold tracking-wide text-center md:text-left">
                 Holiday Inn, Aerocity, New Delhi, India
               </span>
             </div>
