@@ -67,6 +67,37 @@ export default function CouponsPage() {
     }
   };
 
+  const handleUpdateLimit = async (coupon) => {
+    const newLimit = window.prompt(`Enter new max usage limit for ${coupon.code} (current: ${coupon.maxUses}):`, coupon.maxUses);
+    if (!newLimit) return;
+    const limitInt = parseInt(newLimit, 10);
+    if (isNaN(limitInt) || limitInt < coupon.usedCount) {
+      toast.error(`Limit must be a valid number and at least ${coupon.usedCount} (current usage)`);
+      return;
+    }
+    
+    try {
+      const token = Cookies.get('admin_token');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coupons/${coupon._id}/limit`, {
+        method: 'PATCH',
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ maxUses: limitInt })
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success('Usage limit updated successfully');
+        fetchCoupons();
+      } else {
+        toast.error(data.message || 'Failed to update limit');
+      }
+    } catch (error) {
+      toast.error('Failed to update limit');
+    }
+  };
+
   const getCouponStatus = (coupon) => {
     if (!coupon.isActive) return 'Deactivated';
     if (coupon.usedCount >= coupon.maxUses) return 'Exhausted';
@@ -182,6 +213,14 @@ export default function CouponsPage() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => handleUpdateLimit(coupon)}
+                            className="p-1.5 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors"
+                            title="Edit Usage Limit"
+                          >
+                            <Edit2 size={16} />
+                          </button>
+
                           <button
                             onClick={() => handleToggleStatus(coupon._id)}
                             className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors"
