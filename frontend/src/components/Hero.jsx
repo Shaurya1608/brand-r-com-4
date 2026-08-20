@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Calendar, MapPin } from "lucide-react";
 import SponsorModal from "./SponsorModal";
 import DelegateRegistrationModal from "./DelegateRegistrationModal";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
@@ -30,25 +29,12 @@ export default function Hero() {
         </div>
 
         {/* Subtitle / Edition */}
-        <div className="inline-flex items-center justify-center bg-[#0d2a45] rounded-md px-3 py-1.5 md:px-5 md:py-2 mb-4 md:mb-3 shadow-md border border-white/10 w-[95%] sm:w-auto max-w-2xl">
-          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-white">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 text-white/90" />
-              <span className="text-[11px] md:text-[13px] font-bold tracking-wide whitespace-nowrap">
-                Friday, 4<sup className="text-[8px] md:text-[9px]">th</sup> Dec 2026
-              </span>
-            </div>
-            
-            <div className="hidden md:block h-4 w-[1px] bg-white/30" />
-            <div className="md:hidden h-[1px] w-full bg-white/20" />
-            
-            <div className="flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 md:w-4 md:h-4 text-white/90" />
-              <span className="text-[11px] md:text-[13px] font-bold tracking-wide text-center md:text-left">
-                Holiday Inn, Aerocity, New Delhi, India
-              </span>
-            </div>
-          </div>
+        <div className="inline-flex items-center justify-center bg-black/40 border-t border-b border-brand-primary/80 px-4 py-2 md:px-5 md:py-1 mb-4 md:mb-3 backdrop-blur-sm w-[95%] sm:w-auto max-w-[450px] md:max-w-none">
+          <div className="hidden md:block h-px w-6 bg-brand-primary mr-3" />
+          <span className="text-white tracking-[0.1em] md:tracking-[0.15em] text-[8px] sm:text-[9px] md:text-[11px] font-bold uppercase text-center w-full md:w-auto">
+            Friday, 4th Dec 2026 • Holiday Inn, Aerocity, New Delhi, India
+          </span>
+          <div className="hidden md:block h-px w-6 bg-brand-primary ml-3" />
         </div>
         
         {/* Main Headline */}
