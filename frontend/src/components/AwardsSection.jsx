@@ -196,7 +196,7 @@ export default function AwardsSection() {
                 Nominate for Awards
               </button>
               <button 
-                onClick={() => window.open('/BRC 4 Award Brochure.pdf', '_blank')}
+                onClick={() => window.open('/brouchers/Updated BRC 4 Award Brochure.pdf', '_blank')}
                 className="w-full sm:w-auto px-8 py-4 bg-white border border-brand-primary/20 text-brand-dark text-[11px] font-bold uppercase tracking-widest rounded-xl shadow-sm hover:border-brand-primary/50 hover:bg-brand-surface transition-all duration-300"
               >
                 Download Brochure

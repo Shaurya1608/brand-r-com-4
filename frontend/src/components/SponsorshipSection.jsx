@@ -339,7 +339,7 @@ export default function SponsorshipSection() {
                     GRAB NOW
                   </button>
                   <button 
-                    onClick={() => window.open('/Sponsorship Package BRC 2026.pdf', '_blank')}
+                    onClick={() => window.open('/brouchers/Updated Sponsorship Package BRC 2026.pdf', '_blank')}
                     className="px-6 py-3 border border-brand-primary/20 text-brand-dark text-[10px] font-bold tracking-widest uppercase hover:border-brand-primary transition-colors bg-white text-center rounded"
                   >
                     DOWNLOAD BROCHURE
