@@ -37,11 +37,22 @@ function getISTDate() {
  *  ≥  1 Nov 2026  → ₹10,000 + GST   (On-Spot)
  */
 function getIndianPricingTier() {
-  const { year, month, day } = getISTDate();
+  const { year, month } = getISTDate();
 
+  // --- TESTING MODE ENABLED ---
+  return { label: 'Testing', amount: '₹ 10 (Testing)', amountRs: 10, color: 'bg-emerald-100 text-emerald-700' };
+
+  /* --- REAL PRICING (COMMENTED OUT) ---
   if (year < 2026 || (year === 2026 && month <= 8)) {
-    return { label: 'Testing', amount: '₹ 10 (Testing)', amountRs: 10, color: 'bg-emerald-100 text-emerald-700' };
+    return { label: 'Till 31 August 2026', amount: '₹ 6,000 + GST', amountRs: 6000, color: 'bg-emerald-100 text-emerald-700' };
+  } else if (year === 2026 && month === 9) {
+    return { label: 'Till 30 September 2026', amount: '₹ 7,000 + GST', amountRs: 7000, color: 'bg-emerald-100 text-emerald-700' };
+  } else if (year === 2026 && month === 10) {
+    return { label: 'Till 31 October 2026', amount: '₹ 8,000 + GST', amountRs: 8000, color: 'bg-emerald-100 text-emerald-700' };
+  } else {
+    return { label: 'After 31 October 2026', amount: '₹ 10,000 + GST', amountRs: 10000, color: 'bg-emerald-100 text-emerald-700' };
   }
+  */
 }
 
 /**
@@ -110,6 +121,12 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
             })
             .catch(err => console.error('Error loading payment token:', err));
         }
+        
+        const coupon = urlParams.get('coupon');
+        if (coupon) {
+          setCouponCode(coupon.toUpperCase());
+          validateCoupon(coupon.toUpperCase());
+        }
       }
     }
   }, [isOpen, defaultType]);
@@ -117,7 +134,37 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const [couponApplied, setCouponApplied] = useState(false);
+  
+  const [couponCode, setCouponCode] = useState('');
+  const [isCouponValid, setIsCouponValid] = useState(false);
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponError, setCouponError] = useState('');
+  const [industryDiscountApplied, setIndustryDiscountApplied] = useState(false);
+
+  const validateCoupon = async (codeToValidate) => {
+    if (!codeToValidate) return;
+    setCouponLoading(true);
+    setCouponError('');
+    setIsCouponValid(false);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coupons/validate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: codeToValidate })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsCouponValid(true);
+        setCouponError('');
+      } else {
+        setCouponError('Invalid coupon code.');
+      }
+    } catch (err) {
+      setCouponError('Error validating coupon');
+    } finally {
+      setCouponLoading(false);
+    }
+  };
 
   // Existing record & Lookup states
   const [isExistingRecord, setIsExistingRecord] = useState(false);
@@ -208,7 +255,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
           pinCode: delegateType === 'foreign' ? '-' : formData.pinCode,
           gstNumber: delegateType === 'foreign' ? '-' : formData.gstNumber,
           mobileNumber: formattedMobile,
-          couponCode: couponApplied ? '#IAP2026' : null,
+          couponCode: isCouponValid ? couponCode : (industryDiscountApplied ? '#IAP2026' : null),
         }),
       });
 
@@ -225,7 +272,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
           setIsAlreadyPaid(false);
           setExistingData(null);
         }
-        if (delegateType === 'foreign') {
+        if (delegateType === 'foreign' || data.isFree) {
           setPaymentSuccess(true);
         }
         setSuccess(true);
@@ -266,7 +313,10 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
           address: data.data.address || '',
         });
         if (data.data.delegateType) setDelegateType(data.data.delegateType);
-        if (data.data.couponCode) setCouponApplied(true);
+        if (data.data.couponCode) {
+          setCouponCode(data.data.couponCode);
+          setIsCouponValid(true);
+        }
         setSuccess(true);
       } else {
         setLookupError(data.message || 'No existing registration found with those details.');
@@ -281,12 +331,22 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
 
   // Amount calculations
   const baseRs = pricingTier.amountRs;
-  const taxableRs = couponApplied ? baseRs * 0.8 : baseRs;
+  let taxableRs = baseRs;
+  if (isCouponValid) {
+    taxableRs = 0;
+  } else if (industryDiscountApplied) {
+    taxableRs = baseRs * 0.8;
+  }
   const gstRs = Math.round(taxableRs * 0.18);
   const finalRs = taxableRs + gstRs;
 
   const baseUsd = 250;
-  const taxableUsd = couponApplied ? 200 : 250;
+  let taxableUsd = baseUsd;
+  if (isCouponValid) {
+    taxableUsd = 0;
+  } else if (industryDiscountApplied) {
+    taxableUsd = baseUsd * 0.8;
+  }
 
   const finalAmountForApi = delegateType === 'indian' ? finalRs : taxableUsd;
   
@@ -299,7 +359,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   const totalAmountDisplay = delegateType === 'indian' ? (
     <div className="flex flex-col items-end">
       <div className="flex items-center gap-1.5 text-[12px] font-sans font-medium text-brand-dark/75 mb-0.5 tracking-wide">
-        {couponApplied && <span className="line-through text-brand-dark/40">{`₹ ${formatINR(baseRs)}`}</span>}
+        {(isCouponValid || industryDiscountApplied) && <span className="line-through text-brand-dark/40">{`₹ ${formatINR(baseRs)}`}</span>}
         <span>{`₹ ${formatINR(taxableRs)}`}</span>
         <span className="text-brand-dark/40">+</span>
         <span className="text-brand-primary font-bold">{`₹ ${formatINR(gstRs)} (18% GST)`}</span>
@@ -308,7 +368,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     </div>
   ) : (
     <div className="flex flex-col items-end">
-      {couponApplied && (
+      {(isCouponValid || industryDiscountApplied) && (
         <div className="text-[12px] font-sans font-medium text-brand-dark/40 line-through mb-0.5 tracking-wide">
           USD 250
         </div>
@@ -883,43 +943,28 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                       </div>
                     </div>
 
-                    {/* Coupon Code - Interactive Offer Card */}
-                    <div className="pt-4 mt-2 border-t border-brand-primary/10">
-                      <div 
-                        onClick={() => setCouponApplied(!couponApplied)}
-                        className={`relative overflow-hidden cursor-pointer transition-all duration-300 rounded-xl border p-4 ${
-                          couponApplied 
-                            ? 'bg-brand-primary/5 border-brand-primary/50 shadow-[0_0_15px_rgba(106,154,56,0.1)]' 
-                            : 'bg-white border-brand-primary/15 hover:border-brand-primary/40 hover:bg-brand-primary/[0.02] hover:shadow-sm'
-                        }`}
-                      >
-                        {/* Decorative bg element */}
-                        {couponApplied && (
-                          <div className="absolute top-0 right-0 w-24 h-24 bg-brand-primary/10 rounded-bl-[100px] -z-10 translate-x-4 -translate-y-4" />
-                        )}
-
-                        <div className="flex items-start gap-3.5 relative z-10">
-                          {/* Custom Checkbox */}
-                          <div className="flex-shrink-0 mt-0.5">
-                            <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all duration-200 ${
-                              couponApplied 
-                                ? 'bg-brand-primary border-brand-primary text-white scale-110 shadow-sm' 
-                                : 'border-brand-primary/30 bg-white text-transparent group-hover:border-brand-primary/50'
-                            }`}>
-                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                              </svg>
-                            </div>
+                    {/* Industry Partner Discount Checkbox */}
+                    {!isCouponValid && (
+                      <div className="pt-4 mt-2 border-t border-brand-primary/10">
+                        <label className="flex items-start gap-3 p-3 rounded-xl border border-brand-primary/20 bg-brand-primary/5 cursor-pointer hover:bg-brand-primary/10 transition-colors group">
+                          <div className="mt-0.5 relative flex items-center justify-center">
+                            <input 
+                              type="checkbox"
+                              checked={industryDiscountApplied}
+                              onChange={(e) => setIndustryDiscountApplied(e.target.checked)}
+                              className="w-5 h-5 rounded border-2 border-brand-primary/30 text-brand-primary focus:ring-brand-primary focus:ring-offset-0 transition-all cursor-pointer appearance-none checked:bg-brand-primary checked:border-brand-primary"
+                            />
+                            <svg className={`absolute w-3.5 h-3.5 text-white pointer-events-none transition-opacity ${industryDiscountApplied ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
                           </div>
-                          
-                          {/* Card Content */}
                           <div className="flex-1">
                             <div className="flex flex-wrap items-center gap-2 mb-1">
-                              <h4 className={`text-[13px] font-bold transition-colors ${couponApplied ? 'text-brand-primary' : 'text-brand-dark'}`}>
+                              <h4 className={`text-[13px] font-bold transition-colors ${industryDiscountApplied ? 'text-brand-primary' : 'text-brand-dark'}`}>
                                 Apply Industry Partner Discount
                               </h4>
                               <span className={`inline-flex items-center justify-center px-2 py-0.5 rounded text-[10px] font-bold tracking-widest uppercase border transition-colors ${
-                                couponApplied 
+                                industryDiscountApplied 
                                   ? 'bg-brand-primary/10 text-brand-primary border-brand-primary/20' 
                                   : 'bg-brand-surface text-brand-dark/60 border-brand-primary/10'
                               }`}>
@@ -938,7 +983,37 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                               </p>
                             </div>
                           </div>
+                        </label>
+                      </div>
+                    )}
+
+                    {/* Coupon Code - Interactive Offer Card */}
+                    <div className="pt-4 mt-2 border-t border-brand-primary/10">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark">Have a Sponsor Coupon?</label>
+                        <div className="flex items-center gap-2">
+                          <input 
+                            type="text" 
+                            value={couponCode} 
+                            onChange={(e) => {
+                              setCouponCode(e.target.value.toUpperCase());
+                              setIsCouponValid(false);
+                              setCouponError('');
+                            }}
+                            placeholder="Enter Code" 
+                            className="flex-1 px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all shadow-sm text-brand-dark font-medium uppercase"
+                          />
+                          <button 
+                            type="button"
+                            onClick={() => validateCoupon(couponCode)}
+                            disabled={couponLoading || !couponCode}
+                            className="px-4 py-2 bg-brand-primary hover:bg-brand-primary-hover text-white text-[11px] font-bold uppercase rounded-lg disabled:opacity-50"
+                          >
+                            {couponLoading ? 'Validating...' : 'Apply'}
+                          </button>
                         </div>
+                        {couponError && <p className="text-[11px] text-red-500 font-semibold">{couponError}</p>}
+                        {isCouponValid && <p className="text-[11px] text-brand-primary font-semibold">Coupon applied! Delegate pass is 100% Free.</p>}
                       </div>
                     </div>
                   </form>
@@ -965,7 +1040,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                     disabled={loading}
                     className="w-full py-3.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    {loading ? 'PROCESSING...' : (delegateType === 'foreign' ? 'SUBMIT REGISTRATION' : 'PROCEED TO PAYMENT')}
+                    {loading ? 'PROCESSING...' : (delegateType === 'foreign' ? 'SUBMIT REGISTRATION' : isCouponValid ? 'COMPLETE REGISTRATION' : 'PROCEED TO PAYMENT')}
                   </button>
                 </div>
               </div>

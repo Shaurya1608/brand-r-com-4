@@ -402,6 +402,7 @@ export default function DelegatesPage() {
               <option value="Paid">Paid</option>
               <option value="Pending">Pending</option>
               <option value="Failed">Failed / Invitee</option>
+              <option value="Free">Free (Coupon)</option>
             </select>
 
             <select
@@ -698,13 +699,13 @@ export default function DelegatesPage() {
 
                     {/* Amount */}
                     <td className="px-4 py-2.5 whitespace-nowrap text-right font-semibold text-gray-800">
-                      {delegate.paymentMethod === 'Free' ? (
+                      {delegate.paymentStatus === 'Free' || delegate.paymentMethod === 'Coupon' || delegate.paymentMethod === 'Free' ? (
                         <span className="text-gray-500 font-normal">₹0</span>
                       ) : delegate.totalAmount != null
                         ? (delegate.delegateType === 'foreign' ? `USD ${delegate.totalAmount}` : `₹${delegate.totalAmount.toLocaleString('en-IN')}`)
                         : delegate.amountPaid != null 
                           ? (delegate.delegateType === 'foreign' ? `USD ${delegate.amountPaid}` : `₹${delegate.amountPaid.toLocaleString('en-IN')}`)
-                          : (delegate.delegateType === 'foreign' ? 'USD 250 + Tax' : '₹7,080')
+                          : (delegate.delegateType === 'foreign' ? 'USD 250 + Tax' : '₹17,080')
                       }
                     </td>
 
@@ -715,6 +716,7 @@ export default function DelegatesPage() {
                           <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
                             delegate.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
                             delegate.paymentStatus === 'Failed' ? 'bg-red-100 text-red-700' :
+                            delegate.paymentStatus === 'Free' ? 'bg-blue-100 text-blue-700' :
                             'bg-yellow-100 text-yellow-700'
                           }`}>
                             {delegate.paymentStatus}
@@ -723,7 +725,7 @@ export default function DelegatesPage() {
                             ({delegate.paymentMethod || 'Online'})
                           </span>
                         </div>
-                        {delegate.paymentStatus !== 'Paid' && delegate.paymentStatus !== 'Invitee' && (
+                        {delegate.paymentStatus !== 'Paid' && delegate.paymentStatus !== 'Invitee' && delegate.paymentStatus !== 'Free' && (
                           <button
                             onClick={async () => {
                               try {

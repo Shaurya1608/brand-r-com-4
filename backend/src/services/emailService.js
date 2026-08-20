@@ -13,7 +13,12 @@ const getResendInstance = () => {
 };
 
 const getEmailConfig = (doc, isNomination) => {
-  const isPaid = doc.paymentStatus === 'Paid';
+  const isPaidOrFreeStatus = (status) => {
+    if (!status) return false;
+    const s = status.toLowerCase();
+    return s === 'paid' || s.includes('free') || s.includes('invitee');
+  };
+  const isPaid = isPaidOrFreeStatus(doc.paymentStatus);
   const isFailed = doc.paymentStatus === 'Failed';
   const isPending = doc.paymentStatus === 'Pending';
   const isManuallyCreated = doc.isManuallyCreated;
@@ -39,12 +44,15 @@ const getEmailConfig = (doc, isNomination) => {
     showCTA = true;
     hideFinancials = false;
   } else if (!isManuallyCreated && isPaid) {
-    // Case 2: Website Registration + Paid
-    subject = `✅ Payment Confirmed: ${eventName} (${doc.fullName})`;
-    messageText = `Great news! Your payment for <strong>${eventName}</strong> has been successfully verified. Your ${passType} is fully confirmed!`;
-    statusBadge = `<span style="background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">Paid</span>`;
+    // Case 2: Website Registration + Paid or Free
+    const actuallyPaid = doc.paymentStatus === 'Paid';
+    subject = actuallyPaid ? `✅ Payment Confirmed: ${eventName} (${doc.fullName})` : `✅ Registration Confirmed: ${eventName} (${doc.fullName})`;
+    messageText = actuallyPaid 
+      ? `Great news! Your payment for <strong>${eventName}</strong> has been successfully verified. Your ${passType} is fully confirmed!`
+      : `Great news! Your registration for <strong>${eventName}</strong> has been securely received and confirmed!`;
+    statusBadge = `<span style="background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; display: inline-block;">${actuallyPaid ? 'Paid' : 'Confirmed'}</span>`;
     showCTA = false;
-    hideFinancials = false;
+    hideFinancials = !actuallyPaid;
   } else if (!isManuallyCreated && isFailed) {
     // Case 3: Website Registration + Failed
     subject = `⚠️ Payment Failed: ${eventName} (${doc.fullName})`;
@@ -513,6 +521,7 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
 
     const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
     const isPaid = dataDoc.paymentStatus === 'Paid';
+    const isFree = dataDoc.paymentStatus === 'Free' || (dataDoc.paymentMethod && ['free', 'coupon', 'complimentary'].includes(dataDoc.paymentMethod.toLowerCase()));
     const isForeign = dataDoc.delegateType === 'foreign';
     const regId = dataDoc._id ? dataDoc._id.toString().slice(-8).toUpperCase() : 'N/A';
     const typeLabel = entityType === 'delegate' ? 'Delegate Registration' : (entityType === 'speaker' ? 'Speaker Enquiry' : (entityType === 'sponsorship' ? 'Sponsorship Booking' : 'Award Nomination'));
@@ -520,11 +529,13 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
 
     let subject = `🚨 [NEW REGISTRATION] ${typeLabel} #${regId} — ${displayName} (Pending)`;
     if (isPaid) subject = `💰 [PAYMENT RECEIVED] ${typeLabel} #${regId} — ${displayName}`;
-    if (isForeign) subject = `🌐 [INTL DELEGATE] ${typeLabel} #${regId} — ${displayName}`;
+    else if (isFree) subject = `🎟️ [FREE COUPON] ${typeLabel} #${regId} — ${displayName} (Confirmed)`;
+    else if (isForeign) subject = `🌐 [INTL DELEGATE] ${typeLabel} #${regId} — ${displayName}`;
     if (entityType === 'speaker') subject = `🎤 [NEW SPEAKER ENQUIRY] #${regId} — ${displayName}`;
     if (entityType === 'sponsorship') subject = `🏢 [NEW SPONSORSHIP] #${regId} — ${displayName}`;
 
     let headerColor = isPaid ? '#16a34a' : '#ea580c';
+    if (isFree) headerColor = '#65a30d';
     if (isForeign) headerColor = '#2563eb';
     if (entityType === 'speaker') headerColor = '#9333ea';
     if (entityType === 'sponsorship') headerColor = '#0d9488';
@@ -549,7 +560,6 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
     }
 
     const paymentMethod = (dataDoc.paymentMethod || '').toLowerCase();
-    const isFree = paymentMethod === 'free' || paymentMethod === 'complimentary';
 
     let formattedAmount;
     if (isFree) {

@@ -1,4 +1,5 @@
 import { Inter, Cormorant_Garamond } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const inter = Inter({
@@ -24,7 +25,10 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${inter.variable} ${cormorantGaramond.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <Toaster position="top-right" />
+        {children}
+      </body>
     </html>
   );
 }

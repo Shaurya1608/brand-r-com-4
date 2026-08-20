@@ -8,6 +8,7 @@ const webhookRoutes = require('./webhookRoutes');
 const sponsorshipRoutes = require('./sponsorshipRoutes');
 const speakerRoutes = require('./speakerRoutes');
 const coffeeTableRoutes = require('./coffeeTableRoutes');
+const couponRoutes = require('./couponRoutes');
 
 router.use('/auth', authRoutes);
 router.use('/delegates', delegateRoutes);
@@ -16,6 +17,7 @@ router.use('/webhooks', webhookRoutes);
 router.use('/sponsorships', sponsorshipRoutes);
 router.use('/speakers', speakerRoutes);
 router.use('/coffee-table', coffeeTableRoutes);
+router.use('/coupons', couponRoutes);
 router.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date() });
 });
