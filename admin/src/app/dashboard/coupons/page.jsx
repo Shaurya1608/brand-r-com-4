@@ -4,12 +4,16 @@ import React, { useState, useEffect } from 'react';
 import { Ticket, Search, Edit2, Trash2, Users, CheckCircle, XCircle } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { toast } from 'react-hot-toast';
+import EditCouponModal from '../../../components/EditCouponModal';
 
 export default function CouponsPage() {
   const [coupons, setCoupons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCoupon, setSelectedCoupon] = useState(null); // For viewing delegates
+  
+  const [editingCoupon, setEditingCoupon] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     fetchCoupons();
@@ -67,35 +71,9 @@ export default function CouponsPage() {
     }
   };
 
-  const handleUpdateLimit = async (coupon) => {
-    const newLimit = window.prompt(`Enter new max usage limit for ${coupon.code} (current: ${coupon.maxUses}):`, coupon.maxUses);
-    if (!newLimit) return;
-    const limitInt = parseInt(newLimit, 10);
-    if (isNaN(limitInt) || limitInt < coupon.usedCount) {
-      toast.error(`Limit must be a valid number and at least ${coupon.usedCount} (current usage)`);
-      return;
-    }
-    
-    try {
-      const token = Cookies.get('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coupons/${coupon._id}/limit`, {
-        method: 'PATCH',
-        headers: { 
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ maxUses: limitInt })
-      });
-      const data = await res.json();
-      if (data.success) {
-        toast.success('Usage limit updated successfully');
-        fetchCoupons();
-      } else {
-        toast.error(data.message || 'Failed to update limit');
-      }
-    } catch (error) {
-      toast.error('Failed to update limit');
-    }
+  const handleEditClick = (coupon) => {
+    setEditingCoupon(coupon);
+    setIsEditModalOpen(true);
   };
 
   const getCouponStatus = (coupon) => {
@@ -214,7 +192,7 @@ export default function CouponsPage() {
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-end gap-2">
                           <button
-                            onClick={() => handleUpdateLimit(coupon)}
+                            onClick={() => handleEditClick(coupon)}
                             className="p-1.5 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors"
                             title="Edit Usage Limit"
                           >
@@ -251,6 +229,13 @@ export default function CouponsPage() {
           )}
         </div>
       </div>
+
+      <EditCouponModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        coupon={editingCoupon}
+        onSuccess={fetchCoupons}
+      />
     </div>
   );
 }
