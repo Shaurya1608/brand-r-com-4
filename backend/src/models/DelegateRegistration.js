@@ -64,7 +64,7 @@ const delegateRegistrationSchema = new mongoose.Schema({
   },
   paymentStatus: {
     type: String,
-    enum: ['Pending', 'Paid', 'Failed', 'Invitee'],
+    enum: ['Pending', 'Paid', 'Failed', 'Invitee', 'Free'],
     default: 'Pending',
   },
   registrationType: {
@@ -114,6 +114,11 @@ const delegateRegistrationSchema = new mongoose.Schema({
   },
   razorpayPaymentId: {
     type: String,
+  },
+  couponId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Coupon',
+    default: null,
   },
   couponCode: {
     type: String,

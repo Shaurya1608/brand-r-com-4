@@ -1,11 +1,13 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Briefcase, Search, Download, Edit, Trash2, Plus } from 'lucide-react';
+import { Briefcase, Search, Download, Edit, Trash2, Plus, Ticket } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 import AddDelegateModal from '@/components/AddDelegateModal';
 import SponsorshipDelegatesModal from '@/components/SponsorshipDelegatesModal';
 import ManualSponsorshipModal from '@/components/ManualSponsorshipModal';
+import GenerateCouponModal from '@/components/GenerateCouponModal';
+import CouponDetailsModal from '@/components/CouponDetailsModal';
 
 export default function SponsorshipsPage() {
   const [sponsorships, setSponsorships] = useState([]);
@@ -24,6 +26,12 @@ export default function SponsorshipsPage() {
   const [selectedSponsorshipForViewDelegates, setSelectedSponsorshipForViewDelegates] = useState(null);
 
   const [isManualSponsorshipModalOpen, setIsManualSponsorshipModalOpen] = useState(false);
+
+  const [isGenerateCouponModalOpen, setIsGenerateCouponModalOpen] = useState(false);
+  const [selectedSponsorshipForCoupon, setSelectedSponsorshipForCoupon] = useState(null);
+
+  const [isCouponDetailsModalOpen, setIsCouponDetailsModalOpen] = useState(false);
+  const [selectedCouponForDetails, setSelectedCouponForDetails] = useState(null);
 
   const [filterRegistrationType, setFilterRegistrationType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
@@ -64,6 +72,14 @@ export default function SponsorshipsPage() {
     setFilterCategory('all');
     setFilterTier('all');
     setSortBy('newest');
+  };
+
+  const getCouponStatus = (coupon) => {
+    if (!coupon) return null;
+    if (!coupon.isActive) return 'Deactivated';
+    if (coupon.usedCount >= coupon.maxUses) return 'Exhausted';
+    if (new Date(coupon.expiresAt) < new Date()) return 'Expired';
+    return 'Active';
   };
 
   const handleExportCSV = () => {
@@ -566,6 +582,74 @@ export default function SponsorshipsPage() {
                           Add Delegate
                         </button>
 
+                        {/* Dynamic Coupon Button */}
+                        {(() => {
+                          const status = getCouponStatus(sponsorship.coupon);
+                          if (!status) {
+                            return (
+                              <button
+                                onClick={() => {
+                                  setSelectedSponsorshipForCoupon(sponsorship);
+                                  setIsGenerateCouponModalOpen(true);
+                                }}
+                                className="px-3 py-1 flex items-center gap-1 text-[11px] font-extrabold text-[#c22026] bg-[#c22026]/10 hover:bg-[#c22026]/20 border border-[#c22026]/30 rounded-full transition-all shadow-sm active:scale-95 cursor-pointer whitespace-nowrap"
+                                title="Generate Coupon"
+                              >
+                                <Ticket size={12} />
+                                Generate Coupon
+                              </button>
+                            );
+                          }
+                          if (status === 'Deactivated') {
+                            return (
+                              <button
+                                onClick={() => {
+                                  setSelectedSponsorshipForCoupon(sponsorship);
+                                  setIsGenerateCouponModalOpen(true);
+                                }}
+                                className="px-3 py-1 flex items-center gap-1 text-[11px] font-extrabold text-gray-600 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-full transition-all shadow-sm active:scale-95 cursor-pointer whitespace-nowrap"
+                                title="Generate New Coupon"
+                              >
+                                <Ticket size={12} />
+                                Generate New Coupon
+                              </button>
+                            );
+                          }
+                          
+                          // Active, Exhausted, Expired
+                          let colors = "text-[#6a9a38] bg-[#6a9a38]/10 border-[#6a9a38]/30 hover:bg-[#6a9a38]/20"; // Active
+                          let iconColor = "text-[#6a9a38]";
+                          if (status === 'Exhausted') {
+                            colors = "text-orange-600 bg-orange-100 border-orange-300 hover:bg-orange-200";
+                            iconColor = "text-orange-600";
+                          } else if (status === 'Expired') {
+                            colors = "text-red-600 bg-red-100 border-red-300 hover:bg-red-200";
+                            iconColor = "text-red-600";
+                          }
+
+                          return (
+                            <button
+                              onClick={() => {
+                                setSelectedCouponForDetails(sponsorship.coupon);
+                                setIsCouponDetailsModalOpen(true);
+                              }}
+                              className={`px-3 py-1 flex items-center gap-1.5 text-[11px] font-extrabold rounded-full transition-all shadow-sm active:scale-95 cursor-pointer whitespace-nowrap border ${colors}`}
+                              title="View Coupon Details"
+                            >
+                              <Ticket size={12} className={iconColor} />
+                              <span>{sponsorship.coupon.code}</span>
+                              <span className="opacity-70 font-normal px-1">·</span>
+                              <span className="font-bold">{status}</span>
+                              {status !== 'Expired' && (
+                                <>
+                                  <span className="opacity-70 font-normal px-1">·</span>
+                                  <span>{sponsorship.coupon.usedCount}/{sponsorship.coupon.maxUses}</span>
+                                </>
+                              )}
+                            </button>
+                          );
+                        })()}
+
                         {/* View Linked Delegates Badge / Button */}
                         <button
                           onClick={() => {
@@ -622,6 +706,18 @@ export default function SponsorshipsPage() {
         sponsorship={selectedSponsorshipForViewDelegates}
       />
 
+      {/* Coupon Details Modal */}
+      <CouponDetailsModal
+        isOpen={isCouponDetailsModalOpen}
+        onClose={() => {
+          setIsCouponDetailsModalOpen(false);
+          setSelectedCouponForDetails(null);
+          fetchSponsorships(); // refresh in case status changed
+        }}
+        coupon={selectedCouponForDetails}
+        onStatusChange={() => fetchSponsorships()}
+      />
+
       {/* Manual Sponsorship Booking / Edit Modal */}
       <ManualSponsorshipModal
         isOpen={isManualSponsorshipModalOpen}
@@ -634,6 +730,15 @@ export default function SponsorshipsPage() {
           setEditingSponsorship(null);
         }}
         editingSponsorship={editingSponsorship}
+      />
+
+      <GenerateCouponModal
+        isOpen={isGenerateCouponModalOpen}
+        onClose={() => {
+          setIsGenerateCouponModalOpen(false);
+          setSelectedSponsorshipForCoupon(null);
+        }}
+        sponsorship={selectedSponsorshipForCoupon}
       />
 
       {/* Logo Viewer Modal */}

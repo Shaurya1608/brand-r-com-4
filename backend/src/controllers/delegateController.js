@@ -1,4 +1,5 @@
 const DelegateRegistration = require('../models/DelegateRegistration');
+const Coupon = require('../models/Coupon');
 const { sendDelegateConfirmationEmail } = require('../services/emailService');
 const crypto = require('crypto');
 
@@ -37,6 +38,7 @@ const calculateDelegatePricing = (type, coupon) => {
   }
 
   const { year, month } = getISTDate();
+  
   let baseRs = 10000;
   let tierName = 'After 31 October 2026';
 
@@ -95,7 +97,7 @@ exports.getPricingTier = async (req, res) => {
 // @access  Public
 exports.registerDelegate = async (req, res) => {
   try {
-    const {
+    let {
       delegateType,
       fullName,
       email,
@@ -178,30 +180,81 @@ exports.registerDelegate = async (req, res) => {
     }
 
     const pricing = calculateDelegatePricing(delegateType, couponCode);
-    const finalPaymentStatus = isAdmin && paymentStatus ? paymentStatus : 'Pending';
-    const finalPaymentMethod = isAdmin && paymentMethod ? paymentMethod : 'Online';
+    let finalPaymentStatus = isAdmin && paymentStatus ? paymentStatus : 'Pending';
+    let finalPaymentMethod = isAdmin && paymentMethod ? paymentMethod : 'Online';
     const finalIsManuallyCreated = isAdmin && isManuallyCreated ? true : false;
-    const isPaid = finalPaymentStatus === 'Paid';
+    let isPaid = finalPaymentStatus === 'Paid';
+    let isFreeCoupon = false;
+    let validCoupon = null;
 
-    // Check if delegate already registered by Email OR Mobile Number (comparing core 10 digits)
-    const last10Digits = mobileDigits.slice(-10);
-    const queryOr = [{ email: cleanEmail }];
+    const isStatusPaidOrFree = (status) => {
+      if (!status) return false;
+      const s = status.toLowerCase();
+      return s === 'paid' || s.includes('free') || s.includes('invitee');
+    };
 
-    if (last10Digits.length === 10) {
-      queryOr.push({ mobileNumber: { $regex: last10Digits + '$' } });
-    }
+    const mongoose = require('mongoose');
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-    let existingDelegate = await DelegateRegistration.findOne({ $or: queryOr });
+    let newDelegate;
+    let rawToken = crypto.randomBytes(32).toString('hex');
+
+    try {
+      if (couponCode && !isAdmin) {
+        const code = couponCode.toUpperCase().trim();
+        
+        if (code === '#IAP2026') {
+          // It's the Industry Partner 20% discount code, no DB lookup needed, it's just a 20% price reduction
+        } else {
+          validCoupon = await Coupon.findOne({ code, deletedAt: null }).session(session);
+          
+          if (!validCoupon) throw new Error('Invalid coupon code.');
+          if (!validCoupon.isActive) throw new Error('This coupon is currently inactive.');
+          
+          const now = new Date();
+          if (now < validCoupon.startsAt) throw new Error('This coupon is not yet valid.');
+          if (now > validCoupon.expiresAt) throw new Error('This coupon has expired.');
+          if (validCoupon.usedCount >= validCoupon.maxUses) throw new Error('This coupon has reached its maximum usage limit.');
+  
+          validCoupon.usedCount += 1;
+          await validCoupon.save({ session });
+  
+          isFreeCoupon = true;
+          finalPaymentStatus = 'Free';
+          finalPaymentMethod = 'Coupon';
+          isPaid = true;
+          
+          // Automatically link the delegate to the sponsor or nomination that generated this coupon
+          if (validCoupon.sponsorshipId) {
+            sponsorshipId = validCoupon.sponsorshipId;
+            sponsorshipCompany = validCoupon.sponsorName;
+          } else if (validCoupon.nominationId) {
+            awardNominationId = validCoupon.nominationId;
+            awardNominationName = validCoupon.sponsorName;
+          }
+        }
+      }
+
+      const last10Digits = mobileDigits.slice(-10);
+      const queryOr = [{ email: cleanEmail }];
+
+      if (last10Digits.length === 10) {
+        queryOr.push({ mobileNumber: { $regex: last10Digits + '$' } });
+      }
+
+      let existingDelegate = await DelegateRegistration.findOne({ $or: queryOr }).session(session);
 
       if (existingDelegate) {
-        if (existingDelegate.paymentStatus === 'Paid' || existingDelegate.delegateType !== delegateType) {
+        if (isStatusPaidOrFree(existingDelegate.paymentStatus) || existingDelegate.delegateType !== delegateType) {
+          await session.abortTransaction();
+          session.endSession();
           return res.status(200).json({
             success: false,
             message: `You have already registered this email as an ${existingDelegate.delegateType === 'indian' ? 'Indian' : 'International'} delegate! Please use another email or contact our team if you need assistance.`
           });
         }
         
-        // Update existing record with latest user input
         existingDelegate.delegateType = delegateType || existingDelegate.delegateType;
         existingDelegate.fullName = fullName || existingDelegate.fullName;
         existingDelegate.email = cleanEmail || existingDelegate.email;
@@ -214,6 +267,7 @@ exports.registerDelegate = async (req, res) => {
         existingDelegate.address = address || existingDelegate.address;
         if (gstNumber) existingDelegate.gstNumber = gstNumber.trim().toUpperCase();
         if (couponCode) existingDelegate.couponCode = couponCode;
+        if (validCoupon) existingDelegate.couponId = validCoupon._id;
         if (sponsorshipId) existingDelegate.sponsorshipId = sponsorshipId;
         if (sponsorshipCompany) existingDelegate.sponsorshipCompany = sponsorshipCompany;
         if (awardNominationId) existingDelegate.awardNominationId = awardNominationId;
@@ -221,33 +275,32 @@ exports.registerDelegate = async (req, res) => {
         if (attendeeCategory) existingDelegate.attendeeCategory = attendeeCategory;
         if (paymentStatus) existingDelegate.paymentStatus = finalPaymentStatus;
         if (paymentMethod) existingDelegate.paymentMethod = finalPaymentMethod;
+        if (isFreeCoupon) {
+          existingDelegate.paymentStatus = 'Free';
+          existingDelegate.paymentMethod = 'Coupon';
+        }
         if (registeredBy) existingDelegate.registeredBy = registeredBy;
         if (finalIsManuallyCreated) {
           existingDelegate.isManuallyCreated = true;
           existingDelegate.registrationType = 'Manual';
         }
 
-        // Financial fields accounting
-        existingDelegate.totalAmount = pricing.totalAmount;
-        if (existingDelegate.paymentStatus === 'Paid') {
-          existingDelegate.amountPaid = pricing.totalAmount;
+        existingDelegate.totalAmount = isFreeCoupon ? 0 : pricing.totalAmount;
+        if (isStatusPaidOrFree(existingDelegate.paymentStatus)) {
+          existingDelegate.amountPaid = isFreeCoupon ? 0 : pricing.totalAmount;
           existingDelegate.amountDue = 0;
         } else {
           existingDelegate.amountPaid = 0;
           existingDelegate.amountDue = pricing.totalAmount;
         }
 
-        // Generate unguessable SHA-256 hashed payment token for secure email resumption
-        const rawToken = crypto.randomBytes(32).toString('hex');
         const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
-
         existingDelegate.resumeTokenHash = tokenHash;
         existingDelegate.paymentTokenExpires = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
 
-        await existingDelegate.save();
-
-        // Email sending is disabled for Pending/Duplicate registrations. 
-        // Users will only receive an email when their payment is successfully verified.
+        await existingDelegate.save({ session });
+        await session.commitTransaction();
+        session.endSession();
 
         const frontendUrl = process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
         const paymentUrl = `${frontendUrl}/pay?token=${rawToken}`;
@@ -255,9 +308,10 @@ exports.registerDelegate = async (req, res) => {
         return res.status(200).json({
           success: true,
           isExisting: true,
-          alreadyPaid: existingDelegate.paymentStatus === 'Paid',
-          message: existingDelegate.paymentStatus === 'Paid'
-            ? 'You are already registered and your payment is confirmed!'
+          isFree: isFreeCoupon,
+          alreadyPaid: isStatusPaidOrFree(existingDelegate.paymentStatus),
+          message: isStatusPaidOrFree(existingDelegate.paymentStatus)
+            ? 'You are already registered and your registration is confirmed!'
             : 'Existing registration found! Please complete your pending payment.',
           data: existingDelegate,
           rawToken,
@@ -265,12 +319,8 @@ exports.registerDelegate = async (req, res) => {
         });
       }
 
-    const rawToken = crypto.randomBytes(32).toString('hex');
-    const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
-
-    let newDelegate;
-    try {
-      newDelegate = await DelegateRegistration.create({
+      const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
+      let newDelegateArray = await DelegateRegistration.create([{
         delegateType: delegateType || 'indian',
         fullName,
         email: cleanEmail,
@@ -283,6 +333,7 @@ exports.registerDelegate = async (req, res) => {
         gstNumber: gstNumber ? gstNumber.trim().toUpperCase() : '',
         address,
         couponCode: couponCode || null,
+        couponId: validCoupon ? validCoupon._id : null,
         isManuallyCreated: finalIsManuallyCreated,
         registrationType: finalIsManuallyCreated ? 'Manual' : 'Online',
         paymentStatus: finalPaymentStatus,
@@ -293,26 +344,34 @@ exports.registerDelegate = async (req, res) => {
         sponsorshipCompany: sponsorshipCompany || '',
         awardNominationId: awardNominationId || null,
         awardNominationName: awardNominationName || '',
-        totalAmount: pricing.totalAmount,
-        amountPaid: isPaid ? pricing.totalAmount : 0,
-        amountDue: isPaid ? 0 : pricing.totalAmount,
-        resumeTokenHash: isPaid ? null : tokenHash,
-        paymentTokenExpires: isPaid ? null : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-      });
-    } catch (createError) {
-      // Catch MongoDB E11000 duplicate key error in case of simultaneous concurrent requests
-      if (createError.code === 11000 || (createError.message && createError.message.includes('E11000'))) {
+        totalAmount: isFreeCoupon ? 0 : pricing.totalAmount,
+        amountPaid: isFreeCoupon ? 0 : (isPaid ? pricing.totalAmount : 0),
+        amountDue: isFreeCoupon ? 0 : (isPaid ? 0 : pricing.totalAmount),
+        resumeTokenHash: isFreeCoupon || isPaid ? null : tokenHash,
+        paymentTokenExpires: isFreeCoupon || isPaid ? null : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+      }], { session });
+
+      newDelegate = newDelegateArray[0];
+      
+      await session.commitTransaction();
+      session.endSession();
+    } catch (err) {
+      await session.abortTransaction();
+      session.endSession();
+      
+      if (err.code === 11000 || (err.message && err.message.includes('E11000'))) {
         const existingDelegate = await DelegateRegistration.findOne({
           $or: [{ email: cleanEmail }, { mobileNumber: cleanMobile }]
         });
         if (existingDelegate) {
           const frontendUrl = process.env.FRONTEND_URL || 'https://brand-r-com-4.vercel.app';
+          const rawToken = crypto.randomBytes(32).toString('hex');
           return res.status(200).json({
             success: true,
             isExisting: true,
-            alreadyPaid: existingDelegate.paymentStatus === 'Paid',
-            message: existingDelegate.paymentStatus === 'Paid'
-              ? 'You are already registered and your payment is confirmed!'
+            alreadyPaid: isStatusPaidOrFree(existingDelegate.paymentStatus),
+            message: isStatusPaidOrFree(existingDelegate.paymentStatus)
+              ? 'You are already registered and your registration is confirmed!'
               : 'Existing registration found! Please complete your pending payment.',
             data: existingDelegate,
             rawToken,
@@ -320,16 +379,15 @@ exports.registerDelegate = async (req, res) => {
           });
         }
       }
-      throw createError;
+      
+      return res.status(400).json({ success: false, message: err.message || 'Registration failed' });
     }
 
-    // Only send the initial email immediately if the payment status is 'Paid' or 'Invitee',
-    // or if the payment method is 'Free' / 'Complimentary'.
-    // We never send an email for 'Pending' status anymore (not even for manually created ones).
     const isActuallyPaidOrFree = 
       newDelegate.paymentStatus === 'Paid' || 
+      newDelegate.paymentStatus === 'Free' || 
       newDelegate.paymentStatus === 'Invitee' || 
-      (newDelegate.paymentMethod && ['free', 'complimentary'].includes(newDelegate.paymentMethod.toLowerCase()));
+      (newDelegate.paymentMethod && ['free', 'coupon', 'complimentary'].includes(newDelegate.paymentMethod.toLowerCase()));
 
     if (!newDelegate.initialEmailSent && isActuallyPaidOrFree && !finalIsManuallyCreated) {
       sendDelegateConfirmationEmail(newDelegate, rawToken).catch(err => console.error('Error sending initial registration email:', err));
@@ -343,6 +401,7 @@ exports.registerDelegate = async (req, res) => {
 
     res.status(201).json({
       success: true,
+      isFree: newDelegate.paymentStatus === 'Free',
       data: newDelegate,
       rawToken,
       paymentUrl
@@ -791,20 +850,18 @@ exports.verifyPayment = async (req, res) => {
     // CRITICAL SECURITY: Match both _id AND razorpayOrderId to prevent cross-registration payment spoofing!
     let delegate = await DelegateRegistration.findOneAndUpdate(
       { _id: delegateId, razorpayOrderId: razorpay_order_id, paymentStatus: { $ne: 'Paid' } },
-      [
-        {
-          $set: {
-            paymentStatus: 'Paid',
-            paymentMethod: 'Online (Razorpay)',
-            razorpayPaymentId: razorpay_payment_id,
-            amountPaid: { $ifNull: ['$totalAmount', 5664] },
-            amountDue: 0,
-            resumeTokenHash: null,
-            paymentTokenExpires: null,
-          }
+      {
+        $set: {
+          paymentStatus: 'Paid',
+          paymentMethod: 'Online (Razorpay)',
+          razorpayPaymentId: razorpay_payment_id,
+          amountPaid: delegateCheck.totalAmount || 5664,
+          amountDue: 0,
+          resumeTokenHash: null,
+          paymentTokenExpires: null,
         }
-      ],
-      { returnDocument: 'after' }
+      },
+      { new: true }
     );
 
     // If it was already paid, we just fetch it to return
@@ -819,7 +876,7 @@ exports.verifyPayment = async (req, res) => {
     const emailLockedRecord = await DelegateRegistration.findOneAndUpdate(
       { _id: delegateId, paidEmailSent: { $ne: true } },
       { $set: { paidEmailSent: true } },
-      { returnDocument: 'after' }
+      { new: true }
     );
 
     if (emailLockedRecord) {

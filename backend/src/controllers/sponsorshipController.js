@@ -1,5 +1,6 @@
 const Sponsorship = require('../models/Sponsorship');
 const DelegateRegistration = require('../models/DelegateRegistration');
+const Coupon = require('../models/Coupon');
 const { sendSponsorshipConfirmationEmail } = require('../services/emailService');
 
 // @desc    Create a new sponsorship booking
@@ -92,9 +93,24 @@ const getSponsorships = async (req, res) => {
       countMap[c._id.toString()] = c.count;
     });
 
+    // Fetch active coupons for these sponsorships
+    const activeCoupons = await Coupon.find({
+      sponsorshipId: { $in: sponsorshipIds },
+      deletedAt: null
+    }).sort({ createdAt: -1 });
+
+    const couponMap = {};
+    activeCoupons.forEach(coupon => {
+      // If we only want the LATEST active coupon per sponsorship, we just take the first one we see (since sorted by newest)
+      if (!couponMap[coupon.sponsorshipId.toString()]) {
+        couponMap[coupon.sponsorshipId.toString()] = coupon;
+      }
+    });
+
     const dataWithCounts = sponsorships.map(s => {
       const doc = s.toObject();
       doc.delegatesCount = countMap[s._id.toString()] || 0;
+      doc.coupon = couponMap[s._id.toString()] || null;
       return doc;
     });
 
