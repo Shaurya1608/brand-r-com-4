@@ -39,11 +39,6 @@ const calculateDelegatePricing = (type, coupon) => {
 
   const { year, month } = getISTDate();
   
-  // --- TESTING MODE ENABLED ---
-  let baseRs = 10;
-  let tierName = 'Testing Mode (10 Rs)';
-
-  /* --- REAL PRICING (COMMENTED OUT) ---
   let baseRs = 10000;
   let tierName = 'After 31 October 2026';
 
@@ -60,7 +55,6 @@ const calculateDelegatePricing = (type, coupon) => {
     baseRs = 10000;
     tierName = 'After 31 October 2026';
   }
-  */
 
   const taxableRs = coupon ? baseRs * 0.8 : baseRs;
   const gstRs = Math.round(taxableRs * 0.18);

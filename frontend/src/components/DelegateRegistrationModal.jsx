@@ -39,10 +39,6 @@ function getISTDate() {
 function getIndianPricingTier() {
   const { year, month } = getISTDate();
 
-  // --- TESTING MODE ENABLED ---
-  return { label: 'Testing', amount: '₹ 10 (Testing)', amountRs: 10, color: 'bg-emerald-100 text-emerald-700' };
-
-  /* --- REAL PRICING (COMMENTED OUT) ---
   if (year < 2026 || (year === 2026 && month <= 8)) {
     return { label: 'Till 31 August 2026', amount: '₹ 6,000 + GST', amountRs: 6000, color: 'bg-emerald-100 text-emerald-700' };
   } else if (year === 2026 && month === 9) {
@@ -52,7 +48,6 @@ function getIndianPricingTier() {
   } else {
     return { label: 'After 31 October 2026', amount: '₹ 10,000 + GST', amountRs: 10000, color: 'bg-emerald-100 text-emerald-700' };
   }
-  */
 }
 
 /**
