@@ -38,7 +38,7 @@ exports.generateCoupon = async (req, res) => {
     }
 
     if (!code) {
-      code = generateCouponCode();
+      code = generateCouponCode('SPO');
     } else {
       code = code.toUpperCase().trim();
       const existing = await Coupon.findOne({ code });
@@ -92,7 +92,7 @@ exports.generateNominationCoupon = async (req, res) => {
     }
 
     if (!code) {
-      code = generateCouponCode();
+      code = generateCouponCode('NOM');
     } else {
       code = code.toUpperCase().trim();
       const existing = await Coupon.findOne({ code });

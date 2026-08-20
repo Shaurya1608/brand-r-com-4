@@ -23,7 +23,11 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination }) => {
   useEffect(() => {
     if (isOpen) {
       setSuccessData(null);
-      setCode('');
+      
+      const prefix = sponsorship ? 'SPO' : 'NOM';
+      const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+      setCode(`${prefix}-${randomPart}`);
+      
       setMaxUses(50);
       setStartsAt(new Date().toISOString().slice(0, 16));
       
