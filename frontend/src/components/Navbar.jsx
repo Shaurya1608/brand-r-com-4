@@ -127,9 +127,12 @@ export default function Navbar() {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-4">
-            <button className="bg-brand-primary hover:bg-brand-primary-hover text-white px-5 py-2 rounded-lg text-sm font-bold tracking-wide transition-colors shadow-md shadow-brand-primary/30 transform hover:-translate-y-0.5 duration-200">
+            <Link 
+              href="/media-kit"
+              className="bg-brand-primary hover:bg-brand-primary-hover text-white px-5 py-2 rounded-lg text-sm font-bold tracking-wide transition-colors shadow-md shadow-brand-primary/30 transform hover:-translate-y-0.5 duration-200 text-center"
+            >
               Social Media Kit
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -193,9 +196,13 @@ export default function Navbar() {
             </div>
           ))}
           <div className="flex flex-col pt-6 mt-2 border-t border-brand-dark/10">
-             <button className="bg-brand-primary hover:bg-brand-primary-hover text-white w-full py-3.5 rounded-lg text-sm font-bold tracking-wide transition-colors shadow-md shadow-brand-primary/30">
+             <Link 
+               href="/media-kit"
+               onClick={() => setIsOpen(false)}
+               className="bg-brand-primary hover:bg-brand-primary-hover text-white w-full py-3.5 rounded-lg text-sm font-bold tracking-wide transition-colors shadow-md shadow-brand-primary/30 text-center"
+             >
                Social Media Kit
-             </button>
+             </Link>
           </div>
         </div>
       )}
