@@ -516,6 +516,7 @@ export default function DelegatesPage() {
                 <th className="px-4 py-3.5 min-w-[200px] sticky top-0 bg-gray-100">Address</th>
                 <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Reg. Type</th>
                 <th className="px-4 py-3.5 whitespace-nowrap text-right sticky top-0 bg-gray-100">Amount</th>
+                <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Invoice</th>
                 <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Payment & Type</th>
                 <th className="px-4 py-3.5 whitespace-nowrap sticky top-0 bg-gray-100">Coupon Registration</th>
                 <th className="px-4 py-3.5 text-center sm:sticky right-0 top-0 z-50 bg-gray-100 sm:shadow-[-1px_0_0_0_#e5e7eb]">Actions</th>
@@ -707,6 +708,27 @@ export default function DelegatesPage() {
                           ? (delegate.delegateType === 'foreign' ? `USD ${delegate.amountPaid}` : `₹${delegate.amountPaid.toLocaleString('en-IN')}`)
                           : (delegate.delegateType === 'foreign' ? 'USD 250 + Tax' : '₹17,080')
                       }
+                    </td>
+
+                                        {/* Invoice */}
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      {delegate.invoiceId ? (
+                        <div className="flex flex-col gap-1 delegates-start">
+                          <span className="font-mono text-xs font-semibold text-gray-700">{delegate.invoiceId.invoiceNumber}</span>
+                          <a 
+                            href={`${process.env.NEXT_PUBLIC_API_URL}/invoices/${delegate.invoiceId._id}/pdf`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline cursor-pointer"
+                          >
+                            [View]
+                          </a>
+                        </div>
+                      ) : (delegate.paymentStatus === 'Paid' ? (
+                        <span className="text-xs text-gray-400">Not Generated</span>
+                      ) : (
+                        <span className="text-xs text-gray-400">Not Applicable</span>
+                      ))}
                     </td>
 
                     {/* Payment & Type */}
