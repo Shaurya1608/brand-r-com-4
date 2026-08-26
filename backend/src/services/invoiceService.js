@@ -17,7 +17,7 @@ const isValidGSTIN = (gstin) => {
  * Calculates CGST, SGST, IGST based on supplier and buyer state
  */
 const calculateTax = (buyerGSTIN, taxableAmount) => {
-  const supplierStateCode = process.env.SUPPLIER_GST_STATE_CODE || '36'; // Default to Telangana
+  const supplierStateCode = process.env.SUPPLIER_GST_STATE_CODE || '09'; // Default to UP (09)
   const buyerStateCode = buyerGSTIN.substring(0, 2);
   
   let cgst = 0, sgst = 0, igst = 0;
