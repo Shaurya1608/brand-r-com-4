@@ -353,13 +353,17 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
 
   const totalAmountDisplay = delegateType === 'indian' ? (
     <div className="flex flex-col items-end">
+      {/* TESTING: Fixed 1 Rupee */}
+      <span className="font-serif font-bold text-3xl text-brand-dark">₹ 1</span>
+      {/* 
       <div className="flex items-center gap-1.5 text-[12px] font-sans font-medium text-brand-dark/75 mb-0.5 tracking-wide">
-        {(isCouponValid || industryDiscountApplied) && <span className="line-through text-brand-dark/40">{`₹ ${formatINR(baseRs)}`}</span>}
-        <span>{`₹ ${formatINR(taxableRs)}`}</span>
+        {(isCouponValid || industryDiscountApplied) && <span className="line-through text-brand-dark/40">{\`₹ \${formatINR(baseRs)}\`}</span>}
+        <span>{\`₹ \${formatINR(taxableRs)}\`}</span>
         <span className="text-brand-dark/40">+</span>
-        <span className="text-brand-primary font-bold">{`₹ ${formatINR(gstRs)} (18% GST)`}</span>
+        <span className="text-brand-primary font-bold">{\`₹ \${formatINR(gstRs)} (18% GST)\`}</span>
       </div>
-      <span className="font-serif font-bold text-3xl text-brand-dark">{`₹ ${formatINR(finalRs)}`}</span>
+      <span className="font-serif font-bold text-3xl text-brand-dark">{\`₹ \${formatINR(finalRs)}\`}</span>
+      */}
     </div>
   ) : (
     <div className="flex flex-col items-end">
