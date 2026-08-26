@@ -110,11 +110,8 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       drawLine(x4, currentY, x4, currentY + 20); 
       drawLine(x3, currentY, x3, currentY + 20); 
 
-      const xAddSplit = x3 + 35; // 35 points for 'Add:' column
-      const labelX = xAddSplit + 5; // Align all right-side text to this line
-
       doc.font('Helvetica-Bold').fontSize(10);
-      doc.text('Gross Total', labelX, currentY + 5);
+      doc.text('Gross Total', x3, currentY + 5, { width: x4 - x3, align: 'center' });
       doc.text(formatAmount(invoice.taxableAmount), x4, currentY + 5, { width: x5 - x4 - 5, align: 'right' });
 
       currentY += 20;
@@ -130,37 +127,36 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
 
       // Horizontal separators for the right side
       for (let i = 1; i < 5; i++) {
-        drawLine(x3, currentY + i * 20, x5, currentY + i * 20);
+        drawLine(x2, currentY + i * 20, x5, currentY + i * 20);
       }
 
       // Vertical lines for the right side
+      drawLine(x2, currentY, x2, currentY + 100);
       drawLine(x3, currentY, x3, currentY + 100);
       drawLine(x4, currentY, x4, currentY + 100);
 
       // Inner vertical line for 'Add:' split (rows 1, 2, 3 only)
-      drawLine(xAddSplit, currentY + 20, xAddSplit, currentY + 80);
-
       // Row 0: Net Total
-      doc.font('Helvetica-Bold').text('Net Total', labelX, currentY + 5);
+      doc.font('Helvetica-Bold').text('Net Total', x3, currentY + 5, { width: x4 - x3, align: 'center' });
       doc.text(formatAmount(invoice.taxableAmount), x4, currentY + 5, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 1: CGST
-      doc.font('Helvetica-Bold').text('Add:', x3 + 5, currentY + 25);
-      doc.text('CGST @9%', labelX, currentY + 25);
+      doc.font('Helvetica-Bold').text('Add:', x2, currentY + 25, { width: x3 - x2 - 5, align: 'right' });
+      doc.text('CGST @9%', x3, currentY + 25, { width: x4 - x3, align: 'center' });
       doc.text(formatAmount(invoice.cgst), x4, currentY + 25, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 2: SGST
-      doc.font('Helvetica-Bold').text('Add:', x3 + 5, currentY + 45);
-      doc.text('SGST @9%', labelX, currentY + 45);
+      doc.font('Helvetica-Bold').text('Add:', x2, currentY + 45, { width: x3 - x2 - 5, align: 'right' });
+      doc.text('SGST @9%', x3, currentY + 45, { width: x4 - x3, align: 'center' });
       doc.text(formatAmount(invoice.sgst), x4, currentY + 45, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 3: IGST
-      doc.font('Helvetica-Bold').text('Add:', x3 + 5, currentY + 65);
-      doc.text('IGST @18%', labelX, currentY + 65);
+      doc.font('Helvetica-Bold').text('Add:', x2, currentY + 65, { width: x3 - x2 - 5, align: 'right' });
+      doc.text('IGST @18%', x3, currentY + 65, { width: x4 - x3, align: 'center' });
       doc.text(formatAmount(invoice.igst), x4, currentY + 65, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 4: Grand Total
-      doc.font('Helvetica-Bold').text('Grand Total', labelX, currentY + 85);
+      doc.font('Helvetica-Bold').text('Grand Total', x3, currentY + 85, { width: x4 - x3, align: 'center' });
       doc.text(formatAmount(invoice.totalAmount), x4, currentY + 85, { width: x5 - x4 - 5, align: 'right' });
 
       currentY += 100;

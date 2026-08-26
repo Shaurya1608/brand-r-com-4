@@ -20,7 +20,7 @@ async function runTest() {
 
   try {
     const pdfBuffer = await generateInvoicePdf(invoice, {});
-    const outputPath = path.join(__dirname, 'test_invoice_8.pdf');
+    const outputPath = path.join(__dirname, 'test_invoice_9.pdf');
     fs.writeFileSync(outputPath, pdfBuffer);
     console.log(`✅ Success! Invoice saved to: ${outputPath}`);
   } catch (err) {
