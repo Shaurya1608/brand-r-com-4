@@ -30,7 +30,7 @@ const downloadInvoicePdf = async (req, res) => {
 
     // Send PDF response
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', \`attachment; filename=\${invoice.invoiceNumber}.pdf\`);
+    res.setHeader('Content-Disposition', `attachment; filename=${invoice.invoiceNumber}.pdf`);
     res.send(pdfBuffer);
 
   } catch (error) {
