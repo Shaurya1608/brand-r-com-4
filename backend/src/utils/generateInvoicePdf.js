@@ -159,7 +159,7 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
 
       // ---- Notes ----
       currentY = doc.y + 30;
-      doc.rect(50, currentY, 500, 1).fillColor(colorLightGray).fill();
+      drawLine(currentY);
       currentY += 15;
       
       doc.font('Helvetica-Bold').text('Notes:', 50, currentY);
