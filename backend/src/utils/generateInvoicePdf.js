@@ -168,20 +168,21 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       currentY += 100;
 
       // ---- Footer Block (E. & O.E, Notes, Sign) ----
-      const footerHeight = 120;
+      const footerHeight = 195;
       doc.rect(x0, currentY, 515, footerHeight).stroke();
 
-      doc.font('Helvetica-Bold').text('E. & O.E.', x0 + 5, currentY + 5);
+      const stampPath = path.join(__dirname, '../assets/invoice/stamp.png');
+      if (fs.existsSync(stampPath)) {
+        doc.image(stampPath, x0 + 5, currentY + 5, { height: 100 });
+      }
 
       // Notes
-      doc.font('Helvetica-Bold').fontSize(9).text('Notes:', x0 + 5, currentY + 45);
-      doc.font('Helvetica').text('All Cheque to be drawn in favour of SNAIL INTEGRAL PVT LTD.', x0 + 5, currentY + 57);
-      doc.text('Type of Account - Current Account, Account No.- 059361900001430', x0 + 5, currentY + 69);
-      doc.text('IFSC CODE- YESB0000593', x0 + 5, currentY + 81);
-      doc.font('Helvetica-Bold').text('Bank & Branch - Yes Bank Ltd, Noida, Sector- 132', x0 + 5, currentY + 93);
-      doc.font('Helvetica').text('The ordered services shall be dispatched only after receipt of advance payment in full.', x0 + 5, currentY + 105);
-
-      doc.font('Helvetica').text('(AUTHORIZED SIGNATORY)', x3, currentY + 105, { width: x5 - x3, align: 'center' });
+      doc.font('Helvetica-Bold').fontSize(10).text('Notes:', x0 + 5, currentY + 115);
+      doc.font('Helvetica').text('All Cheque to be drawn in favour of SNAIL INTEGRAL PVT LTD.', x0 + 5, currentY + 127);
+      doc.text('Type of Account - Current Account, Account No.- 059361900001430', x0 + 5, currentY + 139);
+      doc.text('IFSC CODE- YESB0000593', x0 + 5, currentY + 151);
+      doc.font('Helvetica-Bold').text('Bank & Branch - Yes Bank Ltd, Noida, Sector- 132', x0 + 5, currentY + 163);
+      doc.font('Helvetica').text('The ordered services shall be dispatched only after receipt of advance payment in full.', x0 + 5, currentY + 175);
 
       // ---- Bottom Image Footer ----
       const footerPath = path.join(__dirname, '../assets/invoice/footer.png');
