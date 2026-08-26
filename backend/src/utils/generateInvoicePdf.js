@@ -6,7 +6,7 @@ const { toWords } = require('number-to-words');
 const generateInvoicePdf = (invoice, transactionDoc) => {
   return new Promise((resolve, reject) => {
     try {
-      const doc = new PDFDocument({ margin: 50, size: 'A4' });
+      const doc = new PDFDocument({ margin: 0, size: 'A4' });
       const buffers = [];
 
       doc.on('data', buffers.push.bind(buffers));
@@ -15,160 +15,172 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
         resolve(pdfData);
       });
 
-      // ---- Colors & Fonts ----
+      // ---- Colors & Config ----
       const colorDark = '#1a1a1a';
-      const colorGray = '#555555';
-      const colorLightGray = '#e5e7eb';
-      const colorBrand = '#4ade80'; // a nice green
-
-      // ---- Add Logo ----
-      // We will try a few paths to find a logo
-      const logoPaths = [
-        path.join(__dirname, '../../../frontend/public/logo/Snail-New-logo-01-scaled.png'),
-        path.join(__dirname, '../../../frontend/public/logo/Snail Integral New Logo-09.png'),
-      ];
-      let logoPathToUse = null;
-      for (const lp of logoPaths) {
-        if (fs.existsSync(lp)) {
-          logoPathToUse = lp;
-          break;
-        }
-      }
-
-      if (logoPathToUse) {
-        doc.image(logoPathToUse, 50, 45, { width: 120 });
-      }
-
-      // ---- Header "TAX INVOICE" ----
-      doc.font('Helvetica-Bold')
-         .fontSize(24)
-         .fillColor(colorDark)
-         .text('TAX INVOICE', 50, 50, { align: 'right' });
+      doc.fillColor(colorDark);
+      doc.lineWidth(1);
       
-      doc.moveDown();
-
-      const drawLine = (y) => {
-        doc.rect(50, y, 500, 1).fillColor(colorLightGray).fill();
-        doc.fillColor(colorDark);
+      const x0 = 40;
+      const x1 = 80;
+      const x2 = 300;
+      const x3 = 370;
+      const x4 = 440;
+      const x5 = 555;
+      
+      const drawLine = (start_x, start_y, end_x, end_y) => {
+        doc.moveTo(start_x, start_y).lineTo(end_x, end_y).stroke();
       };
 
-      // ---- Supplier Details (Right side, under TAX INVOICE) ----
-      const startY = 140;
-      doc.fontSize(10).font('Helvetica-Bold').fillColor(colorDark).text('SNAIL INTEGRAL PVT LTD.', 50, startY, { align: 'right' });
-      doc.font('Helvetica').text('25, P and T COLONY, LANE OPP LINE TO SBI BANK', { align: 'right' });
-      doc.text('TRIMULGHERY, Hyderabad', { align: 'right' });
-      doc.text('Telangana, 500015', { align: 'right' });
-      doc.font('Helvetica-Bold').text('GSTIN: 36AAACG7442D1ZV', { align: 'right' });
+      let currentY = 40;
 
-      // ---- Buyer Details (Left side) ----
-      doc.font('Helvetica-Bold').text('Buyer:', 50, startY);
-      doc.font('Helvetica-Bold').text(invoice.buyerName, 50, startY + 15);
+      // ---- Outer Top Box: TAX INVOICE ----
+      doc.rect(x0, currentY, 515, 25).stroke();
+      doc.font('Helvetica-Bold').fontSize(16).text('TAX INVOICE', x0, currentY + 5, { width: 515, align: 'center' });
+      currentY += 25;
+
+      // ---- Buyer & Supplier Row ----
+      const buyerSupplierTop = currentY;
       
-      let currentY = startY + 30;
+      doc.font('Helvetica-Bold').fontSize(10);
+      doc.text('Buyer:', x0 + 5, currentY + 5);
+      doc.text(invoice.buyerName, x0 + 5, currentY + 18);
+      
+      let h1 = doc.heightOfString(invoice.buyerAddress || ' ', { width: 240 }) + 5;
       if (invoice.buyerAddress) {
-        doc.font('Helvetica').text(invoice.buyerAddress, 50, currentY, { width: 200 });
-        currentY = doc.y;
+        doc.font('Helvetica').text(invoice.buyerAddress, x0 + 5, currentY + 31, { width: 240 });
       }
-      doc.font('Helvetica-Bold').text(`GSTIN: ${invoice.buyerGSTIN}`, 50, currentY);
+      doc.font('Helvetica-Bold').text(`GSTIN:  ${invoice.buyerGSTIN}`, x0 + 5, currentY + 31 + h1);
 
-      currentY += 30;
+      doc.font('Helvetica').text(`Invoice No. ${invoice.invoiceNumber}`, x2 + 5, currentY + 5);
+      doc.text(`Invoice Date. ${new Date(invoice.invoiceDate).toLocaleDateString('en-IN')}`, x2 + 5, currentY + 18);
+      doc.text(`Mode of Dispatch: N/A`, x2 + 5, currentY + 31);
 
-      // ---- Invoice Info Grid ----
-      drawLine(currentY);
-      currentY += 15;
-
-      doc.fillColor(colorDark).fontSize(10);
-      doc.font('Helvetica-Bold').text('Invoice No.: ', 50, currentY, { continued: true }).font('Helvetica').text(invoice.invoiceNumber);
-      doc.font('Helvetica-Bold').text('Invoice Date: ', 300, currentY, { continued: true }).font('Helvetica').text(new Date(invoice.invoiceDate).toLocaleDateString('en-IN'));
+      const buyerSupplierHeight = Math.max(31 + h1 + 15, 70);
+      doc.rect(x0, buyerSupplierTop, 515, buyerSupplierHeight).stroke();
+      drawLine(x2, buyerSupplierTop, x2, buyerSupplierTop + buyerSupplierHeight);
       
-      currentY += 30;
-      drawLine(currentY);
-      currentY += 20;
+      currentY += buyerSupplierHeight;
 
       // ---- Table Header ----
-      doc.fillColor(colorDark).font('Helvetica-Bold').fontSize(10);
-      doc.text('S. No', 50, currentY);
-      doc.text('Description of Services', 100, currentY);
-      doc.text('HSN Code', 300, currentY);
-      doc.text('RATE', 380, currentY);
-      doc.text('Amount (INR)', 450, currentY, { width: 100, align: 'right' });
+      const headerTop = currentY;
+      doc.rect(x0, headerTop, 515, 20).stroke();
+
+      doc.font('Helvetica-Bold').fontSize(10);
+      doc.text('S. No', x0, headerTop + 5, { width: x1 - x0, align: 'center' });
+      doc.text('Description of Services', x1, headerTop + 5, { width: x2 - x1, align: 'center' });
+      doc.text('HSN Code', x2, headerTop + 5, { width: x3 - x2, align: 'center' });
+      doc.text('RATE', x3, headerTop + 5, { width: x4 - x3, align: 'center' });
+      doc.text('Amount (INR)', x4, headerTop + 5, { width: x5 - x4, align: 'center' });
+
+      drawLine(x1, headerTop, x1, headerTop + 20);
+      drawLine(x2, headerTop, x2, headerTop + 20);
+      drawLine(x3, headerTop, x3, headerTop + 20);
+      drawLine(x4, headerTop, x4, headerTop + 20);
+
+      currentY += 20;
+
+      // ---- Table Content ----
+      const contentTop = currentY;
+      const contentHeight = 150; 
+      doc.rect(x0, contentTop, 515, contentHeight).stroke();
+
+      drawLine(x1, contentTop, x1, contentTop + contentHeight);
+      drawLine(x2, contentTop, x2, contentTop + contentHeight);
+      drawLine(x3, contentTop, x3, contentTop + contentHeight);
+      drawLine(x4, contentTop, x4, contentTop + contentHeight);
+
+      doc.font('Helvetica').fontSize(10);
+      const textY = contentTop + 40;
+      doc.text('1', x0, textY, { width: x1 - x0, align: 'center' });
       
-      currentY += 15;
-      drawLine(currentY);
-      currentY += 15;
+      const invoiceDesc = invoice.description || 'Invoice Towards "Delegate Registration" at BRAND R.Comm 2026';
+      doc.text(invoiceDesc, x1 + 10, textY, { width: x2 - x1 - 20, align: 'center' });
+      
+      doc.text(invoice.hsnCode || '998596', x2, textY, { width: x3 - x2, align: 'center' });
+      doc.text(invoice.taxableAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 }), x3, textY, { width: x4 - x3, align: 'center' });
+      doc.text(invoice.taxableAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 }), x4, textY, { width: x5 - x4 - 5, align: 'right' });
 
-      // ---- Table Row ----
-      doc.fillColor(colorDark).font('Helvetica').fontSize(10);
-      doc.text('1', 50, currentY);
-      doc.text(invoice.description, 100, currentY, { width: 180 });
-      doc.text(invoice.hsnCode, 300, currentY);
-      doc.text(invoice.taxableAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 }), 380, currentY);
-      doc.text(invoice.taxableAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 }), 450, currentY, { width: 100, align: 'right' });
-
-      // Move down below description
-      currentY = Math.max(doc.y, currentY + 30) + 20;
-      drawLine(currentY);
-      currentY += 15;
+      currentY += contentHeight;
 
       // ---- Totals Area ----
-      const totalX = 350;
-      const amountX = 450;
-      const rightWidth = 100;
+      const formatAmount = (amt) => (amt && amt > 0) ? amt.toLocaleString('en-IN', { minimumFractionDigits: 2 }) : '-';
 
-      doc.fillColor(colorDark).font('Helvetica-Bold').text('Gross Total', totalX, currentY);
-      doc.font('Helvetica').text(invoice.taxableAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 }), amountX, currentY, { width: rightWidth, align: 'right' });
+      // Gross Total Row
+      doc.rect(x0, currentY, 515, 20).stroke();
+      drawLine(x4, currentY, x4, currentY + 20); 
+      drawLine(x3, currentY, x3, currentY + 20); 
 
-      currentY += 20;
-      doc.font('Helvetica-Bold').text('Net Total', totalX, currentY);
-      doc.font('Helvetica').text(invoice.taxableAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 }), amountX, currentY, { width: rightWidth, align: 'right' });
-
-      if (invoice.cgst > 0) {
-        currentY += 15;
-        doc.font('Helvetica').text('Add: CGST @9%', totalX, currentY);
-        doc.text(invoice.cgst.toLocaleString('en-IN', { minimumFractionDigits: 2 }), amountX, currentY, { width: rightWidth, align: 'right' });
-      }
-      if (invoice.sgst > 0) {
-        currentY += 15;
-        doc.font('Helvetica').text('Add: SGST @9%', totalX, currentY);
-        doc.text(invoice.sgst.toLocaleString('en-IN', { minimumFractionDigits: 2 }), amountX, currentY, { width: rightWidth, align: 'right' });
-      }
-      if (invoice.igst > 0) {
-        currentY += 15;
-        doc.font('Helvetica').text('Add: IGST @18%', totalX, currentY);
-        doc.text(invoice.igst.toLocaleString('en-IN', { minimumFractionDigits: 2 }), amountX, currentY, { width: rightWidth, align: 'right' });
-      }
+      doc.font('Helvetica-Bold').fontSize(10);
+      doc.text('Gross Total', x3, currentY + 5, { width: x4 - x3, align: 'center' });
+      doc.text(formatAmount(invoice.taxableAmount), x4, currentY + 5, { width: x5 - x4 - 5, align: 'right' });
 
       currentY += 20;
-      doc.rect(totalX, currentY - 5, 200, 1).fillColor(colorLightGray).fill();
-      doc.fillColor(colorDark).font('Helvetica-Bold').fontSize(12).text('Grand Total', totalX, currentY);
-      doc.text(invoice.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 }), amountX, currentY, { width: rightWidth, align: 'right' });
 
-      // ---- Amount in words ----
-      currentY += 40;
-      // uppercase first letter and add 'Only.'
+      // The rest of the totals block (Net, CGST, SGST, IGST, Grand)
+      doc.rect(x0, currentY, 515, 100).stroke();
+
+      // Amount in Words
       let words = toWords(Math.round(invoice.totalAmount));
       words = words.charAt(0).toUpperCase() + words.slice(1);
-      doc.fontSize(10).font('Helvetica-Bold').text('Amount In Words: ', 50, currentY, { continued: true }).font('Helvetica').text(`Rupees ${words} Only.`);
+      doc.font('Helvetica-Bold').text('Amount In Words: ', x0 + 5, currentY + 5, { continued: true }).text(`Rupees ${words} Only.`);
 
-      // ---- Footer & Signatory ----
-      currentY += 40;
-      doc.font('Helvetica-Bold').text('FOR SNAIL INTEGRAL PVT LTD.', 350, currentY, { width: 200, align: 'right' });
-      doc.moveDown(4);
-      doc.font('Helvetica').text('(AUTHORIZED SIGNATORY)', 350, doc.y, { width: 200, align: 'right' });
-      doc.text('E. & O.E.', 50, doc.y - 15);
+      // Horizontal separators for the right side
+      for (let i = 1; i < 5; i++) {
+        drawLine(x3, currentY + i * 20, x5, currentY + i * 20);
+      }
 
-      // ---- Notes ----
-      currentY = doc.y + 30;
-      drawLine(currentY);
-      currentY += 15;
-      
-      doc.font('Helvetica-Bold').text('Notes:', 50, currentY);
-      doc.font('Helvetica').fontSize(9);
-      doc.text('All Cheque to be drawn in favour of SNAIL INTEGRAL PVT LTD.', 50, currentY + 15);
-      doc.text('Type of Account - Current Account, Account No.- 059361900001430', 50, currentY + 30);
-      doc.text('IFSC CODE- YESB0000593', 50, currentY + 45);
-      doc.text('Bank & Branch - Yes Bank Ltd, Noida, Sector- 132', 50, currentY + 60);
-      doc.text('The ordered services shall be dispatched only after receipt of advance payment in full.', 50, currentY + 75);
+      // Vertical lines for the right side
+      drawLine(x3, currentY, x3, currentY + 100);
+      drawLine(x4, currentY, x4, currentY + 100);
+
+      // Inner vertical line for 'Add:' split (rows 1, 2, 3 only)
+      const xAddSplit = x3 + 30;
+      drawLine(xAddSplit, currentY + 20, xAddSplit, currentY + 80);
+
+      // Row 0: Net Total
+      doc.font('Helvetica-Bold').text('Net Total', x3, currentY + 5, { width: x4 - x3, align: 'center' });
+      doc.text(formatAmount(invoice.taxableAmount), x4, currentY + 5, { width: x5 - x4 - 5, align: 'right' });
+
+      // Row 1: CGST
+      doc.font('Helvetica-Bold').text('Add:', x3, currentY + 25, { width: 30, align: 'center' });
+      doc.text('CGST @9%', xAddSplit + 2, currentY + 25);
+      doc.text(formatAmount(invoice.cgst), x4, currentY + 25, { width: x5 - x4 - 5, align: 'right' });
+
+      // Row 2: SGST
+      doc.font('Helvetica-Bold').text('Add:', x3, currentY + 45, { width: 30, align: 'center' });
+      doc.text('SGST @9%', xAddSplit + 2, currentY + 45);
+      doc.text(formatAmount(invoice.sgst), x4, currentY + 45, { width: x5 - x4 - 5, align: 'right' });
+
+      // Row 3: IGST
+      doc.font('Helvetica-Bold').text('Add:', x3, currentY + 65, { width: 30, align: 'center' });
+      doc.text('IGST @18%', xAddSplit + 2, currentY + 65);
+      doc.text(formatAmount(invoice.igst), x4, currentY + 65, { width: x5 - x4 - 5, align: 'right' });
+
+      // Row 4: Grand Total
+      doc.font('Helvetica-Bold').text('Grand Total', x3, currentY + 85, { width: x4 - x3, align: 'center' });
+      doc.text(formatAmount(invoice.totalAmount), x4, currentY + 85, { width: x5 - x4 - 5, align: 'right' });
+
+      currentY += 100;
+
+      // ---- Footer Block (E. & O.E, Notes, Sign) ----
+      const footerHeight = 120;
+      doc.rect(x0, currentY, 515, footerHeight).stroke();
+
+      doc.font('Helvetica-Bold').text('E. & O.E.', x0 + 5, currentY + 5);
+
+      // Notes
+      doc.font('Helvetica-Bold').fontSize(9).text('Notes:', x0 + 5, currentY + 45);
+      doc.font('Helvetica').text('All Cheque to be drawn in favour of SNAIL INTEGRAL PVT LTD.', x0 + 5, currentY + 57);
+      doc.text('Type of Account - Current Account, Account No.- 059361900001430', x0 + 5, currentY + 69);
+      doc.text('IFSC CODE- YESB0000593', x0 + 5, currentY + 81);
+      doc.font('Helvetica-Bold').text('Bank & Branch - Yes Bank Ltd, Noida, Sector- 132', x0 + 5, currentY + 93);
+      doc.font('Helvetica').text('The ordered services shall be dispatched only after receipt of advance payment in full.', x0 + 5, currentY + 105);
+
+      doc.font('Helvetica').text('(AUTHORIZED SIGNATORY)', x3, currentY + 105, { width: x5 - x3, align: 'center' });
+
+      // ---- Bottom Green Footer ----
+      doc.rect(0, 800, 595.28, 41.89).fillColor('#a3e635').fill();
+      doc.fillColor('#14532d').font('Helvetica-Bold').fontSize(12).text('Snail Integral Private Limited', 0, 814, { width: 595.28, align: 'center' });
 
       doc.end();
 
