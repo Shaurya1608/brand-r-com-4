@@ -122,8 +122,8 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       // Amount in Words
       let words = toWords(Math.round(invoice.totalAmount));
       words = words.charAt(0).toUpperCase() + words.slice(1);
-      doc.font('Helvetica-Bold').text('Amount In Words: ', x0 + 5, currentY + 5, { continued: true })
-         .font('Helvetica').text(`Rupees ${words} Only.`, { width: x3 - x0 - 10 });
+      doc.font('Helvetica-Bold').text('Amount In Words: ', x0 + 5, currentY + 5, { continued: true, width: x3 - x0 - 15 })
+         .font('Helvetica').text(`Rupees ${words} Only.`);
 
       // Horizontal separators for the right side
       for (let i = 1; i < 5; i++) {
@@ -135,7 +135,7 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       drawLine(x4, currentY, x4, currentY + 100);
 
       // Inner vertical line for 'Add:' split (rows 1, 2, 3 only)
-      const xAddSplit = x3 + 30;
+      const xAddSplit = x3 + 22; // Give 'Add:' 22 points, leaving 48 points for the tax labels
       drawLine(xAddSplit, currentY + 20, xAddSplit, currentY + 80);
 
       // Row 0: Net Total
@@ -143,17 +143,17 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       doc.text(formatAmount(invoice.taxableAmount), x4, currentY + 5, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 1: CGST
-      doc.font('Helvetica-Bold').text('Add:', x3, currentY + 25, { width: 30, align: 'center' });
+      doc.font('Helvetica-Bold').text('Add:', x3, currentY + 25, { width: 22, align: 'center' });
       doc.text('CGST @9%', xAddSplit + 2, currentY + 25);
       doc.text(formatAmount(invoice.cgst), x4, currentY + 25, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 2: SGST
-      doc.font('Helvetica-Bold').text('Add:', x3, currentY + 45, { width: 30, align: 'center' });
+      doc.font('Helvetica-Bold').text('Add:', x3, currentY + 45, { width: 22, align: 'center' });
       doc.text('SGST @9%', xAddSplit + 2, currentY + 45);
       doc.text(formatAmount(invoice.sgst), x4, currentY + 45, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 3: IGST
-      doc.font('Helvetica-Bold').text('Add:', x3, currentY + 65, { width: 30, align: 'center' });
+      doc.font('Helvetica-Bold').text('Add:', x3, currentY + 65, { width: 22, align: 'center' });
       doc.text('IGST @18%', xAddSplit + 2, currentY + 65);
       doc.text(formatAmount(invoice.igst), x4, currentY + 65, { width: x5 - x4 - 5, align: 'right' });
 
