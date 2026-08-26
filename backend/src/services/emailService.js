@@ -330,7 +330,7 @@ const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
     let attachments = [];
     if (delegate.paymentStatus === 'Paid' && delegate.gstNumber) {
       try {
-        const invoiceData = await processInvoiceGeneration(delegate, 'delegate');
+        const invoiceData = await processInvoiceGeneration(delegate, 'Delegate');
         if (invoiceData && invoiceData.pdfBuffer) {
           attachments.push({
             filename: `Tax_Invoice_${invoiceData.invoiceNumber}.pdf`,
@@ -391,7 +391,7 @@ const sendNominationConfirmationEmail = async (nomination, rawToken = null) => {
     let attachments = [];
     if (nomination.paymentStatus === 'Paid' && nomination.gstNumber) {
       try {
-        const invoiceData = await processInvoiceGeneration(nomination, 'nomination');
+        const invoiceData = await processInvoiceGeneration(nomination, 'Award');
         if (invoiceData && invoiceData.pdfBuffer) {
           attachments.push({
             filename: `Tax_Invoice_${invoiceData.invoiceNumber}.pdf`,
