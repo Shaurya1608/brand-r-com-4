@@ -326,6 +326,23 @@ const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
 
     const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
     const config = getEmailConfig(delegate, false);
+    
+    let attachments = [];
+    if (delegate.paymentStatus === 'Paid' && delegate.gstNumber) {
+      try {
+        const invoiceData = await processInvoiceGeneration(delegate, 'delegate');
+        if (invoiceData && invoiceData.pdfBuffer) {
+          attachments.push({
+            filename: `Tax_Invoice_${invoiceData.invoiceNumber}.pdf`,
+            content: invoiceData.pdfBuffer
+          });
+          config.subject = `✅ Registration Confirmed & Tax Invoice: BRAND R.Comm 2026 (${delegate.fullName})`;
+        }
+      } catch (err) {
+        console.error('Error generating invoice for delegate email:', err);
+      }
+    }
+
     const htmlContent = buildHtmlTemplate(delegate, false, config, rawToken);
 
     const { data, error } = await resend.emails.send({
@@ -333,6 +350,7 @@ const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
       to: [delegate.email],
       subject: config.subject,
       html: htmlContent,
+      attachments: attachments.length > 0 ? attachments : undefined,
     });
 
     if (error) {
@@ -369,6 +387,23 @@ const sendNominationConfirmationEmail = async (nomination, rawToken = null) => {
 
     const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
     const config = getEmailConfig(nomination, true);
+    
+    let attachments = [];
+    if (nomination.paymentStatus === 'Paid' && nomination.gstNumber) {
+      try {
+        const invoiceData = await processInvoiceGeneration(nomination, 'nomination');
+        if (invoiceData && invoiceData.pdfBuffer) {
+          attachments.push({
+            filename: `Tax_Invoice_${invoiceData.invoiceNumber}.pdf`,
+            content: invoiceData.pdfBuffer
+          });
+          config.subject = `✅ Registration Confirmed & Tax Invoice: BRAND R.Comm 2026 (${nomination.fullName})`;
+        }
+      } catch (err) {
+        console.error('Error generating invoice for nomination email:', err);
+      }
+    }
+
     const htmlContent = buildHtmlTemplate(nomination, true, config, rawToken);
 
     const { data, error } = await resend.emails.send({
@@ -376,6 +411,7 @@ const sendNominationConfirmationEmail = async (nomination, rawToken = null) => {
       to: [nomination.email],
       subject: config.subject,
       html: htmlContent,
+      attachments: attachments.length > 0 ? attachments : undefined,
     });
 
     if (error) {
