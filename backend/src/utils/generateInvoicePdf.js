@@ -122,7 +122,8 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       // Amount in Words
       let words = toWords(Math.round(invoice.totalAmount));
       words = words.charAt(0).toUpperCase() + words.slice(1);
-      doc.font('Helvetica-Bold').text('Amount In Words: ', x0 + 5, currentY + 5, { continued: true }).text(`Rupees ${words} Only.`);
+      doc.font('Helvetica-Bold').text('Amount In Words: ', x0 + 5, currentY + 5, { continued: true })
+         .font('Helvetica').text(`Rupees ${words} Only.`, { width: x3 - x0 - 10 });
 
       // Horizontal separators for the right side
       for (let i = 1; i < 5; i++) {
