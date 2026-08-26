@@ -47,9 +47,14 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       
       doc.moveDown();
 
+      const drawLine = (y) => {
+        doc.rect(50, y, 500, 1).fillColor(colorLightGray).fill();
+        doc.fillColor(colorDark);
+      };
+
       // ---- Supplier Details (Right side, under TAX INVOICE) ----
-      const startY = 100;
-      doc.fontSize(10).font('Helvetica-Bold').text('SNAIL INTEGRAL PVT LTD.', 50, startY, { align: 'right' });
+      const startY = 140;
+      doc.fontSize(10).font('Helvetica-Bold').fillColor(colorDark).text('SNAIL INTEGRAL PVT LTD.', 50, startY, { align: 'right' });
       doc.font('Helvetica').text('25, P and T COLONY, LANE OPP LINE TO SBI BANK', { align: 'right' });
       doc.text('TRIMULGHERY, Hyderabad', { align: 'right' });
       doc.text('Telangana, 500015', { align: 'right' });
@@ -69,7 +74,7 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       currentY += 30;
 
       // ---- Invoice Info Grid ----
-      doc.rect(50, currentY, 500, 1).fillColor(colorLightGray).fill();
+      drawLine(currentY);
       currentY += 15;
 
       doc.fillColor(colorDark).fontSize(10);
@@ -77,11 +82,11 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       doc.font('Helvetica-Bold').text('Invoice Date: ', 300, currentY, { continued: true }).font('Helvetica').text(new Date(invoice.invoiceDate).toLocaleDateString('en-IN'));
       
       currentY += 30;
-      doc.rect(50, currentY, 500, 1).fillColor(colorLightGray).fill();
+      drawLine(currentY);
       currentY += 20;
 
       // ---- Table Header ----
-      doc.font('Helvetica-Bold').fontSize(10);
+      doc.fillColor(colorDark).font('Helvetica-Bold').fontSize(10);
       doc.text('S. No', 50, currentY);
       doc.text('Description of Services', 100, currentY);
       doc.text('HSN Code', 300, currentY);
@@ -89,11 +94,11 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       doc.text('Amount (INR)', 450, currentY, { width: 100, align: 'right' });
       
       currentY += 15;
-      doc.rect(50, currentY, 500, 1).fillColor(colorLightGray).fill();
+      drawLine(currentY);
       currentY += 15;
 
       // ---- Table Row ----
-      doc.font('Helvetica').fontSize(10);
+      doc.fillColor(colorDark).font('Helvetica').fontSize(10);
       doc.text('1', 50, currentY);
       doc.text(invoice.description, 100, currentY, { width: 180 });
       doc.text(invoice.hsnCode, 300, currentY);
@@ -102,7 +107,7 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
 
       // Move down below description
       currentY = Math.max(doc.y, currentY + 30) + 20;
-      doc.rect(50, currentY, 500, 1).fillColor(colorLightGray).fill();
+      drawLine(currentY);
       currentY += 15;
 
       // ---- Totals Area ----
@@ -110,7 +115,7 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       const amountX = 450;
       const rightWidth = 100;
 
-      doc.font('Helvetica-Bold').text('Gross Total', totalX, currentY);
+      doc.fillColor(colorDark).font('Helvetica-Bold').text('Gross Total', totalX, currentY);
       doc.font('Helvetica').text(invoice.taxableAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 }), amountX, currentY, { width: rightWidth, align: 'right' });
 
       currentY += 20;
