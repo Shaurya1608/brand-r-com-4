@@ -31,7 +31,13 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
         doc.moveTo(start_x, start_y).lineTo(end_x, end_y).stroke();
       };
 
-      let currentY = 40;
+      // ---- Header Image ----
+      const headerPath = path.join(__dirname, '../assets/invoice/header.png');
+      if (fs.existsSync(headerPath)) {
+        doc.image(headerPath, 0, 0, { width: 595.28 });
+      }
+
+      let currentY = 110;
 
       // ---- Outer Top Box: TAX INVOICE ----
       doc.rect(x0, currentY, 515, 25).stroke();
@@ -177,9 +183,14 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
 
       doc.font('Helvetica').text('(AUTHORIZED SIGNATORY)', x3, currentY + 105, { width: x5 - x3, align: 'center' });
 
-      // ---- Bottom Green Footer ----
-      doc.rect(0, 800, 595.28, 41.89).fillColor('#a3e635').fill();
-      doc.fillColor('#14532d').font('Helvetica-Bold').fontSize(12).text('Snail Integral Private Limited', 0, 814, { width: 595.28, align: 'center' });
+      // ---- Bottom Image Footer ----
+      const footerPath = path.join(__dirname, '../assets/invoice/footer.png');
+      if (fs.existsSync(footerPath)) {
+        doc.image(footerPath, 0, 841.89 - 97, { width: 595.28 });
+      } else {
+        doc.rect(0, 800, 595.28, 41.89).fillColor('#a3e635').fill();
+        doc.fillColor('#14532d').font('Helvetica-Bold').fontSize(12).text('Snail Integral Private Limited', 0, 814, { width: 595.28, align: 'center' });
+      }
 
       doc.end();
 
