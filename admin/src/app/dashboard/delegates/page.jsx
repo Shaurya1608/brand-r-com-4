@@ -252,29 +252,49 @@ export default function DelegatesPage() {
         `"${(d.stateCountry || '').replace(/"/g, '""')}"`,
         `"${(d.pinCode || '').replace(/"/g, '""')}"`,
         `"${(d.address || '').replace(/"/g, '""')}"`,
-        `"${d.registrationType || 'Online'}"`,
-        `"${d.paymentMethod === 'Free' ? 'INR 0' : d.totalAmount != null ? (d.delegateType === 'foreign' ? `USD ${d.totalAmount}` : `INR ${d.totalAmount}`) : d.amountPaid != null ? (d.delegateType === 'foreign' ? `USD ${d.amountPaid}` : `INR ${d.amountPaid}`) : (d.delegateType === 'foreign' ? 'USD 250 + Tax' : 'INR 7080')}"`,
-        `"${d.paymentStatus || ''}"`,
+        `"${d.isManuallyCreated || d.sponsorshipId || d.sponsorshipCompany || d.awardNominationId || d.awardNominationName ? 'Manual' : d.registrationType || 'Online'}"`,
+        `"${d.paymentStatus === 'Free' || d.paymentMethod === 'Coupon' || d.paymentMethod === 'Free' ? 0 : d.totalAmount != null ? d.totalAmount : d.amountPaid != null ? d.amountPaid : 17080}"`,
+        `"${d.paymentStatus || 'Pending'}"`,
         `"${d.paymentMethod || 'Online'}"`,
-        `"${d.razorpayPaymentId || ''}"`,
-        `"${d.couponCode || '-'}"`
+        `"${(d.razorpayPaymentId || '').replace(/"/g, '""')}"`,
+        `"${(d.couponCode || '').replace(/"/g, '""')}"`
       ]);
 
-      const csvString = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
-      const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+      const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", `delegates_export_${new Date().toISOString().slice(0, 10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Delegates_Export_${new Date().toLocaleDateString()}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     } catch (err) {
       console.error(err);
       alert('Error exporting CSV');
     }
   };
+
+  const handleResendInvoice = async (invoiceId) => {
+    try {
+      const token = Cookies.get('admin_token');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/invoices/${invoiceId}/resend`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert('Invoice sent successfully!');
+      } else {
+        alert(data.message || 'Failed to resend invoice');
+      }
+    } catch (err) {
+      console.error('Error resending invoice:', err);
+      alert('Error resending invoice');
+    }
+  };
+
+  // Pagination logic
 
   return (
     <div className="p-4 md:p-6">
@@ -710,19 +730,26 @@ export default function DelegatesPage() {
                       }
                     </td>
 
-                                        {/* Invoice */}
-                    <td className="px-4 py-2.5 whitespace-nowrap">
+                                        <td className="px-4 py-2.5 whitespace-nowrap">
                       {delegate.invoiceId ? (
-                        <div className="flex flex-col gap-1 delegates-start">
+                        <div className="flex flex-col gap-1 items-start">
                           <span className="font-mono text-xs font-semibold text-gray-700">{delegate.invoiceId.invoiceNumber}</span>
-                          <a 
-                            href={`${process.env.NEXT_PUBLIC_API_URL}/invoices/${delegate.invoiceId._id}/pdf`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline cursor-pointer"
-                          >
-                            [View]
-                          </a>
+                          <div className="flex items-center gap-2">
+                            <a 
+                              href={`${process.env.NEXT_PUBLIC_API_URL}/invoices/${delegate.invoiceId._id}/pdf`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline cursor-pointer"
+                            >
+                              [View PDF]
+                            </a>
+                            <button
+                              onClick={() => handleResendInvoice(delegate.invoiceId._id)}
+                              className="text-[10px] font-bold text-emerald-600 hover:text-emerald-800 underline cursor-pointer"
+                            >
+                              [Resend Email]
+                            </button>
+                          </div>
                         </div>
                       ) : (delegate.paymentStatus === 'Paid' ? (
                         <span className="text-xs text-gray-400">Not Generated</span>
