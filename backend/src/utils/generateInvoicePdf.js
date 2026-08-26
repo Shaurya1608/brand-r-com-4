@@ -110,8 +110,11 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       drawLine(x4, currentY, x4, currentY + 20); 
       drawLine(x3, currentY, x3, currentY + 20); 
 
+      const xAddSplit = x3 + 35; // 35 points for 'Add:' column
+      const labelX = xAddSplit + 5; // Align all right-side text to this line
+
       doc.font('Helvetica-Bold').fontSize(10);
-      doc.text('Gross Total', x3 + 22, currentY + 5);
+      doc.text('Gross Total', labelX, currentY + 5);
       doc.text(formatAmount(invoice.taxableAmount), x4, currentY + 5, { width: x5 - x4 - 5, align: 'right' });
 
       currentY += 20;
@@ -134,24 +137,25 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       drawLine(x3, currentY, x3, currentY + 100);
       drawLine(x4, currentY, x4, currentY + 100);
 
-      const labelX = x3 + 22; // Perfectly align all labels here
+      // Inner vertical line for 'Add:' split (rows 1, 2, 3 only)
+      drawLine(xAddSplit, currentY + 20, xAddSplit, currentY + 80);
 
       // Row 0: Net Total
       doc.font('Helvetica-Bold').text('Net Total', labelX, currentY + 5);
       doc.text(formatAmount(invoice.taxableAmount), x4, currentY + 5, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 1: CGST
-      doc.font('Helvetica-Bold').text('Add:', x3 + 2, currentY + 25);
+      doc.font('Helvetica-Bold').text('Add:', x3 + 5, currentY + 25);
       doc.text('CGST @9%', labelX, currentY + 25);
       doc.text(formatAmount(invoice.cgst), x4, currentY + 25, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 2: SGST
-      doc.font('Helvetica-Bold').text('Add:', x3 + 2, currentY + 45);
+      doc.font('Helvetica-Bold').text('Add:', x3 + 5, currentY + 45);
       doc.text('SGST @9%', labelX, currentY + 45);
       doc.text(formatAmount(invoice.sgst), x4, currentY + 45, { width: x5 - x4 - 5, align: 'right' });
 
       // Row 3: IGST
-      doc.font('Helvetica-Bold').text('Add:', x3 + 2, currentY + 65);
+      doc.font('Helvetica-Bold').text('Add:', x3 + 5, currentY + 65);
       doc.text('IGST @18%', labelX, currentY + 65);
       doc.text(formatAmount(invoice.igst), x4, currentY + 65, { width: x5 - x4 - 5, align: 'right' });
 
