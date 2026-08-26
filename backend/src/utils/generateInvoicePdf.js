@@ -22,7 +22,7 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       
       const x0 = 40;
       const x1 = 80;
-      const x2 = 300;
+      const x2 = 320;
       const x3 = 370;
       const x4 = 440;
       const x5 = 555;
@@ -122,7 +122,7 @@ const generateInvoicePdf = (invoice, transactionDoc) => {
       // Amount in Words
       let words = toWords(Math.round(invoice.totalAmount));
       words = words.charAt(0).toUpperCase() + words.slice(1);
-      doc.font('Helvetica-Bold').text('Amount In Words: ', x0 + 5, currentY + 5, { continued: true, width: x3 - x0 - 40 })
+      doc.font('Helvetica-Bold').text('Amount In Words: ', x0 + 5, currentY + 5, { continued: true, width: x2 - x0 - 10 })
          .font('Helvetica').text(`Rupees ${words} Only.`);
 
       // Horizontal separators for the right side

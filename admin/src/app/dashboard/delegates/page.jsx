@@ -743,12 +743,6 @@ export default function DelegatesPage() {
                             >
                               [View PDF]
                             </a>
-                            <button
-                              onClick={() => handleResendInvoice(delegate.invoiceId._id)}
-                              className="text-[10px] font-bold text-emerald-600 hover:text-emerald-800 underline cursor-pointer"
-                            >
-                              [Resend Email]
-                            </button>
                           </div>
                         </div>
                       ) : (delegate.paymentStatus === 'Paid' ? (
