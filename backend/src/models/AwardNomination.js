@@ -154,6 +154,11 @@ const awardNominationSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  invoiceId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Invoice',
+    default: null,
+  },
   initialEmailSent: {
     type: Boolean,
     default: false,

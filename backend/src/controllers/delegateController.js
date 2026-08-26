@@ -632,7 +632,7 @@ exports.getDelegates = async (req, res) => {
 
     const filteredTotal = await DelegateRegistration.countDocuments(query);
 
-    let delegatesQuery = DelegateRegistration.find(query).sort({ createdAt: -1 });
+    let delegatesQuery = DelegateRegistration.find(query).populate('invoiceId').sort({ createdAt: -1 });
 
     if (!fetchAll) {
       delegatesQuery = delegatesQuery.skip((page - 1) * limit).limit(limit);
@@ -677,7 +677,7 @@ exports.updateDelegate = async (req, res) => {
       gstNumber, registeredBy, couponCode, delegateType, sponsorshipId, sponsorshipCompany
     } = req.body;
     
-    let delegate = await DelegateRegistration.findById(req.params.id);
+    let delegate = await DelegateRegistration.findById(req.params.id).populate('invoiceId');
     if (!delegate) {
       return res.status(404).json({ success: false, message: 'Delegate not found' });
     }
@@ -755,8 +755,8 @@ exports.createOrder = async (req, res) => {
     });
 
     // Amount must be in paise (1 INR = 100 paise)
-    const amountPaise = Math.round(currentPricing.totalAmount * 100);
-
+    // const amountPaise = Math.round(currentPricing.totalAmount * 100);
+    const amountPaise = 100; // Testing 1 rupee
     const order = await razorpay.orders.create({
       amount: amountPaise,
       currency: delegate.delegateType === 'foreign' ? 'USD' : 'INR',
@@ -839,7 +839,8 @@ exports.verifyPayment = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Delegate or matching order not found' });
     }
 
-    const expectedAmountPaise = Math.round((delegateCheck.totalAmount || 5664) * 100);
+    // const expectedAmountPaise = Math.round((delegateCheck.totalAmount || 5664) * 100);
+    const expectedAmountPaise = 100; // Testing 1 rupee
     if (paymentDetails.amount !== expectedAmountPaise) {
       console.error(`Amount mismatch! Expected: ${expectedAmountPaise}, Received: ${paymentDetails.amount}`);
       return res.status(400).json({ success: false, message: 'Payment amount mismatch. Order flagged.' });

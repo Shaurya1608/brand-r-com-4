@@ -1,4 +1,5 @@
 const { Resend } = require('resend');
+const { processInvoiceGeneration } = require('./invoiceService');
 
 const getResendInstance = () => {
   if (process.env.ENABLE_LOAD_TEST_MODE === 'true') {

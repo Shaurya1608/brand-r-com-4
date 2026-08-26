@@ -141,6 +141,11 @@ const delegateRegistrationSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  invoiceId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Invoice',
+    default: null,
+  },
   isManuallyCreated: {
     type: Boolean,
     default: false,

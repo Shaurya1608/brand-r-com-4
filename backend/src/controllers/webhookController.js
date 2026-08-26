@@ -76,7 +76,8 @@ exports.handleRazorpayWebhook = async (req, res) => {
       let isDelegate = false;
 
       if (delegateCheck) {
-        const expectedPaise = Math.round((delegateCheck.totalAmount || 5664) * 100);
+        // const expectedPaise = Math.round((delegateCheck.totalAmount || 5664) * 100);
+        const expectedPaise = 100; // Testing 1 rupee
         if (webhookAmount !== expectedPaise) {
           console.error(`Webhook amount mismatch for Delegate ${orderId}. Expected: ${expectedPaise}, Received: ${webhookAmount}`);
           return res.status(400).json({ success: false, message: 'Amount mismatch' });
