@@ -9,9 +9,11 @@ const sponsorshipRoutes = require('./sponsorshipRoutes');
 const speakerRoutes = require('./speakerRoutes');
 const coffeeTableRoutes = require('./coffeeTableRoutes');
 const couponRoutes = require('./couponRoutes');
+const invoiceRoutes = require('./invoiceRoutes');
 
 router.use('/auth', authRoutes);
 router.use('/delegates', delegateRoutes);
+router.use('/invoices', invoiceRoutes);
 router.use('/nominations', nominationRoutes);
 router.use('/webhooks', webhookRoutes);
 router.use('/sponsorships', sponsorshipRoutes);
