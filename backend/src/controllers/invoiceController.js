@@ -30,7 +30,7 @@ const downloadInvoicePdf = async (req, res) => {
 
     // Send PDF response
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename=${invoice.invoiceNumber}.pdf`);
+    res.setHeader('Content-Disposition', `attachment; filename=Tax_Invoice_${invoice.buyerName ? invoice.buyerName.replace(/[^a-z0-9]/gi, '_').replace(/_+/g, '_') : 'Invoice'}.pdf`);
     res.send(pdfBuffer);
 
   } catch (error) {
@@ -80,7 +80,7 @@ const resendInvoiceEmail = async (req, res) => {
       html: htmlContent,
       attachments: [
         {
-          filename: `${invoice.invoiceNumber}.pdf`,
+          filename: `Tax_Invoice_${invoice.buyerName ? invoice.buyerName.replace(/[^a-z0-9]/gi, '_').replace(/_+/g, '_') : 'Invoice'}.pdf`,
           content: pdfBuffer,
         }
       ]

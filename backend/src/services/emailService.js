@@ -333,7 +333,7 @@ const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
         const invoiceData = await processInvoiceGeneration(delegate, 'Delegate');
         if (invoiceData && invoiceData.pdfBuffer) {
           attachments.push({
-            filename: `Tax_Invoice_${invoiceData.invoiceNumber}.pdf`,
+            filename: `Tax_Invoice_${invoiceData.invoice ? invoiceData.invoice.buyerName.replace(/[^a-z0-9]/gi, '_').replace(/_+/g, '_') : 'Invoice'}.pdf`,
             content: invoiceData.pdfBuffer
           });
           config.subject = `✅ Registration Confirmed & Tax Invoice: BRAND R.Comm 2026 (${delegate.fullName})`;
@@ -394,7 +394,7 @@ const sendNominationConfirmationEmail = async (nomination, rawToken = null) => {
         const invoiceData = await processInvoiceGeneration(nomination, 'Award');
         if (invoiceData && invoiceData.pdfBuffer) {
           attachments.push({
-            filename: `Tax_Invoice_${invoiceData.invoiceNumber}.pdf`,
+            filename: `Tax_Invoice_${invoiceData.invoice ? invoiceData.invoice.buyerName.replace(/[^a-z0-9]/gi, '_').replace(/_+/g, '_') : 'Invoice'}.pdf`,
             content: invoiceData.pdfBuffer
           });
           config.subject = `✅ Registration Confirmed & Tax Invoice: BRAND R.Comm 2026 (${nomination.fullName})`;
