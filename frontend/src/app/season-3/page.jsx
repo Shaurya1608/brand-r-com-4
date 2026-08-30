@@ -108,7 +108,7 @@ export default function Season3Page() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-32 bg-[#0A0A0A] text-[#F5F2EB] overflow-hidden">
+      <section className="relative pt-32 pb-24 bg-[#0A0A0A] text-[#F5F2EB] overflow-hidden">
         {/* Abstract Background Gradient */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#5e8e33]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         
@@ -119,29 +119,29 @@ export default function Season3Page() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl"
           >
-            <div className="flex items-center gap-3 text-[#5e8e33] font-mono text-sm font-bold uppercase tracking-widest mb-6">
+            <div className="flex items-center gap-3 text-[#5e8e33] font-mono text-sm font-bold uppercase tracking-widest mb-4">
               <span className="w-2 h-2 rounded-full bg-[#5e8e33]" />
               THIRD EDITION • POST EVENT RECAP
             </div>
-            <h1 className="text-5xl md:text-7xl font-serif font-bold leading-[1.1] mb-8">
-              Closing the knowledge gap, <span className="text-[#5e8e33] italic font-normal">from soil to market.</span>
+            <h1 className="text-4xl md:text-6xl font-serif font-bold leading-[1.15] mb-6">
+              Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-[#5e8e33] italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/70 max-w-2xl leading-relaxed mb-16">
+            <p className="text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed mb-12">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-white/10">
               <div>
                 <div className="text-[#5e8e33] font-mono text-xs font-bold uppercase tracking-wider mb-2">Event</div>
-                <div className="font-semibold text-lg">BRAND R.Comm — Agriculture & Rural Communication Summit & Awards</div>
+                <div className="font-semibold text-base text-white/90">BRAND R.Comm — Agriculture & Rural Communication Summit & Awards</div>
               </div>
               <div>
                 <div className="text-[#5e8e33] font-mono text-xs font-bold uppercase tracking-wider mb-2">Venue</div>
-                <div className="font-semibold text-lg">Holiday Inn, Aerocity, New Delhi</div>
+                <div className="font-semibold text-base text-white/90">Holiday Inn, Aerocity, New Delhi</div>
               </div>
               <div>
                 <div className="text-[#5e8e33] font-mono text-xs font-bold uppercase tracking-wider mb-2">Date</div>
-                <div className="font-semibold text-lg">5 December 2025</div>
+                <div className="font-semibold text-base text-white/90">5 December 2025</div>
               </div>
             </div>
           </motion.div>
@@ -154,30 +154,30 @@ export default function Season3Page() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-white rounded-2xl shadow-xl shadow-black/5 p-8 md:p-12 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-gray-100"
+          className="bg-white rounded-2xl shadow-xl shadow-black/5 p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 divide-x divide-gray-100"
         >
           {stats.map((stat, i) => (
             <div key={i} className="px-4 text-center">
-              <div className="text-4xl md:text-6xl font-serif font-bold text-[#0A0A0A] mb-3">{stat.value}</div>
-              <div className="text-xs font-mono font-bold text-gray-500 uppercase tracking-widest">{stat.label}</div>
+              <div className="text-3xl md:text-5xl font-serif font-bold text-[#0A0A0A] mb-2">{stat.value}</div>
+              <div className="text-[11px] font-mono font-bold text-gray-500 uppercase tracking-widest">{stat.label}</div>
             </div>
           ))}
         </motion.div>
       </section>
 
       {/* Theme Section */}
-      <section className="py-32 max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <section className="py-24 max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <motion.div {...fadeInUp} transition={{ duration: 0.6 }}>
-            <div className="text-[#5e8e33] font-mono text-sm font-bold uppercase tracking-widest mb-6">The Theme</div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight mb-8">
+            <div className="text-[#5e8e33] font-mono text-sm font-bold uppercase tracking-widest mb-4">The Theme</div>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold leading-tight mb-6">
               Integrating Communication from Soil to Market
             </h2>
-            <div className="prose prose-lg text-gray-700">
-              <p className="mb-6">
+            <div className="text-base text-gray-700 leading-relaxed space-y-5">
+              <p>
                 The inaugural session set the tone for the day, opened with a ceremonial lamp lighting and Saraswati Vandana, and framed the summit's national and global outlook on agri-communication.
               </p>
-              <p className="mb-6">
+              <p>
                 Policymakers, scientists and industry leaders agreed on one thing: India's agriculture doesn't lack innovation, it lacks last-mile communication. Across every session, the same thread returned — soil data, seed science and new chemistry only create impact once it reaches a farmer in language and timing they can trust.
               </p>
               <p>
@@ -186,9 +186,9 @@ export default function Season3Page() {
             </div>
           </motion.div>
 
-          <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.2 }} className="bg-white p-10 md:p-12 rounded-3xl shadow-lg shadow-black/5 border border-gray-100 relative">
-            <div className="text-6xl text-[#5e8e33]/20 font-serif absolute top-6 left-8">"</div>
-            <p className="text-2xl font-serif italic leading-relaxed text-[#0A0A0A] relative z-10 pt-4 mb-8">
+          <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.2 }} className="bg-white p-8 md:p-10 rounded-2xl shadow-lg shadow-black/5 border border-gray-100 relative">
+            <div className="text-5xl text-[#5e8e33]/20 font-serif absolute top-4 left-6">"</div>
+            <p className="text-xl font-serif italic leading-relaxed text-[#0A0A0A] relative z-10 pt-2 mb-6">
               In this digital era, communication must reach the right person at the right time — the transfer of knowledge from lab to land is essential for our progress.
             </p>
             <div className="flex items-center gap-4">
@@ -205,12 +205,12 @@ export default function Season3Page() {
       </section>
 
       {/* Agenda Section */}
-      <section className="py-24 bg-[#EAE5D9]/50">
+      <section className="py-20 bg-[#EAE5D9]/50">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div {...fadeInUp} className="mb-16">
-            <div className="text-[#5e8e33] font-mono text-sm font-bold uppercase tracking-widest mb-4">On the day</div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">Six conversations, one throughline</h2>
-            <p className="text-xl text-gray-700">Each session built on the last — from the ground up, literally.</p>
+          <motion.div {...fadeInUp} className="mb-12">
+            <div className="text-[#5e8e33] font-mono text-sm font-bold uppercase tracking-widest mb-3">On the day</div>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-3">Six conversations, one throughline</h2>
+            <p className="text-lg text-gray-700">Each session built on the last — from the ground up, literally.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -219,10 +219,10 @@ export default function Season3Page() {
                 key={i}
                 {...fadeInUp}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100"
+                className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-gray-100"
               >
-                <div className="text-[#5e8e33] font-mono text-xs font-bold uppercase tracking-widest mb-4">{session.label}</div>
-                <h3 className="text-xl font-bold font-serif leading-tight mb-4">{session.title}</h3>
+                <div className="text-[#5e8e33] font-mono text-[10px] font-bold uppercase tracking-widest mb-3">{session.label}</div>
+                <h3 className="text-lg font-bold font-serif leading-tight mb-3">{session.title}</h3>
                 <p className="text-gray-600 leading-relaxed text-sm">{session.desc}</p>
               </motion.div>
             ))}
@@ -231,14 +231,14 @@ export default function Season3Page() {
       </section>
 
       {/* Speakers Section */}
-      <section id="speakers" className="py-32 max-w-7xl mx-auto px-6">
-        <motion.div {...fadeInUp} className="mb-20 text-center max-w-3xl mx-auto">
-          <div className="text-[#5e8e33] font-mono text-sm font-bold uppercase tracking-widest mb-4">Voices from the stage</div>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">32 leaders who shaped the conversation</h2>
-          <p className="text-xl text-gray-700">Scientists, CEOs and policy leaders who spoke across the day's five sessions.</p>
+      <section id="speakers" className="py-24 max-w-7xl mx-auto px-6">
+        <motion.div {...fadeInUp} className="mb-16 text-center max-w-3xl mx-auto">
+          <div className="text-[#5e8e33] font-mono text-sm font-bold uppercase tracking-widest mb-3">Voices from the stage</div>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">32 leaders who shaped the conversation</h2>
+          <p className="text-lg text-gray-700">Scientists, CEOs and policy leaders who spoke across the day's five sessions.</p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
           {speakers.map((speaker, i) => (
             <motion.div 
               key={i}
@@ -246,8 +246,8 @@ export default function Season3Page() {
               transition={{ delay: (i % 4) * 0.1 }}
               className="text-center group"
             >
-              <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full bg-gray-200 mb-6 overflow-hidden relative flex items-center justify-center border-4 border-transparent group-hover:border-[#5e8e33] transition-colors duration-300">
-                <User className="text-gray-400 w-16 h-16" />
+              <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full bg-gray-200 mb-4 overflow-hidden relative flex items-center justify-center border-[3px] border-transparent group-hover:border-[#5e8e33] transition-colors duration-300">
+                <User className="text-gray-400 w-12 h-12" />
                 {/* 
                   When you have the actual images, replace the User icon with this:
                   <img src={`/seasons/images/speakers/speaker-${i+1}.jpg`} alt={speaker.name} className="w-full h-full object-cover" />
