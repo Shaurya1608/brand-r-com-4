@@ -112,7 +112,7 @@ export default function Season3Page() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 bg-brand-surface text-brand-dark overflow-hidden">
+      <section className="relative pt-32 pb-36 bg-brand-surface text-brand-dark overflow-hidden">
         {/* Abstract Background Gradient */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         
