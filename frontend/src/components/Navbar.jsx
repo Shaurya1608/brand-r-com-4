@@ -45,7 +45,7 @@ export default function Navbar() {
       dropdown: [
         { name: "Brand R.Comm Season 1", href: "/seasons/season-1.html", external: true },
         { name: "Brand R.Comm Season 2", href: "#season-2" },
-        { name: "Brand R.Comm Season 3", href: "#season-3" },
+        { name: "Brand R.Comm Season 3", href: "/season-3", external: true },
       ]
     },
     { name: "Contact", href: "#contact" },
