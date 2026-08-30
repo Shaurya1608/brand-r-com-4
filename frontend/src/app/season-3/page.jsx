@@ -343,27 +343,27 @@ export default function Season3Page() {
       </section>
 
       {/* Awards Section */}
-      <section id="awards" className="py-24 bg-[#0B2114] text-brand-surface">
+      <section id="awards" className="py-24 bg-white text-brand-dark">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeInUp} className="mb-16">
-            <div className="text-[#C89B3C] font-mono text-sm font-bold uppercase tracking-widest mb-3">Gala Awards Night</div>
-            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 text-white">Recognising the builders of trust</h2>
-            <p className="text-lg text-white/70 max-w-2xl leading-relaxed">
+            <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">Gala Awards Night</div>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 text-brand-dark">Recognising the builders of trust</h2>
+            <p className="text-lg text-brand-dark/70 max-w-2xl leading-relaxed">
               After a live performance by poet Dr. Varsha Singh, the evening honoured 20 companies and individuals across two categories — nomination-based and jury-based — for closing the gap between innovation and adoption.
             </p>
           </motion.div>
 
           {/* Lifetime Achievement */}
-          <motion.div {...fadeInUp} className="bg-[#11311F] rounded-3xl overflow-hidden border border-[#C89B3C]/20 mb-20">
+          <motion.div {...fadeInUp} className="bg-brand-surface rounded-3xl overflow-hidden border border-brand-primary/10 mb-20">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="h-64 md:h-auto">
-                <img src="/Awards/IMG_6890.JPG" alt="Lifetime Achievement" className="w-full h-full object-cover" onError={(e) => {e.target.style.display='none'; e.target.parentElement.classList.add('bg-[#C89B3C]/10')}} />
+                <img src="/Awards/IMG_6890.JPG" alt="Lifetime Achievement" className="w-full h-full object-cover" onError={(e) => {e.target.style.display='none'; e.target.parentElement.classList.add('bg-brand-primary/10')}} />
               </div>
               <div className="p-8 md:p-12 flex flex-col justify-center">
-                <div className="text-[#C89B3C] font-mono text-xs font-bold uppercase tracking-widest mb-4">Highest Honour • Lifetime Achievement</div>
-                <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-2">Dr. R. G. Agarwal</h3>
-                <div className="text-sm font-sans text-[#C89B3C]/80 mb-6">Chairman Emeritus, Dhanuka Agritech Ltd.</div>
-                <p className="text-white/70 leading-relaxed text-sm md:text-base">
+                <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-4">Highest Honour • Lifetime Achievement</div>
+                <h3 className="text-3xl md:text-4xl font-serif font-bold text-brand-dark mb-2">Dr. R. G. Agarwal</h3>
+                <div className="text-sm font-sans font-medium text-brand-primary/80 mb-6">Chairman Emeritus, Dhanuka Agritech Ltd.</div>
+                <p className="text-brand-dark/70 leading-relaxed text-sm md:text-base">
                   Honoured for decades of contribution to India's agri-industry and an unwavering commitment to farmer empowerment. Unable to attend in person due to a family emergency, Dr. Agarwal shared his message and blessings through a video address that moved the room.
                 </p>
               </div>
@@ -371,9 +371,9 @@ export default function Season3Page() {
           </motion.div>
 
           {/* Nomination Awards Grid */}
-          <div className="flex items-center justify-between border-b border-[#C89B3C]/20 pb-4 mb-8">
-            <h3 className="text-2xl font-serif font-bold text-white">Nomination-Based Awards</h3>
-            <span className="text-[#C89B3C] font-mono text-xs uppercase tracking-widest">11 Winners</span>
+          <div className="flex items-center justify-between border-b border-brand-primary/10 pb-4 mb-8">
+            <h3 className="text-2xl font-serif font-bold text-brand-dark">Nomination-Based Awards</h3>
+            <span className="text-brand-primary font-mono text-xs uppercase tracking-widest">11 Winners</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -382,16 +382,16 @@ export default function Season3Page() {
                 key={i} 
                 {...fadeInUp} 
                 transition={{ delay: (i % 3) * 0.1 }}
-                className="bg-[#11311F] rounded-2xl overflow-hidden border border-[#C89B3C]/20 group hover:border-[#C89B3C] transition-colors duration-300"
+                className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 group hover:border-brand-primary/50 transition-colors duration-300"
               >
-                <div className="h-48 overflow-hidden bg-[#C89B3C]/5">
+                <div className="h-48 overflow-hidden bg-white">
                   <img src={`/Awards/${award.img}`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => e.target.style.display='none'} />
                 </div>
                 <div className="p-6">
-                  <div className="text-[#C89B3C] font-mono text-[10px] font-bold uppercase tracking-widest mb-2">{award.category}</div>
-                  <h4 className="text-xl font-serif font-bold text-white mb-1 leading-snug">{award.title}</h4>
-                  <div className="text-sm font-sans text-[#C89B3C]/80 mb-4">{award.winner}</div>
-                  <p className="text-white/60 text-xs leading-relaxed">{award.desc}</p>
+                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-2">{award.category}</div>
+                  <h4 className="text-xl font-serif font-bold text-brand-dark mb-1 leading-snug">{award.title}</h4>
+                  <div className="text-sm font-sans font-medium text-brand-primary/80 mb-4">{award.winner}</div>
+                  <p className="text-brand-dark/60 text-xs leading-relaxed">{award.desc}</p>
                 </div>
               </motion.div>
             ))}
