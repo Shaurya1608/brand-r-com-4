@@ -80,6 +80,18 @@ const sessions = [
   }
 ];
 
+const awards = [
+  { category: "CORPORATE EXCELLENCE", title: "Company of the Year", winner: "Aries Agro Limited", desc: "Leadership in specialty plant nutrition with measurable, precision-driven farmer impact.", img: "Company of the year 2025 - Aries agro limited.JPG" },
+  { category: "CORPORATE EXCELLENCE", title: "Emerging Company of the Year", winner: "Bharat Certis Agriscience Ltd.", desc: "Rapid build-out of a science-led organisation with strong R&D and export momentum.", img: "IMG_6902.JPG" },
+  { category: "CAMPAIGN", title: "Best Outdoor Campaign", winner: "Varsha Bioscience & Technology", desc: "Made biological solutions visible and credible at the field level through local-language outreach.", img: "IMG_6906.JPG" },
+  { category: "CAMPAIGN", title: "Best Rural Engagement", winner: "Gencrest Bio Products", desc: "'Khet Khilenge, Sapne Sajenge' blended mobility, retail activation and digital reach.", img: "IMG_6917.JPG" },
+  { category: "CAMPAIGN", title: "Best PR Campaign", winner: "Insecticides India Limited", desc: "Turned a technical weed-management story into a nationwide conversation.", img: "IMG_6921.JPG" },
+  { category: "CAMPAIGN", title: "Best Digital Marketing Award", winner: "JU Agri Sciences", desc: "Vernacular, data-led digital ecosystem setting new benchmarks for farmer connect.", img: "IMG_6926.JPG" },
+  { category: "CAMPAIGN", title: "Best Brand Campaign (TVC)", winner: "UPL SAS Limited", desc: "Insight-led film that drove full farmer migration to a superior formulation.", img: "IMG_6936.JPG" },
+  { category: "CAMPAIGN", title: "Best Integrated Communication", winner: "ICL India", desc: "'AgriReach 360' moved audiences from awareness to adoption across every channel.", img: "IMG_6940.JPG" },
+  { category: "PEOPLE", title: "Best Communicator (Male)", winner: "R.K. Goyal — Verdesian USA", desc: "Simplified complex agri-science into clear, actionable insight across APAC.", img: "IMG_6948.JPG" }
+];
+
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
@@ -311,19 +323,76 @@ export default function Season3Page() {
             <p className="text-lg text-brand-dark/80">Scientists, CEOs and policy leaders who spoke across the day's five sessions.</p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-4 gap-y-10">
             {speakers.map((speaker, i) => (
               <motion.div 
                 key={i}
                 {...fadeInUp}
-                transition={{ delay: (i % 4) * 0.1 }}
+                transition={{ delay: (i % 6) * 0.05 }}
                 className="text-center group"
               >
-                <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full bg-white mb-4 overflow-hidden relative flex items-center justify-center border-[3px] border-transparent group-hover:border-brand-primary transition-colors duration-300">
+                <div className="w-20 h-20 md:w-24 md:h-24 mx-auto rounded-full bg-white mb-3 overflow-hidden relative flex items-center justify-center border-[3px] border-transparent group-hover:border-brand-primary transition-colors duration-300">
                   <SpeakerImage speaker={speaker} />
                 </div>
-                <h3 className="font-bold text-lg mb-2 text-brand-dark">{speaker.name}</h3>
-                <p className="text-sm text-brand-dark/60 leading-relaxed px-4">{speaker.role}</p>
+                <h3 className="font-bold text-sm md:text-base mb-1 text-brand-dark leading-snug">{speaker.name}</h3>
+                <p className="text-xs text-brand-dark/70 leading-relaxed px-2">{speaker.role}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Awards Section */}
+      <section id="awards" className="py-24 bg-[#0B2114] text-brand-surface">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div {...fadeInUp} className="mb-16">
+            <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">Gala Awards Night</div>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 text-white">Recognising the builders of trust</h2>
+            <p className="text-lg text-white/70 max-w-2xl leading-relaxed">
+              After a live performance by poet Dr. Varsha Singh, the evening honoured 20 companies and individuals across two categories — nomination-based and jury-based — for closing the gap between innovation and adoption.
+            </p>
+          </motion.div>
+
+          {/* Lifetime Achievement */}
+          <motion.div {...fadeInUp} className="bg-[#11311F] rounded-3xl overflow-hidden border border-brand-primary/20 mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="h-64 md:h-auto">
+                <img src="/Awards/IMG_6890.JPG" alt="Lifetime Achievement" className="w-full h-full object-cover" onError={(e) => {e.target.style.display='none'; e.target.parentElement.classList.add('bg-brand-primary/10')}} />
+              </div>
+              <div className="p-8 md:p-12 flex flex-col justify-center">
+                <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-4">Highest Honour • Lifetime Achievement</div>
+                <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-2">Dr. R. G. Agarwal</h3>
+                <div className="text-sm font-mono text-brand-primary/80 mb-6">Chairman Emeritus, Dhanuka Agritech Ltd.</div>
+                <p className="text-white/70 leading-relaxed text-sm md:text-base">
+                  Honoured for decades of contribution to India's agri-industry and an unwavering commitment to farmer empowerment. Unable to attend in person due to a family emergency, Dr. Agarwal shared his message and blessings through a video address that moved the room.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Nomination Awards Grid */}
+          <div className="flex items-center justify-between border-b border-brand-primary/20 pb-4 mb-8">
+            <h3 className="text-xl font-bold text-white">Nomination-Based Awards</h3>
+            <span className="text-brand-primary font-mono text-xs uppercase tracking-widest">11 Winners</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {awards.map((award, i) => (
+              <motion.div 
+                key={i} 
+                {...fadeInUp} 
+                transition={{ delay: (i % 3) * 0.1 }}
+                className="bg-[#11311F] rounded-2xl overflow-hidden border border-brand-primary/20 group hover:border-brand-primary transition-colors duration-300"
+              >
+                <div className="h-48 overflow-hidden bg-brand-primary/5">
+                  <img src={`/Awards/${award.img}`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => e.target.style.display='none'} />
+                </div>
+                <div className="p-6">
+                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-2">{award.category}</div>
+                  <h4 className="text-lg font-bold text-white mb-1 leading-snug">{award.title}</h4>
+                  <div className="text-sm text-brand-primary/80 mb-4">{award.winner}</div>
+                  <p className="text-white/60 text-xs leading-relaxed">{award.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
