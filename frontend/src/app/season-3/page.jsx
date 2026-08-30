@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, User, Calendar, MapPin, Star } from "lucide-react";
+import { ArrowRight, User, Calendar, MapPin, Star, Mic, Users, Award, Handshake } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const speakers = [
@@ -41,10 +41,10 @@ const speakers = [
 ];
 
 const stats = [
-  { value: "5", label: "STAGE SESSIONS" },
-  { value: "40+", label: "INDUSTRY SPEAKERS" },
-  { value: "20", label: "AWARDS CONFERRED" },
-  { value: "18+", label: "SPONSORS & PARTNERS" }
+  { value: "5", label: "STAGE SESSIONS", icon: Mic },
+  { value: "40+", label: "INDUSTRY SPEAKERS", icon: Users },
+  { value: "20", label: "AWARDS CONFERRED", icon: Award },
+  { value: "18+", label: "SPONSORS & PARTNERS", icon: Handshake }
 ];
 
 const sessions = [
@@ -102,6 +102,37 @@ const SpeakerImage = ({ speaker }) => {
       onError={() => setError(true)} 
     />
   );
+};
+
+const AnimatedCounter = ({ value }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
+  const suffix = value.replace(/[0-9]/g, '');
+
+  useEffect(() => {
+    if (isInView) {
+      let start = 0;
+      const duration = 2000;
+      const startTime = performance.now();
+      
+      const updateCounter = (currentTime) => {
+        const elapsedTime = currentTime - startTime;
+        if (elapsedTime < duration) {
+          setCount(Math.floor((elapsedTime / duration) * numericValue));
+          requestAnimationFrame(updateCounter);
+        } else {
+          setCount(numericValue);
+        }
+      };
+      
+      requestAnimationFrame(updateCounter);
+    }
+  }, [isInView, numericValue]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
 };
 
 export default function Season3Page() {
@@ -179,20 +210,26 @@ export default function Season3Page() {
       </section>
 
       {/* Stats Bar */}
-      <section className="relative z-20 bg-brand-dark py-16 border-y border-brand-primary/20">
+      <section className="relative z-20 bg-brand-primary py-16 border-y border-brand-primary/20 shadow-lg">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 divide-x divide-white/10"
+            className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-0 divide-x divide-white/20"
           >
-            {stats.map((stat, i) => (
-              <div key={i} className="px-4 text-center">
-                <div className="text-4xl md:text-5xl font-serif font-bold text-white mb-2">{stat.value}</div>
-                <div className="text-[11px] font-mono font-bold text-brand-primary uppercase tracking-widest">{stat.label}</div>
-              </div>
-            ))}
+            {stats.map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <div key={i} className="px-4 flex flex-col items-center text-center">
+                  <Icon className="text-white/80 w-6 h-6 mb-4" />
+                  <div className="text-4xl md:text-5xl font-sans font-bold text-white mb-2">
+                    <AnimatedCounter value={stat.value} />
+                  </div>
+                  <div className="text-[11px] font-mono font-bold text-white uppercase tracking-widest">{stat.label}</div>
+                </div>
+              );
+            })}
           </motion.div>
         </div>
       </section>
