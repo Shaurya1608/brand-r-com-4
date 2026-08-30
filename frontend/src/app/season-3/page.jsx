@@ -1,32 +1,33 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, User, Calendar, MapPin, Star } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 const speakers = [
-  { name: "Prof. RB Singh", role: "Former Chancellor, CAU Imphal" },
-  { name: "Gijs Manneveld", role: "MD, EpiLogic GmbH" },
-  { name: "Sushil Kumar Bahuguna", role: "Momentive Performance Materials" },
+  { name: "Prof. RB Singh", role: "Former Chancellor, CAU Imphal", imgFile: "Sumit Gupta.jpg" }, // Just guessing some fallbacks or we rely on exact names
+  { name: "Gijs Manneveld", role: "MD, EpiLogic GmbH", imgFile: "Mr. Gijs Manneveld.jpg" },
+  { name: "Sushil Kumar Bahuguna", role: "Momentive Performance Materials", imgFile: "Mr. Sushil Kumar Bahuguna.jpg" },
   { name: "Sahil Malik", role: "Secretary General, NBIF" },
-  { name: "Dr. Rajeev Dwivedi", role: "Business Manager, Novonesis" },
-  { name: "Dr. Shailendra Singh", role: "COO, Zydex Group" },
+  { name: "Dr. Rajeev Dwivedi", role: "Business Manager, Novonesis", imgFile: "Dr. Rajeev Dwiwedi.jpg" },
+  { name: "Dr. Shailendra Singh", role: "COO, Zydex Group", imgFile: "Dr. Shailendra Singh.jpg" },
   { name: "Muraari Agarwal", role: "Director, Atharva Agro Chemicals" },
   { name: "Mrinmoy Choudhury", role: "Director Marketing, Savannah Seeds" },
   { name: "Rajiv Choudhary", role: "Vice President, NBIF" },
-  { name: "Debabrata Sarkar", role: "CMD, MicroAlgae Solutions" },
+  { name: "Debabrata Sarkar", role: "CMD, MicroAlgae Solutions", imgFile: "Mr. Debabrata Sarkar.jpg" },
   { name: "Dr. J.C. Majumdar", role: "Chief Scientific Advisor, CCFI" },
-  { name: "Dr. Abhijit A. Pujari", role: "Director, SWAFE Bioworks" },
+  { name: "Dr. Abhijit A. Pujari", role: "Director, SWAFE Bioworks", imgFile: "Dr. Abhijit A. Pujari.jpg" },
   { name: "Tanmaye Seth", role: "CEO, Aquagri Processing" },
   { name: "Amit Kumar Singh", role: "Sr. VP, Bharat Certis Agriscience" },
   { name: "Dinesh Singh", role: "Business Head Fertilisers, Reliance" },
-  { name: "Manoj Varshney", role: "MD & CEO, IFFCO-MC Crop Science" },
+  { name: "Manoj Varshney", role: "MD & CEO, IFFCO-MC Crop Science", imgFile: "Mr. Manoj Varshney.jpg" },
   { name: "Dushyant K. Tyagi", role: "CEO, Farmgate Technologies" },
   { name: "Navdeep Mehta", role: "Business Head, Gencrest" },
   { name: "Manas Tewari", role: "Biologicals Lead, Yara Fertilisers" },
   { name: "Dr. Bakul Joshi", role: "President & COO, T Stanes & Co." },
-  { name: "Dr. Prafull Gadge", role: "CEO, Biome Technologies" },
-  { name: "Dr. A John Peter", role: "CMD, Varsha Bioscience" },
+  { name: "Dr. Prafull Gadge", role: "CEO, Biome Technologies", imgFile: "Dr. Prafull Gadge.jpg" },
+  { name: "Dr. A John Peter", role: "CMD, Varsha Bioscience", imgFile: "Dr. A John Peter.jpg" },
   { name: "Ravish Singh", role: "Head Marketing, SML Limited" },
   { name: "Shantwana Dixit", role: "Policy Advocacy, UPL Limited" },
   { name: "Rajvir Singh Rathi", role: "Director, Bayer CropScience" },
@@ -85,30 +86,33 @@ const fadeInUp = {
   viewport: { once: true, margin: "-100px" }
 };
 
+const SpeakerImage = ({ speaker }) => {
+  const [error, setError] = useState(false);
+  const src = speaker.imgFile ? `/speakers/${speaker.imgFile}` : `/speakers/${speaker.name}.jpg`;
+  
+  if (error) {
+    return <User className="text-brand-primary/40 w-12 h-12" />;
+  }
+  
+  return (
+    <img 
+      src={src} 
+      alt={speaker.name} 
+      className="w-full h-full object-cover" 
+      onError={() => setError(true)} 
+    />
+  );
+};
+
 export default function Season3Page() {
   return (
     <main className="min-h-screen bg-brand-surface text-brand-dark font-sans selection:bg-brand-primary selection:text-white overflow-x-hidden">
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full z-50 bg-brand-dark/95 backdrop-blur-md border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center text-white font-bold text-xl group-hover:scale-105 transition-transform">S</div>
-            <span className="font-serif text-2xl font-bold text-brand-surface">Snail Integral</span>
-          </Link>
-          <div className="hidden md:flex gap-8 text-sm font-semibold text-brand-surface/80 tracking-wide">
-            <a href="#speakers" className="hover:text-brand-primary transition-colors">Speakers</a>
-            <a href="#awards" className="hover:text-brand-primary transition-colors">Awards</a>
-            <a href="#partners" className="hover:text-brand-primary transition-colors">Partners</a>
-          </div>
-          <Link href="/" className="btn-primary flex items-center gap-2 rounded-full text-sm">
-            Next Edition <ArrowRight size={16} />
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 bg-brand-dark text-brand-surface overflow-hidden">
+      <section className="relative pt-32 pb-24 bg-brand-surface text-brand-dark overflow-hidden">
         {/* Abstract Background Gradient */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         
@@ -123,39 +127,44 @@ export default function Season3Page() {
               <span className="w-2 h-2 rounded-full bg-brand-primary" />
               THIRD EDITION • POST EVENT RECAP
             </div>
+            
+            <div className="mb-6">
+              <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm" className="h-16 md:h-20 object-contain" />
+            </div>
+
             <h1 className="text-4xl md:text-6xl font-serif font-bold leading-[1.15] mb-6">
               Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-brand-primary italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
+            <p className="text-lg md:text-xl text-brand-dark/80 max-w-2xl leading-relaxed">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
-              <div className="flex gap-4 items-start bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors backdrop-blur-sm">
-                <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center flex-shrink-0 text-brand-primary">
+              <div className="flex gap-4 items-start bg-white p-5 rounded-2xl border border-brand-primary/10 shadow-sm hover:shadow-md transition-all backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
                   <Star size={18} />
                 </div>
                 <div>
                   <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-1.5">Event</div>
-                  <div className="font-medium text-sm text-white/90 leading-snug">BRAND R.Comm — Agriculture & Rural Communication Summit & Awards</div>
+                  <div className="font-medium text-sm text-brand-dark leading-snug">BRAND R.Comm — Agriculture & Rural Communication Summit & Awards</div>
                 </div>
               </div>
-              <div className="flex gap-4 items-start bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors backdrop-blur-sm">
-                <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center flex-shrink-0 text-brand-primary">
+              <div className="flex gap-4 items-start bg-white p-5 rounded-2xl border border-brand-primary/10 shadow-sm hover:shadow-md transition-all backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
                   <MapPin size={18} />
                 </div>
                 <div>
                   <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-1.5">Venue</div>
-                  <div className="font-medium text-sm text-white/90 leading-snug">Holiday Inn, Aerocity, New Delhi</div>
+                  <div className="font-medium text-sm text-brand-dark leading-snug">Holiday Inn, Aerocity, New Delhi</div>
                 </div>
               </div>
-              <div className="flex gap-4 items-start bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors backdrop-blur-sm">
-                <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center flex-shrink-0 text-brand-primary">
+              <div className="flex gap-4 items-start bg-white p-5 rounded-2xl border border-brand-primary/10 shadow-sm hover:shadow-md transition-all backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
                   <Calendar size={18} />
                 </div>
                 <div>
                   <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-1.5">Date</div>
-                  <div className="font-medium text-sm text-white/90 leading-snug">5 December 2025</div>
+                  <div className="font-medium text-sm text-brand-dark leading-snug">5 December 2025</div>
                 </div>
               </div>
             </div>
@@ -169,7 +178,7 @@ export default function Season3Page() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-brand-surface rounded-2xl shadow-xl shadow-black/5 p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 divide-x divide-brand-primary/20 border border-brand-primary/10"
+          className="bg-white rounded-2xl shadow-xl shadow-black/5 p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 divide-x divide-brand-primary/20 border border-brand-primary/10"
         >
           {stats.map((stat, i) => (
             <div key={i} className="px-4 text-center">
@@ -180,8 +189,8 @@ export default function Season3Page() {
         </motion.div>
       </section>
 
-      {/* Theme Section (White Background to alternate) */}
-      <section className="py-24 bg-white">
+      {/* Theme Section (Brand Surface Background to alternate) */}
+      <section className="py-24 bg-brand-surface">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <motion.div {...fadeInUp} transition={{ duration: 0.6 }}>
@@ -202,14 +211,15 @@ export default function Season3Page() {
               </div>
             </motion.div>
 
-            <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.2 }} className="bg-brand-surface p-8 md:p-10 rounded-2xl shadow-sm border border-brand-primary/10 relative">
+            <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.2 }} className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-brand-primary/10 relative">
               <div className="text-5xl text-brand-primary/20 font-serif absolute top-4 left-6">"</div>
               <p className="text-xl font-serif italic leading-relaxed text-brand-dark relative z-10 pt-2 mb-6">
                 In this digital era, communication must reach the right person at the right time — the transfer of knowledge from lab to land is essential for our progress.
               </p>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden border border-brand-primary/20">
-                  <User className="text-brand-primary/50" size={24} />
+                <div className="w-12 h-12 rounded-full bg-brand-surface flex items-center justify-center overflow-hidden border border-brand-primary/20">
+                  <img src="/speakers/Mr. Amit BK Khare.jpg" alt="Amit BK Khare" className="w-full h-full object-cover" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='block'; }} />
+                  <User className="text-brand-primary/50 hidden" size={24} />
                 </div>
                 <div>
                   <div className="font-bold text-sm uppercase tracking-wider text-brand-dark">Amit BK Khare</div>
@@ -221,8 +231,8 @@ export default function Season3Page() {
         </div>
       </section>
 
-      {/* Agenda Section (Brand Surface Background to alternate) */}
-      <section className="py-20 bg-brand-surface">
+      {/* Agenda Section (White Background to alternate) */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeInUp} className="mb-12 text-center max-w-3xl mx-auto">
             <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">On the day</div>
@@ -236,7 +246,7 @@ export default function Season3Page() {
                 key={i}
                 {...fadeInUp}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-brand-primary/20"
+                className="bg-brand-surface p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-brand-primary/20"
               >
                 <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-3">{session.label}</div>
                 <h3 className="text-lg font-bold font-serif leading-tight mb-3 text-brand-dark">{session.title}</h3>
@@ -247,8 +257,8 @@ export default function Season3Page() {
         </div>
       </section>
 
-      {/* Speakers Section (White Background to alternate) */}
-      <section id="speakers" className="py-24 bg-white">
+      {/* Speakers Section (Brand Surface Background to alternate) */}
+      <section id="speakers" className="py-24 bg-brand-surface">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeInUp} className="mb-16 text-center max-w-3xl mx-auto">
             <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">Voices from the stage</div>
@@ -264,12 +274,8 @@ export default function Season3Page() {
                 transition={{ delay: (i % 4) * 0.1 }}
                 className="text-center group"
               >
-                <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full bg-brand-surface mb-4 overflow-hidden relative flex items-center justify-center border-[3px] border-transparent group-hover:border-brand-primary transition-colors duration-300">
-                  <User className="text-brand-primary/40 w-12 h-12" />
-                  {/* 
-                    When you have the actual images, replace the User icon with this:
-                    <img src={`/seasons/images/speakers/speaker-${i+1}.jpg`} alt={speaker.name} className="w-full h-full object-cover" />
-                  */}
+                <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full bg-white mb-4 overflow-hidden relative flex items-center justify-center border-[3px] border-transparent group-hover:border-brand-primary transition-colors duration-300">
+                  <SpeakerImage speaker={speaker} />
                 </div>
                 <h3 className="font-bold text-lg mb-2 text-brand-dark">{speaker.name}</h3>
                 <p className="text-sm text-brand-dark/60 leading-relaxed px-4">{speaker.role}</p>
