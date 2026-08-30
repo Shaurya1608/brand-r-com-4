@@ -112,7 +112,7 @@ export default function Season3Page() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-36 bg-brand-surface text-brand-dark overflow-hidden">
+      <section className="relative pt-32 pb-20 bg-brand-surface text-brand-dark overflow-hidden">
         {/* Abstract Background Gradient */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         
@@ -179,20 +179,22 @@ export default function Season3Page() {
       </section>
 
       {/* Stats Bar */}
-      <section className="relative z-20 -mt-12 max-w-7xl mx-auto px-6">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-white rounded-2xl shadow-xl shadow-black/5 p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 divide-x divide-brand-primary/20 border border-brand-primary/10"
-        >
-          {stats.map((stat, i) => (
-            <div key={i} className="px-4 text-center">
-              <div className="text-3xl md:text-5xl font-serif font-bold text-brand-dark mb-2">{stat.value}</div>
-              <div className="text-[11px] font-mono font-bold text-brand-primary uppercase tracking-widest">{stat.label}</div>
-            </div>
-          ))}
-        </motion.div>
+      <section className="relative z-20 bg-brand-dark py-16 border-y border-brand-primary/20">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 divide-x divide-white/10"
+          >
+            {stats.map((stat, i) => (
+              <div key={i} className="px-4 text-center">
+                <div className="text-4xl md:text-5xl font-serif font-bold text-white mb-2">{stat.value}</div>
+                <div className="text-[11px] font-mono font-bold text-brand-primary uppercase tracking-widest">{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
       </section>
 
       {/* Theme Section (Brand Surface Background to alternate) */}
