@@ -210,7 +210,7 @@ export default function Season3Page() {
       </section>
 
       {/* Stats Bar */}
-      <section className="relative z-20 bg-brand-primary py-16 border-y border-brand-primary/20 shadow-lg">
+      <section className="relative z-20 bg-brand-primary py-10 border-y border-brand-primary/20 shadow-lg">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
