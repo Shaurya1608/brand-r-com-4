@@ -121,26 +121,26 @@ export default function Season3Page() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl"
+            className="max-w-4xl mx-auto text-center flex flex-col items-center"
           >
-            <div className="flex items-center gap-3 text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-4">
+            <div className="flex items-center justify-center gap-3 text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-4">
               <span className="w-2 h-2 rounded-full bg-brand-primary" />
               THIRD EDITION • POST EVENT RECAP
             </div>
             
-            <div className="mb-6">
+            <div className="mb-6 flex justify-center">
               <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm" className="h-16 md:h-20 object-contain" />
             </div>
 
             <h1 className="text-4xl md:text-6xl font-serif font-bold leading-[1.15] mb-6">
               Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-brand-primary italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-lg md:text-xl text-brand-dark/80 max-w-2xl leading-relaxed">
+            <p className="text-lg md:text-xl text-brand-dark/80 max-w-2xl mx-auto leading-relaxed">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
-            <div className="flex flex-col md:flex-row md:items-start gap-8 md:gap-12 mt-12 pt-8 border-t border-brand-primary/10">
-              <div className="flex gap-4 items-start flex-1">
+            <div className="flex flex-col md:flex-row md:items-start justify-center gap-8 md:gap-12 mt-12 pt-8 border-t border-brand-primary/10 w-full">
+              <div className="flex flex-col items-center text-center gap-3 flex-1">
                 <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
                   <Star size={18} />
                 </div>
@@ -150,9 +150,9 @@ export default function Season3Page() {
                 </div>
               </div>
               
-              <div className="hidden md:block w-px h-12 bg-brand-primary/10 mt-2"></div>
+              <div className="hidden md:block w-px h-16 bg-brand-primary/10 mt-2"></div>
 
-              <div className="flex gap-4 items-start flex-1">
+              <div className="flex flex-col items-center text-center gap-3 flex-1">
                 <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
                   <MapPin size={18} />
                 </div>
@@ -162,9 +162,9 @@ export default function Season3Page() {
                 </div>
               </div>
 
-              <div className="hidden md:block w-px h-12 bg-brand-primary/10 mt-2"></div>
+              <div className="hidden md:block w-px h-16 bg-brand-primary/10 mt-2"></div>
 
-              <div className="flex gap-4 items-start flex-1">
+              <div className="flex flex-col items-center text-center gap-3 flex-1">
                 <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
                   <Calendar size={18} />
                 </div>
