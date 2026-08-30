@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, User } from "lucide-react";
+import { ArrowRight, User, Calendar, MapPin, Star } from "lucide-react";
 
 const speakers = [
   { name: "Prof. RB Singh", role: "Former Chancellor, CAU Imphal" },
@@ -126,22 +126,37 @@ export default function Season3Page() {
             <h1 className="text-4xl md:text-6xl font-serif font-bold leading-[1.15] mb-6">
               Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-brand-primary italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed mb-12">
+            <p className="text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-white/10">
-              <div>
-                <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-wider mb-2">Event</div>
-                <div className="font-semibold text-base text-white/90">BRAND R.Comm — Agriculture & Rural Communication Summit & Awards</div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
+              <div className="flex gap-4 items-start bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center flex-shrink-0 text-brand-primary">
+                  <Star size={18} />
+                </div>
+                <div>
+                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-1.5">Event</div>
+                  <div className="font-medium text-sm text-white/90 leading-snug">BRAND R.Comm — Agriculture & Rural Communication Summit & Awards</div>
+                </div>
               </div>
-              <div>
-                <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-wider mb-2">Venue</div>
-                <div className="font-semibold text-base text-white/90">Holiday Inn, Aerocity, New Delhi</div>
+              <div className="flex gap-4 items-start bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center flex-shrink-0 text-brand-primary">
+                  <MapPin size={18} />
+                </div>
+                <div>
+                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-1.5">Venue</div>
+                  <div className="font-medium text-sm text-white/90 leading-snug">Holiday Inn, Aerocity, New Delhi</div>
+                </div>
               </div>
-              <div>
-                <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-wider mb-2">Date</div>
-                <div className="font-semibold text-base text-white/90">5 December 2025</div>
+              <div className="flex gap-4 items-start bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center flex-shrink-0 text-brand-primary">
+                  <Calendar size={18} />
+                </div>
+                <div>
+                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-1.5">Date</div>
+                  <div className="font-medium text-sm text-white/90 leading-snug">5 December 2025</div>
+                </div>
               </div>
             </div>
           </motion.div>
