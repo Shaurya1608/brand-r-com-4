@@ -139,8 +139,8 @@ export default function Season3Page() {
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
-              <div className="flex gap-4 items-start bg-white p-5 rounded-2xl border border-brand-primary/10 shadow-sm hover:shadow-md transition-all backdrop-blur-sm">
+            <div className="flex flex-col md:flex-row md:items-start gap-8 md:gap-12 mt-12 pt-8 border-t border-brand-primary/10">
+              <div className="flex gap-4 items-start flex-1">
                 <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
                   <Star size={18} />
                 </div>
@@ -149,7 +149,10 @@ export default function Season3Page() {
                   <div className="font-medium text-sm text-brand-dark leading-snug">BRAND R.Comm — Agriculture & Rural Communication Summit & Awards</div>
                 </div>
               </div>
-              <div className="flex gap-4 items-start bg-white p-5 rounded-2xl border border-brand-primary/10 shadow-sm hover:shadow-md transition-all backdrop-blur-sm">
+              
+              <div className="hidden md:block w-px h-12 bg-brand-primary/10 mt-2"></div>
+
+              <div className="flex gap-4 items-start flex-1">
                 <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
                   <MapPin size={18} />
                 </div>
@@ -158,7 +161,10 @@ export default function Season3Page() {
                   <div className="font-medium text-sm text-brand-dark leading-snug">Holiday Inn, Aerocity, New Delhi</div>
                 </div>
               </div>
-              <div className="flex gap-4 items-start bg-white p-5 rounded-2xl border border-brand-primary/10 shadow-sm hover:shadow-md transition-all backdrop-blur-sm">
+
+              <div className="hidden md:block w-px h-12 bg-brand-primary/10 mt-2"></div>
+
+              <div className="flex gap-4 items-start flex-1">
                 <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
                   <Calendar size={18} />
                 </div>
