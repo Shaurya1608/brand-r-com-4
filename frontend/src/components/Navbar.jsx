@@ -43,7 +43,7 @@ export default function Navbar() {
       name: "Past Editions", 
       href: "#past-editions",
       dropdown: [
-        { name: "Brand R.Comm Season 1", href: "#season-1" },
+        { name: "Brand R.Comm Season 1", href: "/seasons/season-1.html", external: true },
         { name: "Brand R.Comm Season 2", href: "#season-2" },
         { name: "Brand R.Comm Season 3", href: "#season-3" },
       ]
@@ -105,6 +105,8 @@ export default function Navbar() {
                         <Link
                           key={dropLink.name}
                           href={dropLink.href}
+                          target={dropLink.external ? "_blank" : "_self"}
+                          rel={dropLink.external ? "noopener noreferrer" : ""}
                           className="px-5 py-2.5 text-sm font-medium text-brand-dark/70 hover:text-brand-primary hover:bg-brand-primary/5 hover:pl-7 transition-all duration-200"
                         >
                           {dropLink.name}
@@ -175,7 +177,9 @@ export default function Navbar() {
                         <Link
                           key={dropLink.name}
                           href={dropLink.href}
-                          onClick={() => setIsOpen(false)}
+                          target={dropLink.external ? "_blank" : "_self"}
+                          rel={dropLink.external ? "noopener noreferrer" : ""}
+                          onClick={() => !dropLink.external && setIsOpen(false)}
                           className="text-sm font-medium text-brand-dark/70 hover:text-brand-primary transition-colors"
                         >
                           {dropLink.name}
