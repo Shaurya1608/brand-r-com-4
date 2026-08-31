@@ -760,8 +760,7 @@ exports.createOrder = async (req, res) => {
     });
 
     // Amount must be in paise (1 INR = 100 paise)
-    // const amountPaise = Math.round(currentPricing.totalAmount * 100);
-    const amountPaise = 100; // Testing 1 rupee
+    const amountPaise = Math.round(currentPricing.totalAmount * 100);
     const order = await razorpay.orders.create({
       amount: amountPaise,
       currency: delegate.delegateType === 'foreign' ? 'USD' : 'INR',
@@ -844,8 +843,7 @@ exports.verifyPayment = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Delegate or matching order not found' });
     }
 
-    // const expectedAmountPaise = Math.round((delegateCheck.totalAmount || 5664) * 100);
-    const expectedAmountPaise = 100; // Testing 1 rupee
+    const expectedAmountPaise = Math.round((delegateCheck.totalAmount || 5664) * 100);
     if (paymentDetails.amount !== expectedAmountPaise) {
       console.error(`Amount mismatch! Expected: ${expectedAmountPaise}, Received: ${paymentDetails.amount}`);
       return res.status(400).json({ success: false, message: 'Payment amount mismatch. Order flagged.' });
