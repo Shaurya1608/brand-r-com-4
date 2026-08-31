@@ -202,7 +202,12 @@ exports.registerDelegate = async (req, res) => {
 
     try {
       if (couponCode && !isAdmin) {
-        const code = couponCode.toUpperCase().trim();
+        let code = couponCode.toUpperCase().trim();
+        
+        // If it's a combined string (e.g. "SPO-123, #IAP2026"), extract just the sponsor code for validation
+        if (code.includes(',') && code.includes('#IAP2026')) {
+          code = code.replace(', #IAP2026', '').replace('#IAP2026', '').replace(',', '').trim();
+        }
         
         if (code === '#IAP2026') {
           // It's the Industry Partner 20% discount code, no DB lookup needed, it's just a 20% price reduction

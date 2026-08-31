@@ -250,7 +250,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
           pinCode: delegateType === 'foreign' ? '-' : formData.pinCode,
           gstNumber: delegateType === 'foreign' ? '-' : formData.gstNumber,
           mobileNumber: formattedMobile,
-          couponCode: isCouponValid ? couponCode : (industryDiscountApplied ? '#IAP2026' : null),
+          couponCode: (isCouponValid && industryDiscountApplied) ? `${couponCode}, #IAP2026` : (isCouponValid ? couponCode : (industryDiscountApplied ? '#IAP2026' : null)),
         }),
       });
 
@@ -943,10 +943,9 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                     </div>
 
                     {/* Industry Partner Discount Checkbox */}
-                    {!isCouponValid && (
-                      <div className="pt-4 mt-2 border-t border-brand-primary/10">
-                        <label className="flex items-start gap-3 p-3 rounded-xl border border-brand-primary/20 bg-brand-primary/5 cursor-pointer hover:bg-brand-primary/10 transition-colors group">
-                          <div className="mt-0.5 relative flex items-center justify-center">
+                    <div className="pt-4 mt-2 border-t border-brand-primary/10">
+                      <label className="flex items-start gap-3 p-3 rounded-xl border border-brand-primary/20 bg-brand-primary/5 cursor-pointer hover:bg-brand-primary/10 transition-colors group">
+                        <div className="mt-0.5 relative flex items-center justify-center">
                             <input 
                               type="checkbox"
                               checked={industryDiscountApplied}
@@ -983,8 +982,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                             </div>
                           </div>
                         </label>
-                      </div>
-                    )}
+                    </div>
 
                     {/* Coupon Code - Interactive Offer Card */}
                     <div className="pt-4 mt-2 border-t border-brand-primary/10">
