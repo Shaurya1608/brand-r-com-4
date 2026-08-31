@@ -428,7 +428,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
             const verifyData = await verifyRes.json();
             if (verifyData.success) {
               setRazorpayPaymentId(response.razorpay_payment_id);
-              setStep('success');
+              setPaymentSuccess(true);
             } else {
               setError('Payment received but verification failed. Please contact support with your payment ID: ' + response.razorpay_payment_id);
             }
