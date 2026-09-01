@@ -375,43 +375,37 @@ export default function Season3Page() {
       </section>
 
       {/* Speakers Section */}
-      <section id="speakers" className="py-24 bg-brand-surface relative">
+      <section id="speakers" className="py-20 bg-brand-surface">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div {...fadeInUp} className="mb-16 text-center max-w-3xl mx-auto">
-            <div className="flex items-center justify-center gap-2 text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-3">
-              <span className="w-2 h-2 rounded-full bg-brand-primary" />
-              VOICES FROM THE STAGE
+          <motion.div {...fadeInUp} className="mb-14 text-center max-w-3xl mx-auto">
+            <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-2.5">
+              Voices from the stage
             </div>
-            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-4 text-brand-dark">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-3 text-brand-dark">
               32 leaders who shaped the conversation
             </h2>
-            <p className="text-lg text-brand-dark/70 leading-relaxed">
+            <p className="text-base text-brand-dark/75 leading-relaxed">
               Scientists, CEOs and policy leaders who spoke across the day's five sessions.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-6 gap-y-10">
             {speakers.map((speaker, i) => (
               <motion.div 
                 key={i}
                 {...fadeInUp}
-                transition={{ delay: (i % 6) * 0.04 }}
-                className="bg-white rounded-2xl p-5 border border-brand-primary/10 hover:border-brand-primary/40 shadow-2xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between text-center group relative overflow-hidden"
+                transition={{ delay: (i % 6) * 0.03 }}
+                className="flex flex-col items-center text-center group cursor-default"
               >
-                {/* Top Subtle Hover Accent Bar */}
-                <div className="w-full h-1 bg-gradient-to-r from-brand-primary to-[#a3d95b] absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden mb-3.5 relative border-2 border-brand-primary/15 group-hover:border-brand-primary group-hover:scale-105 transition-all duration-300 shadow-sm bg-brand-surface flex items-center justify-center">
+                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden mb-3 relative border-2 border-brand-primary/10 group-hover:border-brand-primary transition-colors duration-300 shadow-sm bg-white flex items-center justify-center">
                   <SpeakerImage speaker={speaker} />
                 </div>
-                <div>
-                  <h3 className="font-bold text-sm md:text-base text-brand-dark group-hover:text-brand-primary transition-colors duration-200 leading-snug mb-1">
-                    {speaker.name}
-                  </h3>
-                  <p className="text-xs text-brand-dark/70 leading-relaxed font-sans">
-                    {speaker.role}
-                  </p>
-                </div>
+                <h3 className="font-semibold text-sm md:text-base text-brand-dark group-hover:text-brand-primary transition-colors duration-200 leading-snug mb-0.5">
+                  {speaker.name}
+                </h3>
+                <p className="text-[11px] md:text-xs text-brand-dark/65 leading-relaxed font-sans font-medium px-1">
+                  {speaker.role}
+                </p>
               </motion.div>
             ))}
           </div>
