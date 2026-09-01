@@ -80,10 +80,9 @@ export default function Navbar() {
       <div className="w-full bg-brand-surface/90 backdrop-blur-xl border-b border-brand-primary/10 py-1.5 md:py-2 px-6 md:px-12 shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           
-          {/* Logo */}
           <div className="flex-shrink-0 group cursor-pointer">
             <Link href="/" className="flex items-center">
-              <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm 2026 Logo" className="h-10 md:h-12 lg:h-14 -my-2 md:-my-3 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+              <img src="/logo/Brand R.Comm 3 final logo-02.png" alt="Brand R.Comm Logo" className="h-10 md:h-12 lg:h-14 -my-2 md:-my-3 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             </Link>
           </div>
 

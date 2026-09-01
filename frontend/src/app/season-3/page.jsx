@@ -232,7 +232,7 @@ export default function Season3Page() {
             </div>
             
             <div className="mb-6 flex justify-center">
-              <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm" className="h-14 md:h-18 object-contain" />
+              <img src="/logo/Brand R.Comm 3 final logo-02.png" alt="Brand R.Comm" className="h-14 md:h-18 object-contain" />
             </div>
 
             <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-brand-dark">
