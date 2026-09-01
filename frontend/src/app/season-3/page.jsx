@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, User, Calendar, MapPin, Star, Mic, Users, Award, Handshake } from "lucide-react";
+import { ArrowRight, User, Calendar, MapPin, Star, Mic, Users, Award, Handshake, Phone, Mail, Globe } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const speakers = [
@@ -562,59 +562,104 @@ export default function Season3Page() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#183118] text-white py-16 border-t border-brand-primary/20">
-        <div className="max-w-7xl mx-auto px-6">
+      <footer className="relative bg-gradient-to-b from-[#122412] via-[#0d1a0d] to-[#070e07] text-white pt-20 pb-12 border-t border-[#8CC63F]/20 overflow-hidden">
+        {/* Abstract Background Ambient Glows */}
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#8CC63F]/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#e29d38]/10 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           {/* Top CTA Row */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-12 border-b border-white/10">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-white max-w-xl leading-tight">
-              See you at the fourth edition of BRAND R.Comm.
-            </h2>
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-16 border-b border-white/10">
             <div>
+              <div className="text-[#e29d38] font-mono text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#e29d38] animate-pulse" />
+                LOOKING AHEAD
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white max-w-2xl leading-tight">
+                See you at the fourth edition of <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#e29d38] via-[#f7c26b] to-[#a3d95b] font-normal">BRAND R.Comm</span>.
+              </h2>
+            </div>
+
+            <div className="shrink-0">
               <Link 
                 href="/" 
-                className="inline-flex items-center gap-2 px-8 py-4 bg-[#e29d38] hover:bg-[#d48e28] text-brand-dark font-sans font-bold text-sm md:text-base rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center gap-3 px-9 py-4 bg-gradient-to-r from-[#e29d38] to-[#c98322] hover:from-[#f0a843] hover:to-[#db922b] text-brand-dark font-sans font-extrabold text-sm md:text-base rounded-full shadow-[0_0_25px_rgba(226,157,56,0.3)] hover:shadow-[0_0_35px_rgba(226,157,56,0.5)] transition-all duration-300 hover:scale-105 group"
               >
                 <span>Partner With Us</span>
-                <ArrowRight size={18} />
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
 
-          {/* Middle Info Columns */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-12 border-b border-white/10 text-sm text-white/80">
+          {/* Middle Info Cards (Glassmorphism UX) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-12 border-b border-white/10">
             {/* Column 1: Snail Integral Address */}
-            <div>
-              <h3 className="font-serif font-bold text-xl text-white mb-3">Snail Integral</h3>
-              <p className="leading-relaxed text-white/70">
+            <div className="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-[#8CC63F]/30 transition-all duration-300 shadow-xl group">
+              <div className="w-10 h-10 rounded-xl bg-[#e29d38]/10 border border-[#e29d38]/20 flex items-center justify-center text-[#e29d38] mb-5 group-hover:scale-110 transition-transform">
+                <MapPin size={20} />
+              </div>
+              <h3 className="font-serif font-bold text-xl text-white mb-2">Snail Integral</h3>
+              <p className="leading-relaxed text-white/70 text-sm font-sans">
                 Q-170141, 14th Avenue, Gaur City-2<br />
-                Noida Extension
+                Noida Extension, Uttar Pradesh, India
               </p>
             </div>
 
             {/* Column 2: Contact Info */}
-            <div>
-              <div className="text-[11px] font-mono font-bold uppercase tracking-widest text-white/50 mb-3">Contact</div>
-              <div className="space-y-1.5 leading-relaxed text-white/80 font-medium">
-                <p><a href="tel:+919354342588" className="hover:text-[#e29d38] transition-colors">+91 93543 42588</a></p>
-                <p><a href="tel:+918750807676" className="hover:text-[#e29d38] transition-colors">+91 87508 07676</a></p>
-                <p><a href="mailto:info@snailintegral.com" className="hover:text-[#e29d38] transition-colors">info@snailintegral.com</a></p>
+            <div className="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-[#8CC63F]/30 transition-all duration-300 shadow-xl group">
+              <div className="w-10 h-10 rounded-xl bg-[#8CC63F]/10 border border-[#8CC63F]/20 flex items-center justify-center text-[#8CC63F] mb-5 group-hover:scale-110 transition-transform">
+                <Phone size={20} />
+              </div>
+              <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#8CC63F] mb-2">Contact & Inquiries</div>
+              <div className="space-y-2 text-sm font-sans text-white/80">
+                <p>
+                  <a href="tel:+919354342588" className="hover:text-[#e29d38] transition-colors flex items-center gap-2">
+                    <span>+91 93543 42588</span>
+                  </a>
+                </p>
+                <p>
+                  <a href="tel:+918750807676" className="hover:text-[#e29d38] transition-colors flex items-center gap-2">
+                    <span>+91 87508 07676</span>
+                  </a>
+                </p>
+                <p>
+                  <a href="mailto:info@snailintegral.com" className="hover:text-[#e29d38] transition-colors flex items-center gap-2">
+                    <Mail size={14} className="text-white/50" />
+                    <span>info@snailintegral.com</span>
+                  </a>
+                </p>
               </div>
             </div>
 
             {/* Column 3: Web */}
-            <div>
-              <div className="text-[11px] font-mono font-bold uppercase tracking-widest text-white/50 mb-3">Web</div>
-              <p>
-                <a href="https://www.snailintegral.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#e29d38] transition-colors font-medium">
-                  www.snailintegral.com
+            <div className="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-[#8CC63F]/30 transition-all duration-300 shadow-xl group flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-[#8CC63F]/10 border border-[#8CC63F]/20 flex items-center justify-center text-[#8CC63F] mb-5 group-hover:scale-110 transition-transform">
+                  <Globe size={20} />
+                </div>
+                <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#8CC63F] mb-2">Official Website</div>
+                <p className="text-sm font-sans text-white/70 mb-4">
+                  Explore our initiatives, recap videos, and summit updates.
+                </p>
+              </div>
+              <div>
+                <a 
+                  href="https://www.snailintegral.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-semibold tracking-wider transition-colors border border-white/10"
+                >
+                  <span>www.snailintegral.com</span>
+                  <ArrowRight size={14} />
                 </a>
-              </p>
+              </div>
             </div>
           </div>
 
           {/* Bottom Copyright */}
-          <div className="pt-8 text-center md:text-left text-[10px] md:text-xs font-mono tracking-wider text-white/50 uppercase">
-            © 2025 SNAIL INTEGRAL PVT. LTD. — BRAND R.COMM AGRICULTURE & RURAL COMMUNICATION SUMMIT & AWARDS
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-[10px] md:text-xs font-mono tracking-wider text-white/40 uppercase">
+            <div>© 2025 SNAIL INTEGRAL PVT. LTD. — ALL RIGHTS RESERVED</div>
+            <div>BRAND R.COMM AGRICULTURE & RURAL COMMUNICATION SUMMIT & AWARDS</div>
           </div>
         </div>
       </footer>
