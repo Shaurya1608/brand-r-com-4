@@ -434,7 +434,7 @@ export default function Season3Page() {
                 className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 group hover:border-brand-primary/50 transition-colors duration-300"
               >
                 <div className="h-48 overflow-hidden bg-white">
-                  <img src={`/Awards/${award.img}`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => e.target.style.display='none'} />
+                  <img src={`/brand_rcomm_award_images_named/${award.title}.jpg`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.src = `/Awards/${award.img}`; }} />
                 </div>
                 <div className="p-5 md:p-6">
                   <div className="text-brand-primary font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-1.5">{award.category}</div>
@@ -461,7 +461,7 @@ export default function Season3Page() {
                 className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 group hover:border-brand-primary/50 transition-colors duration-300"
               >
                 <div className="h-48 overflow-hidden bg-white">
-                  <img src={`/Awards/${award.img}`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => e.target.style.display='none'} />
+                  <img src={`/brand_rcomm_award_images_named/${award.title}.jpg`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.src = `/Awards/${award.img}`; }} />
                 </div>
                 <div className="p-5 md:p-6">
                   <div className="text-brand-primary font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-1.5">{award.category}</div>
