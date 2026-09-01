@@ -175,7 +175,7 @@ export default function Season3Page() {
               <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm" className="h-16 md:h-20 object-contain" />
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-serif font-bold leading-[1.15] mb-6">
+            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.15] mb-6">
               Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-brand-primary italic font-normal">from soil to market.</span>
             </h1>
             <p className="text-lg md:text-xl text-brand-dark/80 max-w-2xl mx-auto leading-relaxed">
