@@ -215,7 +215,7 @@ export default function Season3Page() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-brand-surface text-brand-dark overflow-hidden">
+      <section className="relative pt-28 pb-16 bg-brand-surface text-brand-dark overflow-hidden">
         {/* Abstract Background Gradient */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         
@@ -226,54 +226,54 @@ export default function Season3Page() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center flex flex-col items-center"
           >
-            <div className="flex items-center justify-center gap-3 text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-4">
-              <span className="w-2 h-2 rounded-full bg-brand-primary" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse" />
               THIRD EDITION • POST EVENT RECAP
             </div>
             
             <div className="mb-6 flex justify-center">
-              <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm" className="h-16 md:h-20 object-contain" />
+              <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm" className="h-14 md:h-18 object-contain" />
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.15] mb-6">
+            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-brand-dark">
               Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-brand-primary italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-lg md:text-xl text-brand-dark/80 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg text-brand-dark/75 max-w-2xl mx-auto leading-relaxed mb-10">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
-            <div className="flex flex-col md:flex-row md:items-start justify-center gap-8 md:gap-12 mt-12 pt-8 border-t border-brand-primary/10 w-full">
-              <div className="flex flex-col items-center text-center gap-3 flex-1">
-                <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
+            {/* Event Metadata Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+              {/* Card 1: Event */}
+              <div className="bg-white rounded-2xl p-5 border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary/30 transition-all flex items-center gap-4 text-left">
+                <div className="w-11 h-11 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 text-brand-primary">
                   <Star size={18} />
                 </div>
                 <div>
-                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-1.5">Event</div>
-                  <div className="font-medium text-sm text-brand-dark leading-snug">BRAND R.Comm — Agriculture & Rural Communication Summit & Awards</div>
+                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Event</div>
+                  <div className="font-semibold text-xs text-brand-dark leading-snug">BRAND R.Comm Summit & Awards</div>
                 </div>
               </div>
               
-              <div className="hidden md:block w-px h-16 bg-brand-primary/10 mt-2"></div>
-
-              <div className="flex flex-col items-center text-center gap-3 flex-1">
-                <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
+              {/* Card 2: Venue */}
+              <div className="bg-white rounded-2xl p-5 border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary/30 transition-all flex items-center gap-4 text-left">
+                <div className="w-11 h-11 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 text-brand-primary">
                   <MapPin size={18} />
                 </div>
                 <div>
-                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-1.5">Venue</div>
-                  <div className="font-medium text-sm text-brand-dark leading-snug">Holiday Inn, Aerocity, New Delhi</div>
+                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
+                  <div className="font-semibold text-xs text-brand-dark leading-snug">Holiday Inn, Aerocity, New Delhi</div>
                 </div>
               </div>
 
-              <div className="hidden md:block w-px h-16 bg-brand-primary/10 mt-2"></div>
-
-              <div className="flex flex-col items-center text-center gap-3 flex-1">
-                <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center flex-shrink-0 text-brand-primary">
+              {/* Card 3: Date */}
+              <div className="bg-white rounded-2xl p-5 border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary/30 transition-all flex items-center gap-4 text-left">
+                <div className="w-11 h-11 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 text-brand-primary">
                   <Calendar size={18} />
                 </div>
                 <div>
-                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-1.5">Date</div>
-                  <div className="font-medium text-sm text-brand-dark leading-snug">5 December 2025</div>
+                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Date</div>
+                  <div className="font-semibold text-xs text-brand-dark leading-snug">5 December 2025</div>
                 </div>
               </div>
             </div>
