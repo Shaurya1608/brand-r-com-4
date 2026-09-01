@@ -108,6 +108,39 @@ const juryAwards = [
 
 const glimpseImages = ["1.JPG", "2.JPG", "3.JPG", "4.JPG"];
 
+const clientLogos = Array.from({ length: 12 }, (_, i) => `/Client-Logo/c-logo-${i + 1}.jpg`);
+
+const partnerGroups = [
+  {
+    category: "POWERED BY & SUPPORTED BY",
+    partners: ["EpiLogic", "Novonesis"]
+  },
+  {
+    category: "SPONSORS",
+    partners: ["Momentive Performance Materials", "Thakar Chemicals Ltd.", "AquAgri Processing Pvt. Ltd."]
+  },
+  {
+    category: "KIT • MEMENTO • LANYARD",
+    partners: ["CCFI", "ACFI", "CropLife India"]
+  },
+  {
+    category: "INDUSTRY ASSOCIATION PARTNERS",
+    partners: ["BASAI", "BIPA", "NBIF"]
+  },
+  {
+    category: "RESEARCH • MEDIA • STRATEGIC • GLOBAL",
+    partners: [
+      "Market Insight Consultants",
+      "Fasal Kranti",
+      "Pestology",
+      "Ray Consulting",
+      "Agri Network Consultancy",
+      "BioAgTech World Congress & Expo",
+      "Global BioAg Alliance"
+    ]
+  }
+];
+
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
@@ -442,6 +475,8 @@ export default function Season3Page() {
         </div>
       </section>
 
+
+
       {/* Glimpses Section */}
       <section id="glimpses" className="py-24 bg-brand-surface text-brand-dark">
         <div className="max-w-7xl mx-auto px-6">
@@ -462,6 +497,64 @@ export default function Season3Page() {
                 className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 hover:shadow-md transition-shadow duration-300"
               >
                 <img src={`/Glimpse/${img}`} alt={`Glimpse ${i+1}`} className="w-full h-48 object-cover hover:scale-105 transition-transform duration-500" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gratitude & Partners Section */}
+      <section id="partners" className="py-24 bg-white text-brand-dark border-t border-brand-primary/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div {...fadeInUp} className="mb-16 text-center max-w-3xl mx-auto">
+            <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">GRATITUDE</div>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-4 text-brand-dark">
+              Backed by the industry, <span className="text-brand-primary italic font-normal">for the industry</span>
+            </h2>
+            <p className="text-lg text-brand-dark/70 leading-relaxed">
+              BRAND R.Comm 2025 was made possible by 18+ sponsors and partners across research, media and policy.
+            </p>
+          </motion.div>
+
+          {/* Client Logos Grid */}
+          <div className="mb-16">
+            <h3 className="text-xs font-mono font-bold text-brand-primary/70 uppercase tracking-widest mb-6 text-center">Featured Ecosystem Partners</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+              {clientLogos.map((logo, index) => (
+                <motion.div 
+                  key={index}
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                  className="bg-brand-surface p-4 rounded-xl border border-brand-primary/10 flex items-center justify-center h-24 shadow-xs hover:shadow-md hover:border-brand-primary/30 transition-all group"
+                >
+                  <img 
+                    src={logo} 
+                    alt={`Partner Logo ${index + 1}`} 
+                    className="max-h-16 max-w-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100" 
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Categorized Partners List with Premium Cards */}
+          <div className="space-y-6 max-w-5xl mx-auto">
+            {partnerGroups.map((group, gIdx) => (
+              <motion.div {...fadeInUp} key={gIdx} className="bg-brand-surface p-6 md:p-8 rounded-2xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all">
+                <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-brand-primary" />
+                  {group.category}
+                </div>
+                <div className="flex flex-wrap gap-2.5">
+                  {group.partners.map((partner, pIdx) => (
+                    <span 
+                      key={pIdx}
+                      className="px-4 py-2 bg-white rounded-lg text-xs md:text-sm font-medium text-brand-dark border border-brand-primary/10 shadow-2xs hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default"
+                    >
+                      {partner}
+                    </span>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </div>
