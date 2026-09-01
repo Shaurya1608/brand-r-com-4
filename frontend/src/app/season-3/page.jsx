@@ -216,42 +216,42 @@ export default function Season3Page() {
 
       {/* Hero Section */}
       <section 
-        className="relative pt-24 pb-18 md:pt-28 md:pb-22 bg-brand-surface text-brand-dark overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="relative pt-20 pb-16 md:pt-24 md:pb-20 text-brand-dark overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('/landing/generated_bg.png')` }}
       >
-        {/* Soft Ambient Overlay */}
-        <div className="absolute inset-0 bg-brand-surface/30 pointer-events-none" />
+        {/* Dark/Dimmed Overlay for Rich Contrast */}
+        <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px] pointer-events-none" />
         
-        {/* Abstract Background Gradient */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center flex flex-col items-center"
+            className="bg-brand-surface/85 backdrop-blur-2xl p-8 md:p-12 rounded-3xl border border-white/60 shadow-2xl text-center flex flex-col items-center relative overflow-hidden"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-2xs">
+            {/* Top Subtle Ambient Glow inside card */}
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-primary/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-2xs relative z-10">
               <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse" />
               THIRD EDITION • POST EVENT RECAP
             </div>
             
-            <div className="mb-6 flex justify-center">
+            <div className="mb-6 flex justify-center relative z-10">
               <img src="/logo/Brand R.Comm 3 final logo-02.png" alt="Brand R.Comm" className="h-14 md:h-18 object-contain" />
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-brand-dark">
+            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-brand-dark relative z-10">
               Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-brand-primary italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-base md:text-lg text-brand-dark/75 max-w-2xl mx-auto leading-relaxed mb-9">
+            <p className="text-base md:text-lg text-brand-dark/80 max-w-2xl mx-auto leading-relaxed mb-9 relative z-10">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
-            {/* Event Metadata Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+            {/* Event Metadata Cards Grid (Glassmorphic) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full relative z-10">
               {/* Card 1: Event */}
-              <div className="bg-white rounded-2xl p-5 border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary/30 transition-all flex items-center gap-4 text-left">
+              <div className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-white/80 shadow-md hover:shadow-xl hover:bg-white transition-all flex items-center gap-4 text-left">
                 <div className="w-11 h-11 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 text-brand-primary">
                   <Star size={18} />
                 </div>
@@ -262,7 +262,7 @@ export default function Season3Page() {
               </div>
               
               {/* Card 2: Venue */}
-              <div className="bg-white rounded-2xl p-5 border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary/30 transition-all flex items-center gap-4 text-left">
+              <div className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-white/80 shadow-md hover:shadow-xl hover:bg-white transition-all flex items-center gap-4 text-left">
                 <div className="w-11 h-11 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 text-brand-primary">
                   <MapPin size={18} />
                 </div>
@@ -273,7 +273,7 @@ export default function Season3Page() {
               </div>
 
               {/* Card 3: Date */}
-              <div className="bg-white rounded-2xl p-5 border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary/30 transition-all flex items-center gap-4 text-left">
+              <div className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-white/80 shadow-md hover:shadow-xl hover:bg-white transition-all flex items-center gap-4 text-left">
                 <div className="w-11 h-11 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 text-brand-primary">
                   <Calendar size={18} />
                 </div>
