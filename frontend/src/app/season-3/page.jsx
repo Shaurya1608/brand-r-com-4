@@ -328,20 +328,31 @@ export default function Season3Page() {
               </div>
             </motion.div>
 
-            <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.2 }} className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-brand-primary/10 relative">
-              <div className="text-5xl text-brand-primary/20 font-serif absolute top-4 left-6">"</div>
-              <p className="text-xl font-serif italic leading-relaxed text-brand-dark relative z-10 pt-2 mb-6">
-                In this digital era, communication must reach the right person at the right time — the transfer of knowledge from lab to land is essential for our progress.
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-brand-surface flex items-center justify-center overflow-hidden border border-brand-primary/20">
-                  <img src="/speakers/Mr. Amit BK Khare.jpg" alt="Amit BK Khare" className="w-full h-full object-cover" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='block'; }} />
-                  <User className="text-brand-primary/50 hidden" size={24} />
+            <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.2 }} className="flex flex-col gap-6">
+              <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-brand-primary/10 relative">
+                <div className="text-5xl text-brand-primary/20 font-serif absolute top-4 left-6">"</div>
+                <p className="text-xl font-serif italic leading-relaxed text-brand-dark relative z-10 pt-2 mb-6">
+                  In this digital era, communication must reach the right person at the right time — the transfer of knowledge from lab to land is essential for our progress.
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-brand-surface flex items-center justify-center overflow-hidden border border-brand-primary/20">
+                    <img src="/speakers/Mr. Amit BK Khare.jpg" alt="Amit BK Khare" className="w-full h-full object-cover" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='block'; }} />
+                    <User className="text-brand-primary/50 hidden" size={24} />
+                  </div>
+                  <div>
+                    <div className="font-bold text-sm uppercase tracking-wider text-brand-dark">Amit BK Khare</div>
+                    <div className="text-xs text-brand-dark/60 font-mono mt-1">Founder & Managing Partner, Snail Integral</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="font-bold text-sm uppercase tracking-wider text-brand-dark">Amit BK Khare</div>
-                  <div className="text-xs text-brand-dark/60 font-mono mt-1">Founder & Managing Partner, Snail Integral</div>
-                </div>
+              </div>
+
+              {/* Photo below quote card */}
+              <div className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 group">
+                <img 
+                  src="/IMG_5750.jpg" 
+                  alt="BRAND R.Comm Stage" 
+                  className="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
               </div>
             </motion.div>
           </div>
