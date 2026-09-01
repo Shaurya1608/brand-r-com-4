@@ -562,10 +562,60 @@ export default function Season3Page() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-brand-dark text-white py-12 border-t border-brand-primary/20">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <div className="font-serif text-2xl font-bold mb-6 text-brand-surface">Snail Integral</div>
-          <p className="text-white/50 text-sm">© {new Date().getFullYear()} Snail Integral. All rights reserved.</p>
+      <footer className="bg-[#183118] text-white py-16 border-t border-brand-primary/20">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Top CTA Row */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-12 border-b border-white/10">
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-white max-w-xl leading-tight">
+              See you at the fourth edition of BRAND R.Comm.
+            </h2>
+            <div>
+              <Link 
+                href="/" 
+                className="inline-flex items-center gap-2 px-8 py-4 bg-[#e29d38] hover:bg-[#d48e28] text-brand-dark font-sans font-bold text-sm md:text-base rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+              >
+                <span>Partner With Us</span>
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+          </div>
+
+          {/* Middle Info Columns */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-12 border-b border-white/10 text-sm text-white/80">
+            {/* Column 1: Snail Integral Address */}
+            <div>
+              <h3 className="font-serif font-bold text-xl text-white mb-3">Snail Integral</h3>
+              <p className="leading-relaxed text-white/70">
+                Q-170141, 14th Avenue, Gaur City-2<br />
+                Noida Extension
+              </p>
+            </div>
+
+            {/* Column 2: Contact Info */}
+            <div>
+              <div className="text-[11px] font-mono font-bold uppercase tracking-widest text-white/50 mb-3">Contact</div>
+              <div className="space-y-1.5 leading-relaxed text-white/80 font-medium">
+                <p><a href="tel:+919354342588" className="hover:text-[#e29d38] transition-colors">+91 93543 42588</a></p>
+                <p><a href="tel:+918750807676" className="hover:text-[#e29d38] transition-colors">+91 87508 07676</a></p>
+                <p><a href="mailto:info@snailintegral.com" className="hover:text-[#e29d38] transition-colors">info@snailintegral.com</a></p>
+              </div>
+            </div>
+
+            {/* Column 3: Web */}
+            <div>
+              <div className="text-[11px] font-mono font-bold uppercase tracking-widest text-white/50 mb-3">Web</div>
+              <p>
+                <a href="https://www.snailintegral.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#e29d38] transition-colors font-medium">
+                  www.snailintegral.com
+                </a>
+              </p>
+            </div>
+          </div>
+
+          {/* Bottom Copyright */}
+          <div className="pt-8 text-center md:text-left text-[10px] md:text-xs font-mono tracking-wider text-white/50 uppercase">
+            © 2025 SNAIL INTEGRAL PVT. LTD. — BRAND R.COMM AGRICULTURE & RURAL COMMUNICATION SUMMIT & AWARDS
+          </div>
         </div>
       </footer>
     </main>
