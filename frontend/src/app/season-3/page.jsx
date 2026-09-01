@@ -148,19 +148,30 @@ const fadeInUp = {
 };
 
 const SpeakerImage = ({ speaker }) => {
-  const [error, setError] = useState(false);
-  const src = speaker.imgFile ? `/speakers/${speaker.imgFile}` : `/speakers/${speaker.name}.jpg`;
-  
-  if (error) {
-    return <User className="text-brand-primary/40 w-12 h-12" />;
+  const [errorCount, setErrorCount] = useState(0);
+
+  const getSrc = () => {
+    if (errorCount === 0) {
+      return `/brand_rcomm_32_speaker_images_named/${speaker.name}.jpg`;
+    }
+    if (errorCount === 1) {
+      return speaker.imgFile ? `/speakers/${speaker.imgFile}` : `/speakers/${speaker.name}.jpg`;
+    }
+    return null;
+  };
+
+  const src = getSrc();
+
+  if (!src || errorCount >= 2) {
+    return <User className="text-brand-primary/40 w-10 h-10" />;
   }
-  
+
   return (
     <img 
       src={src} 
       alt={speaker.name} 
       className="w-full h-full object-cover" 
-      onError={() => setError(true)} 
+      onError={() => setErrorCount((prev) => prev + 1)} 
     />
   );
 };
