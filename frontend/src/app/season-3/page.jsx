@@ -82,15 +82,31 @@ const sessions = [
 
 const awards = [
   { category: "CORPORATE EXCELLENCE", title: "Company of the Year", winner: "Aries Agro Limited", desc: "Leadership in specialty plant nutrition with measurable, precision-driven farmer impact.", img: "Company of the year 2025 - Aries agro limited.JPG" },
-  { category: "CORPORATE EXCELLENCE", title: "Emerging Company of the Year", winner: "Bharat Certis Agriscience Ltd.", desc: "Rapid build-out of a science-led organisation with strong R&D and export momentum.", img: "IMG_6902.JPG" },
-  { category: "CAMPAIGN", title: "Best Outdoor Campaign", winner: "Varsha Bioscience & Technology", desc: "Made biological solutions visible and credible at the field level through local-language outreach.", img: "IMG_6906.JPG" },
-  { category: "CAMPAIGN", title: "Best Rural Engagement", winner: "Gencrest Bio Products", desc: "'Khet Khilenge, Sapne Sajenge' blended mobility, retail activation and digital reach.", img: "IMG_6917.JPG" },
-  { category: "CAMPAIGN", title: "Best PR Campaign", winner: "Insecticides India Limited", desc: "Turned a technical weed-management story into a nationwide conversation.", img: "IMG_6921.JPG" },
-  { category: "CAMPAIGN", title: "Best Digital Marketing Award", winner: "JU Agri Sciences", desc: "Vernacular, data-led digital ecosystem setting new benchmarks for farmer connect.", img: "IMG_6926.JPG" },
-  { category: "CAMPAIGN", title: "Best Brand Campaign (TVC)", winner: "UPL SAS Limited", desc: "Insight-led film that drove full farmer migration to a superior formulation.", img: "IMG_6936.JPG" },
-  { category: "CAMPAIGN", title: "Best Integrated Communication", winner: "ICL India", desc: "'AgriReach 360' moved audiences from awareness to adoption across every channel.", img: "IMG_6940.JPG" },
-  { category: "PEOPLE", title: "Best Communicator (Male)", winner: "R.K. Goyal — Verdesian USA", desc: "Simplified complex agri-science into clear, actionable insight across APAC.", img: "IMG_6948.JPG" }
+  { category: "CORPORATE EXCELLENCE", title: "Emerging Company of the Year", winner: "Bharat Certis Agriscience Ltd.", desc: "Rapid build-out of a science-led organisation with strong R&D and export momentum.", img: "IMG_6948.JPG" },
+  { category: "CAMPAIGN", title: "Best Outdoor Campaign", winner: "Varsha Bioscience & Technology", desc: "Made biological solutions visible and credible at the field level through local-language outreach.", img: "IMG_6890.JPG" },
+  { category: "CAMPAIGN", title: "Best Rural Engagement", winner: "Gencrest Bio Products", desc: "'Khet Khilenge, Sapne Sajenge' blended mobility, retail activation and digital reach.", img: "image.png" },
+  { category: "CAMPAIGN", title: "Best PR Campaign", winner: "Insecticides India Limited", desc: "Turned a technical weed-management story into a nationwide conversation.", img: "IMG_6902.JPG" },
+  { category: "CAMPAIGN", title: "Best Digital Marketing Award", winner: "JU Agri Sciences", desc: "Vernacular, data-led digital ecosystem setting new benchmarks for farmer connect.", img: "IMG_6906.JPG" },
+  { category: "CAMPAIGN", title: "Best Brand Campaign (TVC)", winner: "UPL SAS Limited", desc: "Insight-led film that drove full farmer migration to a superior formulation.", img: "IMG_6917.JPG" },
+  { category: "CAMPAIGN", title: "Best Integrated Communication", winner: "ICL India", desc: "'AgriReach 360' moved audiences from awareness to adoption across every channel.", img: "IMG_6921.JPG" },
+  { category: "PEOPLE", title: "Best Communicator (Male)", winner: "R.K. Goyal — Verdesian USA", desc: "Simplified complex agri-science into clear, actionable insight across APAC.", img: "IMG_6926.JPG" },
+  { category: "PEOPLE", title: "Best Communicator (Female)", winner: "Sarita Bahl", desc: "Connected business, policy and reputation with clarity across global organisations.", img: "IMG_6936.JPG" },
+  { category: "INNOVATION", title: "AI Leadership Excellence", winner: "Coromandel International Limited", desc: "Pioneering immersive VR-based farmer education in crop protection.", img: "IMG_6940.JPG" }
 ];
+
+const juryAwards = [
+  { category: "INNOVATION", title: "NextGen Seed Award", winner: "Savannah Seeds Pvt. Ltd.", desc: "High-yielding, climate-resilient rice breeding shaping the sector's next decade.", img: "IMG_7084.JPG" },
+  { category: "SUSTAINABILITY", title: "Sustainability Champion Award", winner: "Zydex Industries", desc: "Regenerative technologies restoring soil health and cutting chemical dependency.", img: "IMG_7020.JPG" },
+  { category: "LEADERSHIP", title: "Growth Catalyst Award", winner: "Dinesh Singh — Reliance Industries", desc: "Scaling organic and circular-economy models across the fertiliser value chain.", img: "IMG_7032.JPG" },
+  { category: "LEADERSHIP", title: "Visionary Entrepreneur Award", winner: "Dr. Manoj Kumar Rupa — Capsber Agriscience", desc: "Microbial and recombinant innovation aimed squarely at soil degradation.", img: "IMG_7045.JPG" },
+  { category: "LEADERSHIP", title: "Shakti Award", winner: "Komal Shah Bhukhanwala — Sumil Industries", desc: "Scientific leadership advancing sustainable, low-residue agrochemical solutions.", img: "IMG_7037.JPG" },
+  { category: "INNOVATION", title: "Pioneer Award", winner: "Debabrata Sarkar — MicroAlgae Solutions India", desc: "Positioned microalgae-based biologicals at the centre of climate-smart agriculture.", img: "IMG_7053.JPG" },
+  { category: "LEADERSHIP", title: "Changemaker Award", winner: "Manoj Varshney — IFFCO-MC Crop Sciences", desc: "Steered a strategic shift toward integrated, farmer-centric crop solutions.", img: "IMG_7061.JPG" },
+  { category: "POLICY", title: "Policy Driver Award", winner: "Rajvir Singh Rathi — Bayer CropScience", desc: "Sustained contribution to regulatory alignment and public-private collaboration.", img: "IMG_7069.JPG" },
+  { category: "LEADERSHIP", title: "Voice of the Year", winner: "Ankur Aggarwal — Crystal Crop Protection", desc: "An influential industry voice shaping national conversations on responsible crop care.", img: "IMG_7078.JPG" }
+];
+
+const glimpseImages = ["1.JPG", "2.JPG", "3.JPG", "4.JPG"];
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -393,6 +409,59 @@ export default function Season3Page() {
                   <div className="text-xs font-sans font-medium text-brand-primary/80 mb-3">{award.winner}</div>
                   <p className="text-brand-dark/60 text-[11px] leading-relaxed">{award.desc}</p>
                 </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Jury-Based Awards Grid */}
+          <div className="flex items-center justify-between border-b border-brand-primary/10 pb-4 mb-8 mt-20">
+            <h3 className="text-xl md:text-2xl font-serif font-bold text-brand-dark">Jury-Based Awards</h3>
+            <span className="text-brand-primary font-mono text-[10px] md:text-xs uppercase tracking-widest">9 Winners</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {juryAwards.map((award, i) => (
+              <motion.div 
+                key={i} 
+                {...fadeInUp} 
+                transition={{ delay: (i % 3) * 0.1 }}
+                className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 group hover:border-brand-primary/50 transition-colors duration-300"
+              >
+                <div className="h-48 overflow-hidden bg-white">
+                  <img src={`/Awards/${award.img}`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => e.target.style.display='none'} />
+                </div>
+                <div className="p-5 md:p-6">
+                  <div className="text-brand-primary font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-1.5">{award.category}</div>
+                  <h4 className="text-lg font-serif font-bold text-brand-dark mb-1 leading-snug">{award.title}</h4>
+                  <div className="text-xs font-sans font-medium text-brand-primary/80 mb-3">{award.winner}</div>
+                  <p className="text-brand-dark/60 text-[11px] leading-relaxed">{award.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Glimpses Section */}
+      <section id="glimpses" className="py-24 bg-brand-surface text-brand-dark">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div {...fadeInUp} className="mb-12">
+            <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">GLIMPSES</div>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-4 text-brand-dark">From the floor</h2>
+            <p className="text-lg text-brand-dark/70 max-w-2xl leading-relaxed">
+              The CEO panel, the audience, and the rooms where these conversations happened.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {glimpseImages.map((img, i) => (
+              <motion.div 
+                key={i} 
+                {...fadeInUp} 
+                transition={{ delay: i * 0.1 }}
+                className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 hover:shadow-md transition-shadow duration-300"
+              >
+                <img src={`/Glimpse/${img}`} alt={`Glimpse ${i+1}`} className="w-full h-48 object-cover hover:scale-105 transition-transform duration-500" />
               </motion.div>
             ))}
           </div>
