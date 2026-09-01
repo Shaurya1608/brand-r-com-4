@@ -215,7 +215,7 @@ export default function Season3Page() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 bg-brand-surface text-brand-dark overflow-hidden">
+      <section className="relative pt-32 pb-20 md:pt-36 md:pb-24 bg-brand-surface text-brand-dark overflow-hidden">
         {/* Abstract Background Gradient */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         
@@ -226,19 +226,19 @@ export default function Season3Page() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center flex flex-col items-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-8 shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse" />
               THIRD EDITION • POST EVENT RECAP
             </div>
             
-            <div className="mb-8 flex justify-center">
-              <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm" className="h-16 md:h-20 object-contain" />
+            <div className="mb-6 flex justify-center">
+              <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm" className="h-14 md:h-18 object-contain" />
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-6 text-brand-dark">
+            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-brand-dark">
               Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-brand-primary italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-base md:text-lg text-brand-dark/75 max-w-2xl mx-auto leading-relaxed mb-12">
+            <p className="text-base md:text-lg text-brand-dark/75 max-w-2xl mx-auto leading-relaxed mb-9">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
