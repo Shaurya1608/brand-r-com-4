@@ -148,30 +148,46 @@ const allBrandLogos = [
 const partnerGroups = [
   {
     category: "POWERED BY & SUPPORTED BY",
-    partners: ["EpiLogic", "Novonesis"]
+    partners: [
+      { name: "EpiLogic", logo: "/partner_logos/epilogic.png" },
+      { name: "Novonesis", logo: "/partner_logos/novonesis.png" }
+    ]
   },
   {
     category: "SPONSORS",
-    partners: ["Momentive Performance Materials", "Thakar Chemicals Ltd.", "AquAgri Processing Pvt. Ltd."]
+    partners: [
+      { name: "Momentive Performance Materials", logo: "/partner_logos/momentive.png" },
+      { name: "AquAgri Processing Pvt. Ltd.", logo: "/partner_logos/aquagri.png" },
+      { name: "Thakar Chemicals Ltd.", logo: "/partner_logos/thakar.png" }
+    ]
   },
   {
-    category: "KIT • MEMENTO • LANYARD",
-    partners: ["CCFI", "ACFI", "CropLife India"]
+    category: "KIT • MEMENTO • RESEARCH • PODCAST",
+    partners: [
+      { name: "Crop Care Federation of India (CCFI)", logo: "/partner_logos/ccfi.png" },
+      { name: "ACFI", logo: "/partner_logos/acfi.png" },
+      { name: "Market Insight Consultants", logo: "/partner_logos/market_insight.png" },
+      { name: "The Snail Show", logo: "/partner_logos/snail_show.png" }
+    ]
   },
   {
     category: "INDUSTRY ASSOCIATION PARTNERS",
-    partners: ["BASAI", "BIPA", "NBIF"]
+    partners: [
+      { name: "NBIF", logo: "/partner_logos/nbif.png" },
+      { name: "CropLife India", logo: "/partner_logos/croplife.png" },
+      { name: "BASAI", logo: "/partner_logos/basai.png" },
+      { name: "BIPA", logo: "/partner_logos/bipa.png" }
+    ]
   },
   {
-    category: "RESEARCH • MEDIA • STRATEGIC • GLOBAL",
+    category: "STRATEGIC • GLOBAL • MEDIA PARTNERS",
     partners: [
-      "Market Insight Consultants",
-      "Fasal Kranti",
-      "Pestology",
-      "Ray Consulting",
-      "Agri Network Consultancy",
-      "BioAgTech World Congress & Expo",
-      "Global BioAg Alliance"
+      { name: "Ray Consulting", logo: "/partner_logos/ray.png" },
+      { name: "Agri Network Consultancy (ANC)", logo: "/partner_logos/anc.png" },
+      { name: "BioAgTech World Congress & Expo", logo: "/partner_logos/bioagtech.png" },
+      { name: "Global BioAg Alliance", logo: "/partner_logos/global_bioag.png" },
+      { name: "Pestology", logo: "/partner_logos/pestology.png" },
+      { name: "Fasal Kranti", logo: "/partner_logos/fasal_kranti.png" }
     ]
   }
 ];
@@ -618,7 +634,7 @@ export default function Season3Page() {
             </div>
           </div>
 
-          {/* Categorized Partners List with Premium Cards */}
+          {/* Categorized Partners List with Official Logo Cards */}
           <div className="space-y-6 max-w-5xl mx-auto">
             {partnerGroups.map((group, gIdx) => (
               <motion.div key={gIdx} {...fadeInUp} className="bg-brand-surface p-6 md:p-8 rounded-2xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all">
@@ -626,14 +642,20 @@ export default function Season3Page() {
                   <span className="w-2 h-2 rounded-full bg-brand-primary" />
                   {group.category}
                 </div>
-                <div className="flex flex-wrap gap-2.5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   {group.partners.map((partner, pIdx) => (
-                    <span 
+                    <motion.div 
                       key={pIdx}
-                      className="px-4 py-2 bg-white rounded-lg text-xs md:text-sm font-medium text-brand-dark border border-brand-primary/10 shadow-2xs hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default"
+                      whileHover={{ y: -3, scale: 1.03 }}
+                      className="bg-white p-3 rounded-xl border border-brand-primary/10 flex items-center justify-center h-20 shadow-2xs hover:shadow-md hover:border-brand-primary/30 transition-all group"
+                      title={partner.name}
                     >
-                      {partner}
-                    </span>
+                      <img 
+                        src={partner.logo} 
+                        alt={partner.name} 
+                        className="max-h-14 max-w-full object-contain transition-all duration-300"
+                      />
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
