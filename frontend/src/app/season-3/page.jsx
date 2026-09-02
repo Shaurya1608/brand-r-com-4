@@ -51,32 +51,38 @@ const sessions = [
   {
     title: "Soil to Market — National & Global Outlook",
     desc: "Trust-driven communication framed as essential to unlocking India's agri-export potential.",
-    label: "INAUGURAL"
+    label: "INAUGURAL",
+    img: "inaugral-session.jpg"
   },
   {
     title: "Soil & Seed — Foundation of Growth",
     desc: "Soil data, seed law reform and affordable access named as the real bottlenecks.",
-    label: "SESSION 01"
+    label: "SESSION 01",
+    img: "session1.jpg"
   },
   {
     title: "Agri-Input — Productivity with Responsibility",
     desc: "Chemicals and bio-solutions positioned as partners, not rivals, in crop protection.",
-    label: "SESSION 02"
+    label: "SESSION 02",
+    img: "session2.jpg"
   },
   {
     title: "Fertiliser — Reimagining Nutrition",
     desc: "Nano-nutrients, net-zero targets and fortified produce for a healthier nation.",
-    label: "SESSION 03"
+    label: "SESSION 03",
+    img: "session3.jpg"
   },
   {
     title: "Agri-Biologicals — Driving the Bio-Revolution",
     desc: "From inputs to intelligence, with regulation named as the biggest lever for scale.",
-    label: "SESSION 04"
+    label: "SESSION 04",
+    img: "session4.jpg"
   },
   {
     title: "The Future of Agri & Rural Communication",
     desc: "A shared 2030 blueprint built on trust, IP protection and public-private synergy.",
-    label: "CEO PANEL"
+    label: "CEO PANEL",
+    img: "ceo-pannel.jpg"
   }
 ];
 
@@ -377,11 +383,22 @@ export default function Season3Page() {
                 key={i}
                 {...fadeInUp}
                 transition={{ delay: i * 0.1 }}
-                className="bg-brand-surface p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-brand-primary/20"
+                className="bg-brand-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-brand-primary/10 group flex flex-col justify-between"
               >
-                <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-3">{session.label}</div>
-                <h3 className="text-lg font-bold font-serif leading-tight mb-3 text-brand-dark">{session.title}</h3>
-                <p className="text-brand-dark/70 leading-relaxed text-sm">{session.desc}</p>
+                <div>
+                  <div className="h-44 md:h-48 overflow-hidden bg-brand-primary/5 relative">
+                    <img 
+                      src={`/on-the-end/${session.img}`} 
+                      alt={session.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-2">{session.label}</div>
+                    <h3 className="text-lg font-bold font-serif leading-tight mb-2 text-brand-dark">{session.title}</h3>
+                    <p className="text-brand-dark/70 leading-relaxed text-sm">{session.desc}</p>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
