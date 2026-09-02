@@ -586,12 +586,12 @@ export default function Season3Page() {
           {/* Categorized Partners List with Premium Cards */}
           <div className="space-y-6 max-w-5xl mx-auto">
             {partnerGroups.map((group, gIdx) => (
-              <motion.div key={gIdx} {...fadeInUp} className="bg-brand-surface p-6 md:p-8 rounded-2xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all">
-                <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
+              <motion.div key={gIdx} {...fadeInUp} className="bg-brand-surface p-6 md:p-10 rounded-3xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all text-center">
+                <div className="text-brand-primary font-mono text-xs md:text-sm font-bold uppercase tracking-widest mb-6 flex items-center justify-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-brand-primary" />
                   {group.category}
                 </div>
-                <div className="flex flex-wrap gap-3 items-center">
+                <div className="flex flex-wrap gap-4 items-center justify-center">
                   {group.partners.map((partner, pIdx) => {
                     const partnerName = typeof partner === 'string' ? partner : partner.name;
                     const partnerLogo = typeof partner === 'object' ? partner.logo : null;
@@ -599,13 +599,13 @@ export default function Season3Page() {
                     return (
                       <span 
                         key={pIdx}
-                        className="px-4 py-2 bg-white rounded-xl text-xs md:text-sm font-medium text-brand-dark border border-brand-primary/10 shadow-2xs hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default flex items-center gap-2.5"
+                        className="px-5 py-3 md:px-6 md:py-3.5 bg-white rounded-2xl text-xs md:text-base font-semibold text-brand-dark border border-brand-primary/10 shadow-xs hover:shadow-md hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default flex items-center gap-3 md:gap-4"
                       >
                         {partnerLogo && (
                           <img 
                             src={partnerLogo} 
                             alt={partnerName} 
-                            className="h-6 md:h-7 w-auto object-contain" 
+                            className="h-9 md:h-12 w-auto max-w-[160px] md:max-w-[200px] object-contain" 
                           />
                         )}
                         <span>{partnerName}</span>
