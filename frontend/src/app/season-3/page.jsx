@@ -216,70 +216,67 @@ export default function Season3Page() {
 
       {/* Hero Section */}
       <section 
-        className="relative pt-20 pb-16 md:pt-24 md:pb-20 text-brand-dark overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="relative pt-28 pb-20 md:pt-36 md:pb-28 text-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('/landing/generated_bg.png')` }}
       >
-        {/* Dark/Dimmed Overlay for Rich Contrast */}
-        <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px] pointer-events-none" />
+        {/* Dark Overlay for Superior Contrast */}
+        <div className="absolute inset-0 bg-black/65 backdrop-blur-[1px] pointer-events-none" />
         
         <div className="max-w-5xl mx-auto px-6 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="bg-brand-surface/85 backdrop-blur-2xl p-8 md:p-12 rounded-3xl border border-white/60 shadow-2xl text-center flex flex-col items-center relative overflow-hidden"
+            className="text-center flex flex-col items-center"
           >
-            {/* Top Subtle Ambient Glow inside card */}
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-primary/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-2xs relative z-10">
-              <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 border border-white/20 text-[#a3d95b] font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-lg backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-[#a3d95b] animate-pulse" />
               THIRD EDITION • POST EVENT RECAP
             </div>
             
-            <div className="mb-6 flex justify-center relative z-10">
-              <img src="/logo/s3/Brand R.Comm 3 final logo-01.png" alt="Brand R.Comm" className="h-14 md:h-18 object-contain" />
+            <div className="mb-6 flex justify-center">
+              <img src="/logo/s3/Brand R.Comm 3 final logo-01.png" alt="Brand R.Comm" className="h-16 md:h-22 object-contain drop-shadow-xl" />
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-brand-dark relative z-10">
-              Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-brand-primary italic font-normal">from soil to market.</span>
+            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-white drop-shadow-lg">
+              Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-[#a3d95b] italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-base md:text-lg text-brand-dark/80 max-w-2xl mx-auto leading-relaxed mb-9 relative z-10">
+            <p className="text-base md:text-lg text-white/90 max-w-2xl mx-auto leading-relaxed mb-10 drop-shadow">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
-            {/* Event Metadata Cards Grid (Glassmorphic) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full relative z-10">
+            {/* Event Metadata Cards Grid (Dark Glassmorphism) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
               {/* Card 1: Event */}
-              <div className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-white/80 shadow-md hover:shadow-xl hover:bg-white transition-all flex items-center gap-4 text-left">
-                <div className="w-11 h-11 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 text-brand-primary">
+              <div className="bg-black/50 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-xl hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
+                <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <Star size={18} />
                 </div>
                 <div>
-                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Event</div>
-                  <div className="font-semibold text-xs text-brand-dark leading-snug">BRAND R.Comm Summit & Awards</div>
+                  <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Event</div>
+                  <div className="font-semibold text-xs text-white leading-snug">BRAND R.Comm Summit & Awards</div>
                 </div>
               </div>
               
               {/* Card 2: Venue */}
-              <div className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-white/80 shadow-md hover:shadow-xl hover:bg-white transition-all flex items-center gap-4 text-left">
-                <div className="w-11 h-11 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 text-brand-primary">
+              <div className="bg-black/50 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-xl hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
+                <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <MapPin size={18} />
                 </div>
                 <div>
-                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
-                  <div className="font-semibold text-xs text-brand-dark leading-snug">Holiday Inn, Aerocity, New Delhi</div>
+                  <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
+                  <div className="font-semibold text-xs text-white leading-snug">Holiday Inn, Aerocity, New Delhi</div>
                 </div>
               </div>
 
               {/* Card 3: Date */}
-              <div className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-white/80 shadow-md hover:shadow-xl hover:bg-white transition-all flex items-center gap-4 text-left">
-                <div className="w-11 h-11 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 text-brand-primary">
+              <div className="bg-black/50 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-xl hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
+                <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <Calendar size={18} />
                 </div>
                 <div>
-                  <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Date</div>
-                  <div className="font-semibold text-xs text-brand-dark leading-snug">5 December 2025</div>
+                  <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Date</div>
+                  <div className="font-semibold text-xs text-white leading-snug">5 December 2025</div>
                 </div>
               </div>
             </div>
