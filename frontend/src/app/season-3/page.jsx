@@ -588,29 +588,29 @@ export default function Season3Page() {
 
 
       {/* Glimpses Section */}
-      <section id="glimpses" className="py-24 bg-brand-surface text-brand-dark">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div {...fadeInUp} className="mb-12">
-            <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">GLIMPSES</div>
-            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-4 text-brand-dark">From the floor</h2>
-            <p className="text-lg text-brand-dark/70 max-w-2xl leading-relaxed">
+      <section id="glimpses" className="py-12 md:py-16 bg-brand-surface text-brand-dark">
+        <div className="max-w-5xl mx-auto px-6">
+          <motion.div {...fadeInUp} className="mb-6 md:mb-8">
+            <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-1.5">GLIMPSES</div>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-2 text-brand-dark">From the floor</h2>
+            <p className="text-sm text-brand-dark/70 max-w-xl leading-relaxed">
               The CEO panel, the audience, and the rooms where these conversations happened.
             </p>
           </motion.div>
 
-          {/* 6-Card Preview Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* 6-Card Compact Preview Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {randomClicksImages.slice(0, 5).map((src, i) => (
               <motion.div 
                 key={i} 
                 {...fadeInUp} 
                 transition={{ delay: i * 0.1 }}
                 onClick={() => setSelectedImageIndex(i)}
-                className="group relative h-[220px] md:h-[240px] overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                className="group relative h-[160px] md:h-[180px] overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 hover:shadow-md transition-all duration-300 cursor-pointer"
               >
                 <img src={src} alt={`Glimpse ${i+1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                  <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-brand-dark px-4 py-2 rounded-full text-xs font-bold transition-opacity duration-300 shadow-md">
+                  <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-brand-dark px-3 py-1.5 rounded-full text-xs font-bold transition-opacity duration-300 shadow-md">
                     View Photo
                   </span>
                 </div>
@@ -622,7 +622,7 @@ export default function Season3Page() {
               {...fadeInUp}
               transition={{ delay: 0.5 }}
               onClick={() => setIsGalleryOpen(true)}
-              className="group relative h-[220px] md:h-[240px] rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-brand-primary/10 hover:shadow-lg transition-all duration-300 w-full"
+              className="group relative h-[160px] md:h-[180px] rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-brand-primary/10 hover:shadow-md transition-all duration-300 w-full"
             >
               <div className="absolute inset-0">
                 <img 
@@ -635,7 +635,7 @@ export default function Season3Page() {
               <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4">
                 <button 
                   type="button"
-                  className="bg-[#5b8a41] hover:bg-[#4d7836] text-white px-7 py-3 rounded-lg font-bold text-sm tracking-wide transition-all duration-300 shadow-md flex items-center gap-2 cursor-pointer whitespace-nowrap"
+                  className="bg-[#5b8a41] hover:bg-[#4d7836] text-white px-6 py-2.5 rounded-lg font-bold text-xs md:text-sm tracking-wide transition-all duration-300 shadow-md flex items-center gap-2 cursor-pointer whitespace-nowrap"
                 >
                   <ImageIcon className="w-4 h-4 flex-shrink-0" />
                   <span>VIEW GALLERY</span>
