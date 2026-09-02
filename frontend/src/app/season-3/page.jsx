@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, User, Calendar, MapPin, Star, Mic, Users, Award, Handshake, Phone, Mail, Globe, X, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
+import { ArrowRight, User, Calendar, MapPin, Star, Mic, Users, Award, Handshake, Phone, Mail, Globe, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, Download } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const speakers = [
@@ -283,9 +283,24 @@ export default function Season3Page() {
             <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-white drop-shadow-lg">
               Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-[#a3d95b] italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed mb-10 drop-shadow">
+            <p className="text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed mb-8 drop-shadow">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
+
+            {/* After Event Report Download CTA Button */}
+            <div className="mb-10 flex flex-wrap justify-center gap-4">
+              <a 
+                href="/After_Event_Report_Final.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download="After_Event_Report_Final.pdf"
+                className="bg-[#a3d95b] hover:bg-[#8cc246] text-brand-dark px-7 py-3.5 rounded-xl font-bold text-sm md:text-base tracking-wide transition-all duration-300 shadow-xl flex items-center gap-2.5 group cursor-pointer border border-[#a3d95b]/30 hover:scale-105"
+              >
+                <FileText className="w-5 h-5 text-brand-dark group-hover:scale-110 transition-transform" />
+                <span>AFTER EVENT REPORT</span>
+                <Download className="w-4 h-4 text-brand-dark opacity-80 group-hover:opacity-100 group-hover:translate-y-0.5 transition-all" />
+              </a>
+            </div>
 
             {/* Event Metadata Cards Grid (Transparent Glassmorphism) */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
