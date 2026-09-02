@@ -583,27 +583,6 @@ export default function Season3Page() {
             </p>
           </motion.div>
 
-          {/* Client Logos Grid */}
-          <div className="mb-16">
-            <h3 className="text-xs font-mono font-bold text-brand-primary/70 uppercase tracking-widest mb-6 text-center">Featured Ecosystem Partners</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-              {clientLogos.map((logo, index) => (
-                <motion.div 
-                  key={index}
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
-                  className="bg-brand-surface p-4 rounded-xl border border-brand-primary/10 flex items-center justify-center h-24 shadow-xs hover:shadow-md hover:border-brand-primary/30 transition-all group"
-                >
-                  <img 
-                    src={logo} 
-                    alt={`Partner Logo ${index + 1}`} 
-                    className="max-h-16 max-w-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100" 
-                  />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
           {/* Categorized Partners List with Premium Cards */}
           <div className="space-y-6 max-w-5xl mx-auto">
             {partnerGroups.map((group, gIdx) => (
