@@ -219,11 +219,8 @@ export default function Season3Page() {
         className="relative pt-24 pb-16 md:pt-28 md:pb-20 text-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('/bg-image/IMG_5468.JPG')` }}
       >
-        {/* Soft Radial Dark Overlay - transparent & subtle */}
-        <div 
-          className="absolute inset-0 pointer-events-none" 
-          style={{ background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.1) 100%)' }}
-        />
+        {/* Rich Dark Overlay to darken background image */}
+        <div className="absolute inset-0 bg-black/65 pointer-events-none" />
         
         <div className="max-w-5xl mx-auto px-6 relative z-10">
           <motion.div 
