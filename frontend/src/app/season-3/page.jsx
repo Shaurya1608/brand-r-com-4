@@ -386,11 +386,11 @@ export default function Season3Page() {
                 className="bg-brand-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-brand-primary/10 group flex flex-col justify-between"
               >
                 <div>
-                  <div className="h-44 md:h-48 overflow-hidden bg-brand-primary/5 relative">
+                  <div className="h-52 md:h-56 overflow-hidden bg-brand-primary/5 relative">
                     <img 
                       src={`/on-the-end/${session.img}`} 
                       alt={session.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
                     />
                   </div>
                   <div className="p-6">
