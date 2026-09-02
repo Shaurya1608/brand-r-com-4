@@ -232,24 +232,21 @@ export default function Season3Page() {
             transition={{ duration: 0.8 }}
             className="text-center flex flex-col items-center"
           >
-            {/* Transparent Glassmorphism Container */}
-            <div className="w-full max-w-4xl bg-black/25 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-3xl border border-white/15 shadow-xl flex flex-col items-center mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#a3d95b] font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-md backdrop-blur-md">
-                <span className="w-2 h-2 rounded-full bg-[#a3d95b] animate-pulse" />
-                THIRD EDITION • POST EVENT RECAP
-              </div>
-              
-              <div className="mb-6 flex justify-center">
-                <img src="/logo/s3/Brand R.Comm 3 final logo-01.png" alt="Brand R.Comm" className="h-14 md:h-20 object-contain drop-shadow-xl" />
-              </div>
-
-              <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-white drop-shadow-lg">
-                Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-[#a3d95b] italic font-normal">from soil to market.</span>
-              </h1>
-              <p className="text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed drop-shadow">
-                BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
-              </p>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 border border-white/20 text-[#a3d95b] font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-lg backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-[#a3d95b] animate-pulse" />
+              THIRD EDITION • POST EVENT RECAP
             </div>
+            
+            <div className="mb-6 flex justify-center">
+              <img src="/logo/s3/Brand R.Comm 3 final logo-01.png" alt="Brand R.Comm" className="h-16 md:h-22 object-contain drop-shadow-xl" />
+            </div>
+
+            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-white drop-shadow-lg">
+              Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-[#a3d95b] italic font-normal">from soil to market.</span>
+            </h1>
+            <p className="text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed mb-10 drop-shadow">
+              BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
+            </p>
 
             {/* Event Metadata Cards Grid (Transparent Glassmorphism) */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
