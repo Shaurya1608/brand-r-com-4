@@ -25,7 +25,7 @@ export default function Hero() {
         
         {/* Event Logo */}
         <div className="mb-4 md:mb-2 -mt-2 md:-mt-4">
-          <img src="/logo/New nrc logo.png" alt="NRC Logo" className="h-14 sm:h-20 md:h-32 lg:h-40 w-auto object-contain mx-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500" />
+          <img src="/logo/s3/Brand R.Comm 3 final logo-01.png" alt="Brand R.Comm Logo" className="h-14 sm:h-20 md:h-32 lg:h-40 w-auto object-contain mx-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500" />
         </div>
 
         {/* Subtitle / Edition */}
