@@ -219,39 +219,42 @@ export default function Season3Page() {
         className="relative pt-24 pb-16 md:pt-28 md:pb-20 text-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('/landing/generated_bg.png')` }}
       >
-        {/* Smooth Dark Radial Vignette in Center (No box borders) */}
+        {/* Soft Radial Dark Overlay - transparent & subtle */}
         <div 
           className="absolute inset-0 pointer-events-none" 
-          style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 55%, rgba(0,0,0,0.15) 100%)' }}
+          style={{ background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.1) 100%)' }}
         />
         
-        <div className="max-w-4xl mx-auto px-6 relative z-10">
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center flex flex-col items-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/50 border border-white/20 text-[#a3d95b] font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-lg backdrop-blur-sm">
-              <span className="w-2 h-2 rounded-full bg-[#a3d95b] animate-pulse" />
-              THIRD EDITION • POST EVENT RECAP
-            </div>
-            
-            <div className="mb-6 flex justify-center">
-              <img src="/logo/s3/Brand R.Comm 3 final logo-01.png" alt="Brand R.Comm" className="h-16 md:h-22 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]" />
+            {/* Transparent Glassmorphism Container */}
+            <div className="w-full max-w-4xl bg-black/25 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-3xl border border-white/15 shadow-xl flex flex-col items-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#a3d95b] font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-md backdrop-blur-md">
+                <span className="w-2 h-2 rounded-full bg-[#a3d95b] animate-pulse" />
+                THIRD EDITION • POST EVENT RECAP
+              </div>
+              
+              <div className="mb-6 flex justify-center">
+                <img src="/logo/s3/Brand R.Comm 3 final logo-01.png" alt="Brand R.Comm" className="h-14 md:h-20 object-contain drop-shadow-xl" />
+              </div>
+
+              <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-white drop-shadow-lg">
+                Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-[#a3d95b] italic font-normal">from soil to market.</span>
+              </h1>
+              <p className="text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed drop-shadow">
+                BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
+              </p>
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
-              Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-[#a3d95b] italic font-normal">from soil to market.</span>
-            </h1>
-            <p className="text-base md:text-lg text-white/90 max-w-2xl mx-auto leading-relaxed mb-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-              BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
-            </p>
-
-            {/* Event Metadata Cards Grid (Dark Glassmorphism) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+            {/* Event Metadata Cards Grid (Transparent Glassmorphism) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
               {/* Card 1: Event */}
-              <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-5 border border-white/15 shadow-xl hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
+              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
                 <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <Star size={18} />
                 </div>
@@ -262,7 +265,7 @@ export default function Season3Page() {
               </div>
               
               {/* Card 2: Venue */}
-              <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-5 border border-white/15 shadow-xl hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
+              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
                 <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <MapPin size={18} />
                 </div>
@@ -273,7 +276,7 @@ export default function Season3Page() {
               </div>
 
               {/* Card 3: Date */}
-              <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-5 border border-white/15 shadow-xl hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
+              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
                 <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <Calendar size={18} />
                 </div>
