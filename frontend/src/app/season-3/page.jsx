@@ -578,7 +578,7 @@ export default function Season3Page() {
           {/* Categorized Partners List with Premium Cards */}
           <div className="space-y-6 max-w-5xl mx-auto">
             {partnerGroups.map((group, gIdx) => (
-              <motion.div {...fadeInUp} key={gIdx} className="bg-brand-surface p-6 md:p-8 rounded-2xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all">
+              <motion.div key={gIdx} {...fadeInUp} className="bg-brand-surface p-6 md:p-8 rounded-2xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all">
                 <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-brand-primary" />
                   {group.category}
