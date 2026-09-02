@@ -149,45 +149,44 @@ const partnerGroups = [
   {
     category: "POWERED BY & SUPPORTED BY",
     partners: [
-      { name: "EpiLogic", logo: "/partner_logos/epilogic.png" },
-      { name: "Novonesis", logo: "/partner_logos/novonesis.png" }
+      { name: "EpiLogic", logo: "/all_brands_logos/All Brands logo-21.png" },
+      { name: "Novonesis", logo: "/all_brands_logos/All Brands logo-63.png" }
     ]
   },
   {
     category: "SPONSORS",
     partners: [
-      { name: "Momentive Performance Materials", logo: "/partner_logos/momentive.png" },
-      { name: "AquAgri Processing Pvt. Ltd.", logo: "/partner_logos/aquagri.png" },
-      { name: "Thakar Chemicals Ltd.", logo: "/partner_logos/thakar.png" }
+      { name: "Momentive Performance Materials", logo: "/all_brands_logos/All Brands logo-26.png" },
+      { name: "Thakar Chemicals Ltd.", logo: "/all_brands_logos/All Brands logo-16.png" },
+      { name: "AquAgri Processing Pvt. Ltd.", logo: "/all_brands_logos/All Brands logo-04.png" }
     ]
   },
   {
-    category: "KIT • MEMENTO • RESEARCH • PODCAST",
+    category: "KIT • MEMENTO • LANYARD",
     partners: [
-      { name: "Crop Care Federation of India (CCFI)", logo: "/partner_logos/ccfi.png" },
-      { name: "ACFI", logo: "/partner_logos/acfi.png" },
-      { name: "Market Insight Consultants", logo: "/partner_logos/market_insight.png" },
-      { name: "The Snail Show", logo: "/partner_logos/snail_show.png" }
+      { name: "CCFI", logo: "/all_brands_logos/All Brands logo-09.png" },
+      { name: "ACFI", logo: "/all_brands_logos/All Brands logo-02.png" },
+      { name: "CropLife India", logo: "/all_brands_logos/All Brands logo-08.png" }
     ]
   },
   {
     category: "INDUSTRY ASSOCIATION PARTNERS",
     partners: [
-      { name: "NBIF", logo: "/partner_logos/nbif.png" },
-      { name: "CropLife India", logo: "/partner_logos/croplife.png" },
-      { name: "BASAI", logo: "/partner_logos/basai.png" },
-      { name: "BIPA", logo: "/partner_logos/bipa.png" }
+      { name: "BASAI", logo: "/all_brands_logos/All Brands logo-05.png" },
+      { name: "BIPA", logo: "/all_brands_logos/All Brands logo-06.png" },
+      { name: "NBIF", logo: "/all_brands_logos/All Brands logo-28.png" }
     ]
   },
   {
-    category: "STRATEGIC • GLOBAL • MEDIA PARTNERS",
+    category: "RESEARCH • MEDIA • STRATEGIC • GLOBAL",
     partners: [
-      { name: "Ray Consulting", logo: "/partner_logos/ray.png" },
-      { name: "Agri Network Consultancy (ANC)", logo: "/partner_logos/anc.png" },
-      { name: "BioAgTech World Congress & Expo", logo: "/partner_logos/bioagtech.png" },
-      { name: "Global BioAg Alliance", logo: "/partner_logos/global_bioag.png" },
-      { name: "Pestology", logo: "/partner_logos/pestology.png" },
-      { name: "Fasal Kranti", logo: "/partner_logos/fasal_kranti.png" }
+      { name: "Market Insight Consultants", logo: "/all_brands_logos/All Brands logo-23.png" },
+      { name: "Fasal Kranti", logo: "/all_brands_logos/All Brands logo-11.png" },
+      { name: "Pestology", logo: "/all_brands_logos/All Brands logo-30.png" },
+      { name: "Ray Consulting", logo: "/all_brands_logos/All Brands logo-32.png" },
+      { name: "Agri Network Consultancy", logo: "/all_brands_logos/All Brands logo-03.png" },
+      { name: "BioAgTech World Congress & Expo", logo: "/all_brands_logos/All Brands logo-07.png" },
+      { name: "Global BioAg Alliance", logo: "/all_brands_logos/All Brands logo-12.png" }
     ]
   }
 ];
@@ -634,7 +633,7 @@ export default function Season3Page() {
             </div>
           </div>
 
-          {/* Categorized Partners List with Official Logo Cards */}
+          {/* Categorized Partners List with Premium Cards */}
           <div className="space-y-6 max-w-5xl mx-auto">
             {partnerGroups.map((group, gIdx) => (
               <motion.div key={gIdx} {...fadeInUp} className="bg-brand-surface p-6 md:p-8 rounded-2xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all">
@@ -642,21 +641,28 @@ export default function Season3Page() {
                   <span className="w-2 h-2 rounded-full bg-brand-primary" />
                   {group.category}
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {group.partners.map((partner, pIdx) => (
-                    <motion.div 
-                      key={pIdx}
-                      whileHover={{ y: -3, scale: 1.03 }}
-                      className="bg-white p-3 rounded-xl border border-brand-primary/10 flex items-center justify-center h-20 shadow-2xs hover:shadow-md hover:border-brand-primary/30 transition-all group"
-                      title={partner.name}
-                    >
-                      <img 
-                        src={partner.logo} 
-                        alt={partner.name} 
-                        className="max-h-14 max-w-full object-contain transition-all duration-300"
-                      />
-                    </motion.div>
-                  ))}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
+                  {group.partners.map((partner, pIdx) => {
+                    const pName = typeof partner === 'string' ? partner : partner.name;
+                    const pLogo = typeof partner === 'string' ? null : partner.logo;
+                    return (
+                      <div 
+                        key={pIdx}
+                        className="bg-white p-3.5 rounded-xl border border-brand-primary/10 shadow-2xs hover:border-brand-primary hover:shadow-md transition-all duration-200 flex flex-col items-center justify-center min-h-[96px] group text-center cursor-default"
+                      >
+                        {pLogo && (
+                          <img 
+                            src={pLogo} 
+                            alt={pName} 
+                            className="max-h-12 max-w-full object-contain mb-1.5 group-hover:scale-105 transition-transform duration-300" 
+                          />
+                        )}
+                        <span className="text-[11px] font-semibold text-brand-dark/85 group-hover:text-brand-primary transition-colors leading-tight">
+                          {pName}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
             ))}
