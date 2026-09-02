@@ -134,7 +134,11 @@ const partnerGroups = [
   },
   {
     category: "KIT • MEMENTO • LANYARD",
-    partners: ["CCFI", "ACFI", "CropLife India"]
+    partners: [
+      { name: "CCFI", logo: "/all_brands_logos/cccfi.png" },
+      { name: "ACFI", logo: "/all_brands_logos/acfi.png" },
+      "CropLife India"
+    ]
   },
   {
     category: "INDUSTRY ASSOCIATION PARTNERS",
