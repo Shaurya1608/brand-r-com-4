@@ -288,58 +288,60 @@ export default function Season3Page() {
             </p>
 
             {/* Event Metadata Cards Grid — 4 in One Line */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-6xl mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-4 w-full max-w-6xl mt-4 items-stretch">
               {/* Card 1: Event */}
-              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-4 md:p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-3.5 text-left">
-                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
+              <div className="bg-black/35 backdrop-blur-md rounded-2xl p-4 border border-white/15 shadow-lg hover:bg-black/55 hover:border-[#a3d95b]/50 transition-all duration-300 flex items-center gap-3.5 text-left h-full">
+                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b] shadow-inner">
                   <Star size={18} />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Event</div>
                   <div className="font-semibold text-xs text-white leading-snug">BRAND R.Comm Summit & Awards</div>
                 </div>
               </div>
               
               {/* Card 2: Venue */}
-              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-4 md:p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-3.5 text-left">
-                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
+              <div className="bg-black/35 backdrop-blur-md rounded-2xl p-4 border border-white/15 shadow-lg hover:bg-black/55 hover:border-[#a3d95b]/50 transition-all duration-300 flex items-center gap-3.5 text-left h-full">
+                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b] shadow-inner">
                   <MapPin size={18} />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
                   <div className="font-semibold text-xs text-white leading-snug">Holiday Inn, Aerocity, New Delhi</div>
                 </div>
               </div>
 
               {/* Card 3: Date */}
-              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-4 md:p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-3.5 text-left">
-                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
+              <div className="bg-black/35 backdrop-blur-md rounded-2xl p-4 border border-white/15 shadow-lg hover:bg-black/55 hover:border-[#a3d95b]/50 transition-all duration-300 flex items-center gap-3.5 text-left h-full">
+                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b] shadow-inner">
                   <Calendar size={18} />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Date</div>
                   <div className="font-semibold text-xs text-white leading-snug">5 December 2025</div>
                 </div>
               </div>
 
-              {/* Card 4: After Event Report Button */}
+              {/* Card 4: After Event Report Button (Seamless Premium Glass CTA) */}
               <a 
                 href="/After_Event_Report_Final.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 download="After_Event_Report_Final.pdf"
-                className="bg-[#a3d95b] hover:bg-[#8cc246] text-brand-dark rounded-2xl p-4 md:p-5 shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-between gap-3 text-left group cursor-pointer border border-[#a3d95b]/50 hover:scale-[1.02]"
+                className="bg-gradient-to-r from-[#a3d95b]/25 via-black/40 to-black/50 backdrop-blur-md rounded-2xl p-4 border border-[#a3d95b]/60 hover:border-[#a3d95b] shadow-xl hover:shadow-[0_0_25px_rgba(163,217,91,0.3)] hover:from-[#a3d95b]/35 transition-all duration-300 flex items-center justify-between gap-3 text-left group cursor-pointer h-full"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-brand-dark/10 border border-brand-dark/20 flex items-center justify-center shrink-0 text-brand-dark group-hover:scale-110 transition-transform">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-[#a3d95b] text-brand-dark flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
                     <FileText size={18} />
                   </div>
-                  <div>
-                    <div className="text-brand-dark/70 font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Report</div>
-                    <div className="font-bold text-xs text-brand-dark leading-snug uppercase tracking-tight">After Event Report</div>
+                  <div className="min-w-0">
+                    <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Report</div>
+                    <div className="font-bold text-xs text-white leading-snug">After Event Report</div>
                   </div>
                 </div>
-                <Download size={16} className="text-brand-dark shrink-0 opacity-80 group-hover:opacity-100 group-hover:translate-y-0.5 transition-all" />
+                <div className="w-8 h-8 rounded-lg bg-[#a3d95b]/20 border border-[#a3d95b]/30 flex items-center justify-center shrink-0 text-[#a3d95b] group-hover:bg-[#a3d95b] group-hover:text-brand-dark transition-all">
+                  <Download size={14} className="group-hover:translate-y-0.5 transition-transform" />
+                </div>
               </a>
             </div>
           </motion.div>
