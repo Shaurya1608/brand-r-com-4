@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, User, Calendar, MapPin, Star, Mic, Users, Award, Handshake, Phone, Mail, Globe } from "lucide-react";
+import { ArrowRight, User, Calendar, MapPin, Star, Mic, Users, Award, Handshake, Phone, Mail, Globe, X, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const speakers = [
@@ -112,7 +112,14 @@ const juryAwards = [
   { category: "LEADERSHIP", title: "Voice of the Year", winner: "Ankur Aggarwal — Crystal Crop Protection", desc: "An influential industry voice shaping national conversations on responsible crop care.", img: "IMG_7078.JPG" }
 ];
 
-const glimpseImages = ["1.JPG", "2.JPG", "3.JPG", "4.JPG"];
+const randomClicksImages = [
+  "IMG_5466.JPG", "IMG_5467.JPG", "IMG_5468.JPG", "IMG_5486.JPG", "IMG_5496.JPG", "IMG_5497.JPG",
+  "IMG_5499.JPG", "IMG_5510.JPG", "IMG_5511.JPG", "IMG_5512.JPG", "IMG_5532.JPG", "IMG_5558.JPG",
+  "IMG_5562.JPG", "IMG_5664.JPG", "IMG_5665.JPG", "IMG_5826.JPG", "IMG_5827.JPG", "IMG_5877.JPG",
+  "IMG_6007.JPG", "IMG_6032.JPG", "IMG_6208.JPG", "IMG_6212.JPG", "IMG_6216.JPG", "IMG_6217.JPG",
+  "IMG_6218.JPG", "IMG_6219.JPG", "IMG_6220.JPG", "IMG_6226.JPG", "IMG_6227.JPG", "IMG_6600.JPG",
+  "IMG_6601.JPG", "IMG_6609.JPG", "IMG_6623.JPG", "IMG_6625.JPG", "IMG_7163.JPG", "IMG_7164.JPG"
+].map(file => `/Random Clicks/${file}`);
 
 const clientLogos = Array.from({ length: 12 }, (_, i) => `/Client-Logo/c-logo-${i + 1}.jpg`);
 
@@ -229,6 +236,20 @@ const AnimatedCounter = ({ value }) => {
 };
 
 export default function Season3Page() {
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+
+  useEffect(() => {
+    if (isGalleryOpen || selectedImageIndex !== null) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isGalleryOpen, selectedImageIndex]);
+
   return (
     <main className="min-h-screen bg-brand-surface text-brand-dark font-sans selection:bg-brand-primary selection:text-white overflow-x-hidden">
       
@@ -555,20 +576,162 @@ export default function Season3Page() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {glimpseImages.map((img, i) => (
+          {/* 6-Card Preview Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {randomClicksImages.slice(0, 5).map((src, i) => (
               <motion.div 
                 key={i} 
                 {...fadeInUp} 
                 transition={{ delay: i * 0.1 }}
-                className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 hover:shadow-md transition-shadow duration-300"
+                onClick={() => setSelectedImageIndex(i)}
+                className="group relative h-[220px] md:h-[240px] overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 hover:shadow-lg transition-all duration-300 cursor-pointer"
               >
-                <img src={`/Glimpse/${img}`} alt={`Glimpse ${i+1}`} className="w-full h-48 object-cover hover:scale-105 transition-transform duration-500" />
+                <img src={src} alt={`Glimpse ${i+1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                  <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-brand-dark px-4 py-2 rounded-full text-xs font-bold transition-opacity duration-300 shadow-md">
+                    View Photo
+                  </span>
+                </div>
               </motion.div>
             ))}
+
+            {/* 6th Card: VIEW GALLERY Overlay */}
+            <motion.div
+              {...fadeInUp}
+              transition={{ delay: 0.5 }}
+              onClick={() => setIsGalleryOpen(true)}
+              className="group relative h-[220px] md:h-[240px] rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-brand-primary/10 hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+            >
+              <img 
+                src={randomClicksImages[5]} 
+                alt="View Full Gallery" 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" 
+              />
+              <div className="absolute inset-0 bg-white/40 group-hover:bg-white/20 transition-colors duration-300 backdrop-blur-[2px]" />
+              <div className="relative z-10 flex flex-col items-center justify-center">
+                <button 
+                  type="button"
+                  className="bg-brand-primary hover:bg-brand-dark text-white px-8 py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 shadow-lg flex items-center gap-2"
+                >
+                  <ImageIcon className="w-4 h-4" />
+                  <span>VIEW GALLERY</span>
+                </button>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
+
+      {/* Gallery Grid Modal */}
+      <AnimatePresence>
+        {isGalleryOpen && (
+          <div className="fixed inset-0 z-[100] flex flex-col bg-white">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-white"
+            />
+            
+            {/* Modal Header */}
+            <div className="relative z-10 flex items-center justify-between px-6 md:px-10 py-5 border-b border-gray-100 bg-white/95 backdrop-blur-md sticky top-0 shadow-xs">
+              <div>
+                <h3 className="font-serif text-2xl md:text-3xl text-brand-dark font-bold">Event Floor Gallery</h3>
+                <p className="text-xs text-brand-primary font-mono font-bold mt-1 uppercase tracking-widest">{randomClicksImages.length} Event Photos</p>
+              </div>
+              <button 
+                onClick={() => setIsGalleryOpen(false)}
+                className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors text-gray-700 cursor-pointer"
+                aria-label="Close modal"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Modal Body - 36 Photos Grid */}
+            <div className="relative z-10 flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50/50">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto pb-12">
+                {randomClicksImages.map((src, index) => (
+                  <motion.div 
+                    key={index} 
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true, margin: "50px" }}
+                    transition={{ duration: 0.3, delay: (index % 6) * 0.05 }}
+                    onClick={() => setSelectedImageIndex(index)}
+                    className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 group cursor-pointer bg-gray-200 border border-black/5"
+                  >
+                    <img 
+                      src={src} 
+                      alt={`Gallery Photo ${index + 1}`} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-brand-dark px-3 py-1.5 rounded-full text-xs font-bold shadow-md transition-opacity duration-300">
+                        Enlarge
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Lightbox Modal for Single Fullscreen Image View */}
+      <AnimatePresence>
+        {selectedImageIndex !== null && (
+          <div className="fixed inset-0 z-[110] bg-black/95 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center"
+            >
+              {/* Close Button */}
+              <button 
+                onClick={() => setSelectedImageIndex(null)}
+                className="absolute top-4 right-4 z-20 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white backdrop-blur-md transition-colors cursor-pointer"
+                aria-label="Close image"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              {/* Prev Button */}
+              <button 
+                onClick={() => setSelectedImageIndex((prev) => (prev === 0 ? randomClicksImages.length - 1 : prev - 1))}
+                className="absolute left-4 z-20 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white backdrop-blur-md transition-colors cursor-pointer"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+
+              {/* Image */}
+              <img 
+                src={randomClicksImages[selectedImageIndex]} 
+                alt={`Full view ${selectedImageIndex + 1}`} 
+                className="max-h-[85vh] max-w-full object-contain rounded-xl shadow-2xl"
+              />
+
+              {/* Next Button */}
+              <button 
+                onClick={() => setSelectedImageIndex((prev) => (prev === randomClicksImages.length - 1 ? 0 : prev + 1))}
+                className="absolute right-4 z-20 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white backdrop-blur-md transition-colors cursor-pointer"
+                aria-label="Next image"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+
+              {/* Image Counter */}
+              <div className="absolute bottom-4 bg-black/60 px-4 py-1.5 rounded-full text-white/90 font-mono text-xs font-bold tracking-widest backdrop-blur-md">
+                {selectedImageIndex + 1} / {randomClicksImages.length}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Gratitude & Partners Section */}
       <section id="partners" className="py-24 bg-white text-brand-dark border-t border-brand-primary/10">
