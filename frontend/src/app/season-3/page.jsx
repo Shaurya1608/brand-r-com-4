@@ -116,6 +116,35 @@ const glimpseImages = ["1.JPG", "2.JPG", "3.JPG", "4.JPG"];
 
 const clientLogos = Array.from({ length: 12 }, (_, i) => `/Client-Logo/c-logo-${i + 1}.jpg`);
 
+const allBrandLogos = [
+  "All Brands logo-01.png", "All Brands logo-02.png", "All Brands logo-03.png", "All Brands logo-04.png",
+  "All Brands logo-05.png", "All Brands logo-06.png", "All Brands logo-07.png", "All Brands logo-08.png",
+  "All Brands logo-09.png", "All Brands logo-10.png", "All Brands logo-11.png", "All Brands logo-12.png",
+  "All Brands logo-13.png", "All Brands logo-14.png", "All Brands logo-15.png", "All Brands logo-16.png",
+  "All Brands logo-17.png", "All Brands logo-18.png", "All Brands logo-19.png", "All Brands logo-20.png",
+  "All Brands logo-21.png", "All Brands logo-22.png", "All Brands logo-23.png", "All Brands logo-24.png",
+  "All Brands logo-25.png", "All Brands logo-26.png", "All Brands logo-27.png", "All Brands logo-28.png",
+  "All Brands logo-29.png", "All Brands logo-30.png", "All Brands logo-31.png", "All Brands logo-32.png",
+  "All Brands logo-33.png", "All Brands logo-34.png", "All Brands logo-35.png", "All Brands logo-36.png",
+  "All Brands logo-37.png", "All Brands logo-38.png", "All Brands logo-39.png", "All Brands logo-40.png",
+  "All Brands logo-41.png", "All Brands logo-42.png", "All Brands logo-43.png", "All Brands logo-44.png",
+  "All Brands logo-45.png", "All Brands logo-46.png", "All Brands logo-47.png", "All Brands logo-48.png",
+  "All Brands logo-49.png", "All Brands logo-50.png", "All Brands logo-51.png", "All Brands logo-52.png",
+  "All Brands logo-53.png", "All Brands logo-54.png", "All Brands logo-55.png", "All Brands logo-56.png",
+  "All Brands logo-57.png", "All Brands logo-58.png", "All Brands logo-59.png", "All Brands logo-60.png",
+  "All Brands logo-61.png", "All Brands logo-62.png", "All Brands logo-63.png", "All Brands logo-64.png",
+  "All Brands logo-65.png", "All Brands logo-66_new.png", "All Brands logo-67.png", "All Brands logo-68.png",
+  "All Brands logo-69.png", "All Brands logo-70.png", "All Brands logo-71.png", "All Brands logo-72.png",
+  "All Brands logo-73.png", "All Brands logo-74.png", "All Brands logo-75.png", "All Brands logo-76.png",
+  "All Brands logo-77.png", "All Brands logo-78.png", "All Brands logo-79.png", "All Brands logo-80.png",
+  "All Brands logo-81.png", "All Brands logo-82.png", "All Brands logo-83.png", "All Brands logo-84.png",
+  "All Brands logo-85.png", "All Brands logo-86.png", "All Brands logo-87.png", "All Brands logo-88.png",
+  "All Brands logo-89.png", "All Brands logo-90.png", "All Brands logo-91.png", "All Brands logo-92.png",
+  "All Brands logo-93.png", "All Brands logo-94.png", "All Brands logo-95.png", "All Brands logo-96.png",
+  "All Brands logo-97.png", "All Brands logo-99.png", "All Brands logo-100.png", "All Brands logo-101.png",
+  "All Brands logo-102.png", "All Brands logo-103.png"
+];
+
 const partnerGroups = [
   {
     category: "POWERED BY & SUPPORTED BY",
@@ -568,21 +597,21 @@ export default function Season3Page() {
             </p>
           </motion.div>
 
-          {/* Client Logos Grid */}
+          {/* Client & Ecosystem Brand Logos Grid */}
           <div className="mb-16">
-            <h3 className="text-xs font-mono font-bold text-brand-primary/70 uppercase tracking-widest mb-6 text-center">Featured Ecosystem Partners</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-              {clientLogos.map((logo, index) => (
+            <h3 className="text-xs font-mono font-bold text-brand-primary/70 uppercase tracking-widest mb-6 text-center">Ecosystem & Industry Brand Partners</h3>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4 max-w-6xl mx-auto">
+              {allBrandLogos.map((logo, index) => (
                 <motion.div 
                   key={index}
-                  whileHover={{ y: -4, scale: 1.02 }}
+                  whileHover={{ y: -3, scale: 1.05 }}
                   transition={{ duration: 0.2 }}
-                  className="bg-brand-surface p-4 rounded-xl border border-brand-primary/10 flex items-center justify-center h-24 shadow-xs hover:shadow-md hover:border-brand-primary/30 transition-all group"
+                  className="bg-brand-surface p-3 rounded-xl border border-brand-primary/10 flex items-center justify-center h-20 shadow-2xs hover:shadow-md hover:border-brand-primary/30 transition-all group"
                 >
                   <img 
-                    src={logo} 
-                    alt={`Partner Logo ${index + 1}`} 
-                    className="max-h-16 max-w-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100" 
+                    src={`/all_brands_logos/${logo}`} 
+                    alt={`Brand Partner ${index + 1}`} 
+                    className="max-h-12 max-w-full object-contain transition-all duration-300 opacity-90 group-hover:opacity-100" 
                   />
                 </motion.div>
               ))}
