@@ -600,20 +600,22 @@ export default function Season3Page() {
               {...fadeInUp}
               transition={{ delay: 0.5 }}
               onClick={() => setIsGalleryOpen(true)}
-              className="group relative h-[220px] md:h-[240px] rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-brand-primary/10 hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+              className="group relative h-[220px] md:h-[240px] rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-brand-primary/10 hover:shadow-lg transition-all duration-300 w-full"
             >
-              <img 
-                src={randomClicksImages[5]} 
-                alt="View Full Gallery" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" 
-              />
+              <div className="absolute inset-0">
+                <img 
+                  src={randomClicksImages[5]} 
+                  alt="View Full Gallery" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
+              </div>
               <div className="absolute inset-0 bg-white/40 group-hover:bg-white/20 transition-colors duration-300 backdrop-blur-[2px]" />
-              <div className="relative z-10 flex flex-col items-center justify-center">
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4">
                 <button 
                   type="button"
-                  className="bg-brand-primary hover:bg-brand-dark text-white px-8 py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 shadow-lg flex items-center gap-2"
+                  className="bg-[#5b8a41] hover:bg-[#4d7836] text-white px-7 py-3 rounded-lg font-bold text-sm tracking-wide transition-all duration-300 shadow-md flex items-center gap-2 cursor-pointer whitespace-nowrap"
                 >
-                  <ImageIcon className="w-4 h-4" />
+                  <ImageIcon className="w-4 h-4 flex-shrink-0" />
                   <span>VIEW GALLERY</span>
                 </button>
               </div>
