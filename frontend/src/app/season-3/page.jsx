@@ -126,7 +126,11 @@ const partnerGroups = [
   },
   {
     category: "SPONSORS",
-    partners: ["Momentive Performance Materials", "Thakar Chemicals Ltd.", "AquAgri Processing Pvt. Ltd."]
+    partners: [
+      { name: "Momentive Performance Materials", logo: "/all_brands_logos/All Brands logo-04.png" },
+      { name: "Thakar Chemicals Ltd.", logo: "/all_brands_logos/All Brands logo-75.png" },
+      { name: "AquAgri Processing Pvt. Ltd.", logo: "/all_brands_logos/All Brands logo-80.png" }
+    ]
   },
   {
     category: "KIT • MEMENTO • LANYARD",
