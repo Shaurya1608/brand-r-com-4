@@ -151,12 +151,12 @@ const partnerGroups = [
   {
     category: "RESEARCH • MEDIA • STRATEGIC • GLOBAL",
     partners: [
-      "Market Insight Consultants",
-      "Fasal Kranti",
-      "Pestology",
-      "Ray Consulting",
+      { name: "Market Insight Consultants", logo: "/all_brands_logos/market-insight.png" },
+      { name: "Fasal Kranti", logo: "/all_brands_logos/fasalkranti.png" },
+      { name: "Pestology", logo: "/all_brands_logos/pestology.png" },
+      { name: "Ray Consulting", logo: "/all_brands_logos/ray-consult.png" },
       "Agri Network Consultancy",
-      "BioAgTech World Congress & Expo",
+      { name: "BioAgTech World Congress & Expo", logo: "/all_brands_logos/bio-agri-con.png" },
       "Global BioAg Alliance"
     ]
   }
