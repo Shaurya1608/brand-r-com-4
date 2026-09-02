@@ -591,7 +591,7 @@ export default function Season3Page() {
                   <span className="w-2 h-2 rounded-full bg-brand-primary" />
                   {group.category}
                 </div>
-                <div className="flex flex-wrap gap-4 items-center justify-center">
+                <div className="flex flex-wrap gap-4 md:gap-5 items-stretch justify-center">
                   {group.partners.map((partner, pIdx) => {
                     const partnerName = typeof partner === 'string' ? partner : partner.name;
                     const partnerLogo = typeof partner === 'object' ? partner.logo : null;
@@ -599,16 +599,16 @@ export default function Season3Page() {
                     return (
                       <span 
                         key={pIdx}
-                        className="px-5 py-3 md:px-6 md:py-3.5 bg-white rounded-2xl text-xs md:text-base font-semibold text-brand-dark border border-brand-primary/10 shadow-xs hover:shadow-md hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default flex items-center gap-3 md:gap-4"
+                        className="px-6 py-4 bg-white rounded-2xl text-xs md:text-sm font-semibold text-brand-dark border border-brand-primary/10 shadow-xs hover:shadow-md hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default flex flex-col items-center justify-center text-center gap-2.5 min-w-[150px] md:min-w-[180px] max-w-[240px]"
                       >
                         {partnerLogo && (
                           <img 
                             src={partnerLogo} 
                             alt={partnerName} 
-                            className="h-9 md:h-12 w-auto max-w-[160px] md:max-w-[200px] object-contain" 
+                            className="h-10 md:h-14 w-auto max-w-[160px] md:max-w-[200px] object-contain mb-1" 
                           />
                         )}
-                        <span>{partnerName}</span>
+                        <span className="leading-snug">{partnerName}</span>
                       </span>
                     );
                   })}
