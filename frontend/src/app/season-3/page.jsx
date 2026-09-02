@@ -758,27 +758,27 @@ export default function Season3Page() {
       </AnimatePresence>
 
       {/* Gratitude & Partners Section */}
-      <section id="partners" className="py-24 bg-white text-brand-dark border-t border-brand-primary/10">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div {...fadeInUp} className="mb-16 text-center max-w-3xl mx-auto">
-            <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">GRATITUDE</div>
-            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-4 text-brand-dark">
+      <section id="partners" className="py-12 md:py-16 bg-white text-brand-dark border-t border-brand-primary/10">
+        <div className="max-w-5xl mx-auto px-6">
+          <motion.div {...fadeInUp} className="mb-6 md:mb-8 text-center max-w-2xl mx-auto">
+            <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-1.5">GRATITUDE</div>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-2 text-brand-dark">
               Backed by the industry, <span className="text-brand-primary italic font-normal">for the industry</span>
             </h2>
-            <p className="text-lg text-brand-dark/70 leading-relaxed">
+            <p className="text-sm md:text-base text-brand-dark/70 leading-relaxed">
               BRAND R.Comm 2025 was made possible by 18+ sponsors and partners across research, media and policy.
             </p>
           </motion.div>
 
-          {/* Categorized Partners List with Premium Cards */}
-          <div className="space-y-6 max-w-5xl mx-auto">
+          {/* Categorized Partners List with Compact Premium Cards */}
+          <div className="space-y-4 md:space-y-5 max-w-5xl mx-auto">
             {partnerGroups.map((group, gIdx) => (
-              <motion.div key={gIdx} {...fadeInUp} className="bg-brand-surface p-6 md:p-10 rounded-3xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all text-center">
-                <div className="text-brand-primary font-mono text-xs md:text-sm font-bold uppercase tracking-widest mb-6 flex items-center justify-center gap-2">
+              <motion.div key={gIdx} {...fadeInUp} className="bg-brand-surface p-5 md:p-6 rounded-2xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all text-center">
+                <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-4 flex items-center justify-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-brand-primary" />
                   {group.category}
                 </div>
-                <div className="flex flex-wrap gap-4 md:gap-5 items-stretch justify-center">
+                <div className="flex flex-wrap gap-3 md:gap-4 items-stretch justify-center">
                   {group.partners.map((partner, pIdx) => {
                     const partnerName = typeof partner === 'string' ? partner : partner.name;
                     const partnerLogo = typeof partner === 'object' ? partner.logo : null;
@@ -786,16 +786,16 @@ export default function Season3Page() {
                     return (
                       <span 
                         key={pIdx}
-                        className="px-6 py-4 bg-white rounded-2xl text-xs md:text-sm font-semibold text-brand-dark border border-brand-primary/10 shadow-xs hover:shadow-md hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default flex flex-col items-center justify-center text-center gap-2.5 min-w-[150px] md:min-w-[180px] max-w-[240px]"
+                        className="px-4 py-3 md:px-5 md:py-3.5 bg-white rounded-xl text-xs md:text-xs font-semibold text-brand-dark border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default flex flex-col items-center justify-center text-center gap-2 min-w-[130px] md:min-w-[150px] max-w-[220px]"
                       >
                         {partnerLogo && (
                           <img 
                             src={partnerLogo} 
                             alt={partnerName} 
-                            className="h-10 md:h-14 w-auto max-w-[160px] md:max-w-[200px] object-contain mb-1" 
+                            className="h-8 md:h-10 w-auto max-w-[140px] md:max-w-[160px] object-contain mb-0.5" 
                           />
                         )}
-                        <span className="leading-snug">{partnerName}</span>
+                        <span className="leading-tight">{partnerName}</span>
                       </span>
                     );
                   })}
