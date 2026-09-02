@@ -142,7 +142,11 @@ const partnerGroups = [
   },
   {
     category: "INDUSTRY ASSOCIATION PARTNERS",
-    partners: ["BASAI", "BIPA", "NBIF"]
+    partners: [
+      { name: "BASAI", logo: "/all_brands_logos/basai.png" },
+      { name: "BIPA", logo: "/all_brands_logos/bipa.png" },
+      { name: "NBIF", logo: "/all_brands_logos/nbif.png" }
+    ]
   },
   {
     category: "RESEARCH • MEDIA • STRATEGIC • GLOBAL",
