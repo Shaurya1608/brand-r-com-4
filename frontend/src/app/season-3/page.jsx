@@ -502,26 +502,26 @@ export default function Season3Page() {
       </section>
 
       {/* Awards Section */}
-      <section id="awards" className="py-24 bg-white text-brand-dark">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div {...fadeInUp} className="mb-16">
-            <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">Gala Awards Night</div>
-            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 text-brand-dark">Recognising the builders of trust</h2>
-            <p className="text-lg text-brand-dark/70 max-w-2xl leading-relaxed">
+      <section id="awards" className="py-12 md:py-16 bg-white text-brand-dark">
+        <div className="max-w-6xl mx-auto px-6">
+          <motion.div {...fadeInUp} className="mb-6 md:mb-8">
+            <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-1.5">Gala Awards Night</div>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-3 text-brand-dark">Recognising the builders of trust</h2>
+            <p className="text-sm md:text-base text-brand-dark/70 max-w-2xl leading-relaxed">
               After a live performance by poet Dr. Varsha Singh, the evening honoured 20 companies and individuals across two categories — nomination-based and jury-based — for closing the gap between innovation and adoption.
             </p>
           </motion.div>
 
           {/* Lifetime Achievement */}
-          <motion.div {...fadeInUp} className="bg-brand-surface rounded-3xl overflow-hidden border border-brand-primary/10 mb-20">
+          <motion.div {...fadeInUp} className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 mb-10 shadow-xs">
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="h-64 md:h-auto">
+              <div className="h-52 md:h-auto overflow-hidden">
                 <img src="/Awards/IMG_6890.JPG" alt="Lifetime Achievement" className="w-full h-full object-cover" onError={(e) => {e.target.style.display='none'; e.target.parentElement.classList.add('bg-brand-primary/10')}} />
               </div>
-              <div className="p-8 md:p-12 flex flex-col justify-center">
-                <div className="text-brand-primary font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest mb-4">Highest Honour • Lifetime Achievement</div>
-                <h3 className="text-2xl md:text-3xl font-serif font-bold text-brand-dark mb-2">Dr. R. G. Agarwal</h3>
-                <div className="text-xs md:text-sm font-sans font-medium text-brand-primary/80 mb-6">Chairman Emeritus, Dhanuka Agritech Ltd.</div>
+              <div className="p-6 md:p-8 flex flex-col justify-center">
+                <div className="text-brand-primary font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">Highest Honour • Lifetime Achievement</div>
+                <h3 className="text-xl md:text-2xl font-serif font-bold text-brand-dark mb-1">Dr. R. G. Agarwal</h3>
+                <div className="text-xs md:text-sm font-sans font-medium text-brand-primary/80 mb-4">Chairman Emeritus, Dhanuka Agritech Ltd.</div>
                 <p className="text-brand-dark/70 leading-relaxed text-xs md:text-sm">
                   Honoured for decades of contribution to India's agri-industry and an unwavering commitment to farmer empowerment. Unable to attend in person due to a family emergency, Dr. Agarwal shared his message and blessings through a video address that moved the room.
                 </p>
@@ -530,12 +530,12 @@ export default function Season3Page() {
           </motion.div>
 
           {/* Nomination Awards Grid */}
-          <div className="flex items-center justify-between border-b border-brand-primary/10 pb-4 mb-8">
-            <h3 className="text-xl md:text-2xl font-serif font-bold text-brand-dark">Nomination-Based Awards</h3>
-            <span className="text-brand-primary font-mono text-[10px] md:text-xs uppercase tracking-widest">11 Winners</span>
+          <div className="flex items-center justify-between border-b border-brand-primary/10 pb-3 mb-6">
+            <h3 className="text-lg md:text-xl font-serif font-bold text-brand-dark">Nomination-Based Awards</h3>
+            <span className="text-brand-primary font-mono text-[10px] md:text-xs uppercase tracking-widest font-bold">11 Winners</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {awards.map((award, i) => (
               <motion.div 
                 key={i} 
@@ -543,13 +543,13 @@ export default function Season3Page() {
                 transition={{ delay: (i % 3) * 0.1 }}
                 className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 group hover:border-brand-primary/50 transition-colors duration-300"
               >
-                <div className="h-48 overflow-hidden bg-white">
+                <div className="h-36 md:h-40 overflow-hidden bg-white">
                   <img src={`/brand_rcomm_award_images_named/${award.title}.jpg`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.src = `/Awards/${award.img}`; }} />
                 </div>
-                <div className="p-5 md:p-6">
-                  <div className="text-brand-primary font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-1.5">{award.category}</div>
-                  <h4 className="text-lg font-serif font-bold text-brand-dark mb-1 leading-snug">{award.title}</h4>
-                  <div className="text-xs font-sans font-medium text-brand-primary/80 mb-3">{award.winner}</div>
+                <div className="p-4 md:p-5">
+                  <div className="text-brand-primary font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-1">{award.category}</div>
+                  <h4 className="text-base font-serif font-bold text-brand-dark mb-1 leading-snug">{award.title}</h4>
+                  <div className="text-xs font-sans font-medium text-brand-primary/80 mb-2">{award.winner}</div>
                   <p className="text-brand-dark/60 text-[11px] leading-relaxed">{award.desc}</p>
                 </div>
               </motion.div>
@@ -557,12 +557,12 @@ export default function Season3Page() {
           </div>
 
           {/* Jury-Based Awards Grid */}
-          <div className="flex items-center justify-between border-b border-brand-primary/10 pb-4 mb-8 mt-20">
-            <h3 className="text-xl md:text-2xl font-serif font-bold text-brand-dark">Jury-Based Awards</h3>
-            <span className="text-brand-primary font-mono text-[10px] md:text-xs uppercase tracking-widest">9 Winners</span>
+          <div className="flex items-center justify-between border-b border-brand-primary/10 pb-3 mb-6 mt-10 md:mt-12">
+            <h3 className="text-lg md:text-xl font-serif font-bold text-brand-dark">Jury-Based Awards</h3>
+            <span className="text-brand-primary font-mono text-[10px] md:text-xs uppercase tracking-widest font-bold">9 Winners</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {juryAwards.map((award, i) => (
               <motion.div 
                 key={i} 
@@ -570,13 +570,13 @@ export default function Season3Page() {
                 transition={{ delay: (i % 3) * 0.1 }}
                 className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 group hover:border-brand-primary/50 transition-colors duration-300"
               >
-                <div className="h-48 overflow-hidden bg-white">
+                <div className="h-36 md:h-40 overflow-hidden bg-white">
                   <img src={`/brand_rcomm_award_images_named/${award.title}.jpg`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.src = `/Awards/${award.img}`; }} />
                 </div>
-                <div className="p-5 md:p-6">
-                  <div className="text-brand-primary font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-1.5">{award.category}</div>
-                  <h4 className="text-lg font-serif font-bold text-brand-dark mb-1 leading-snug">{award.title}</h4>
-                  <div className="text-xs font-sans font-medium text-brand-primary/80 mb-3">{award.winner}</div>
+                <div className="p-4 md:p-5">
+                  <div className="text-brand-primary font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-1">{award.category}</div>
+                  <h4 className="text-base font-serif font-bold text-brand-dark mb-1 leading-snug">{award.title}</h4>
+                  <div className="text-xs font-sans font-medium text-brand-primary/80 mb-2">{award.winner}</div>
                   <p className="text-brand-dark/60 text-[11px] leading-relaxed">{award.desc}</p>
                 </div>
               </motion.div>
