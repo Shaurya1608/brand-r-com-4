@@ -284,31 +284,6 @@ export default function Season3Page() {
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="relative z-20 bg-brand-primary py-6 border-y border-brand-primary/20 shadow-lg">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 divide-x divide-white/20"
-          >
-            {stats.map((stat, i) => {
-              const Icon = stat.icon;
-              return (
-                <div key={i} className="px-4 flex flex-col items-center text-center">
-                  <Icon className="text-white/80 w-5 h-5 mb-2" />
-                  <div className="text-3xl md:text-4xl font-sans font-bold text-white mb-1">
-                    <AnimatedCounter value={stat.value} />
-                  </div>
-                  <div className="text-[10px] md:text-[11px] font-mono font-bold text-white uppercase tracking-widest">{stat.label}</div>
-                </div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-
       {/* Theme Section (Brand Surface Background to alternate) */}
       <section className="py-24 bg-brand-surface">
         <div className="max-w-7xl mx-auto px-6">
@@ -359,6 +334,31 @@ export default function Season3Page() {
               </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="relative z-20 bg-brand-primary py-6 border-y border-brand-primary/20 shadow-lg">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 divide-x divide-white/20"
+          >
+            {stats.map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <div key={i} className="px-4 flex flex-col items-center text-center">
+                  <Icon className="text-white/80 w-5 h-5 mb-2" />
+                  <div className="text-3xl md:text-4xl font-sans font-bold text-white mb-1">
+                    <AnimatedCounter value={stat.value} />
+                  </div>
+                  <div className="text-[10px] md:text-[11px] font-mono font-bold text-white uppercase tracking-widest">{stat.label}</div>
+                </div>
+              );
+            })}
+          </motion.div>
         </div>
       </section>
 
