@@ -287,26 +287,11 @@ export default function Season3Page() {
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
-            {/* After Event Report Download CTA Button */}
-            <div className="mb-10 flex flex-wrap justify-center gap-4">
-              <a 
-                href="/After_Event_Report_Final.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                download="After_Event_Report_Final.pdf"
-                className="bg-[#a3d95b] hover:bg-[#8cc246] text-brand-dark px-7 py-3.5 rounded-xl font-bold text-sm md:text-base tracking-wide transition-all duration-300 shadow-xl flex items-center gap-2.5 group cursor-pointer border border-[#a3d95b]/30 hover:scale-105"
-              >
-                <FileText className="w-5 h-5 text-brand-dark group-hover:scale-110 transition-transform" />
-                <span>AFTER EVENT REPORT</span>
-                <Download className="w-4 h-4 text-brand-dark opacity-80 group-hover:opacity-100 group-hover:translate-y-0.5 transition-all" />
-              </a>
-            </div>
-
-            {/* Event Metadata Cards Grid (Transparent Glassmorphism) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+            {/* Event Metadata Cards Grid — 4 in One Line */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-6xl mt-4">
               {/* Card 1: Event */}
-              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
-                <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
+              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-4 md:p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-3.5 text-left">
+                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <Star size={18} />
                 </div>
                 <div>
@@ -316,8 +301,8 @@ export default function Season3Page() {
               </div>
               
               {/* Card 2: Venue */}
-              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
-                <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
+              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-4 md:p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-3.5 text-left">
+                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <MapPin size={18} />
                 </div>
                 <div>
@@ -327,8 +312,8 @@ export default function Season3Page() {
               </div>
 
               {/* Card 3: Date */}
-              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-4 text-left">
-                <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
+              <div className="bg-black/25 backdrop-blur-md rounded-2xl p-4 md:p-5 border border-white/15 shadow-lg hover:bg-black/40 hover:border-[#a3d95b]/50 transition-all flex items-center gap-3.5 text-left">
+                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <Calendar size={18} />
                 </div>
                 <div>
@@ -336,6 +321,26 @@ export default function Season3Page() {
                   <div className="font-semibold text-xs text-white leading-snug">5 December 2025</div>
                 </div>
               </div>
+
+              {/* Card 4: After Event Report Button */}
+              <a 
+                href="/After_Event_Report_Final.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download="After_Event_Report_Final.pdf"
+                className="bg-[#a3d95b] hover:bg-[#8cc246] text-brand-dark rounded-2xl p-4 md:p-5 shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-between gap-3 text-left group cursor-pointer border border-[#a3d95b]/50 hover:scale-[1.02]"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-brand-dark/10 border border-brand-dark/20 flex items-center justify-center shrink-0 text-brand-dark group-hover:scale-110 transition-transform">
+                    <FileText size={18} />
+                  </div>
+                  <div>
+                    <div className="text-brand-dark/70 font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Report</div>
+                    <div className="font-bold text-xs text-brand-dark leading-snug uppercase tracking-tight">After Event Report</div>
+                  </div>
+                </div>
+                <Download size={16} className="text-brand-dark shrink-0 opacity-80 group-hover:opacity-100 group-hover:translate-y-0.5 transition-all" />
+              </a>
             </div>
           </motion.div>
         </div>
