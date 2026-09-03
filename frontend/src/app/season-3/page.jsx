@@ -792,7 +792,7 @@ export default function Season3Page() {
                           <img 
                             src={partnerLogo} 
                             alt={partnerName} 
-                            className="h-10 md:h-12 w-auto max-w-[140px] md:max-w-[160px] object-contain" 
+                            className="h-14 md:h-16 lg:h-18 w-auto max-w-[160px] md:max-w-[200px] object-contain" 
                           />
                         ) : (
                           <span className="leading-tight font-semibold text-xs md:text-sm px-2 py-1">{partnerName}</span>
