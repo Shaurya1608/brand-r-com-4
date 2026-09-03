@@ -786,16 +786,17 @@ export default function Season3Page() {
                     return (
                       <span 
                         key={pIdx}
-                        className="px-4 py-3 md:px-5 md:py-3.5 bg-white rounded-xl text-xs md:text-xs font-semibold text-brand-dark border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default flex flex-col items-center justify-center text-center gap-2 min-w-[130px] md:min-w-[150px] max-w-[220px]"
+                        className="px-4 py-3 md:px-5 md:py-4 bg-white rounded-xl text-xs md:text-xs font-semibold text-brand-dark border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default flex flex-col items-center justify-center text-center gap-1.5 min-w-[130px] md:min-w-[150px] max-w-[220px]"
                       >
-                        {partnerLogo && (
+                        {partnerLogo ? (
                           <img 
                             src={partnerLogo} 
                             alt={partnerName} 
-                            className="h-8 md:h-10 w-auto max-w-[140px] md:max-w-[160px] object-contain mb-0.5" 
+                            className="h-10 md:h-12 w-auto max-w-[140px] md:max-w-[160px] object-contain" 
                           />
+                        ) : (
+                          <span className="leading-tight font-semibold text-xs md:text-sm px-2 py-1">{partnerName}</span>
                         )}
-                        <span className="leading-tight">{partnerName}</span>
                       </span>
                     );
                   })}
