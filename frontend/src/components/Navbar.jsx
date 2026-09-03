@@ -82,7 +82,7 @@ export default function Navbar() {
           
           <div className="flex-shrink-0 group cursor-pointer">
             <Link href="/" className="flex items-center">
-              <img src="/logo/s3/Brand R.Comm 3 final logo-01.png" alt="Brand R.Comm Logo" className="h-10 md:h-12 lg:h-14 -my-2 md:-my-3 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+              <img src="/logo/s3/brand-r-comm-3-logo-01.png" onError={(e) => { e.target.src = '/logo/brand-r-comm-logo.png'; }} alt="Brand R.Comm Logo" className="h-10 md:h-12 lg:h-14 -my-2 md:-my-3 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             </Link>
           </div>
 
