@@ -144,7 +144,7 @@ const partnerGroups = [
     partners: [
       { name: "CCFI", logo: "/all_brands_logos/cccfi.png" },
       { name: "ACFI", logo: "/all_brands_logos/acfi.png" },
-      "CropLife India"
+      { name: "CropLife India", logo: "/all_brands_logos/crop-life.png" }
     ]
   },
   {
@@ -162,9 +162,9 @@ const partnerGroups = [
       { name: "Fasal Kranti", logo: "/all_brands_logos/fasalkranti.png" },
       { name: "Pestology", logo: "/all_brands_logos/pestology.png" },
       { name: "Ray Consulting", logo: "/all_brands_logos/ray-consult.png" },
-      "Agri Network Consultancy",
+      { name: "Agri Network Consultancy", logo: "/all_brands_logos/ancc.png" },
       { name: "BioAgTech World Congress & Expo", logo: "/all_brands_logos/bio-agri-con.png" },
-      "Global BioAg Alliance"
+      { name: "Global BioAg Alliance", logo: "/all_brands_logos/bioagritech.png" }
     ]
   }
 ];
