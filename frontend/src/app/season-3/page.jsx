@@ -471,7 +471,7 @@ export default function Season3Page() {
               Voices from the stage
             </div>
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-3 text-brand-dark">
-              32 leaders who shaped the conversation
+              32+ leaders who shaped the conversation
             </h2>
             <p className="text-base text-brand-dark/75 leading-relaxed">
               Scientists, CEOs and policy leaders who spoke across the day's five sessions.
