@@ -324,17 +324,17 @@ export default function MediaKit() {
 
           <motion.div 
             {...fadeInUp}
-            className="max-w-sm mx-auto bg-white rounded-3xl p-5 border border-brand-primary/10 shadow-sm hover:shadow-xl hover:border-brand-primary/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between items-center group relative overflow-hidden"
+            className="max-w-md mx-auto bg-white rounded-3xl p-5 border border-brand-primary/10 shadow-sm hover:shadow-xl hover:border-brand-primary/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between items-center group relative overflow-hidden"
           >
             {/* Clickable Image Preview with Dot Grid Background */}
             <a 
-              href="/landing/social_template.png" 
+              href="/NewDelegate Templates.png" 
               download="Brand_R_Comm_2026_Social_Template.png" 
-              className="h-56 w-full flex items-center justify-center bg-[radial-gradient(#e2ecdb_1.2px,transparent_1.2px)] [background-size:12px_12px] bg-brand-surface/20 rounded-2xl p-3 mb-4 relative overflow-hidden cursor-pointer hover:bg-brand-surface/40 transition-colors"
+              className="h-64 sm:h-72 w-full flex items-center justify-center bg-[radial-gradient(#e2ecdb_1.2px,transparent_1.2px)] [background-size:12px_12px] bg-brand-surface/20 rounded-2xl p-3 mb-4 relative overflow-hidden cursor-pointer hover:bg-brand-surface/40 transition-colors"
               title="Download Social Template"
             >
               <img 
-                src="/landing/social_template.png" 
+                src="/NewDelegate Templates.png" 
                 alt="Brand R.Comm Social Template" 
                 className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105 select-none rounded-lg shadow-sm" 
               />
@@ -349,14 +349,14 @@ export default function MediaKit() {
             <div className="text-center w-full flex flex-col flex-grow justify-between">
               <div>
                 <h4 className="text-xs font-bold text-brand-dark tracking-wide uppercase mb-1 leading-tight group-hover:text-brand-primary transition-colors">
-                  Brand R.Comm 2026 Social Template
+                  BRAND R.COMM 2026 SOCIAL TEMPLATE
                 </h4>
-                <p className="text-[10px] text-brand-dark/50 mb-4">1080 x 1080 px • High-Res PNG</p>
+                <p className="text-[10px] text-brand-dark/50 mb-4">1080 × 1080 px • High-Res PNG</p>
               </div>
               <a 
-                href="/landing/social_template.png" 
+                href="/NewDelegate Templates.png" 
                 download="Brand_R_Comm_2026_Social_Template.png" 
-                className="inline-flex items-center justify-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white text-[11px] font-bold py-2.5 px-4 rounded-xl w-full transition-all duration-300 shadow-md shadow-brand-primary/10 hover:shadow-lg hover:shadow-brand-primary/20"
+                className="inline-flex items-center justify-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white text-[11px] font-bold py-2.5 px-4 rounded-xl w-full transition-all duration-300 shadow-md shadow-brand-primary/10 hover:shadow-lg hover:shadow-brand-primary/20 uppercase"
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
