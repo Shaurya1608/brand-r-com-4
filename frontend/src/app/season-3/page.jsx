@@ -112,6 +112,16 @@ const juryAwards = [
   { category: "LEADERSHIP", title: "Voice of the Year", winner: "Ankur Aggarwal — Crystal Crop Protection", desc: "An influential industry voice shaping national conversations on responsible crop care.", img: "IMG_7078.JPG" }
 ];
 
+const sessionGroupImages = [
+  "/IMG_5570.jpg",
+  "/on-the-end/1st-technical.jpg",
+  "/on-the-end/2nd-technical.jpg",
+  "/on-the-end/3rd-tecchnical.jpg",
+  "/on-the-end/4th-session.jpg",
+  "/on-the-end/ceo-pannel (2).jpg",
+  "/IMG_5791.jpg"
+];
+
 const randomClicksImages = [
   "IMG_5466.JPG", "IMG_5467.JPG", "IMG_5468.JPG", "IMG_5486.JPG", "IMG_5496.JPG", "IMG_5497.JPG",
   "IMG_5499.JPG", "IMG_5510.JPG", "IMG_5511.JPG", "IMG_5512.JPG", "IMG_5532.JPG", "IMG_5558.JPG",
@@ -120,6 +130,11 @@ const randomClicksImages = [
   "IMG_6218.JPG", "IMG_6219.JPG", "IMG_6220.JPG", "IMG_6226.JPG", "IMG_6227.JPG", "IMG_6600.JPG",
   "IMG_6601.JPG", "IMG_6609.JPG", "IMG_6623.JPG", "IMG_6625.JPG", "IMG_7163.JPG", "IMG_7164.JPG"
 ].map(file => `/Random Clicks/${file}`);
+
+const allGalleryImages = [
+  ...sessionGroupImages,
+  ...randomClicksImages
+];
 
 const clientLogos = Array.from({ length: 12 }, (_, i) => `/Client-Logo/c-logo-${i + 1}.jpg`);
 
@@ -599,7 +614,7 @@ export default function Season3Page() {
 
           {/* 6-Card Compact Preview Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-            {randomClicksImages.slice(0, 5).map((src, i) => (
+            {sessionGroupImages.slice(0, 5).map((src, i) => (
               <motion.div 
                 key={i} 
                 {...fadeInUp} 
@@ -625,7 +640,7 @@ export default function Season3Page() {
             >
               <div className="absolute inset-0">
                 <img 
-                  src={randomClicksImages[5]} 
+                  src={sessionGroupImages[5]} 
                   alt="View Full Gallery" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                 />
@@ -660,7 +675,7 @@ export default function Season3Page() {
             <div className="relative z-10 flex items-center justify-between px-6 md:px-10 py-5 border-b border-gray-100 bg-white/95 backdrop-blur-md sticky top-0 shadow-xs">
               <div>
                 <h3 className="font-serif text-2xl md:text-3xl text-brand-dark font-bold">Event Floor Gallery</h3>
-                <p className="text-xs text-brand-primary font-mono font-bold mt-1 uppercase tracking-widest">{randomClicksImages.length} Event Photos</p>
+                <p className="text-xs text-brand-primary font-mono font-bold mt-1 uppercase tracking-widest">{allGalleryImages.length} Event Photos</p>
               </div>
               <button 
                 onClick={() => setIsGalleryOpen(false)}
@@ -671,10 +686,10 @@ export default function Season3Page() {
               </button>
             </div>
 
-            {/* Modal Body - 36 Photos Grid */}
+            {/* Modal Body - Full Photos Grid */}
             <div className="relative z-10 flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50/50">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto pb-12">
-                {randomClicksImages.map((src, index) => (
+                {allGalleryImages.map((src, index) => (
                   <motion.div 
                     key={index} 
                     initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -724,7 +739,7 @@ export default function Season3Page() {
 
               {/* Prev Button */}
               <button 
-                onClick={() => setSelectedImageIndex((prev) => (prev === 0 ? randomClicksImages.length - 1 : prev - 1))}
+                onClick={() => setSelectedImageIndex((prev) => (prev === 0 ? allGalleryImages.length - 1 : prev - 1))}
                 className="absolute left-4 z-20 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white backdrop-blur-md transition-colors cursor-pointer"
                 aria-label="Previous image"
               >
@@ -733,14 +748,14 @@ export default function Season3Page() {
 
               {/* Image */}
               <img 
-                src={randomClicksImages[selectedImageIndex]} 
+                src={allGalleryImages[selectedImageIndex]} 
                 alt={`Full view ${selectedImageIndex + 1}`} 
                 className="max-h-[85vh] max-w-full object-contain rounded-xl shadow-2xl"
               />
 
               {/* Next Button */}
               <button 
-                onClick={() => setSelectedImageIndex((prev) => (prev === randomClicksImages.length - 1 ? 0 : prev + 1))}
+                onClick={() => setSelectedImageIndex((prev) => (prev === allGalleryImages.length - 1 ? 0 : prev + 1))}
                 className="absolute right-4 z-20 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white backdrop-blur-md transition-colors cursor-pointer"
                 aria-label="Next image"
               >
@@ -749,7 +764,7 @@ export default function Season3Page() {
 
               {/* Image Counter */}
               <div className="absolute bottom-4 bg-black/60 px-4 py-1.5 rounded-full text-white/90 font-mono text-xs font-bold tracking-widest backdrop-blur-md">
-                {selectedImageIndex + 1} / {randomClicksImages.length}
+                {selectedImageIndex + 1} / {allGalleryImages.length}
               </div>
             </motion.div>
           </div>
