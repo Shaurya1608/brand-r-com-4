@@ -76,7 +76,7 @@ const sessions = [
     title: "Agri-Biologicals — Driving the Bio-Revolution",
     desc: "From inputs to intelligence, with regulation named as the biggest lever for scale.",
     label: "SESSION 04",
-    img: "4th-technical.jpg"
+    img: "4th-session.jpg"
   },
   {
     title: "The Future of Agri & Rural Communication",
