@@ -131,8 +131,33 @@ const randomClicksImages = [
   "IMG_6601.JPG", "IMG_6609.JPG", "IMG_6623.JPG", "IMG_6625.JPG", "IMG_7163.JPG", "IMG_7164.JPG"
 ].map(file => `/Random Clicks/${file}`);
 
+const awardStageImages = [
+  "/rg-agarwal.webp",
+  "/brand_rcomm_award_images_named/Company of the Year.jpg",
+  "/brand_rcomm_award_images_named/Emerging Company of the Year.jpg",
+  "/brand_rcomm_award_images_named/Best Outdoor Campaign.jpg",
+  "/brand_rcomm_award_images_named/Best Rural Engagement.jpg",
+  "/brand_rcomm_award_images_named/Best PR Campaign.jpg",
+  "/brand_rcomm_award_images_named/Best Digital Marketing Award.jpg",
+  "/brand_rcomm_award_images_named/Best Brand Campaign (TVC).jpg",
+  "/brand_rcomm_award_images_named/Best Integrated Communication.jpg",
+  "/brand_rcomm_award_images_named/Best Communicator (Male).jpg",
+  "/brand_rcomm_award_images_named/Best Communicator (Female).jpg",
+  "/brand_rcomm_award_images_named/AI Leadership Excellence.jpg",
+  "/brand_rcomm_award_images_named/NextGen Seed Award.jpg",
+  "/brand_rcomm_award_images_named/Sustainability Champion Award.jpg",
+  "/brand_rcomm_award_images_named/Growth Catalyst Award.jpg",
+  "/brand_rcomm_award_images_named/Visionary Entrepreneur Award.jpg",
+  "/brand_rcomm_award_images_named/Shakti Award.jpg",
+  "/brand_rcomm_award_images_named/Pioneer Award.jpg",
+  "/brand_rcomm_award_images_named/Changemaker Award.jpg",
+  "/brand_rcomm_award_images_named/Policy Driver Award.jpg",
+  "/brand_rcomm_award_images_named/Voice of the Year.jpg"
+];
+
 const allGalleryImages = [
   ...sessionGroupImages,
+  ...awardStageImages,
   ...randomClicksImages
 ];
 
