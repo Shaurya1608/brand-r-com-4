@@ -236,6 +236,8 @@ const SpeakerImage = ({ speaker }) => {
     <img 
       src={`/season-2/brand_rcomm_2024_speaker_images/${encodeURIComponent(speaker.imgFile)}`} 
       alt={speaker.name} 
+      loading="lazy"
+      decoding="async"
       className="w-full h-full object-cover" 
       onError={() => setErrorCount((prev) => prev + 1)} 
     />
@@ -313,7 +315,7 @@ export default function Season2Page() {
             </div>
             
             <div className="mb-2 sm:mb-2.5 flex justify-center">
-              <img src="/season-2/logo/Brand R.comm 2nd edition logo for white bg-02.png" alt="Brand R.Comm Season 2" className="h-16 sm:h-22 md:h-28 lg:h-34 object-contain drop-shadow-2xl" />
+              <img src="/season-2/logo/Brand R.comm 2nd edition logo for white bg-02.png" alt="Brand R.Comm Season 2" loading="eager" fetchPriority="high" decoding="async" className="h-16 sm:h-22 md:h-28 lg:h-34 object-contain drop-shadow-2xl" />
             </div>
 
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-bold leading-[1.25] mb-2.5 sm:mb-3 text-white drop-shadow-lg max-w-3xl">
@@ -768,6 +770,7 @@ export default function Season2Page() {
                     src={logo.src}
                     alt={logo.name}
                     loading="lazy"
+                    decoding="async"
                     className="max-h-12 sm:max-h-16 md:max-h-18 max-w-[160px] sm:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300"
                   />
                 ))}
@@ -787,6 +790,7 @@ export default function Season2Page() {
                       src={logo.src}
                       alt={logo.name}
                       loading="lazy"
+                      decoding="async"
                       className="max-h-11 sm:max-h-14 md:max-h-16 max-w-[150px] sm:max-w-[200px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
@@ -804,6 +808,7 @@ export default function Season2Page() {
                       src={logo.src}
                       alt={logo.name}
                       loading="lazy"
+                      decoding="async"
                       className="max-h-11 sm:max-h-14 md:max-h-16 max-w-[150px] sm:max-w-[200px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
@@ -824,6 +829,7 @@ export default function Season2Page() {
                       src={logo.src}
                       alt={logo.name}
                       loading="lazy"
+                      decoding="async"
                       className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[130px] sm:max-w-[170px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
@@ -841,6 +847,7 @@ export default function Season2Page() {
                       src={logo.src}
                       alt={logo.name}
                       loading="lazy"
+                      decoding="async"
                       className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
@@ -858,6 +865,7 @@ export default function Season2Page() {
                       src={logo.src}
                       alt={logo.name}
                       loading="lazy"
+                      decoding="async"
                       className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}

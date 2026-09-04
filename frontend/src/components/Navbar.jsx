@@ -83,7 +83,7 @@ export default function Navbar({ logo = "/logo/brand-r-comm-logo.png", logoClass
           
           <div className="flex-shrink-0 group cursor-pointer">
             <Link href="/" className="flex items-center">
-              <img src={logo} alt="Brand R.Comm Logo" className={`${logoClassName} w-auto object-contain transition-transform duration-300 group-hover:scale-105`} />
+              <img src={logo} alt="Brand R.Comm Logo" loading="eager" fetchPriority="high" decoding="async" className={`${logoClassName} w-auto object-contain transition-transform duration-300 group-hover:scale-105`} />
             </Link>
           </div>
 
