@@ -284,7 +284,7 @@ export default function Season3Page() {
 
       {/* Hero Section */}
       <section 
-        className="relative pt-32 pb-16 sm:pt-36 sm:pb-20 md:pt-40 md:pb-24 text-white overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 md:pt-28 md:pb-20 text-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('/IMG_5630.jpg')` }}
       >
         {/* Rich Dark Overlay to darken background image */}
