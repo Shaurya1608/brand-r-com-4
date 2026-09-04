@@ -58,31 +58,31 @@ const sessions = [
     title: "Soil & Seed — Foundation of Growth",
     desc: "Soil data, seed law reform and affordable access named as the real bottlenecks.",
     label: "SESSION 01",
-    img: "session1.jpg"
+    img: "1st-technical.jpg"
   },
   {
     title: "Agri-Input — Productivity with Responsibility",
     desc: "Chemicals and bio-solutions positioned as partners, not rivals, in crop protection.",
     label: "SESSION 02",
-    img: "session2.jpg"
+    img: "2nd-technical.jpg"
   },
   {
     title: "Fertiliser — Reimagining Nutrition",
     desc: "Nano-nutrients, net-zero targets and fortified produce for a healthier nation.",
     label: "SESSION 03",
-    img: "session3.jpg"
+    img: "3rd-tecchnical.jpg"
   },
   {
     title: "Agri-Biologicals — Driving the Bio-Revolution",
     desc: "From inputs to intelligence, with regulation named as the biggest lever for scale.",
     label: "SESSION 04",
-    img: "session4.jpg"
+    img: "4th-technical.jpg"
   },
   {
     title: "The Future of Agri & Rural Communication",
     desc: "A shared 2030 blueprint built on trust, IP protection and public-private synergy.",
     label: "CEO PANEL",
-    img: "ceo-pannel.jpg"
+    img: "ceo-pannel (2).jpg"
   }
 ];
 
