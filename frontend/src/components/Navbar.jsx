@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-export default function Navbar() {
+export default function Navbar({ logo = "/logo/brand-r-comm-logo.png", logoClassName = "h-10 md:h-12 lg:h-14 -my-2 md:-my-3" }) {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const calculateTimeLeft = () => {
@@ -41,11 +41,12 @@ export default function Navbar() {
     { name: "Delegates", href: "#delegates" },
     { 
       name: "Past Editions", 
-      href: "#past-editions",
+      href: "/seasons",
       dropdown: [
+        { name: "All Seasons Hub", href: "/seasons" },
         { name: "Brand R.Comm Season 1", href: "/seasons/season-1.html", external: true },
-        { name: "Brand R.Comm Season 2", href: "#season-2" },
-        { name: "Brand R.Comm Season 3", href: "/season-3", external: true },
+        { name: "Brand R.Comm Season 2", href: "/seasons/season-2" },
+        { name: "Brand R.Comm Season 3", href: "/seasons/season-3" },
       ]
     },
     { name: "Contact", href: "#contact" },
@@ -82,7 +83,7 @@ export default function Navbar() {
           
           <div className="flex-shrink-0 group cursor-pointer">
             <Link href="/" className="flex items-center">
-              <img src="/logo/brand-r-comm-logo.png" alt="Brand R.Comm Logo" className="h-10 md:h-12 lg:h-14 -my-2 md:-my-3 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+              <img src={logo} alt="Brand R.Comm Logo" className={`${logoClassName} w-auto object-contain transition-transform duration-300 group-hover:scale-105`} />
             </Link>
           </div>
 
