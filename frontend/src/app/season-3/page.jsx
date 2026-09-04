@@ -277,7 +277,7 @@ export default function Season3Page() {
             </div>
             
             <div className="mb-6 flex justify-center">
-              <img src="/logo/s3/brand-r-comm-3-logo-02.png" onError={(e) => { e.target.src = '/logo/brand-r-comm-logo-2.png'; }} alt="Brand R.Comm" className="h-16 md:h-22 object-contain drop-shadow-xl" />
+              <img src="/logo/s3/brand-r-comm-3-logo-02.png" onError={(e) => { e.target.src = '/logo/brand-r-comm-logo-2.png'; }} alt="Brand R.Comm" className="h-24 md:h-36 lg:h-44 object-contain drop-shadow-2xl" />
             </div>
 
             <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-white drop-shadow-lg">
