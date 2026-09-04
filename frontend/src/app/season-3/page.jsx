@@ -663,7 +663,7 @@ export default function Season3Page() {
       {/* Gallery Grid Modal */}
       <AnimatePresence>
         {isGalleryOpen && (
-          <div className="fixed inset-0 z-[100] flex flex-col bg-white">
+          <div className="fixed inset-0 z-[100] flex flex-col bg-white overflow-hidden h-screen w-screen">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
