@@ -324,33 +324,33 @@ export default function Season2Page() {
             </p>
 
             {/* Event Metadata Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 w-full max-w-5xl mt-1 sm:mt-2 items-stretch">
-              <div className="bg-black/40 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg flex items-center gap-2.5 text-left h-full">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 w-full max-w-5xl mt-1 sm:mt-2 items-stretch">
+              <div className="bg-black/40 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg flex items-center gap-2 sm:gap-2.5 text-left h-full">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[#a3d95b] font-mono text-[9px] font-bold uppercase tracking-widest mb-0.5">Event</div>
+                  <div className="text-[#a3d95b] font-mono text-[8.5px] sm:text-[9px] font-bold uppercase tracking-widest mb-0.5">Event</div>
                   <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">BRAND R.Comm, Summit & Awards 2024</div>
                 </div>
               </div>
               
-              <div className="bg-black/40 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg flex items-center gap-2.5 text-left h-full">
+              <div className="bg-black/40 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg flex items-center gap-2 sm:gap-2.5 text-left h-full">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[#a3d95b] font-mono text-[9px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
+                  <div className="text-[#a3d95b] font-mono text-[8.5px] sm:text-[9px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
                   <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">Hotel The Park, Janpath, New Delhi</div>
                 </div>
               </div>
 
-              <div className="bg-black/40 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg flex items-center gap-2.5 text-left h-full">
+              <div className="bg-black/40 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg flex items-center gap-2 sm:gap-2.5 text-left h-full">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
                   <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[#a3d95b] font-mono text-[9px] font-bold uppercase tracking-widest mb-0.5">Date & Edition</div>
+                  <div className="text-[#a3d95b] font-mono text-[8.5px] sm:text-[9px] font-bold uppercase tracking-widest mb-0.5">Date & Edition</div>
                   <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">6 Dec 2024 • 2nd Edition</div>
                 </div>
               </div>
@@ -359,18 +359,18 @@ export default function Season2Page() {
                 href="/brouchers/Updated BRC 4 2026 Brochure.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gradient-to-r from-[#a3d95b]/25 via-black/40 to-black/50 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-[#a3d95b]/60 flex items-center justify-between gap-2 text-left group cursor-pointer h-full"
+                className="bg-gradient-to-r from-[#a3d95b]/25 via-black/40 to-black/50 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-[#a3d95b]/60 flex items-center justify-between gap-1.5 sm:gap-2 text-left group cursor-pointer h-full"
               >
-                <div className="flex items-center gap-2.5 min-w-0">
+                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
                   <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#a3d95b] text-brand-dark flex items-center justify-center shrink-0">
                     <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[#a3d95b] font-mono text-[9px] font-bold uppercase tracking-widest mb-0.5">Archive</div>
-                    <div className="font-bold text-[10px] sm:text-xs text-white">Download Summary</div>
+                    <div className="text-[#a3d95b] font-mono text-[8.5px] sm:text-[9px] font-bold uppercase tracking-widest mb-0.5">Archive</div>
+                    <div className="font-bold text-[10px] sm:text-xs text-white leading-tight">Download Summary</div>
                   </div>
                 </div>
-                <Download className="w-3.5 h-3.5 text-[#a3d95b]" />
+                <Download className="w-3.5 h-3.5 text-[#a3d95b] shrink-0" />
               </a>
             </div>
           </motion.div>
@@ -642,7 +642,7 @@ export default function Season2Page() {
               <div className="flex-grow h-px bg-gradient-to-l from-transparent to-brand-primary/25 hidden md:block"></div>
             </div>
 
-            <motion.div {...fadeInUp} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 max-w-6xl mx-auto">
+            <motion.div {...fadeInUp} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 max-w-6xl mx-auto">
               {season2NominationWinners.map((winner, idx) => (
                 <div
                   key={idx}
