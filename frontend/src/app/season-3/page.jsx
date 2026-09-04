@@ -122,6 +122,16 @@ const sessionGroupImages = [
   "/IMG_5791.jpg"
 ];
 
+const glimpseFolderImages = [
+  "1.JPG", "2.JPG", "3.JPG", "4.JPG", "5.JPG", "6.JPG", "7.JPG", "8.JPG",
+  "IMG_3991.JPG", "IMG_4078.JPG", "IMG_4083.JPG", "IMG_4105.JPG", "IMG_4188.JPG", "IMG_4202.JPG",
+  "IMG_5510.JPG", "IMG_5521.JPG", "IMG_5525.JPG", "IMG_5536.JPG", "IMG_5557.JPG", "IMG_5559.JPG",
+  "IMG_5560.JPG", "IMG_5562.JPG", "IMG_5563.JPG", "IMG_5569.JPG", "IMG_5684.JPG", "IMG_5723.JPG",
+  "IMG_5738.JPG", "IMG_5745.JPG", "IMG_5775.JPG", "IMG_5809.JPG", "IMG_6181.JPG", "IMG_6261.JPG",
+  "IMG_6274.JPG", "IMG_6595.JPG", "IMG_6598.JPG", "IMG_6623.JPG", "IMG_6625.JPG", "IMG_7163.JPG",
+  "IMG_7166.JPG", "IMG_7177.JPG", "IMG_7188.JPG", "IMG_7191.JPG", "IMG_7193.JPG", "IMG_7198.JPG"
+].map(file => `/Glimpse/${file}`);
+
 const randomClicksImages = [
   "IMG_5466.JPG", "IMG_5467.JPG", "IMG_5468.JPG", "IMG_5486.JPG", "IMG_5496.JPG", "IMG_5497.JPG",
   "IMG_5499.JPG", "IMG_5510.JPG", "IMG_5511.JPG", "IMG_5512.JPG", "IMG_5532.JPG", "IMG_5558.JPG",
@@ -131,33 +141,9 @@ const randomClicksImages = [
   "IMG_6601.JPG", "IMG_6609.JPG", "IMG_6623.JPG", "IMG_6625.JPG", "IMG_7163.JPG", "IMG_7164.JPG"
 ].map(file => `/Random Clicks/${file}`);
 
-const awardStageImages = [
-  "/rg-agarwal.webp",
-  "/brand_rcomm_award_images_named/Company of the Year.jpg",
-  "/brand_rcomm_award_images_named/Emerging Company of the Year.jpg",
-  "/brand_rcomm_award_images_named/Best Outdoor Campaign.jpg",
-  "/brand_rcomm_award_images_named/Best Rural Engagement.jpg",
-  "/brand_rcomm_award_images_named/Best PR Campaign.jpg",
-  "/brand_rcomm_award_images_named/Best Digital Marketing Award.jpg",
-  "/brand_rcomm_award_images_named/Best Brand Campaign (TVC).jpg",
-  "/brand_rcomm_award_images_named/Best Integrated Communication.jpg",
-  "/brand_rcomm_award_images_named/Best Communicator (Male).jpg",
-  "/brand_rcomm_award_images_named/Best Communicator (Female).jpg",
-  "/brand_rcomm_award_images_named/AI Leadership Excellence.jpg",
-  "/brand_rcomm_award_images_named/NextGen Seed Award.jpg",
-  "/brand_rcomm_award_images_named/Sustainability Champion Award.jpg",
-  "/brand_rcomm_award_images_named/Growth Catalyst Award.jpg",
-  "/brand_rcomm_award_images_named/Visionary Entrepreneur Award.jpg",
-  "/brand_rcomm_award_images_named/Shakti Award.jpg",
-  "/brand_rcomm_award_images_named/Pioneer Award.jpg",
-  "/brand_rcomm_award_images_named/Changemaker Award.jpg",
-  "/brand_rcomm_award_images_named/Policy Driver Award.jpg",
-  "/brand_rcomm_award_images_named/Voice of the Year.jpg"
-];
-
 const allGalleryImages = [
   ...sessionGroupImages,
-  ...awardStageImages,
+  ...glimpseFolderImages,
   ...randomClicksImages
 ];
 
