@@ -542,8 +542,8 @@ export default function Season3Page() {
                 transition={{ delay: (i % 3) * 0.1 }}
                 className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 group hover:border-brand-primary/50 transition-colors duration-300"
               >
-                <div className="h-36 md:h-40 overflow-hidden bg-white">
-                  <img src={`/brand_rcomm_award_images_named/${award.title}.jpg`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.src = `/Awards/${award.img}`; }} />
+                <div className="h-44 md:h-52 overflow-hidden bg-white">
+                  <img src={`/brand_rcomm_award_images_named/${award.title}.jpg`} alt={award.title} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.src = `/Awards/${award.img}`; }} />
                 </div>
                 <div className="p-4 md:p-5">
                   <div className="text-brand-primary font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-1">{award.category}</div>
@@ -569,8 +569,8 @@ export default function Season3Page() {
                 transition={{ delay: (i % 3) * 0.1 }}
                 className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 group hover:border-brand-primary/50 transition-colors duration-300"
               >
-                <div className="h-36 md:h-40 overflow-hidden bg-white">
-                  <img src={`/brand_rcomm_award_images_named/${award.title}.jpg`} alt={award.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.src = `/Awards/${award.img}`; }} />
+                <div className="h-44 md:h-52 overflow-hidden bg-white">
+                  <img src={`/brand_rcomm_award_images_named/${award.title}.jpg`} alt={award.title} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.src = `/Awards/${award.img}`; }} />
                 </div>
                 <div className="p-4 md:p-5">
                   <div className="text-brand-primary font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-1">{award.category}</div>
