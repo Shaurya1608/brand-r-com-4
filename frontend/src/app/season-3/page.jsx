@@ -390,7 +390,7 @@ export default function Season3Page() {
               {/* Photo below quote card */}
               <div className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 group">
                 <img 
-                  src="/IMG_5750.jpg" 
+                  src="/IMG_5791.jpg" 
                   alt="BRAND R.Comm Stage" 
                   className="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition-transform duration-500" 
                 />
