@@ -295,63 +295,63 @@ export default function Season2Page() {
 
       {/* Hero Section */}
       <section 
-        className="relative min-h-screen flex items-center justify-center pt-24 pb-12 text-white overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="relative min-h-screen py-24 sm:py-28 md:py-20 lg:py-0 flex items-center justify-center text-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('/IMG_5791.jpg')` }}
       >
         <div className="absolute inset-0 bg-black/65 pointer-events-none" />
         
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 w-full">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center flex flex-col items-center"
           >
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-black/50 border border-white/25 text-[#a3d95b] font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2.5 shadow-lg backdrop-blur-md">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-black/50 border border-white/25 text-[#a3d95b] font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2 sm:mb-2.5 shadow-lg backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-[#a3d95b] animate-pulse" />
               SECOND EDITION • EVENT RECAP
             </div>
             
-            <div className="mb-2.5 flex justify-center">
-              <img src="/season-2/logo/Brand R.comm 2nd edition logo for white bg-02.png" alt="Brand R.Comm Season 2" className="h-20 sm:h-26 md:h-32 lg:h-38 object-contain drop-shadow-2xl" />
+            <div className="mb-2 sm:mb-2.5 flex justify-center">
+              <img src="/season-2/logo/Brand R.comm 2nd edition logo for white bg-02.png" alt="Brand R.Comm Season 2" className="h-16 sm:h-22 md:h-28 lg:h-34 object-contain drop-shadow-2xl" />
             </div>
 
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold leading-[1.2] mb-3 text-white drop-shadow-lg max-w-3xl">
-              A for Agriculture, B for Branding, <br className="hidden md:block"/> <span className="text-[#a3d95b] italic font-normal">and C for Communication.</span>
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-bold leading-[1.25] mb-2.5 sm:mb-3 text-white drop-shadow-lg max-w-3xl">
+              A for Agriculture, B for Branding, <br className="hidden sm:block"/> <span className="text-[#a3d95b] italic font-normal">and C for Communication.</span>
             </h1>
-            <p className="text-xs sm:text-sm md:text-base text-white/90 max-w-2xl mx-auto leading-relaxed mb-6 drop-shadow px-2">
+            <p className="text-xs sm:text-sm md:text-base text-white/90 max-w-2xl mx-auto leading-relaxed mb-5 sm:mb-6 drop-shadow px-2">
               BRAND R.Comm 2024 brought together policymakers, agri-input leaders and communication professionals for a day built around one theme: aligning communication with development, empowerment and sustainability for the nation.
             </p>
 
             {/* Event Metadata Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 w-full max-w-5xl mt-1 sm:mt-2 items-stretch">
-              <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 border border-white/15 shadow-lg flex items-center gap-3 text-left h-full">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
-                  <Star className="w-4 h-4" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 w-full max-w-5xl mt-1 sm:mt-2 items-stretch">
+              <div className="bg-black/40 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg flex items-center gap-2.5 text-left h-full">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
+                  <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="min-w-0">
                   <div className="text-[#a3d95b] font-mono text-[9px] font-bold uppercase tracking-widest mb-0.5">Event</div>
-                  <div className="font-semibold text-[11px] sm:text-xs text-white leading-tight">BRAND R.Comm, Summit & Awards 2024</div>
+                  <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">BRAND R.Comm, Summit & Awards 2024</div>
                 </div>
               </div>
               
-              <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 border border-white/15 shadow-lg flex items-center gap-3 text-left h-full">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
-                  <MapPin className="w-4 h-4" />
+              <div className="bg-black/40 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg flex items-center gap-2.5 text-left h-full">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
+                  <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="min-w-0">
                   <div className="text-[#a3d95b] font-mono text-[9px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
-                  <div className="font-semibold text-[11px] sm:text-xs text-white leading-tight">Hotel The Park, Janpath, New Delhi</div>
+                  <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">Hotel The Park, Janpath, New Delhi</div>
                 </div>
               </div>
 
-              <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 border border-white/15 shadow-lg flex items-center gap-3 text-left h-full">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
-                  <Calendar className="w-4 h-4" />
+              <div className="bg-black/40 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg flex items-center gap-2.5 text-left h-full">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b]">
+                  <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="min-w-0">
                   <div className="text-[#a3d95b] font-mono text-[9px] font-bold uppercase tracking-widest mb-0.5">Date & Edition</div>
-                  <div className="font-semibold text-[11px] sm:text-xs text-white leading-tight">6 Dec 2024 • 2nd Edition</div>
+                  <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">6 Dec 2024 • 2nd Edition</div>
                 </div>
               </div>
 
@@ -359,15 +359,15 @@ export default function Season2Page() {
                 href="/brouchers/Updated BRC 4 2026 Brochure.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gradient-to-r from-[#a3d95b]/25 via-black/40 to-black/50 backdrop-blur-md rounded-xl p-3 border border-[#a3d95b]/60 flex items-center justify-between gap-2 text-left group cursor-pointer h-full"
+                className="bg-gradient-to-r from-[#a3d95b]/25 via-black/40 to-black/50 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-[#a3d95b]/60 flex items-center justify-between gap-2 text-left group cursor-pointer h-full"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#a3d95b] text-brand-dark flex items-center justify-center shrink-0">
-                    <FileText className="w-4 h-4" />
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#a3d95b] text-brand-dark flex items-center justify-center shrink-0">
+                    <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
                   <div className="min-w-0">
                     <div className="text-[#a3d95b] font-mono text-[9px] font-bold uppercase tracking-widest mb-0.5">Archive</div>
-                    <div className="font-bold text-[11px] sm:text-xs text-white">Download Summary</div>
+                    <div className="font-bold text-[10px] sm:text-xs text-white">Download Summary</div>
                   </div>
                 </div>
                 <Download className="w-3.5 h-3.5 text-[#a3d95b]" />
