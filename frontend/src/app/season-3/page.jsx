@@ -515,7 +515,7 @@ export default function Season3Page() {
           <motion.div {...fadeInUp} className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 mb-10 shadow-xs">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="h-52 md:h-auto overflow-hidden">
-                <img src="/Awards/IMG_6890.JPG" alt="Lifetime Achievement" className="w-full h-full object-cover" onError={(e) => {e.target.style.display='none'; e.target.parentElement.classList.add('bg-brand-primary/10')}} />
+                <img src="/rg-agarwal.webp" alt="Dr. R. G. Agarwal" className="w-full h-full object-cover" onError={(e) => {e.target.style.display='none'; e.target.parentElement.classList.add('bg-brand-primary/10')}} />
               </div>
               <div className="p-6 md:p-8 flex flex-col justify-center">
                 <div className="text-brand-primary font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">Highest Honour • Lifetime Achievement</div>
