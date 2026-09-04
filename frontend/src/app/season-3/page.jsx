@@ -52,7 +52,7 @@ const sessions = [
     title: "Soil to Market — National & Global Outlook",
     desc: "Trust-driven communication framed as essential to unlocking India's agri-export potential.",
     label: "INAUGURAL",
-    img: "inaugral-session.jpg"
+    img: "/IMG_5570.jpg"
   },
   {
     title: "Soil & Seed — Foundation of Growth",
@@ -445,7 +445,7 @@ export default function Season3Page() {
                 <div>
                   <div className="h-52 md:h-56 overflow-hidden bg-brand-primary/5 relative">
                     <img 
-                      src={`/on-the-end/${session.img}`} 
+                      src={session.img.startsWith('/') ? session.img : `/on-the-end/${session.img}`} 
                       alt={session.title} 
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
                     />
