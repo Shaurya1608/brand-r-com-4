@@ -923,11 +923,11 @@ export default function Season2Page() {
       </AnimatePresence>
 
       {/* Footer */}
-      <footer className="bg-white text-brand-dark pt-16 pb-10 border-t border-brand-primary/15 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
+      <footer className="bg-white text-brand-dark pt-12 sm:pt-16 pb-10 border-t border-brand-primary/15 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Top Banner / Next Edition Callout */}
-          <div className="bg-brand-surface border border-brand-primary/15 rounded-2xl p-8 md:p-10 mb-14 flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-sm shadow-sm">
-            <div className="space-y-2 text-center md:text-left">
+          <div className="bg-brand-surface border border-brand-primary/15 rounded-2xl p-6 sm:p-8 md:p-10 mb-10 sm:mb-14 flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-4 sm:gap-6 backdrop-blur-sm shadow-sm">
+            <div className="space-y-2">
               <span className="text-[11px] font-mono font-semibold tracking-widest text-brand-primary uppercase">
                 Looking Ahead
               </span>
@@ -944,41 +944,46 @@ export default function Season2Page() {
           </div>
 
           {/* Details Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-brand-primary/10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 pb-10 sm:pb-12 border-b border-brand-primary/10 text-center">
             {/* Column 1: Snail Integral Address */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-brand-primary font-bold font-serif text-xl tracking-tight">
+            <div className="space-y-3 flex flex-col items-center">
+              <div className="flex items-center justify-center gap-2 text-brand-primary font-bold font-serif text-xl tracking-tight">
                 <span>Snail Integral</span>
               </div>
-              <div className="flex items-start gap-3 text-brand-dark/70 text-sm leading-relaxed font-sans">
-                <MapPin size={18} className="text-brand-primary shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium text-brand-dark">Q-170141, 14th Avenue, Gaur City-2</p>
-                  <p>Noida Extension, Greater Noida West</p>
-                  <p>Uttar Pradesh, 201309</p>
+              <div className="flex flex-col items-center justify-center gap-1.5 text-brand-dark/70 text-sm leading-relaxed font-sans">
+                <div className="flex items-center justify-center gap-1.5 text-brand-primary font-medium">
+                  <MapPin size={16} />
+                  <span>Headquarters</span>
                 </div>
+                <p className="font-medium text-brand-dark">Q-170141, 14th Avenue, Gaur City-2</p>
+                <p>Noida Extension, Greater Noida West</p>
+                <p>Uttar Pradesh, 201309</p>
               </div>
             </div>
 
             {/* Column 2: Contact */}
-            <div className="space-y-4">
+            <div className="space-y-3 flex flex-col items-center">
               <h3 className="text-xs font-mono font-bold tracking-widest text-brand-primary uppercase">
                 Contact
               </h3>
-              <div className="space-y-2.5 text-sm font-sans text-brand-dark/80">
-                <div className="flex items-center gap-3">
-                  <Phone size={16} className="text-brand-primary shrink-0" />
-                  <div className="flex flex-col sm:flex-row sm:gap-4">
+              <div className="space-y-2 text-sm font-sans text-brand-dark/80 flex flex-col items-center">
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <div className="flex items-center justify-center gap-1.5 text-brand-primary font-medium">
+                    <Phone size={15} />
+                    <span>Phone</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
                     <a href="tel:+919354342588" className="hover:text-brand-primary transition-colors font-medium">
                       +91 93543 42588
                     </a>
+                    <span className="hidden sm:inline text-brand-dark/30">•</span>
                     <a href="tel:+918750807676" className="hover:text-brand-primary transition-colors font-medium">
                       +91 87508 07676
                     </a>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 pt-1">
-                  <Mail size={16} className="text-brand-primary shrink-0" />
+                <div className="flex items-center justify-center gap-2 pt-1">
+                  <Mail size={15} className="text-brand-primary shrink-0" />
                   <a href="mailto:info@snailintegral.com" className="hover:text-brand-primary transition-colors font-medium underline underline-offset-4 decoration-brand-primary/30 hover:decoration-brand-primary">
                     info@snailintegral.com
                   </a>
@@ -987,13 +992,13 @@ export default function Season2Page() {
             </div>
 
             {/* Column 3: Web & Links */}
-            <div className="space-y-4">
+            <div className="space-y-3 flex flex-col items-center">
               <h3 className="text-xs font-mono font-bold tracking-widest text-brand-primary uppercase">
                 Web & Links
               </h3>
-              <div className="space-y-3 text-sm font-sans">
-                <div className="flex items-center gap-3">
-                  <Globe size={16} className="text-brand-primary shrink-0" />
+              <div className="space-y-2.5 text-sm font-sans flex flex-col items-center">
+                <div className="flex items-center justify-center gap-2">
+                  <Globe size={15} className="text-brand-primary shrink-0" />
                   <a
                     href="https://www.snailintegral.com"
                     target="_blank"
@@ -1003,7 +1008,7 @@ export default function Season2Page() {
                     www.snailintegral.com
                   </a>
                 </div>
-                <div className="pt-2">
+                <div className="pt-1">
                   <Link
                     href="/seasons"
                     className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-brand-primary/10 hover:bg-brand-primary/15 text-brand-primary font-medium text-xs transition-colors"
@@ -1017,7 +1022,7 @@ export default function Season2Page() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono tracking-wider text-brand-dark/50 uppercase">
+          <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center gap-3 sm:gap-4 text-[11px] font-mono tracking-wider text-brand-dark/50 uppercase">
             <div>
               © 2026 SNAIL INTEGRAL PVT. LTD. — ALL RIGHTS RESERVED
             </div>
