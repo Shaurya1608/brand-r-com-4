@@ -271,13 +271,13 @@ export default function Season3Page() {
             transition={{ duration: 0.8 }}
             className="text-center flex flex-col items-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 border border-white/20 text-[#a3d95b] font-mono text-xs font-bold uppercase tracking-widest mb-6 shadow-lg backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 border border-white/20 text-[#a3d95b] font-mono text-xs font-bold uppercase tracking-widest mb-2.5 shadow-lg backdrop-blur-md">
               <span className="w-2 h-2 rounded-full bg-[#a3d95b] animate-pulse" />
               THIRD EDITION • POST EVENT RECAP
             </div>
             
-            <div className="mb-6 flex justify-center">
-              <img src="/logo/s3/brand-r-comm-3-logo-02.png" onError={(e) => { e.target.src = '/logo/brand-r-comm-logo-2.png'; }} alt="Brand R.Comm" className="h-24 md:h-36 lg:h-44 object-contain drop-shadow-2xl" />
+            <div className="mb-2.5 flex justify-center">
+              <img src="/logo/s3/brand-r-comm-3-logo-02.png" onError={(e) => { e.target.src = '/logo/brand-r-comm-logo-2.png'; }} alt="Brand R.Comm" className="h-20 md:h-30 lg:h-36 object-contain drop-shadow-2xl" />
             </div>
 
             <h1 className="text-3xl md:text-5xl font-serif font-bold leading-[1.2] mb-5 text-white drop-shadow-lg">
