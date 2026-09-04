@@ -892,16 +892,16 @@ export default function Season3Page() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-brand-surface text-brand-dark pt-10 pb-8 border-t border-brand-primary/15">
-        <div className="max-w-7xl mx-auto px-6">
+      <footer className="bg-brand-surface text-brand-dark pt-10 pb-8 border-t border-brand-primary/15 text-center">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
           {/* Top CTA Row */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-brand-primary/10">
-            <div>
-              <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-2 flex items-center gap-1.5">
+          <div className="flex flex-col items-center justify-center text-center gap-6 pb-8 border-b border-brand-primary/10 w-full">
+            <div className="flex flex-col items-center text-center">
+              <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-2 flex items-center justify-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
                 LOOKING AHEAD
               </div>
-              <h2 className="text-2xl md:text-3xl font-serif font-bold text-brand-dark max-w-xl leading-snug">
+              <h2 className="text-2xl md:text-3xl font-serif font-bold text-brand-dark max-w-xl leading-snug text-center mx-auto">
                 See you at the fourth edition of <span className="text-brand-primary italic font-normal">BRAND R.Comm.</span>
               </h2>
             </div>
@@ -909,7 +909,7 @@ export default function Season3Page() {
             <div className="shrink-0">
               <Link 
                 href="/" 
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-sans font-bold text-xs rounded-full shadow-sm hover:shadow transition-all duration-300 hover:scale-105 group"
+                className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-sans font-bold text-xs rounded-full shadow-sm hover:shadow transition-all duration-300 hover:scale-105 group"
               >
                 <span>Partner With Us</span>
                 <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
@@ -918,35 +918,35 @@ export default function Season3Page() {
           </div>
 
           {/* Middle Info Columns (Compact & Minimal) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 border-b border-brand-primary/10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 border-b border-brand-primary/10 w-full text-center">
             {/* Column 1: Snail Integral Address */}
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col items-center text-center">
               <div className="text-brand-primary font-mono text-[9px] font-bold uppercase tracking-widest">Organizer</div>
               <h3 className="font-serif font-bold text-base text-brand-dark">Snail Integral</h3>
-              <p className="leading-relaxed text-brand-dark/70 text-xs font-sans">
+              <p className="leading-relaxed text-brand-dark/70 text-xs font-sans text-center">
                 Q-170141, 14th Avenue, Gaur City-2<br />
                 Noida Extension, Uttar Pradesh, India
               </p>
             </div>
 
             {/* Column 2: Contact Info */}
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col items-center text-center">
               <div className="text-brand-primary font-mono text-[9px] font-bold uppercase tracking-widest">Contact & Inquiries</div>
-              <div className="space-y-1.5 text-xs font-sans text-brand-dark/80 font-medium">
+              <div className="space-y-1.5 text-xs font-sans text-brand-dark/80 font-medium flex flex-col items-center">
                 <p>
-                  <a href="tel:+919354342588" className="hover:text-brand-primary transition-colors inline-flex items-center gap-1.5">
+                  <a href="tel:+919354342588" className="hover:text-brand-primary transition-colors inline-flex items-center justify-center gap-1.5">
                     <Phone size={13} className="text-brand-primary" />
                     <span>+91 93543 42588</span>
                   </a>
                 </p>
                 <p>
-                  <a href="tel:+918750807676" className="hover:text-brand-primary transition-colors inline-flex items-center gap-1.5">
+                  <a href="tel:+918750807676" className="hover:text-brand-primary transition-colors inline-flex items-center justify-center gap-1.5">
                     <Phone size={13} className="text-brand-primary" />
                     <span>+91 87508 07676</span>
                   </a>
                 </p>
                 <p>
-                  <a href="mailto:info@snailintegral.com" className="hover:text-brand-primary transition-colors inline-flex items-center gap-1.5">
+                  <a href="mailto:info@snailintegral.com" className="hover:text-brand-primary transition-colors inline-flex items-center justify-center gap-1.5">
                     <Mail size={13} className="text-brand-primary" />
                     <span>info@snailintegral.com</span>
                   </a>
@@ -955,17 +955,17 @@ export default function Season3Page() {
             </div>
 
             {/* Column 3: Web */}
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col items-center text-center">
               <div className="text-brand-primary font-mono text-[9px] font-bold uppercase tracking-widest">Official Website</div>
-              <p className="text-xs text-brand-dark/70">
+              <p className="text-xs text-brand-dark/70 text-center max-w-xs mx-auto">
                 Explore our initiatives, recap videos, and summit updates.
               </p>
-              <div>
+              <div className="flex justify-center">
                 <a 
                   href="https://www.snailintegral.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-primary hover:text-brand-primary-hover transition-colors border-b border-brand-primary/30 pb-0.5"
+                  className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-brand-primary hover:text-brand-primary-hover transition-colors border-b border-brand-primary/30 pb-0.5"
                 >
                   <Globe size={13} />
                   <span>www.snailintegral.com</span>
@@ -976,7 +976,7 @@ export default function Season3Page() {
           </div>
 
           {/* Bottom Copyright */}
-          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-[9px] md:text-[10px] font-mono tracking-wider text-brand-dark/50 uppercase">
+          <div className="pt-6 flex flex-col items-center justify-center gap-2 text-center text-[9px] md:text-[10px] font-mono tracking-wider text-brand-dark/50 uppercase w-full">
             <div>© 2025 SNAIL INTEGRAL PVT. LTD. — ALL RIGHTS RESERVED</div>
             <div>BRAND R.COMM AGRICULTURE & RURAL COMMUNICATION SUMMIT & AWARDS</div>
           </div>
