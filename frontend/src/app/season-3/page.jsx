@@ -825,8 +825,8 @@ export default function Season3Page() {
               </div>
             </motion.div>
 
-            {/* Row 3: 4 Columns (Kit Sponsor, Memento Sponsor, Research Partner, Podcast Partner) */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-5">
+            {/* Row 3: 3 Columns (Kit Sponsor, Memento Sponsor, Research Partner) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 md:gap-5">
               <motion.div {...fadeInUp} className="flex flex-col items-center">
                 <span className="text-brand-dark text-[11px] md:text-xs font-sans font-bold uppercase tracking-wider mb-2 text-center">Kit Sponsor</span>
                 <div className="bg-brand-surface rounded-2xl p-2.5 md:p-3 w-full flex items-center justify-center min-h-[90px] md:min-h-[105px] shadow-xs border border-brand-primary/15 hover:shadow-md transition-all">
@@ -845,13 +845,6 @@ export default function Season3Page() {
                 <span className="text-brand-dark text-[11px] md:text-xs font-sans font-bold uppercase tracking-wider mb-2 text-center">Research Partner</span>
                 <div className="bg-brand-surface rounded-2xl p-2.5 md:p-3 w-full flex items-center justify-center min-h-[90px] md:min-h-[105px] shadow-xs border border-brand-primary/15 hover:shadow-md transition-all">
                   <img src="/all_brands_logos/market-insight.png" alt="Market Insight Consultants" className="h-12 md:h-15 lg:h-18 w-auto object-contain max-w-full" />
-                </div>
-              </motion.div>
-
-              <motion.div {...fadeInUp} className="flex flex-col items-center">
-                <span className="text-brand-dark text-[11px] md:text-xs font-sans font-bold uppercase tracking-wider mb-2 text-center">Podcast Partner</span>
-                <div className="bg-brand-surface rounded-2xl p-2.5 md:p-3 w-full flex items-center justify-center min-h-[90px] md:min-h-[105px] shadow-xs border border-brand-primary/15 hover:shadow-md transition-all">
-                  <img src="/partner_logos/snail_show.png" alt="The Snail Show" className="h-12 md:h-15 lg:h-18 w-auto object-contain max-w-full" onError={(e) => { e.target.src = '/all_brands_logos/pestology.png'; }} />
                 </div>
               </motion.div>
             </div>
