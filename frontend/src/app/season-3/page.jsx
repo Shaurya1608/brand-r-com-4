@@ -783,51 +783,120 @@ export default function Season3Page() {
       </AnimatePresence>
 
       {/* Gratitude & Partners Section */}
-      <section id="partners" className="py-12 md:py-16 bg-white text-brand-dark border-t border-brand-primary/10">
-        <div className="max-w-5xl mx-auto px-6">
-          <motion.div {...fadeInUp} className="mb-6 md:mb-8 text-center max-w-2xl mx-auto">
-            <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-1.5">GRATITUDE</div>
-            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-2 text-brand-dark">
-              Backed by the industry, <span className="text-brand-primary italic font-normal">for the industry</span>
+      <section id="partners" className="py-16 md:py-20 bg-[#0d1512] text-white border-t border-white/10 relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1b2b23] via-[#0d1512] to-[#080d0b] opacity-80 pointer-events-none" />
+
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
+          <motion.div {...fadeInUp} className="mb-10 md:mb-12 text-center max-w-2xl mx-auto">
+            <div className="text-[#a3d95b] font-mono text-xs font-bold uppercase tracking-widest mb-2">GRATITUDE</div>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-3 text-white">
+              Backed by the industry, <span className="text-[#a3d95b] italic font-normal">for the industry</span>
             </h2>
-            <p className="text-sm md:text-base text-brand-dark/70 leading-relaxed">
+            <p className="text-sm md:text-base text-white/75 leading-relaxed">
               BRAND R.Comm 2025 was made possible by 18+ sponsors and partners across research, media and policy.
             </p>
           </motion.div>
 
-          {/* Categorized Partners List with Compact Premium Cards */}
-          <div className="space-y-4 md:space-y-5 max-w-5xl mx-auto">
-            {partnerGroups.map((group, gIdx) => (
-              <motion.div key={gIdx} {...fadeInUp} className="bg-brand-surface p-5 md:p-6 rounded-2xl border border-brand-primary/10 hover:border-brand-primary/20 transition-all text-center">
-                <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-widest mb-4 flex items-center justify-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-brand-primary" />
-                  {group.category}
-                </div>
-                <div className="flex flex-wrap gap-3 md:gap-4 items-stretch justify-center">
-                  {group.partners.map((partner, pIdx) => {
-                    const partnerName = typeof partner === 'string' ? partner : partner.name;
-                    const partnerLogo = typeof partner === 'object' ? partner.logo : null;
-
-                    return (
-                      <span 
-                        key={pIdx}
-                        className="px-4 py-3 md:px-5 md:py-4 bg-white rounded-xl text-xs md:text-xs font-semibold text-brand-dark border border-brand-primary/10 shadow-2xs hover:shadow-md hover:border-brand-primary hover:text-brand-primary transition-all duration-200 cursor-default flex flex-col items-center justify-center text-center gap-1.5 min-w-[130px] md:min-w-[150px] max-w-[220px]"
-                      >
-                        {partnerLogo ? (
-                          <img 
-                            src={partnerLogo} 
-                            alt={partnerName} 
-                            className="h-14 md:h-16 lg:h-18 w-auto max-w-[160px] md:max-w-[200px] object-contain" 
-                          />
-                        ) : (
-                          <span className="leading-tight font-semibold text-xs md:text-sm px-2 py-1">{partnerName}</span>
-                        )}
-                      </span>
-                    );
-                  })}
+          {/* Categorized Specific Partner Cards Grid matching Design Layout */}
+          <div className="space-y-6 md:space-y-8 max-w-4xl mx-auto">
+            
+            {/* Row 1: Powered By & Supported By */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+              <motion.div {...fadeInUp} className="flex flex-col items-center">
+                <span className="text-white text-xs md:text-sm font-sans font-bold uppercase tracking-wider mb-2 text-center">Powered by</span>
+                <div className="bg-white rounded-2xl p-4 md:p-5 w-full flex items-center justify-center min-h-[90px] md:min-h-[100px] shadow-lg border border-white/20 hover:scale-[1.02] transition-transform">
+                  <img src="/all_brands_logos/All Brands logo-01.png" alt="EpiLogic" className="h-12 md:h-14 w-auto object-contain max-w-full" />
                 </div>
               </motion.div>
-            ))}
+
+              <motion.div {...fadeInUp} className="flex flex-col items-center">
+                <span className="text-white text-xs md:text-sm font-sans font-bold uppercase tracking-wider mb-2 text-center">Supported by</span>
+                <div className="bg-white rounded-2xl p-4 md:p-5 w-full flex items-center justify-center min-h-[90px] md:min-h-[100px] shadow-lg border border-white/20 hover:scale-[1.02] transition-transform">
+                  <img src="/all_brands_logos/All Brands logo-21.png" alt="Novonesis" className="h-12 md:h-14 w-auto object-contain max-w-full" />
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Row 2: Sponsored By (Full Width, 3 logos) */}
+            <motion.div {...fadeInUp} className="flex flex-col items-center">
+              <span className="text-white text-xs md:text-sm font-sans font-bold uppercase tracking-wider mb-2 text-center">Sponsored by</span>
+              <div className="bg-white rounded-2xl p-4 md:p-6 w-full flex flex-wrap items-center justify-around gap-6 min-h-[100px] shadow-lg border border-white/20 hover:scale-[1.01] transition-transform">
+                <img src="/all_brands_logos/All Brands logo-04.png" alt="Momentive" className="h-10 md:h-12 w-auto object-contain max-w-[180px]" />
+                <img src="/all_brands_logos/All Brands logo-80.png" alt="AquAgri" className="h-10 md:h-12 w-auto object-contain max-w-[180px]" />
+                <img src="/all_brands_logos/All Brands logo-75.png" alt="Thakar Chemicals" className="h-10 md:h-12 w-auto object-contain max-w-[200px]" />
+              </div>
+            </motion.div>
+
+            {/* Row 3: 4 Columns (Kit Sponsor, Memento Sponsor, Research Partner, Podcast Partner) */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-5">
+              <motion.div {...fadeInUp} className="flex flex-col items-center">
+                <span className="text-white text-[11px] md:text-xs font-sans font-bold uppercase tracking-wider mb-2 text-center">Kit Sponsor</span>
+                <div className="bg-white rounded-2xl p-3 md:p-4 w-full flex items-center justify-center min-h-[80px] md:min-h-[90px] shadow-lg border border-white/20 hover:scale-[1.02] transition-transform">
+                  <img src="/all_brands_logos/cccfi.png" alt="CCFI" className="h-10 md:h-12 w-auto object-contain max-w-full" />
+                </div>
+              </motion.div>
+
+              <motion.div {...fadeInUp} className="flex flex-col items-center">
+                <span className="text-white text-[11px] md:text-xs font-sans font-bold uppercase tracking-wider mb-2 text-center">Memento Sponsor</span>
+                <div className="bg-white rounded-2xl p-3 md:p-4 w-full flex items-center justify-center min-h-[80px] md:min-h-[90px] shadow-lg border border-white/20 hover:scale-[1.02] transition-transform">
+                  <img src="/all_brands_logos/acfi.png" alt="ACFI" className="h-10 md:h-12 w-auto object-contain max-w-full" />
+                </div>
+              </motion.div>
+
+              <motion.div {...fadeInUp} className="flex flex-col items-center">
+                <span className="text-white text-[11px] md:text-xs font-sans font-bold uppercase tracking-wider mb-2 text-center">Research Partner</span>
+                <div className="bg-white rounded-2xl p-3 md:p-4 w-full flex items-center justify-center min-h-[80px] md:min-h-[90px] shadow-lg border border-white/20 hover:scale-[1.02] transition-transform">
+                  <img src="/all_brands_logos/market-insight.png" alt="Market Insight Consultants" className="h-10 md:h-12 w-auto object-contain max-w-full" />
+                </div>
+              </motion.div>
+
+              <motion.div {...fadeInUp} className="flex flex-col items-center">
+                <span className="text-white text-[11px] md:text-xs font-sans font-bold uppercase tracking-wider mb-2 text-center">Podcast Partner</span>
+                <div className="bg-white rounded-2xl p-3 md:p-4 w-full flex items-center justify-center min-h-[80px] md:min-h-[90px] shadow-lg border border-white/20 hover:scale-[1.02] transition-transform">
+                  <img src="/partner_logos/snail_show.png" alt="The Snail Show" className="h-10 md:h-12 w-auto object-contain max-w-full" onError={(e) => { e.target.src = '/all_brands_logos/pestology.png'; }} />
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Row 4: Industry Association Partner (Full Width, 4 logos) */}
+            <motion.div {...fadeInUp} className="flex flex-col items-center">
+              <span className="text-white text-xs md:text-sm font-sans font-bold uppercase tracking-wider mb-2 text-center">Industry Association Partner</span>
+              <div className="bg-white rounded-2xl p-4 md:p-6 w-full flex flex-wrap items-center justify-around gap-5 min-h-[100px] shadow-lg border border-white/20 hover:scale-[1.01] transition-transform">
+                <img src="/all_brands_logos/nbif.png" alt="NBIF" className="h-9 md:h-11 w-auto object-contain max-w-[150px]" />
+                <img src="/all_brands_logos/crop-life.png" alt="CropLife India" className="h-9 md:h-11 w-auto object-contain max-w-[160px]" />
+                <img src="/all_brands_logos/basai.png" alt="BASAI" className="h-9 md:h-11 w-auto object-contain max-w-[150px]" />
+                <img src="/all_brands_logos/bipa.png" alt="BIPA" className="h-9 md:h-11 w-auto object-contain max-w-[160px]" />
+              </div>
+            </motion.div>
+
+            {/* Row 5: 3 Columns (Strategic Partner, Global Partner, Media Partner) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+              <motion.div {...fadeInUp} className="flex flex-col items-center">
+                <span className="text-white text-xs md:text-sm font-sans font-bold uppercase tracking-wider mb-2 text-center">Strategic Partner</span>
+                <div className="bg-white rounded-2xl p-4 w-full flex items-center justify-center gap-4 min-h-[90px] shadow-lg border border-white/20 hover:scale-[1.02] transition-transform">
+                  <img src="/all_brands_logos/ray-consult.png" alt="Ray Consulting" className="h-9 md:h-11 w-auto object-contain max-w-[110px]" />
+                  <img src="/all_brands_logos/ancc.png" alt="Agri Network Consultancy" className="h-9 md:h-11 w-auto object-contain max-w-[110px]" />
+                </div>
+              </motion.div>
+
+              <motion.div {...fadeInUp} className="flex flex-col items-center">
+                <span className="text-white text-xs md:text-sm font-sans font-bold uppercase tracking-wider mb-2 text-center">Global Partner</span>
+                <div className="bg-white rounded-2xl p-4 w-full flex items-center justify-center gap-3 min-h-[90px] shadow-lg border border-white/20 hover:scale-[1.02] transition-transform">
+                  <img src="/all_brands_logos/bio-agri-con.png" alt="BioAgTech World" className="h-8 md:h-10 w-auto object-contain max-w-[110px]" />
+                  <img src="/all_brands_logos/bioagritech.png" alt="Global BioAg Alliance" className="h-8 md:h-10 w-auto object-contain max-w-[120px]" />
+                </div>
+              </motion.div>
+
+              <motion.div {...fadeInUp} className="flex flex-col items-center">
+                <span className="text-white text-xs md:text-sm font-sans font-bold uppercase tracking-wider mb-2 text-center">Media Partner</span>
+                <div className="bg-white rounded-2xl p-4 w-full flex items-center justify-center gap-4 min-h-[90px] shadow-lg border border-white/20 hover:scale-[1.02] transition-transform">
+                  <img src="/all_brands_logos/pestology.png" alt="Pestology" className="h-9 md:h-11 w-auto object-contain max-w-[110px]" />
+                  <img src="/all_brands_logos/fasalkranti.png" alt="Fasal Kranti" className="h-9 md:h-11 w-auto object-contain max-w-[110px]" />
+                </div>
+              </motion.div>
+            </div>
+
           </div>
         </div>
       </section>
