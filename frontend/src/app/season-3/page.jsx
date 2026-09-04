@@ -327,7 +327,6 @@ export default function Season3Page() {
                 href="/After_Event_Report_Final.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                download="After_Event_Report_Final.pdf"
                 className="bg-gradient-to-r from-[#a3d95b]/25 via-black/40 to-black/50 backdrop-blur-md rounded-2xl p-4 border border-[#a3d95b]/60 hover:border-[#a3d95b] shadow-xl hover:shadow-[0_0_25px_rgba(163,217,91,0.3)] hover:from-[#a3d95b]/35 transition-all duration-300 flex items-center justify-between gap-3 text-left group cursor-pointer h-full"
               >
                 <div className="flex items-center gap-3 min-w-0">
