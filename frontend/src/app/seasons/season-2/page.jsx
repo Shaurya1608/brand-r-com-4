@@ -683,40 +683,40 @@ export default function Season2Page() {
       </section>
 
       {/* Section 8 — Gala / Event Moments */}
-      <section id="glimpses" className="py-14 sm:py-16 bg-white border-t border-brand-primary/10">
-        <div className="max-w-4xl sm:max-w-5xl mx-auto px-4 sm:px-6">
-          <motion.div {...fadeInUp} className="mb-8 sm:mb-10 text-center max-w-2xl mx-auto">
-            <div className="text-brand-primary font-mono text-xs font-bold uppercase tracking-[0.2em] mb-2">
+      <section id="glimpses" className="py-10 sm:py-16 bg-white border-t border-brand-primary/10">
+        <div className="max-w-4xl sm:max-w-5xl mx-auto px-3 sm:px-6">
+          <motion.div {...fadeInUp} className="mb-6 sm:mb-10 text-center max-w-2xl mx-auto">
+            <div className="text-brand-primary font-mono text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-1.5">
               FROM THE FLOOR
             </div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-2.5 text-brand-dark">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold mb-2 text-brand-dark">
               Moments from the summit <span className="text-brand-primary italic font-normal">and awards night</span>
             </h2>
-            <p className="text-sm sm:text-base text-brand-dark/80 font-sans max-w-xl mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm md:text-base text-brand-dark/80 font-sans max-w-xl mx-auto leading-relaxed">
               Panel discussions, award presentations and the room that made both happen.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 max-w-4xl sm:max-w-5xl mx-auto">
+          <motion.div {...fadeInUp} className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4 md:gap-5 max-w-4xl sm:max-w-5xl mx-auto">
             {galleryImages.slice(0, 6).map((img, i) => {
               const isLastCard = i === 5;
               return (
-                <motion.div 
+                <div 
                   key={i} 
-                  {...fadeInUp}
                   onClick={() => setSelectedImageIndex(i)}
-                  className="group relative aspect-[16/10] h-40 sm:h-44 md:h-48 rounded-xl overflow-hidden border border-brand-primary/15 bg-brand-surface shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+                  className="group relative aspect-[4/3] sm:aspect-[16/10] h-32 sm:h-44 md:h-48 rounded-xl overflow-hidden border border-brand-primary/15 bg-brand-surface shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer transform-gpu"
                 >
                   <img 
                     src={img.src} 
                     alt={img.title} 
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    decoding="async"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform transform-gpu" 
                   />
                   
                   {!isLastCard ? (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3.5 sm:p-4">
-                      <p className="text-white font-serif font-medium text-xs sm:text-sm leading-snug group-hover:text-[#a3d95b] transition-colors duration-200 drop-shadow-xs">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2.5 sm:p-4">
+                      <p className="text-white font-serif font-medium text-[10px] sm:text-xs md:text-sm leading-tight group-hover:text-[#a3d95b] transition-colors duration-200 drop-shadow-xs">
                         {img.title}
                       </p>
                     </div>
@@ -727,16 +727,16 @@ export default function Season2Page() {
                           e.stopPropagation();
                           setSelectedImageIndex(5);
                         }}
-                        className="px-5 py-2 bg-[#5b8432] text-white font-sans font-bold text-[11px] sm:text-xs uppercase tracking-wider rounded-lg shadow-md group-hover:scale-105 group-hover:bg-[#4a6b28] transition-all duration-300"
+                        className="px-3 py-1.5 sm:px-5 sm:py-2 bg-[#5b8432] text-white font-sans font-bold text-[9px] sm:text-xs uppercase tracking-wider rounded-lg shadow-md group-hover:scale-105 group-hover:bg-[#4a6b28] transition-all duration-300"
                       >
                         VIEW GALLERY
                       </button>
                     </div>
                   )}
-                </motion.div>
+                </div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
