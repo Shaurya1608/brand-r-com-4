@@ -284,67 +284,67 @@ export default function Season3Page() {
 
       {/* Hero Section */}
       <section 
-        className="relative pt-20 pb-12 sm:pt-24 sm:pb-16 md:pt-28 md:pb-20 text-white overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="relative pt-32 pb-16 sm:pt-36 sm:pb-20 md:pt-40 md:pb-24 text-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('/IMG_5630.jpg')` }}
       >
         {/* Rich Dark Overlay to darken background image */}
         <div className="absolute inset-0 bg-black/65 pointer-events-none" />
         
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center flex flex-col items-center"
           >
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-black/40 border border-white/20 text-[#a3d95b] font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2 sm:mb-2.5 shadow-lg backdrop-blur-md">
-              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#a3d95b] animate-pulse" />
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-1.5 rounded-full bg-black/50 border border-white/25 text-[#a3d95b] font-mono text-xs font-bold uppercase tracking-widest mb-3 shadow-lg backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-[#a3d95b] animate-pulse" />
               THIRD EDITION • POST EVENT RECAP
             </div>
             
-            <div className="mb-2 sm:mb-2.5 flex justify-center">
-              <img src="/logo/s3/brand-r-comm-3-logo-02.png" onError={(e) => { e.target.src = '/logo/brand-r-comm-logo-2.png'; }} alt="Brand R.Comm" className="h-16 sm:h-22 md:h-30 lg:h-36 object-contain drop-shadow-2xl" />
+            <div className="mb-3 flex justify-center">
+              <img src="/logo/s3/brand-r-comm-3-logo-02.png" onError={(e) => { e.target.src = '/logo/brand-r-comm-logo-2.png'; }} alt="Brand R.Comm" className="h-20 sm:h-26 md:h-32 lg:h-38 object-contain drop-shadow-2xl" />
             </div>
 
-            <h1 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold leading-[1.2] mb-3 sm:mb-5 text-white drop-shadow-lg">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold leading-[1.2] mb-4 text-white drop-shadow-lg max-w-4xl">
               Closing the knowledge gap, <br className="hidden md:block"/> <span className="text-[#a3d95b] italic font-normal">from soil to market.</span>
             </h1>
-            <p className="text-xs sm:text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed mb-5 sm:mb-8 drop-shadow px-2">
+            <p className="text-sm sm:text-base md:text-lg text-white/95 max-w-3xl mx-auto leading-relaxed mb-8 drop-shadow px-2">
               BRAND R.Comm 2025 brought policymakers, scientists and India's top agri-input companies onto one stage to build a single idea — that farmer prosperity starts with communication that is clear, timely and trustworthy.
             </p>
 
-            {/* Event Metadata Cards Grid — 2x2 on Mobile, 4 in One Line on Desktop */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 md:gap-4 w-full max-w-6xl mt-2 sm:mt-4 items-stretch">
+            {/* Event Metadata Cards Grid — Responsive 4 Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-4 w-full max-w-6xl mt-2 sm:mt-4 items-stretch">
               {/* Card 1: Event */}
-              <div className="bg-black/40 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 md:p-4 border border-white/15 shadow-lg hover:bg-black/55 hover:border-[#a3d95b]/50 transition-all duration-300 flex items-center gap-2.5 sm:gap-3.5 text-left h-full">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b] shadow-inner">
+              <div className="bg-black/40 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 border border-white/15 shadow-lg hover:bg-black/55 hover:border-[#a3d95b]/50 transition-all duration-300 flex items-center gap-3.5 text-left h-full">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b] shadow-inner">
                   <Star className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[#a3d95b] font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-widest mb-0.5">Event</div>
-                  <div className="font-semibold text-[11px] sm:text-xs text-white leading-snug">BRAND R.Comm Summit & Awards</div>
+                  <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Event</div>
+                  <div className="font-semibold text-xs sm:text-xs text-white leading-snug">BRAND R.Comm Summit & Awards</div>
                 </div>
               </div>
               
               {/* Card 2: Venue */}
-              <div className="bg-black/40 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 md:p-4 border border-white/15 shadow-lg hover:bg-black/55 hover:border-[#a3d95b]/50 transition-all duration-300 flex items-center gap-2.5 sm:gap-3.5 text-left h-full">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b] shadow-inner">
+              <div className="bg-black/40 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 border border-white/15 shadow-lg hover:bg-black/55 hover:border-[#a3d95b]/50 transition-all duration-300 flex items-center gap-3.5 text-left h-full">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b] shadow-inner">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[#a3d95b] font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
-                  <div className="font-semibold text-[11px] sm:text-xs text-white leading-snug">Holiday Inn, Aerocity, New Delhi</div>
+                  <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
+                  <div className="font-semibold text-xs sm:text-xs text-white leading-snug">Holiday Inn, Aerocity, New Delhi</div>
                 </div>
               </div>
 
               {/* Card 3: Date */}
-              <div className="bg-black/40 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 md:p-4 border border-white/15 shadow-lg hover:bg-black/55 hover:border-[#a3d95b]/50 transition-all duration-300 flex items-center gap-2.5 sm:gap-3.5 text-left h-full">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b] shadow-inner">
+              <div className="bg-black/40 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 border border-white/15 shadow-lg hover:bg-black/55 hover:border-[#a3d95b]/50 transition-all duration-300 flex items-center gap-3.5 text-left h-full">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#a3d95b] shadow-inner">
                   <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[#a3d95b] font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-widest mb-0.5">Date</div>
-                  <div className="font-semibold text-[11px] sm:text-xs text-white leading-snug">5 December 2025</div>
+                  <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Date</div>
+                  <div className="font-semibold text-xs sm:text-xs text-white leading-snug">5 December 2025</div>
                 </div>
               </div>
 
@@ -353,19 +353,19 @@ export default function Season3Page() {
                 href="/After_Event_Report_Final.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gradient-to-r from-[#a3d95b]/25 via-black/40 to-black/50 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 md:p-4 border border-[#a3d95b]/60 hover:border-[#a3d95b] shadow-xl hover:shadow-[0_0_25px_rgba(163,217,91,0.3)] hover:from-[#a3d95b]/35 transition-all duration-300 flex items-center justify-between gap-2 text-left group cursor-pointer h-full"
+                className="bg-gradient-to-r from-[#a3d95b]/25 via-black/40 to-black/50 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 border border-[#a3d95b]/60 hover:border-[#a3d95b] shadow-xl hover:shadow-[0_0_25px_rgba(163,217,91,0.3)] hover:from-[#a3d95b]/35 transition-all duration-300 flex items-center justify-between gap-2.5 text-left group cursor-pointer h-full"
               >
-                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#a3d95b] text-brand-dark flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#a3d95b] text-brand-dark flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
                     <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[#a3d95b] font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-widest mb-0.5">Report</div>
-                    <div className="font-bold text-[11px] sm:text-xs text-white leading-snug">After Event Report</div>
+                    <div className="text-[#a3d95b] font-mono text-[10px] font-bold uppercase tracking-widest mb-0.5">Report</div>
+                    <div className="font-bold text-xs sm:text-xs text-white leading-snug">After Event Report</div>
                   </div>
                 </div>
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-[#a3d95b]/20 border border-[#a3d95b]/30 flex items-center justify-center shrink-0 text-[#a3d95b] group-hover:bg-[#a3d95b] group-hover:text-brand-dark transition-all">
-                  <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-y-0.5 transition-transform" />
+                <div className="w-8 h-8 rounded-lg bg-[#a3d95b]/20 border border-[#a3d95b]/30 flex items-center justify-center shrink-0 text-[#a3d95b] group-hover:bg-[#a3d95b] group-hover:text-brand-dark transition-all">
+                  <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
                 </div>
               </a>
             </div>
