@@ -18,40 +18,46 @@ const stats = [
 
 const sessions = [
   {
-    label: "01 — INAUGURAL SESSION",
-    title: "Formulating a Roadmap for Rural Communications",
-    desc: "Addressing socio-economic conditions and cultural specifics of rural communities to align communication with sustainable development agendas.",
+    label: "PANEL 01",
+    title: "Science of Communication — Understanding & Bridging Gaps from 'Land to Lab' & 'Lab to Land'",
+    desc: "Bridging communication gaps between rural farming environments and research laboratories is crucial for fostering collaboration, innovation, and sustainable development. Enables seamless knowledge exchange between fields and labs.",
+    bullets: [
+      "Bridging communication gaps between these realms is crucial for fostering collaboration, innovation, and sustainable development.",
+      "Enabling the seamless exchange of knowledge and insights between rural environments and research laboratories."
+    ],
     img: "/IMG_5630.jpg"
   },
   {
-    label: "02 — PANEL 01",
-    title: "Science of Communication — 'Land to Lab' & 'Lab to Land'",
-    desc: "Understanding and bridging communication gaps between rural farming environments and research laboratories to foster collaboration and innovation.",
+    label: "PANEL 02",
+    title: "Embracing Change & Transformation in AI, Digital Infrastructure, Chemicals & Financial (Credit) Communication",
+    desc: "Leveraging Artificial Intelligence to enhance decision-making processes, optimize operations, drive innovation, and expand last-mile technology connectivity for financial credit and agricultural inputs.",
+    bullets: [
+      "Leveraging AI to enhance decision-making processes, optimize operations, and drive innovation.",
+      "Leveraging Technology for Last-Mile Connectivity.",
+      "Strategies for fostering community engagement and participation in communication initiatives."
+    ],
     img: "/IMG_5791.jpg"
   },
   {
-    label: "03 — PANEL 02",
-    title: "AI, Digital Infrastructure & Financial Credit Communication",
-    desc: "Leveraging Artificial Intelligence, technology for last-mile connectivity, and digital infrastructure to optimize agricultural credit outreach.",
+    label: "PANEL 03",
+    title: "Media Trends 2024 – Shaping the Way Brands Communicate",
+    desc: "Deploying AR/VR technologies and User-Generated Content (UGC) to build trust, deepen community engagement, and amplify brand outreach across sustainable and inclusive channels.",
+    bullets: [
+      "Leveraging augmented reality (AR) and virtual reality (VR) technologies.",
+      "Harnessing User-Generated Content (UGC) to build trust, foster community engagement, and amplify brand messages across diverse channels.",
+      "Sustainable and Inclusive Communication."
+    ],
     img: "/IMG_5570.jpg"
   },
   {
-    label: "04 — PANEL 03",
-    title: "Media Trends 2024 — Shaping the Way Brands Communicate",
-    desc: "Harnessing User-Generated Content (UGC), AR/VR tech, and inclusive channels to build trust and community engagement in rural branding.",
+    label: "PANEL 04",
+    title: "Vocal for Local: Level Up Communication Strategy for Nationwide Engagement",
+    desc: "Amplifying the 'Vocal for Local' initiative by elevating communication strategies prioritizing authenticity, digital engagement, community outreach, consumer empowerment, partnerships, and measurement.",
+    bullets: [
+      "Amplifying the 'Vocal for Local' message and fostering nationwide engagement.",
+      "Elevating communication strategies that prioritize authenticity, digital engagement, collaboration, community outreach, consumer empowerment, partnerships, and measurement."
+    ],
     img: "/IMG_5750.jpg"
-  },
-  {
-    label: "05 — PANEL 04",
-    title: "Vocal for Local — Level Up Communication Strategy",
-    desc: "Elevating communication strategies prioritizing authenticity, digital engagement, community outreach, and nationwide campaign scaling.",
-    img: "/IMG_5630.jpg"
-  },
-  {
-    label: "06 — KEYNOTES & FUTURE PROSPECTS",
-    title: "Brand Keynotes & CEO Future Prospects Panel",
-    desc: "Keynotes by KREPL (50 Years Saga), CCFI, Thakar Chemicals, and CEO Panel examining environmental impact and bridging the digital divide.",
-    img: "/IMG_5791.jpg"
   }
 ];
 
@@ -84,18 +90,22 @@ const reachStats = [
 
 const season1Speakers = [
   { name: "Dr. RB Singh", role: "Former VC, CAU Imphal", imgFile: "Dr. RB SIngh.jpg" },
-  { name: "Dr. KC Ravi", role: "Chairman, CropLife India", imgFile: "Dr. KC Ravi.jpg" },
   { name: "Dr. Arvind Kumar", role: "Former VC, RLBCAU, Jhansi", imgFile: "Dr. Arvind Kumar.jpg" },
-  { name: "Vijay Sardana", role: "Advocate, Supreme Court of India", imgFile: "Vijay Sardana.jpg" },
+  { name: "Shri Raju Kapoor", role: "Director, FMC India", imgFile: "Raju Kapoor.jpg" },
+  { name: "Shri Sunil Sihag", role: "MD, Synergy Technofin Pvt. Ltd.", imgFile: "Sunil Sihag.jpg" },
+  { name: "Dr. Ujjwal Narayan", role: "Business Editor, PTI Videos", imgFile: "Vijay Sardana.jpg" },
+  { name: "Dr. VV Sadamate", role: "Former Advisor, Agri Planning Commission GOI", imgFile: "Dr. Arvind Kumar.jpg" },
+  { name: "Shri Vijay Sardana", role: "Advocate, Supreme Court of India", imgFile: "Vijay Sardana.jpg" },
+  { name: "Shri Durgesh Chandra", role: "Secretary General, CropLife India", imgFile: "Dr. KC Ravi.jpg" },
+  { name: "Shri Manish Sawla", role: "Sr. Manager IT, United Airline", imgFile: "Anil Dhingra.jpg" },
+  { name: "Shri Sanjay Nagi", role: "MD, Market Insight Consultants", imgFile: "Raj Kumar Gupta.jpg" },
+  { name: "Shri Rajat Mishra", role: "Assistant Editor, Republic World", imgFile: "Harish Mehta.jpg" },
+  { name: "Shri Nalin Rawal", role: "Director GIS Services, Agriwatch", imgFile: "Rajesh Aggarwal.jpg" },
+  { name: "Smt. Jyotsna Das Nanda", role: "AVP Corp Comm, DS Group", imgFile: "Dr. Shailendra Singh.jpg" },
+  { name: "Shri Vaishnav Thakur", role: "CMO, Snail Integral LLP", imgFile: "Rajvir Rathi.jpg" },
   { name: "Shri Suresh Reddy", role: "President, Krishi Rasayan Exports", imgFile: "Raj Kumar Gupta.jpg" },
-  { name: "Harish Mehta", role: "Sr. Advisor, Crop Care Federation of India", imgFile: "Harish Mehta.jpg" },
-  { name: "Sumit Gupta", role: "Director (Projects), Thakar Chemicals Ltd.", imgFile: "Raj Kumar Gupta.jpg" },
-  { name: "Anil Dhingra", role: "Managing Director, IFFCO - MC", imgFile: "Anil Dhingra.jpg" },
-  { name: "Rajesh Aggarwal", role: "MD, Insecticides India Ltd.", imgFile: "Rajesh Aggarwal.jpg" },
-  { name: "Rajvir Rathi", role: "Director Public Affairs, Bayer", imgFile: "Rajvir Rathi.jpg" },
-  { name: "Sunil Sihag", role: "MD, Synergy Technofin", imgFile: "Sunil Sihag.jpg" },
-  { name: "Dr. Shailendra Singh", role: "COO, Zydex Industries", imgFile: "Dr. Shailendra Singh.jpg" },
-  { name: "Raju Kapoor", role: "Director, FMC India", imgFile: "Raju Kapoor.jpg" }
+  { name: "Shri Harish Mehta", role: "Sr. Advisor, CCFI", imgFile: "Harish Mehta.jpg" },
+  { name: "Shri Sumit Gupta", role: "Director, Thakar Chemicals Ltd.", imgFile: "Raj Kumar Gupta.jpg" }
 ];
 
 const season1JuryWinners = [
@@ -422,13 +432,23 @@ export default function Season1Page() {
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-3 text-brand-dark">Four core pillars of the 1st Edition</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {sessions.map((session, i) => (
-              <motion.div key={i} {...fadeInUp} transition={{ delay: i * 0.1 }} className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/10 p-6 flex flex-col justify-between hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+              <motion.div key={i} {...fadeInUp} transition={{ delay: i * 0.1 }} className="bg-brand-surface rounded-2xl overflow-hidden border border-brand-primary/15 p-6 flex flex-col justify-between hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                 <div>
                   <div className="text-brand-primary font-mono text-[11px] font-bold uppercase tracking-widest mb-2">{session.label}</div>
-                  <h3 className="text-lg font-bold font-serif leading-tight mb-2.5 text-brand-dark">{session.title}</h3>
-                  <p className="text-brand-dark/70 leading-relaxed text-xs sm:text-sm font-sans">{session.desc}</p>
+                  <h3 className="text-base sm:text-lg font-bold font-serif leading-snug mb-3 text-brand-dark">{session.title}</h3>
+                  <p className="text-brand-dark/75 leading-relaxed text-xs sm:text-sm font-sans mb-4">{session.desc}</p>
+                  {session.bullets && (
+                    <ul className="space-y-2 border-t border-brand-primary/10 pt-3">
+                      {session.bullets.map((bullet, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-[11px] sm:text-xs text-brand-dark/75 leading-normal">
+                          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary shrink-0 mt-1.5" />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </motion.div>
             ))}
