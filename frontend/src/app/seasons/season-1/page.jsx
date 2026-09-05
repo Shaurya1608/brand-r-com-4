@@ -257,8 +257,7 @@ export default function Season1Page() {
     <main className="min-h-screen bg-brand-surface text-brand-dark font-sans selection:bg-brand-primary selection:text-white overflow-x-hidden">
       
       {/* Navigation */}
-      {/* Navigation */}
-      <Navbar logo="/season-1/logo/Brand R.comm 1st edition logo-04.png" logoClassName="h-8 sm:h-9 md:h-10 my-0 bg-white/95 px-2.5 py-1 rounded-lg shadow-sm" />
+      <Navbar logo="/season-1/logo/Brand R.comm 1st edition logo-03.png" logoClassName="h-8 sm:h-9 md:h-10 my-0 bg-white/95 px-2.5 py-1 rounded-lg shadow-sm" />
 
       {/* Hero Section */}
       <section 
@@ -282,12 +281,12 @@ export default function Season1Page() {
             <div className="mb-3 sm:mb-4 flex justify-center">
               <div className="p-3 sm:p-4 rounded-2xl bg-white/95 backdrop-blur-md shadow-2xl border border-white/40">
                 <img 
-                  src="/season-1/logo/Brand R.comm 1st edition logo-03.png" 
+                  src="/season-1/logo/Brand R.comm 1st edition logo-04.png" 
                   alt="Brand R.Comm Season 1 Official Logo" 
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
-                  className="h-20 sm:h-28 md:h-36 lg:h-40 object-contain drop-shadow" 
+                  className="h-16 sm:h-22 md:h-28 lg:h-32 object-contain drop-shadow" 
                 />
               </div>
             </div>
