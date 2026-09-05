@@ -278,7 +278,7 @@ export default function Season1Page() {
               FIRST EDITION • INAUGURAL EVENT RECAP
             </div>
             
-            <div className="mb-4 sm:mb-6 flex justify-center">
+            <div className="mb-1 sm:mb-1.5 flex justify-center">
               <img 
                 src="/season-1/logo/Brand R.comm 1st edition logo-04.png" 
                 alt="Brand R.Comm Season 1 Official Logo" 
