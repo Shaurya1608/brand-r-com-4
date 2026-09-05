@@ -257,7 +257,7 @@ export default function Season1Page() {
     <main className="min-h-screen bg-brand-surface text-brand-dark font-sans selection:bg-brand-primary selection:text-white overflow-x-hidden">
       
       {/* Navigation */}
-      <Navbar logo="/season-1/logo/Brand R.comm 1st edition logo-03.png" logoClassName="h-10 md:h-12 lg:h-14 -my-2 md:-my-3 w-auto object-contain" />
+      <Navbar logo="/season-1/logo/Brand R.comm 1st edition logo-03.png" logoClassName="h-16 sm:h-20 md:h-24 lg:h-28 -my-4 sm:-my-6 md:-my-8 w-auto object-contain" />
 
       {/* Hero Section */}
       <section 
