@@ -278,14 +278,14 @@ export default function Season1Page() {
               FIRST EDITION • INAUGURAL EVENT RECAP
             </div>
             
-            <div className="mb-2 sm:mb-3 flex justify-center">
+            <div className="mb-3 sm:mb-4 flex justify-center">
               <img 
                 src="/season-1/logo/Brand R.comm 1st edition logo-04.png" 
                 alt="Brand R.Comm Season 1 Official Logo" 
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                className="h-10 sm:h-14 md:h-18 lg:h-22 object-contain filter drop-shadow-[0_4px_20px_rgba(255,255,255,0.35)] drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]" 
+                className="h-14 sm:h-20 md:h-26 lg:h-32 object-contain filter drop-shadow-[0_4px_20px_rgba(255,255,255,0.35)] drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]" 
               />
             </div>
 
