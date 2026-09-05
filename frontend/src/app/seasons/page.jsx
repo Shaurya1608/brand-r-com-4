@@ -13,8 +13,8 @@ const seasons = [
     theme: "The Inception of Agri-Communication",
     location: "New Delhi, India",
     desc: "The landmark inaugural edition bringing together agriculture pioneers, rural communicators, and policy leaders.",
-    href: "/seasons/season-1.html",
-    external: true,
+    href: "/seasons/season-1",
+    external: false,
     badge: "1st Edition Archive",
     bgImage: "/IMG_5630.jpg"
   },

@@ -44,7 +44,7 @@ export default function Navbar({ logo = "/logo/brand-r-comm-logo.png", logoClass
       href: "/seasons",
       dropdown: [
         { name: "All Seasons Hub", href: "/seasons" },
-        { name: "Brand R.Comm Season 1", href: "/seasons/season-1.html", external: true },
+        { name: "Brand R.Comm Season 1", href: "/seasons/season-1" },
         { name: "Brand R.Comm Season 2", href: "/seasons/season-2" },
         { name: "Brand R.Comm Season 3", href: "/seasons/season-3" },
       ]
