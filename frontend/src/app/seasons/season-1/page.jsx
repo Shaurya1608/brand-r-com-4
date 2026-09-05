@@ -257,7 +257,7 @@ export default function Season1Page() {
     <main className="min-h-screen bg-brand-surface text-brand-dark font-sans selection:bg-brand-primary selection:text-white overflow-x-hidden">
       
       {/* Navigation */}
-      <Navbar logo="/season-1/logo/Brand R.comm 1st edition logo-03.png" logoClassName="h-9 sm:h-11 md:h-13 lg:h-14 my-0 object-contain" />
+      <Navbar logo="/season-1/logo/Brand R.comm 1st edition logo-03.png" logoClassName="h-10 md:h-12 lg:h-14 -my-2 md:-my-3 w-auto object-contain" />
 
       {/* Hero Section */}
       <section 
@@ -278,14 +278,14 @@ export default function Season1Page() {
               FIRST EDITION • INAUGURAL EVENT RECAP
             </div>
             
-            <div className="mb-3 sm:mb-4 flex justify-center">
+            <div className="mb-4 sm:mb-6 flex justify-center">
               <img 
                 src="/season-1/logo/Brand R.comm 1st edition logo-04.png" 
                 alt="Brand R.Comm Season 1 Official Logo" 
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                className="h-20 sm:h-28 md:h-36 lg:h-44 object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]" 
+                className="h-20 sm:h-28 md:h-36 lg:h-44 object-contain filter drop-shadow-[0_4px_20px_rgba(255,255,255,0.35)] drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]" 
               />
             </div>
 
