@@ -10,76 +10,89 @@ import Navbar from "@/components/Navbar";
 // ==========================================
 
 const stats = [
-  { value: "100+", label: "DELEGATES", icon: Users },
-  { value: "25+", label: "SPEAKERS ON STAGE", icon: Mic },
-  { value: "20,000+", label: "DIGITAL IMPRESSIONS", icon: Globe },
-  { value: "15+", label: "MEDIA COVERAGES", icon: Award }
+  { value: "150+", label: "DELEGATES", icon: Users },
+  { value: "35+", label: "SPEAKERS ON STAGE", icon: Mic },
+  { value: "31,200+", label: "DIGITAL IMPRESSIONS", icon: Globe },
+  { value: "50+", label: "MEDIA COVERAGES", icon: Award }
 ];
 
 const sessions = [
   {
-    label: "01 — INCEPTION",
-    title: "The Inception of Agri-Communication",
-    desc: "Laying the foundation for structured communication strategies across agricultural sectors and rural communities.",
+    label: "01 — INAUGURAL SESSION",
+    title: "Formulating a Roadmap for Rural Communications",
+    desc: "Addressing socio-economic conditions and cultural specifics of rural communities to align communication with sustainable development agendas.",
     img: "/IMG_5630.jpg"
   },
   {
-    label: "02 — PANEL EXCHANGE",
-    title: "Policy & Rural Dialogues",
-    desc: "Inaugural discussions between policy experts, industry leaders, and agricultural communicators.",
+    label: "02 — PANEL 01",
+    title: "Science of Communication — 'Land to Lab' & 'Lab to Land'",
+    desc: "Understanding and bridging communication gaps between rural farming environments and research laboratories to foster collaboration and innovation.",
     img: "/IMG_5791.jpg"
   },
   {
-    label: "03 — BRAND SHOWCASE",
-    title: "Foundational Keynotes",
-    desc: "Keynote addresses highlighting early innovation and sustainable brand communication models.",
+    label: "03 — PANEL 02",
+    title: "AI, Digital Infrastructure & Financial Credit Communication",
+    desc: "Leveraging Artificial Intelligence, technology for last-mile connectivity, and digital infrastructure to optimize agricultural credit outreach.",
     img: "/IMG_5570.jpg"
   },
   {
-    label: "04 — CONNECT",
-    title: "Pioneering Network",
-    desc: "Connecting the first cohort of delegates, speakers, and corporate partners committed to rural outreach.",
+    label: "04 — PANEL 03",
+    title: "Media Trends 2024 — Shaping the Way Brands Communicate",
+    desc: "Harnessing User-Generated Content (UGC), AR/VR tech, and inclusive channels to build trust and community engagement in rural branding.",
     img: "/IMG_5750.jpg"
+  },
+  {
+    label: "05 — PANEL 04",
+    title: "Vocal for Local — Level Up Communication Strategy",
+    desc: "Elevating communication strategies prioritizing authenticity, digital engagement, community outreach, and nationwide campaign scaling.",
+    img: "/IMG_5630.jpg"
+  },
+  {
+    label: "06 — KEYNOTES & FUTURE PROSPECTS",
+    title: "Brand Keynotes & CEO Future Prospects Panel",
+    desc: "Keynotes by KREPL (50 Years Saga), CCFI, Thakar Chemicals, and CEO Panel examining environmental impact and bridging the digital divide.",
+    img: "/IMG_5791.jpg"
   }
 ];
 
 const reachStats = [
   {
     category: "DELEGATES",
-    value: "100+ Attendees",
-    desc: "Founding delegates and industry leaders joined the inaugural summit for rural communication.",
+    value: "150+ Senior Leaders",
+    desc: "Top executives, agribusiness heads, scientists, and policy experts gathered at Holiday Inn, Aerocity, New Delhi.",
     icon: Users
   },
   {
-    category: "IMPRESSIONS",
-    value: "20,000+ Reach",
-    desc: "Print, digital, and social outreach introducing BRAND R.Comm across agricultural circles.",
+    category: "DIGITAL REACH",
+    value: "31,223+ Impressions",
+    desc: "Targeted digital campaigns generating 4,661+ direct reach and engagement across agricultural audiences.",
     icon: Globe
   },
   {
-    category: "PUBLICATIONS",
-    value: "15+ Media Mentions",
-    desc: "Coverage across leading agricultural journals, newspapers, and trade magazines.",
+    category: "MEDIA & PR",
+    value: "50+ Imprint Coverages",
+    desc: "Prominent print & digital coverage in Pestology, Krishak Jagat, plus 20+ media interactions & interviews.",
     icon: FileText
   },
   {
-    category: "HONOURS",
-    value: "Inaugural Recognition",
-    desc: "Pioneering awards presented to leaders shaping rural outreach and brand communication.",
+    category: "EXCELLENCE HONOURS",
+    value: "7+ Award Categories",
+    desc: "Inaugural awards honoring Lifetime Achievement, TVC campaigns, Digital Marketing, PR, and Rural Engagement.",
     icon: Award
   }
 ];
 
 const season1Speakers = [
-  { name: "Dr. RB Singh", role: "Former VC, VAU, Imphal", imgFile: "Dr. RB SIngh.jpg" },
+  { name: "Dr. RB Singh", role: "Former VC, CAU Imphal", imgFile: "Dr. RB SIngh.jpg" },
   { name: "Dr. KC Ravi", role: "Chairman, CropLife India", imgFile: "Dr. KC Ravi.jpg" },
   { name: "Dr. Arvind Kumar", role: "Former VC, RLBCAU, Jhansi", imgFile: "Dr. Arvind Kumar.jpg" },
   { name: "Vijay Sardana", role: "Advocate, Supreme Court of India", imgFile: "Vijay Sardana.jpg" },
-  { name: "Raj Kumar Gupta", role: "MD, Thakar Chemicals Ltd.", imgFile: "Raj Kumar Gupta.jpg" },
+  { name: "Shri Suresh Reddy", role: "President, Krishi Rasayan Exports", imgFile: "Raj Kumar Gupta.jpg" },
+  { name: "Harish Mehta", role: "Sr. Advisor, Crop Care Federation of India", imgFile: "Harish Mehta.jpg" },
+  { name: "Sumit Gupta", role: "Director (Projects), Thakar Chemicals Ltd.", imgFile: "Raj Kumar Gupta.jpg" },
   { name: "Anil Dhingra", role: "Managing Director, IFFCO - MC", imgFile: "Anil Dhingra.jpg" },
-  { name: "Harish Mehta", role: "Sr. Advisor, CCFI", imgFile: "Harish Mehta.jpg" },
-  { name: "Rajesh Aggarwal", role: "MD, Insecticide India Ltd.", imgFile: "Rajesh Aggarwal.jpg" },
-  { name: "Rajvir Rathi", role: "Director Public Affair, Bayer", imgFile: "Rajvir Rathi.jpg" },
+  { name: "Rajesh Aggarwal", role: "MD, Insecticides India Ltd.", imgFile: "Rajesh Aggarwal.jpg" },
+  { name: "Rajvir Rathi", role: "Director Public Affairs, Bayer", imgFile: "Rajvir Rathi.jpg" },
   { name: "Sunil Sihag", role: "MD, Synergy Technofin", imgFile: "Sunil Sihag.jpg" },
   { name: "Dr. Shailendra Singh", role: "COO, Zydex Industries", imgFile: "Dr. Shailendra Singh.jpg" },
   { name: "Raju Kapoor", role: "Director, FMC India", imgFile: "Raju Kapoor.jpg" }
@@ -87,38 +100,50 @@ const season1Speakers = [
 
 const season1JuryWinners = [
   {
-    award: "LIFETIME CONTRIBUTION AWARD 2023",
+    award: "LIFETIME ACHIEVEMENT AWARD 2024",
     name: "DR. RB SINGH",
-    title: "Former Chancellor,",
-    company: "CAU, Imphal",
+    title: "Renowned Agricultural Scientist & Former Chancellor,",
+    company: "Central Agricultural University (CAU), Imphal",
     image: "/Awards/LIFETIME ACHIEVEMENT AWARD 2024-Dr. RB SINGH.jpeg"
   }
 ];
 
 const season1NominationWinners = [
   {
-    award: "PIONEER IN RURAL OUTREACH AWARD 2023",
-    name: "DHANESHA",
-    company: "Dhanesha Crop Science",
-    image: "/others/Dhanesha Crop Science.JPG.jpeg"
+    award: "RURAL ENGAGEMENT AWARD 2024",
+    name: "CROP CARE FEDERATION OF INDIA (CCFI)",
+    company: "Crop Care Federation of India",
+    image: "/others/CropLife India.JPG.jpeg"
   },
   {
-    award: "INTEGRATED COMMUNICATION AWARD 2023",
+    award: "INTEGRATED COMMUNICATION AWARD 2024",
     name: "CROPLIFE INDIA",
     company: "CropLife India",
     image: "/others/CropLife India.JPG.jpeg"
   },
   {
-    award: "EXCELLENCE IN BRANDING AWARD 2023",
-    name: "SYNGENTA",
-    company: "Syngenta India",
+    award: "BRAND CAMPAIGN (TVC) AWARD 2024",
+    name: "KRISHI RASAYAN EXPORTS (KREPL)",
+    company: "Krishi Rasayan Export Pvt. Ltd.",
+    image: "/others/Krishi Rasayan.JPG.jpeg"
+  },
+  {
+    award: "DIGITAL MARKETING AWARD 2024",
+    name: "DHANESHA CROP SCIENCE",
+    company: "Dhanesha Crop Science",
+    image: "/others/Dhanesha Crop Science.JPG.jpeg"
+  },
+  {
+    award: "PR CAMPAIGN AWARD 2024",
+    name: "THAKAR CHEMICALS LIMITED",
+    company: "Thakar Chemicals Limited",
     image: "/others/Syngenta.JPG.jpeg"
   },
   {
-    award: "BRAND CAMPAIGN AWARD 2023",
-    name: "KRISHAJ",
-    company: "Krishi Rasayan Export",
-    image: "/others/Krishi Rasayan.JPG.jpeg"
+    award: "EMERGING PARTICIPANT FOR RURAL ENGAGEMENT",
+    name: "SYNERGY TECHNOFIN & ZYDEX",
+    company: "Synergy Technofin / Zydex Industries",
+    image: "/others/Dhanesha Crop Science.JPG.jpeg"
   }
 ];
 
@@ -265,10 +290,10 @@ export default function Season1Page() {
             </div>
 
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-bold leading-[1.25] mb-2.5 sm:mb-3 text-white drop-shadow-lg max-w-3xl">
-              The Inception of Rural & <br className="hidden sm:block"/> <span className="text-[#a3d95b] italic font-normal">Agri-Communication in India.</span>
+              Formulating a Roadmap for <br className="hidden sm:block"/> <span className="text-[#a3d95b] italic font-normal">Rural Communications in India.</span>
             </h1>
             <p className="text-xs sm:text-sm md:text-base text-white/90 max-w-2xl mx-auto leading-relaxed mb-5 sm:mb-6 drop-shadow px-2">
-              BRAND R.Comm 2023 laid the groundwork for structured dialogue between agricultural scientists, corporate communicators, and rural media pioneers to elevate nation-building communications.
+              BRAND R.Comm 2024 Season 1 brought together agriculture pioneers, rural communicators, policy leaders, and top agribusinesses under the vision: <em>A for Agriculture, B for Branding & C for Communication</em>.
             </p>
 
             {/* Event Metadata Cards */}
@@ -289,7 +314,7 @@ export default function Season1Page() {
                 </div>
                 <div className="min-w-0">
                   <div className="text-[#a3d95b] font-mono text-[8.5px] sm:text-[9px] font-bold uppercase tracking-widest mb-0.5">Venue</div>
-                  <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">Hotel The Park, Janpath, New Delhi</div>
+                  <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">Hotel Holiday Inn, Aerocity, New Delhi</div>
                 </div>
               </div>
 
@@ -299,12 +324,12 @@ export default function Season1Page() {
                 </div>
                 <div className="min-w-0">
                   <div className="text-[#a3d95b] font-mono text-[8.5px] sm:text-[9px] font-bold uppercase tracking-widest mb-0.5">Date & Edition</div>
-                  <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">21 Mar 2023 • 1st Edition</div>
+                  <div className="font-semibold text-[10px] sm:text-xs text-white leading-tight">21st March 2024 • 1st Edition</div>
                 </div>
               </div>
 
               <a 
-                href="/brouchers/Updated BRC 4 2026 Brochure.pdf"
+                href="/season-1/BRC 1 Reports.pptx"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gradient-to-r from-[#a3d95b]/25 via-black/40 to-black/50 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-[#a3d95b]/60 flex items-center justify-between gap-1.5 sm:gap-2 text-left group cursor-pointer h-full"
@@ -314,8 +339,8 @@ export default function Season1Page() {
                     <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[#a3d95b] font-mono text-[8.5px] sm:text-[9px] font-bold uppercase tracking-widest mb-0.5">Archive</div>
-                    <div className="font-bold text-[10px] sm:text-xs text-white leading-tight">Download Summary</div>
+                    <div className="text-[#a3d95b] font-mono text-[8.5px] sm:text-[9px] font-bold uppercase tracking-widest mb-0.5">Report PPTX</div>
+                    <div className="font-bold text-[10px] sm:text-xs text-white leading-tight">Download Report</div>
                   </div>
                 </div>
                 <Download className="w-3.5 h-3.5 text-[#a3d95b] shrink-0" />
