@@ -187,12 +187,12 @@ const AnimatedCounter = ({ value }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   
+  const hasComma = value.includes(',');
   const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
-  const suffix = value.replace(/[0-9]/g, '');
+  const suffix = value.replace(/[0-9,]/g, '');
 
   useEffect(() => {
     if (isInView) {
-      let start = 0;
       const duration = 2000;
       const startTime = performance.now();
       
@@ -210,7 +210,9 @@ const AnimatedCounter = ({ value }) => {
     }
   }, [isInView, numericValue]);
 
-  return <span ref={ref}>{count}{suffix}</span>;
+  const formattedCount = hasComma ? count.toLocaleString() : count;
+
+  return <span ref={ref}>{formattedCount}{suffix}</span>;
 };
 
 export default function Season3Page() {
