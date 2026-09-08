@@ -197,29 +197,26 @@ const galleryImages = [
 
 const backdropSponsors = {
   sponsors: [
-    { name: "Zydex", src: "/season-2/brand_rcomm_2024_sponsor_logos/Zydex.png" },
-    { name: "AGMA", src: "/season-2/brand_rcomm_2024_sponsor_logos/agma.png" }
+    { name: "Bayer", src: "/season-1/sponsor_logos/bayer.png" },
+    { name: "Thakar Chemicals Limited", src: "/season-1/sponsor_logos/thakar.png" },
+    { name: "AlgaEnergy", src: "/season-1/sponsor_logos/algaenergy.png" },
+    { name: "IFFCO-MC Crop Science", src: "/season-1/sponsor_logos/iffco-mc.png" },
+    { name: "Krishaj", src: "/season-1/sponsor_logos/krishaj.png" },
+    { name: "KREPL 50 Years", src: "/season-1/sponsor_logos/krepl-50.png" },
+    { name: "Zydex", src: "/season-1/sponsor_logos/zydex.png" }
   ],
   associations: [
-    { name: "CCFI", src: "/season-2/brand_rcomm_2024_sponsor_logos/CCFI.png" },
-    { name: "ACFI", src: "/season-2/brand_rcomm_2024_sponsor_logos/ACFI.png" },
-    { name: "CropLife India", src: "/season-2/brand_rcomm_2024_sponsor_logos/Crop Life India.png" }
-  ],
-  associateSponsors: [
-    { name: "Yara", src: "/season-2/brand_rcomm_2024_sponsor_logos/yara copy.png" },
-    { name: "INERA", src: "/season-2/brand_rcomm_2024_sponsor_logos/inera.png" },
-    { name: "Syngenta", src: "/season-2/brand_rcomm_2024_sponsor_logos/sygenta.png" },
-    { name: "Bayer", src: "/season-2/brand_rcomm_2024_sponsor_logos/Bayer.png" }
+    { name: "CCFI", src: "/season-1/sponsor_logos/ccfi.png" },
+    { name: "CropLife India", src: "/season-1/sponsor_logos/crop-life.png" },
+    { name: "BASAI", src: "/season-1/sponsor_logos/basai.png" }
   ],
   mediaPartners: [
-    { name: "Krishi Jagran", src: "/season-2/brand_rcomm_2024_sponsor_logos/kj.png" },
-    { name: "Krishak Jagat", src: "/season-2/brand_rcomm_2024_sponsor_logos/krishak.jpeg" }
+    { name: "Pestology", src: "/season-1/sponsor_logos/pestology.png" },
+    { name: "Krishi Jagran", src: "/season-1/sponsor_logos/krishi-jagran.png" },
+    { name: "Krishak Jagat", src: "/season-1/sponsor_logos/krishak-jagat.png" }
   ],
-  researchPartners: [
-    { name: "Market Insight Consultants", src: "/season-2/brand_rcomm_2024_sponsor_logos/Market Insight Consultants.png" }
-  ],
-  knowledgePartners: [
-    { name: "Synergy Technofin", src: "/season-2/brand_rcomm_2024_sponsor_logos/Synergy Technofin.png" }
+  researchPartner: [
+    { name: "Market Insight Consultants", src: "/season-1/sponsor_logos/market-insight.png" }
   ]
 };
 
@@ -777,13 +774,10 @@ export default function Season1Page() {
             </p>
           </motion.div>
 
-          <motion.div {...fadeInUp} className="bg-white rounded-3xl p-4 sm:p-6 border border-brand-primary/15 shadow-sm space-y-5 sm:space-y-6">
-            {/* SPONSORS */}
+          <motion.div {...fadeInUp} className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-[#3d5a22]/80 shadow-md max-w-6xl mx-auto space-y-8 sm:space-y-10">
+            {/* 1. OUR SPONSORS */}
             <div className="flex flex-col items-center">
-              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
-                SPONSORS
-              </h3>
-              <div className="w-full bg-brand-surface/60 rounded-2xl px-6 sm:px-10 py-3.5 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[90px] sm:min-h-[105px]">
+              <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:gap-10 md:gap-14 min-h-[90px] sm:min-h-[110px] py-2">
                 {backdropSponsors.sponsors.map((logo, idx) => (
                   <img
                     key={idx}
@@ -791,19 +785,20 @@ export default function Season1Page() {
                     alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className="max-h-12 sm:max-h-16 md:max-h-18 max-w-[160px] sm:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300"
+                    className="max-h-12 sm:max-h-16 md:max-h-18 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
                   />
                 ))}
               </div>
+              <h3 className="text-center font-sans text-xs sm:text-sm font-extrabold text-black tracking-wider uppercase mt-4">
+                OUR SPONSORS
+              </h3>
             </div>
 
-            {/* INDUSTRY ASSOCIATION PARTNERS & ASSOCIATE SPONSORS */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-              <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
-                  INDUSTRY ASSOCIATION PARTNERS
-                </h3>
-                <div className="w-full bg-brand-surface/60 rounded-2xl px-5 sm:px-8 py-3.5 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[90px] sm:min-h-[105px]">
+            {/* 2. 3 COLUMNS: INDUSTRY ASSOCIATION PARTNERS | MEDIA PARTNERS | AWARD RESEARCH PARTNER */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 pt-6 border-t border-gray-100">
+              {/* Col 1: INDUSTRY ASSOCIATION PARTNERS */}
+              <div className="flex flex-col items-center justify-between">
+                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[60px] sm:min-h-[80px]">
                   {backdropSponsors.associations.map((logo, idx) => (
                     <img
                       key={idx}
@@ -811,38 +806,18 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-11 sm:max-h-14 md:max-h-16 max-w-[150px] sm:max-w-[200px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[120px] sm:max-w-[150px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
+                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mt-4">
+                  INDUSTRY ASSOCIATION PARTNERS
+                </h3>
               </div>
 
-              <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
-                  ASSOCIATE SPONSORS
-                </h3>
-                <div className="w-full bg-brand-surface/60 rounded-2xl px-5 sm:px-8 py-3.5 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[90px] sm:min-h-[105px]">
-                  {backdropSponsors.associateSponsors.map((logo, idx) => (
-                    <img
-                      key={idx}
-                      src={logo.src}
-                      alt={logo.name}
-                      loading="lazy"
-                      decoding="async"
-                      className="max-h-11 sm:max-h-14 md:max-h-16 max-w-[150px] sm:max-w-[200px] object-contain hover:scale-105 transition-transform duration-300"
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* MEDIA PARTNERS, RESEARCH PARTNER & KNOWLEDGE PARTNER */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
-                  MEDIA PARTNERS
-                </h3>
-                <div className="w-full bg-brand-surface/60 rounded-2xl px-4 sm:px-6 py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-4 sm:gap-6 h-full min-h-[80px] sm:min-h-[95px]">
+              {/* Col 2: MEDIA PARTNERS */}
+              <div className="flex flex-col items-center justify-between">
+                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[60px] sm:min-h-[80px]">
                   {backdropSponsors.mediaPartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -850,46 +825,32 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[130px] sm:max-w-[170px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[120px] sm:max-w-[150px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
+                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mt-4">
+                  MEDIA PARTNERS
+                </h3>
               </div>
 
-              <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
-                  RESEARCH PARTNER
-                </h3>
-                <div className="w-full bg-brand-surface/60 rounded-2xl px-4 sm:px-6 py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-4 sm:gap-6 h-full min-h-[80px] sm:min-h-[95px]">
-                  {backdropSponsors.researchPartners.map((logo, idx) => (
+              {/* Col 3: AWARD RESEARCH PARTNER */}
+              <div className="flex flex-col items-center justify-between">
+                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[60px] sm:min-h-[80px]">
+                  {backdropSponsors.researchPartner.map((logo, idx) => (
                     <img
                       key={idx}
                       src={logo.src}
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-14 sm:max-h-18 md:max-h-20 max-w-[140px] sm:max-w-[170px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
-                  KNOWLEDGE PARTNER
+                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mt-4">
+                  AWARD RESEARCH PARTNER
                 </h3>
-                <div className="w-full bg-brand-surface/60 rounded-2xl px-4 sm:px-6 py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-4 sm:gap-6 h-full min-h-[80px] sm:min-h-[95px]">
-                  {backdropSponsors.knowledgePartners.map((logo, idx) => (
-                    <img
-                      key={idx}
-                      src={logo.src}
-                      alt={logo.name}
-                      loading="lazy"
-                      decoding="async"
-                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
-                    />
-                  ))}
-                </div>
               </div>
             </div>
           </motion.div>
