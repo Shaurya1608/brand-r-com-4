@@ -18,37 +18,37 @@ const stats = [
 
 const sessions = [
   {
-    label: "01 — INAUGURAL SESSION",
+    label: "01 - INAUGURAL SESSION",
     title: "Formulating a Roadmap for Rural Communications",
     desc: "Addressing socio-economic conditions and cultural specifics of rural communities to align communication with sustainable development agendas.",
     img: "/IMG_5630.jpg"
   },
   {
-    label: "02 — PANEL 01",
-    title: "Science of Communication — 'Land to Lab' & 'Lab to Land'",
+    label: "02 - PANEL 01",
+    title: "Science of Communication - 'Land to Lab' & 'Lab to Land'",
     desc: "Understanding and bridging communication gaps between rural farming environments and research laboratories to foster collaboration and innovation.",
     img: "/IMG_5791.jpg"
   },
   {
-    label: "03 — PANEL 02",
+    label: "03 - PANEL 02",
     title: "AI, Digital Infrastructure & Financial Credit Communication",
     desc: "Leveraging Artificial Intelligence, technology for last-mile connectivity, and digital infrastructure to optimize agricultural credit outreach.",
     img: "/IMG_5570.jpg"
   },
   {
-    label: "04 — PANEL 03",
-    title: "Media Trends 2024 — Shaping the Way Brands Communicate",
+    label: "04 - PANEL 03",
+    title: "Media Trends 2024 - Shaping the Way Brands Communicate",
     desc: "Harnessing User-Generated Content (UGC), AR/VR tech, and inclusive channels to build trust and community engagement in rural branding.",
     img: "/IMG_5750.jpg"
   },
   {
-    label: "05 — PANEL 04",
-    title: "Vocal for Local — Level Up Communication Strategy",
+    label: "05 - PANEL 04",
+    title: "Vocal for Local - Level Up Communication Strategy",
     desc: "Elevating communication strategies prioritizing authenticity, digital engagement, community outreach, and nationwide campaign scaling.",
     img: "/IMG_5630.jpg"
   },
   {
-    label: "06 — KEYNOTES & FUTURE PROSPECTS",
+    label: "06 - KEYNOTES & FUTURE PROSPECTS",
     title: "Brand Keynotes & CEO Future Prospects Panel",
     desc: "Keynotes by KREPL (50 Years Saga), CCFI, Thakar Chemicals, and CEO Panel examining environmental impact and bridging the digital divide.",
     img: "/IMG_5791.jpg"
@@ -104,7 +104,7 @@ const season1Speakers = [
   { name: "Shri Sanjay Nagi", role: "Founder & MD, Market Insight Consultants", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Sanjay Nagi.jpg" },
   { name: "Shri Rajat Mishra", role: "Assistant Editor, Republic World", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Rajat Mishra.jpg" },
   { name: "Shri Nalin Rawal", role: "Director Consulting & GIS, Agriwatch", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Nalin Rawal.jpg" },
-  { name: "Smt. Jyotsna Das Nanda", role: "AVP – Corporate Communication, DS Group", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Smt. Jyotsna Das Nanda.jpg" },
+  { name: "Smt. Jyotsna Das Nanda", role: "AVP - Corporate Communication, DS Group", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Smt. Jyotsna Das Nanda.jpg" },
   { name: "Shri Vaishnav Thakur", role: "CMO, Snail Integral LLP", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Vaishnav Thakur.jpg" },
 
   // Panel 03: Media Trends 2024
@@ -447,7 +447,7 @@ export default function Season1Page() {
         </div>
       </section>
 
-      {/* Section 4 — What The Day Held */}
+      {/* Section 4 - What The Day Held */}
       <section className="py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeInUp} className="mb-12 text-center max-w-3xl mx-auto">
@@ -469,7 +469,7 @@ export default function Season1Page() {
         </div>
       </section>
 
-      {/* Section 5 — Speakers */}
+      {/* Section 5 - Speakers */}
       <section id="speakers" className="py-16 sm:py-20 bg-brand-surface border-t border-brand-primary/10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <motion.div {...fadeInUp} className="mb-10 sm:mb-12 text-center max-w-3xl mx-auto">
@@ -501,7 +501,7 @@ export default function Season1Page() {
         </div>
       </section>
 
-      {/* Section 6 — Reach / Numbers */}
+      {/* Section 6 - Reach / Numbers */}
       <section id="reach" className="py-16 md:py-20 bg-white border-t border-brand-primary/10">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeInUp} className="mb-14 text-center max-w-3xl mx-auto">
@@ -685,7 +685,7 @@ export default function Season1Page() {
         </div>
       </section>
 
-      {/* Section 8 — Gala / Event Moments */}
+      {/* Section 8 - Gala / Event Moments */}
       <section id="glimpses" className="py-10 sm:py-16 bg-white border-t border-brand-primary/10">
         <div className="max-w-4xl sm:max-w-5xl mx-auto px-3 sm:px-6">
           <motion.div {...fadeInUp} className="mb-6 sm:mb-10 text-center max-w-2xl mx-auto">
@@ -743,7 +743,7 @@ export default function Season1Page() {
         </div>
       </section>
 
-      {/* Section 9 — Partners */}
+      {/* Section 9 - Partners */}
       <section id="partners" className="py-10 sm:py-12 bg-brand-surface border-t border-brand-primary/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <motion.div {...fadeInUp} className="mb-6 sm:mb-8 text-center max-w-3xl mx-auto">
@@ -1034,7 +1034,7 @@ export default function Season1Page() {
           {/* Bottom Bar */}
           <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center gap-3 sm:gap-4 text-[11px] font-mono tracking-wider text-brand-dark/50 uppercase">
             <div>
-              © 2026 SNAIL INTEGRAL PVT. LTD. — ALL RIGHTS RESERVED
+              © 2026 SNAIL INTEGRAL PVT. LTD. - ALL RIGHTS RESERVED
             </div>
             <div className="text-brand-dark/40">
               BRAND R.Comm Season 1 Recap
