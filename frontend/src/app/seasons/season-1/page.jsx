@@ -84,11 +84,11 @@ const reachStats = [
 
 const season1Speakers = [
   // Inaugural Session
-  { name: "Prof. RB Singh", role: "Former Chancellor, CAU, Imphal", imgSrc: "/season-1/speaker_images/Prof_RB_Singh.jpg" },
-  { name: "Shri Raj Kumar Gupta", role: "MD, Thakar Chemical Ltd", imgSrc: "/season-1/speaker_images/Shri_Raj_Kumar_Gupta.jpg" },
-  { name: "Shri Rajvir Rathi", role: "Director Public Affairs, Bayer CropScience", imgSrc: "/season-1/speaker_images/Shri_Rajvir_Rathi.jpg" },
-  { name: "Dr. KC Ravi", role: "Chairman, CropLife India & CSO, Syngenta", imgSrc: "/season-1/speaker_images/Dr_KC_Ravi.jpg" },
-  { name: "Shri Amit BK Khare", role: "Founder & Managing Partner, Snail Integral", imgSrc: "/season-1/speaker_images/Shri_Amit_BK_Khare.jpg" },
+  { name: "Prof. RB Singh", role: "Former Chancellor, CAU, Imphal", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/rb-singh.png" },
+  { name: "Shri Raj Kumar Gupta", role: "MD, Thakar Chemical Ltd", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/shri-raj-kumar.png" },
+  { name: "Shri Rajvir Rathi", role: "Director Public Affairs, Bayer CropScience", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/shri rajveer-rathi.png" },
+  { name: "Dr. KC Ravi", role: "Chairman, CropLife India & CSO, Syngenta", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/kc ravi.png" },
+  { name: "Shri Amit BK Khare", role: "Founder & Managing Partner, Snail Integral", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/shri amit khare.png" },
 
   // Panel 01: Science of Communication (Land to Lab & Lab to Land)
   { name: "Dr. Arvind Kumar", role: "Former VC, RLBCAU, Jhansi", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Dr. Arvind Kumar.jpg" },
