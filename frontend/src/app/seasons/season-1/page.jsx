@@ -735,15 +735,21 @@ export default function Season1Page() {
                       </p>
                     </div>
                   ) : (
-                    <div className="absolute inset-0 bg-black/45 backdrop-blur-[1px] flex items-center justify-center group-hover:bg-black/55 transition-all duration-300">
+                    <div 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedImageIndex(5);
+                      }}
+                      className="absolute inset-0 bg-black/55 backdrop-blur-[2px] flex items-center justify-center group-hover:bg-black/70 transition-all duration-300 cursor-pointer p-4"
+                    >
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedImageIndex(5);
                         }}
-                        className="px-3 py-1.5 sm:px-5 sm:py-2 bg-[#5b8432] text-white font-sans font-bold text-[9px] sm:text-xs uppercase tracking-wider rounded-lg shadow-md group-hover:scale-105 group-hover:bg-[#4a6b28] transition-all duration-300"
+                        className="px-4 py-2 sm:px-6 sm:py-2.5 bg-[#5b8432] text-white font-sans font-bold text-[10px] sm:text-xs uppercase tracking-wider rounded-xl shadow-xl group-hover:scale-105 group-hover:bg-[#4a6b28] transition-all duration-300 border border-white/20"
                       >
-                        VIEW GALLERY
+                        VIEW GALLERY ({galleryImages.length})
                       </button>
                     </div>
                   )}
@@ -895,7 +901,7 @@ export default function Season1Page() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+            className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
             onClick={() => setSelectedImageIndex(null)}
           >
             <button
