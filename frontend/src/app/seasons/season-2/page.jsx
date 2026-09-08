@@ -726,15 +726,22 @@ export default function Season2Page() {
                       </p>
                     </div>
                   ) : (
-                    <div className="absolute inset-0 bg-black/45 backdrop-blur-[1px] flex items-center justify-center group-hover:bg-black/55 transition-all duration-300">
+                    <div 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsGalleryOpen(true);
+                      }}
+                      className="absolute inset-0 bg-black/45 backdrop-blur-[1px] flex items-center justify-center group-hover:bg-black/55 transition-all duration-300 cursor-pointer p-4"
+                    >
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
-                          setSelectedImageIndex(5);
+                          setIsGalleryOpen(true);
                         }}
-                        className="px-3 py-1.5 sm:px-5 sm:py-2 bg-[#5b8432] text-white font-sans font-bold text-[9px] sm:text-xs uppercase tracking-wider rounded-lg shadow-md group-hover:scale-105 group-hover:bg-[#4a6b28] transition-all duration-300"
+                        className="px-4 py-2 sm:px-6 sm:py-2.5 bg-[#5b8432] text-white font-sans font-bold text-[10px] sm:text-xs uppercase tracking-wider rounded-xl shadow-xl group-hover:scale-105 group-hover:bg-[#4a6b28] transition-all duration-300 border border-white/20 flex items-center gap-2"
                       >
-                        VIEW GALLERY
+                        <ImageIcon className="w-4 h-4 flex-shrink-0" />
+                        <span>VIEW GALLERY ({galleryImages.length})</span>
                       </button>
                     </div>
                   )}
@@ -878,6 +885,62 @@ export default function Season2Page() {
           </motion.div>
         </div>
       </section>
+
+      {/* Gallery Grid Modal */}
+      <AnimatePresence>
+        {isGalleryOpen && (
+          <div className="fixed inset-0 z-[99990] flex flex-col bg-white overflow-hidden h-screen w-screen">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-white"
+            />
+            
+            {/* Modal Header */}
+            <div className="relative z-10 flex items-center justify-between px-6 md:px-10 py-5 border-b border-gray-100 bg-white/95 backdrop-blur-md sticky top-0 shadow-xs">
+              <div>
+                <h3 className="font-serif text-2xl md:text-3xl text-brand-dark font-bold">2nd Edition Gallery</h3>
+                <p className="text-xs text-brand-primary font-mono font-bold mt-1 uppercase tracking-widest">{galleryImages.length} Event Photos</p>
+              </div>
+              <button 
+                onClick={() => setIsGalleryOpen(false)}
+                className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors text-gray-700 cursor-pointer"
+                aria-label="Close gallery"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Modal Body - Full Photos Grid */}
+            <div className="relative z-10 flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50/50">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto pb-12">
+                {galleryImages.map((img, index) => (
+                  <motion.div 
+                    key={index} 
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true, margin: "50px" }}
+                    transition={{ duration: 0.3, delay: (index % 6) * 0.05 }}
+                    onClick={() => setSelectedImageIndex(index)}
+                    className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 group cursor-pointer bg-gray-200 border border-black/5"
+                  >
+                    <img 
+                      src={img.src} 
+                      alt={img.title || `Gallery Photo ${index + 1}`} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                      <p className="text-white font-serif text-xs font-medium leading-snug drop-shadow-xs">{img.title}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Lightbox Image Preview Modal */}
       <AnimatePresence>
