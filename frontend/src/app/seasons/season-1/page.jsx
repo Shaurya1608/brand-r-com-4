@@ -712,7 +712,7 @@ export default function Season1Page() {
           </motion.div>
 
           <motion.div {...fadeInUp} className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4 md:gap-5 max-w-4xl sm:max-w-5xl mx-auto">
-            {galleryImages.map((img, i) => {
+            {galleryImages.slice(0, 6).map((img, i) => {
               const isLastCard = i === 5;
               return (
                 <div 
