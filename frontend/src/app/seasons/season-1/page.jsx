@@ -202,7 +202,6 @@ const backdropSponsors = {
     { name: "AlgaEnergy", src: "/season-1/sponsor_logos/algaenergy.png" },
     { name: "IFFCO-MC Crop Science", src: "/season-1/sponsor_logos/iffco-mc.png" },
     { name: "Krishaj", src: "/season-1/sponsor_logos/krishaj.png" },
-    { name: "KREPL 50 Years", src: "/season-1/sponsor_logos/krepl-50.png" },
     { name: "Zydex", src: "/season-1/sponsor_logos/zydex.png" }
   ],
   associations: [
