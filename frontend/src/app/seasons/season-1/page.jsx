@@ -426,8 +426,20 @@ export default function Season1Page() {
                   </div>
                   <div>
                     <div className="font-bold text-xs uppercase tracking-wider text-brand-dark">Summit Theme</div>
-                    <div className="text-[11px] text-brand-dark/60 font-mono mt-0.5">First Edition 2023</div>
+                    <div className="text-[11px] text-brand-dark/60 font-mono mt-0.5">First Edition 2024</div>
                   </div>
+                </div>
+              </div>
+
+              {/* Featured Theme Image */}
+              <div className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 group relative">
+                <img 
+                  src="/IMG_5630.jpg" 
+                  alt="BRAND R.Comm 1st Edition Summit Stage" 
+                  className="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform transform-gpu" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-90 group-hover:opacity-100 transition-opacity p-4 flex items-end">
+                  <span className="text-white text-xs font-serif font-medium drop-shadow-xs">Inaugural Session • Hotel Holiday Inn, New Delhi</span>
                 </div>
               </div>
             </motion.div>
