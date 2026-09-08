@@ -83,19 +83,47 @@ const reachStats = [
 ];
 
 const season1Speakers = [
-  { name: "Dr. RB Singh", role: "Former VC, CAU Imphal", imgFile: "Dr. RB SIngh.jpg" },
-  { name: "Dr. KC Ravi", role: "Chairman, CropLife India", imgFile: "Dr. KC Ravi.jpg" },
-  { name: "Dr. Arvind Kumar", role: "Former VC, RLBCAU, Jhansi", imgFile: "Dr. Arvind Kumar.jpg" },
-  { name: "Vijay Sardana", role: "Advocate, Supreme Court of India", imgFile: "Vijay Sardana.jpg" },
-  { name: "Shri Suresh Reddy", role: "President, Krishi Rasayan Exports", imgFile: "Raj Kumar Gupta.jpg" },
-  { name: "Harish Mehta", role: "Sr. Advisor, Crop Care Federation of India", imgFile: "Harish Mehta.jpg" },
-  { name: "Sumit Gupta", role: "Director (Projects), Thakar Chemicals Ltd.", imgFile: "Raj Kumar Gupta.jpg" },
-  { name: "Anil Dhingra", role: "Managing Director, IFFCO - MC", imgFile: "Anil Dhingra.jpg" },
-  { name: "Rajesh Aggarwal", role: "MD, Insecticides India Ltd.", imgFile: "Rajesh Aggarwal.jpg" },
-  { name: "Rajvir Rathi", role: "Director Public Affairs, Bayer", imgFile: "Rajvir Rathi.jpg" },
-  { name: "Sunil Sihag", role: "MD, Synergy Technofin", imgFile: "Sunil Sihag.jpg" },
-  { name: "Dr. Shailendra Singh", role: "COO, Zydex Industries", imgFile: "Dr. Shailendra Singh.jpg" },
-  { name: "Raju Kapoor", role: "Director, FMC India", imgFile: "Raju Kapoor.jpg" }
+  // Inaugural Session
+  { name: "Prof. RB Singh", role: "Former Chancellor, CAU, Imphal", imgSrc: "/season-1/speaker_images/Prof_RB_Singh.jpg" },
+  { name: "Shri Raj Kumar Gupta", role: "MD, Thakar Chemical Ltd", imgSrc: "/season-1/speaker_images/Shri_Raj_Kumar_Gupta.jpg" },
+  { name: "Shri Rajvir Rathi", role: "Director Public Affairs, Bayer CropScience", imgSrc: "/season-1/speaker_images/Shri_Rajvir_Rathi.jpg" },
+  { name: "Dr. KC Ravi", role: "Chairman, CropLife India & CSO, Syngenta", imgSrc: "/season-1/speaker_images/Dr_KC_Ravi.jpg" },
+  { name: "Shri Amit BK Khare", role: "Founder & Managing Partner, Snail Integral", imgSrc: "/season-1/speaker_images/Shri_Amit_BK_Khare.jpg" },
+
+  // Panel 01: Science of Communication (Land to Lab & Lab to Land)
+  { name: "Dr. Arvind Kumar", role: "Former VC, RLBCAU, Jhansi", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Dr. Arvind Kumar.jpg" },
+  { name: "Shri Raju Kapoor", role: "Director, FMC India", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Raju Kapoor.jpg" },
+  { name: "Shri Sunil Sihag", role: "MD, Synergy Technofin Pvt. Ltd.", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Sunil Sihag.jpg" },
+  { name: "Dr. Ujjwal Narayan", role: "Business Editor, PTI Videos", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Dr. Ujjwal Narayan.jpg" },
+  { name: "Dr. VV Sadamate", role: "Former Advisor, Agriculture Planning Commission, GOI", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Dr. VV Sadamate.jpg" },
+  { name: "Shri Vijay Sardana", role: "Advocate, Supreme Court of India", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Vijay Sardana.jpg" },
+  { name: "Shri Durgesh Chandra", role: "Secretary General, CropLife India", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Durgesh Chandra.jpg" },
+
+  // Panel 02: AI, Digital Infrastructure, Chemicals & Credit Communication
+  { name: "Shri Manish Sawla", role: "Sr. Manager, IT, United Airlines", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Manish Sawla.jpg" },
+  { name: "Shri Sanjay Nagi", role: "Founder & MD, Market Insight Consultants", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Sanjay Nagi.jpg" },
+  { name: "Shri Rajat Mishra", role: "Assistant Editor, Republic World", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Rajat Mishra.jpg" },
+  { name: "Shri Nalin Rawal", role: "Director Consulting & GIS, Agriwatch", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Nalin Rawal.jpg" },
+  { name: "Smt. Jyotsna Das Nanda", role: "AVP – Corporate Communication, DS Group", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Smt. Jyotsna Das Nanda.jpg" },
+  { name: "Shri Vaishnav Thakur", role: "CMO, Snail Integral LLP", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Vaishnav Thakur.jpg" },
+
+  // Panel 03: Media Trends 2024
+  { name: "Shri Vivek Mittal", role: "Director (Sales & Marketing), Thakar Chemicals", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Vivek Mittal.jpg" },
+  { name: "Shri Tarun Bhargava", role: "COO, IFFCO-MC Crop Science", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Tarun Bhargava.jpg" },
+  { name: "Shri Nitin Puri", role: "Founder, Kisansay", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Nitin Puri.jpg" },
+  { name: "Ms. Poorvi Gupta", role: "Independent Journalist & TEDx speaker", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Ms. Poorvi Gupta.jpg" },
+  { name: "Dr. Shailendra Singh", role: "COO, Zydex Industries", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Dr. Shailendra Singh.jpg" },
+  { name: "Shri Anand Chandra", role: "Co-Founder & Exec Director, Arya.ag", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Anand Chandra.jpg" },
+  { name: "Shri Rahul Mathur", role: "Head, Marketing, IPL Biological", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Rahul Mathur.jpg" },
+  { name: "Smt. Nirmala Pathrawal", role: "Executive Director, CCFI", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Smt. Nirmala Pathrawal.jpg" },
+
+  // Panel 04: Vocal for Local Communication Strategy
+  { name: "Shri Dharmesh Gupta", role: "MD, Dhanesha Crop Science", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Dharmesh Gupta.jpg" },
+  { name: "Shri Debabrata Sarkar", role: "CMD MicroAlgae Solutions & VP-APAC AlgaEnergy", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Debabrata Sarkar.jpg" },
+  { name: "Shri Vipin Saini", role: "CEO, BASAI", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Vipin Saini.jpg" },
+  { name: "Shri Surendra Makhija", role: "Strategic Advisor & Sr VP, Jain Irrigation", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Surendra Makhija.jpg" },
+  { name: "Shri Siddharth Gautam", role: "MD Rural Access & Advisor Amar Ujala", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Shri Siddharth Gautam.jpg" },
+  { name: "Smt. Arti Khare", role: "CEO & Co-Founder, Snail Integral LLP", imgSrc: "/season-1/speakers/ppt/BRC_2024_Panels_1_to_4_Speaker_Images/Smt. Arti Khare.jpg" }
 ];
 
 const season1JuryWinners = [
@@ -193,17 +221,19 @@ const fadeInUp = {
 const SpeakerImage = ({ speaker }) => {
   const [errorCount, setErrorCount] = useState(0);
 
-  if (errorCount >= 1 || !speaker.imgFile) {
+  if (errorCount >= 1 || (!speaker.imgSrc && !speaker.imgFile)) {
     return <User className="text-brand-primary/40 w-10 h-10" />;
   }
 
+  const src = speaker.imgSrc || `/season-2/brand_rcomm_2024_speaker_images/${encodeURIComponent(speaker.imgFile)}`;
+
   return (
     <img 
-      src={`/season-2/brand_rcomm_2024_speaker_images/${encodeURIComponent(speaker.imgFile)}`} 
+      src={src} 
       alt={speaker.name} 
       loading="lazy"
       decoding="async"
-      className="w-full h-full object-cover" 
+      className="w-full h-full object-cover object-top" 
       onError={() => setErrorCount((prev) => prev + 1)} 
     />
   );
