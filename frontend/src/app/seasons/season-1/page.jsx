@@ -176,12 +176,23 @@ const season1NominationWinners = [
 ];
 
 const galleryImages = [
-  { src: "/IMG_5630.jpg", title: "Inaugural Summit Stage Keynote" },
-  { src: "/IMG_5791.jpg", title: "Panel Discussion & Knowledge Exchange" },
-  { src: "/IMG_5570.jpg", title: "Audience & Senior Industry Leaders" },
-  { src: "/IMG_5750.jpg", title: "Awards Night & Presentation" },
-  { src: "/IMG_5630.jpg", title: "Thought Leadership & Dialogue" },
-  { src: "/IMG_5791.jpg", title: "Gala Networking & Collaboration" }
+  { src: "/season-1/glimpse/Event_01_Podium_Speaker.jpg", title: "Inaugural Summit Keynote Address" },
+  { src: "/season-1/glimpse/Event_06_Lifetime_Achievement_Award.jpg", title: "Lifetime Achievement Award to Dr. RB Singh" },
+  { src: "/season-1/glimpse/Event_02_Group_Award.jpg", title: "Industry Awards Presentation" },
+  { src: "/season-1/glimpse/Event_03_Award_Presentation.jpg", title: "Rural Communication Excellence Award" },
+  { src: "/season-1/glimpse/Event_04_Group_Photo.jpg", title: "Dignitaries & Keynote Speakers Group Photo" },
+  { src: "/season-1/glimpse/Event_05_Registration.jpg", title: "Delegate Registration & Summit Welcome" },
+  { src: "/season-1/glimpse/Event_07_Award_Presentation.jpg", title: "Excellence Recognition Ceremony" },
+  { src: "/season-1/glimpse/Event_08_Award_Presentation.jpg", title: "Agri Industry Honor Award" },
+  { src: "/season-1/glimpse/Event_09_Group_Photo.jpg", title: "Inaugural Session Panel Delegation" },
+  { src: "/season-1/glimpse/Event_10_Group_Photo.jpg", title: "Industry Leaders & Policy Experts" },
+  { src: "/season-1/glimpse/Event_11_Group_Photo.jpg", title: "Closing Gala & Delegation Group Photo" },
+  { src: "/season-1/glimpse/Media_01_BSN_News_Coverage.jpg", title: "BSN News National Coverage" },
+  { src: "/season-1/glimpse/Media_02_India99_TV_Award_Research.jpg", title: "India99 TV Media Interview" },
+  { src: "/season-1/glimpse/Media_03_Interview_RComm_Summit.jpg", title: "Press Briefing & Media Interactions" },
+  { src: "/season-1/glimpse/Media_04_Interview_Brand_RComm.jpg", title: "National TV News Interview" },
+  { src: "/season-1/glimpse/Media_05_Interview_Brand_RComm.jpg", title: "Summit Leadership Interview" },
+  { src: "/season-1/glimpse/Media_06_Interview_Brand_RComm.jpg", title: "Media Coverage & Press Release" }
 ];
 
 const backdropSponsors = {
