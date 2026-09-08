@@ -197,9 +197,9 @@ const galleryImages = [
 
 const backdropSponsors = {
   sponsors: [
-    { name: "Bayer", src: "/season-1/sponsor_logos/bayer.png" },
+    { name: "Bayer", src: "/season-1/sponsor_logos/bayer.png", isSquare: true },
     { name: "Thakar Chemicals Limited", src: "/season-1/sponsor_logos/thakar.png" },
-    { name: "AlgaEnergy", src: "/season-1/sponsor_logos/algaenergy.png" },
+    { name: "AlgaEnergy", src: "/season-1/sponsor_logos/algaenergy.png", isSquare: true },
     { name: "IFFCO-MC Crop Science", src: "/season-1/sponsor_logos/iffco-mc.png" },
     { name: "Krishaj", src: "/season-1/sponsor_logos/krishaj.png" },
     { name: "Zydex", src: "/season-1/sponsor_logos/zydex.png" }
@@ -215,7 +215,7 @@ const backdropSponsors = {
     { name: "Krishak Jagat", src: "/season-1/sponsor_logos/krishak-jagat.png" }
   ],
   researchPartner: [
-    { name: "Market Insight Consultants", src: "/season-1/sponsor_logos/market-insight.png" }
+    { name: "Market Insight Consultants", src: "/season-1/sponsor_logos/market-insight.png", isSquare: true }
   ]
 };
 
@@ -776,7 +776,7 @@ export default function Season1Page() {
           <motion.div {...fadeInUp} className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-[#3d5a22]/80 shadow-md max-w-6xl mx-auto space-y-8 sm:space-y-10">
             {/* 1. OUR SPONSORS */}
             <div className="flex flex-col items-center">
-              <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:gap-10 md:gap-14 min-h-[90px] sm:min-h-[110px] py-2">
+              <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:gap-10 md:gap-12 min-h-[90px] sm:min-h-[110px] py-2">
                 {backdropSponsors.sponsors.map((logo, idx) => (
                   <img
                     key={idx}
@@ -784,7 +784,11 @@ export default function Season1Page() {
                     alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className="max-h-12 sm:max-h-16 md:max-h-18 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
+                    className={`${
+                      logo.isSquare 
+                        ? "max-h-11 sm:max-h-13 md:max-h-14 max-w-[110px] sm:max-w-[130px]" 
+                        : "max-h-11 sm:max-h-13 md:max-h-15 max-w-[160px] sm:max-w-[200px] md:max-w-[220px]"
+                    } object-contain hover:scale-105 transition-transform duration-300`}
                   />
                 ))}
               </div>
@@ -797,7 +801,7 @@ export default function Season1Page() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 pt-6 border-t border-gray-100">
               {/* Col 1: INDUSTRY ASSOCIATION PARTNERS */}
               <div className="flex flex-col items-center justify-between">
-                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[60px] sm:min-h-[80px]">
+                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[70px] sm:min-h-[85px]">
                   {backdropSponsors.associations.map((logo, idx) => (
                     <img
                       key={idx}
@@ -805,7 +809,7 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[120px] sm:max-w-[150px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-10 sm:max-h-12 md:max-h-14 max-w-[140px] sm:max-w-[170px] md:max-w-[190px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
@@ -816,7 +820,7 @@ export default function Season1Page() {
 
               {/* Col 2: MEDIA PARTNERS */}
               <div className="flex flex-col items-center justify-between">
-                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[60px] sm:min-h-[80px]">
+                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[70px] sm:min-h-[85px]">
                   {backdropSponsors.mediaPartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -824,7 +828,7 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[120px] sm:max-w-[150px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-10 sm:max-h-12 md:max-h-14 max-w-[140px] sm:max-w-[170px] md:max-w-[190px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
@@ -835,7 +839,7 @@ export default function Season1Page() {
 
               {/* Col 3: AWARD RESEARCH PARTNER */}
               <div className="flex flex-col items-center justify-between">
-                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[60px] sm:min-h-[80px]">
+                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[70px] sm:min-h-[85px]">
                   {backdropSponsors.researchPartner.map((logo, idx) => (
                     <img
                       key={idx}
@@ -843,7 +847,7 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-14 sm:max-h-18 md:max-h-20 max-w-[140px] sm:max-w-[170px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[120px] sm:max-w-[150px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
