@@ -828,13 +828,13 @@ export default function Season1Page() {
             </p>
           </motion.div>
 
-          <motion.div {...fadeInUp} className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-[#3d5a22]/80 shadow-md max-w-6xl mx-auto space-y-8 sm:space-y-10">
+          <motion.div {...fadeInUp} className="bg-brand-surface rounded-3xl p-4 sm:p-6 border border-brand-primary/15 shadow-sm max-w-6xl mx-auto space-y-5 sm:space-y-6">
             {/* 1. OUR SPONSORS */}
             <div className="flex flex-col items-center">
-              <h3 className="text-center font-sans text-xs sm:text-sm font-extrabold text-black tracking-wider uppercase mb-4">
+              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                 OUR SPONSORS
               </h3>
-              <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:gap-10 md:gap-12 min-h-[90px] sm:min-h-[110px] py-2">
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-3.5 sm:py-4.5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-12 min-h-[85px] sm:min-h-[105px]">
                 {backdropSponsors.sponsors.map((logo, idx) => (
                   <img
                     key={idx}
@@ -844,8 +844,8 @@ export default function Season1Page() {
                     decoding="async"
                     className={`${
                       logo.isSquare 
-                        ? "max-h-11 sm:max-h-13 md:max-h-14 max-w-[110px] sm:max-w-[130px]" 
-                        : "max-h-11 sm:max-h-13 md:max-h-15 max-w-[160px] sm:max-w-[200px] md:max-w-[220px]"
+                        ? "max-h-12 sm:max-h-16 md:max-h-18 max-w-[130px] sm:max-w-[150px]" 
+                        : "max-h-14 sm:max-h-20 md:max-h-24 max-w-[200px] sm:max-w-[280px]"
                     } object-contain hover:scale-105 transition-transform duration-300`}
                   />
                 ))}
@@ -853,13 +853,13 @@ export default function Season1Page() {
             </div>
 
             {/* 2. 3 COLUMNS: INDUSTRY ASSOCIATION PARTNERS | MEDIA PARTNERS | AWARD RESEARCH PARTNER */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 pt-6 border-t border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
               {/* Col 1: INDUSTRY ASSOCIATION PARTNERS */}
-              <div className="flex flex-col items-center justify-start">
-                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mb-3">
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   INDUSTRY ASSOCIATION PARTNERS
                 </h3>
-                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[70px] sm:min-h-[85px]">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[75px] sm:min-h-[95px]">
                   {backdropSponsors.associations.map((logo, idx) => (
                     <img
                       key={idx}
@@ -867,18 +867,18 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-10 sm:max-h-12 md:max-h-14 max-w-[140px] sm:max-w-[170px] md:max-w-[190px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
               </div>
 
               {/* Col 2: MEDIA PARTNERS */}
-              <div className="flex flex-col items-center justify-start">
-                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mb-3">
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   MEDIA PARTNERS
                 </h3>
-                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[70px] sm:min-h-[85px]">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[75px] sm:min-h-[95px]">
                   {backdropSponsors.mediaPartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -886,18 +886,18 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-10 sm:max-h-12 md:max-h-14 max-w-[140px] sm:max-w-[170px] md:max-w-[190px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
               </div>
 
               {/* Col 3: AWARD RESEARCH PARTNER */}
-              <div className="flex flex-col items-center justify-start">
-                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mb-3">
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   AWARD RESEARCH PARTNER
                 </h3>
-                <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[70px] sm:min-h-[85px]">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[75px] sm:min-h-[95px]">
                   {backdropSponsors.researchPartner.map((logo, idx) => (
                     <img
                       key={idx}
@@ -905,7 +905,7 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[120px] sm:max-w-[150px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-16 sm:max-h-22 md:max-h-26 max-w-[160px] sm:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
