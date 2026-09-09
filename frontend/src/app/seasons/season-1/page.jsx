@@ -834,7 +834,7 @@ export default function Season1Page() {
               <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                 OUR SPONSORS
               </h3>
-              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-3.5 sm:py-4.5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-12 min-h-[85px] sm:min-h-[105px]">
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 md:gap-10 min-h-[75px] sm:min-h-[95px]">
                 {backdropSponsors.sponsors.map((logo, idx) => (
                   <img
                     key={idx}
@@ -844,8 +844,8 @@ export default function Season1Page() {
                     decoding="async"
                     className={`${
                       logo.isSquare 
-                        ? "max-h-12 sm:max-h-16 md:max-h-18 max-w-[130px] sm:max-w-[150px]" 
-                        : "max-h-14 sm:max-h-20 md:max-h-24 max-w-[200px] sm:max-w-[280px]"
+                        ? "max-h-10 sm:max-h-13 md:max-h-15 max-w-[110px] sm:max-w-[130px]" 
+                        : "max-h-11 sm:max-h-15 md:max-h-18 max-w-[160px] sm:max-w-[220px]"
                     } object-contain hover:scale-105 transition-transform duration-300`}
                   />
                 ))}
@@ -859,7 +859,7 @@ export default function Season1Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   INDUSTRY ASSOCIATION PARTNERS
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[75px] sm:min-h-[95px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-3 sm:gap-5 h-full min-h-[75px] sm:min-h-[95px]">
                   {backdropSponsors.associations.map((logo, idx) => (
                     <img
                       key={idx}
@@ -867,7 +867,7 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-10 sm:max-h-13 md:max-h-15 max-w-[140px] sm:max-w-[200px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
@@ -878,7 +878,7 @@ export default function Season1Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   MEDIA PARTNERS
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[75px] sm:min-h-[95px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-3 sm:gap-5 h-full min-h-[75px] sm:min-h-[95px]">
                   {backdropSponsors.mediaPartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -886,7 +886,7 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-10 sm:max-h-13 md:max-h-15 max-w-[140px] sm:max-w-[200px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
@@ -897,7 +897,7 @@ export default function Season1Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   AWARD RESEARCH PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[75px] sm:min-h-[95px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-3 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-3 sm:gap-5 h-full min-h-[75px] sm:min-h-[95px]">
                   {backdropSponsors.researchPartner.map((logo, idx) => (
                     <img
                       key={idx}
@@ -905,7 +905,7 @@ export default function Season1Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-16 sm:max-h-22 md:max-h-26 max-w-[160px] sm:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-12 sm:max-h-16 md:max-h-18 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
