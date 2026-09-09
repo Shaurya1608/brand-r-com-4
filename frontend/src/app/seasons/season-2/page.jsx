@@ -186,11 +186,11 @@ const galleryImages = [
 const backdropSponsors = {
   sponsors: [
     { name: "Zydex", src: "/season-2/brand_rcomm_2024_sponsor_logos/Zydex.png" },
-    { name: "AGMA Energy", src: "/season-2/brand_rcomm_2024_sponsor_logos/agma.png" },
-    { name: "Novonesis", src: "/all_brands_logos/All Brands logo-21.png" },
+    { name: "AGMA Energy", src: "/season-2/brand_rcomm_2024_sponsor_logos/agma.png", className: "max-h-16 sm:max-h-20 md:max-h-24 max-w-full object-contain scale-115 sm:scale-125 origin-center hover:scale-135 transition-transform duration-300" },
+    { name: "Novonesis", src: "/all_brands_logos/All Brands logo-21.png", className: "max-h-16 sm:max-h-20 md:max-h-24 max-w-full object-contain scale-115 sm:scale-125 origin-center hover:scale-135 transition-transform duration-300" },
     { name: "AlgaEnergy", src: "/season-2/brand_rcomm_2024_sponsor_logos/AlgaEnergy.png" },
     { name: "IFFCO-MC Crop Science", src: "/season-2/brand_rcomm_2024_sponsor_logos/IFFCO-MC Crop Science.png" },
-    { name: "Thakar Chemicals Limited", src: "/all_brands_logos/All Brands logo-75.png" }
+    { name: "Thakar Chemicals Limited", src: "/all_brands_logos/All Brands logo-75.png", className: "max-h-18 sm:max-h-24 md:max-h-28 max-w-full object-contain scale-140 sm:scale-165 origin-center hover:scale-175 transition-transform duration-300" }
   ],
   associations: [
     { name: "BASAI", src: "/all_brands_logos/basai.png" },
@@ -798,7 +798,7 @@ export default function Season2Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-12 sm:max-h-16 md:max-h-18 max-w-full object-contain hover:scale-105 transition-transform duration-300"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-22 max-w-full object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   </div>
                 ))}
