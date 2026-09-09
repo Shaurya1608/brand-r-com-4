@@ -790,18 +790,34 @@ export default function Season2Page() {
               <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2.5">
                 SPONSORS
               </h3>
-              <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-5 items-center justify-items-center">
-                {backdropSponsors.sponsors.map((logo, idx) => (
-                  <div key={idx} className="w-full h-16 sm:h-20 flex items-center justify-center p-2 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
+              <div className="w-full bg-white rounded-2xl px-4 sm:px-8 py-5 sm:py-6 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex flex-col items-center gap-5 sm:gap-6">
+                {/* Top Row: 5 Sponsors */}
+                <div className="w-full flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-12">
+                  {backdropSponsors.sponsors.slice(0, 5).map((logo, idx) => (
+                    <div key={idx} className="flex items-center justify-center p-1.5 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
+                      <img
+                        src={logo.src}
+                        alt={logo.name}
+                        loading="lazy"
+                        decoding="async"
+                        className="max-h-12 sm:max-h-16 md:max-h-18 max-w-[170px] sm:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Next Below Line: Thakar Chemicals Limited (Large) */}
+                <div className="w-full pt-3 sm:pt-4 border-t border-brand-primary/10 flex items-center justify-center">
+                  <div className="flex items-center justify-center p-2 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
                     <img
-                      src={logo.src}
-                      alt={logo.name}
+                      src={backdropSponsors.sponsors[5].src}
+                      alt={backdropSponsors.sponsors[5].name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.name === "Thakar Chemicals Limited" ? "max-h-12 sm:max-h-15 md:max-h-17 max-w-[95%] object-contain hover:scale-105 transition-transform duration-300" : "max-h-14 sm:max-h-18 md:max-h-20 max-w-full object-contain hover:scale-105 transition-transform duration-300"}
+                      className="max-h-16 sm:max-h-24 md:max-h-28 max-w-[300px] sm:max-w-[450px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                ))}
+                </div>
               </div>
             </div>
 
