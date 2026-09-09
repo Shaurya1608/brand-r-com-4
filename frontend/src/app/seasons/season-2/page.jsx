@@ -406,8 +406,18 @@ export default function Season2Page() {
               </p>
             </motion.div>
 
-            {/* Right side quote box */}
+            {/* Right side image & quote box */}
             <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="flex flex-col gap-6">
+              <div className="relative rounded-2xl overflow-hidden shadow-md border border-brand-primary/10 aspect-[16/10]">
+                <img 
+                  src="/season-2/IMG_7133.JPG" 
+                  alt="BRAND R.Comm 2024 Inaugural Session" 
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+
               <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-brand-primary/10 relative">
                 <div className="text-5xl text-brand-primary/20 font-serif absolute top-4 left-6">"</div>
                 <p className="text-xl font-serif italic leading-relaxed text-brand-dark relative z-10 pt-2 mb-6">
