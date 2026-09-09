@@ -773,7 +773,7 @@ export default function Season2Page() {
               <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                 SPONSORS
               </h3>
-              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-3.5 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[90px] sm:min-h-[105px]">
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-4 sm:py-6 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[110px] sm:min-h-[145px]">
                 {backdropSponsors.sponsors.map((logo, idx) => (
                   <img
                     key={idx}
@@ -781,7 +781,7 @@ export default function Season2Page() {
                     alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className="max-h-12 sm:max-h-16 md:max-h-18 max-w-[160px] sm:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300"
+                    className="max-h-16 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"
                   />
                 ))}
               </div>
@@ -793,7 +793,7 @@ export default function Season2Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   INDUSTRY ASSOCIATION PARTNERS
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-3.5 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[90px] sm:min-h-[105px]">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-9 h-full min-h-[105px] sm:min-h-[135px]">
                   {backdropSponsors.associations.map((logo, idx) => (
                     <img
                       key={idx}
@@ -801,7 +801,7 @@ export default function Season2Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-11 sm:max-h-14 md:max-h-16 max-w-[150px] sm:max-w-[200px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
@@ -811,7 +811,7 @@ export default function Season2Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   ASSOCIATE SPONSORS
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-3.5 sm:py-4 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 h-full min-h-[90px] sm:min-h-[105px]">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-9 h-full min-h-[105px] sm:min-h-[135px]">
                   {backdropSponsors.associateSponsors.map((logo, idx) => (
                     <img
                       key={idx}
@@ -819,7 +819,7 @@ export default function Season2Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-11 sm:max-h-14 md:max-h-16 max-w-[150px] sm:max-w-[200px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
@@ -832,7 +832,7 @@ export default function Season2Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   MEDIA PARTNERS
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-4 sm:gap-6 h-full min-h-[80px] sm:min-h-[95px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[100px] sm:min-h-[125px]">
                   {backdropSponsors.mediaPartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -840,7 +840,7 @@ export default function Season2Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[130px] sm:max-w-[170px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-14 sm:max-h-18 md:max-h-22 max-w-[160px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
@@ -850,7 +850,7 @@ export default function Season2Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   RESEARCH PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-4 sm:gap-6 h-full min-h-[80px] sm:min-h-[95px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[100px] sm:min-h-[125px]">
                   {backdropSponsors.researchPartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -858,7 +858,7 @@ export default function Season2Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
@@ -868,7 +868,7 @@ export default function Season2Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   KNOWLEDGE PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-4 sm:gap-6 h-full min-h-[80px] sm:min-h-[95px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[100px] sm:min-h-[125px]">
                   {backdropSponsors.knowledgePartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -876,7 +876,7 @@ export default function Season2Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-10 sm:max-h-13 md:max-h-14 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
                     />
                   ))}
                 </div>
