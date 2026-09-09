@@ -787,14 +787,14 @@ export default function Season2Page() {
           <motion.div {...fadeInUp} className="bg-brand-surface rounded-3xl p-4 sm:p-6 border border-brand-primary/15 shadow-sm space-y-5 sm:space-y-6">
             {/* SPONSORS */}
             <div className="flex flex-col items-center">
-              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2.5">
+              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                 SPONSORS
               </h3>
-              <div className="w-full bg-white rounded-2xl px-4 sm:px-8 py-5 sm:py-6 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex flex-col items-center gap-5 sm:gap-6">
+              <div className="w-full bg-white rounded-2xl px-4 sm:px-8 py-3 sm:py-4 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex flex-col items-center gap-2 sm:gap-3">
                 {/* Top Row: 5 Sponsors */}
-                <div className="w-full flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-12">
+                <div className="w-full flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 md:gap-10">
                   {backdropSponsors.sponsors.slice(0, 5).map((logo, idx) => (
-                    <div key={idx} className="flex items-center justify-center p-1.5 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
+                    <div key={idx} className="flex items-center justify-center p-1 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
                       <img
                         src={logo.src}
                         alt={logo.name}
@@ -806,15 +806,15 @@ export default function Season2Page() {
                   ))}
                 </div>
 
-                {/* Next Below Line: Thakar Chemicals Limited (Large) */}
-                <div className="w-full pt-4 sm:pt-6 border-t border-brand-primary/10 flex items-center justify-center py-2">
-                  <div className="flex items-center justify-center p-3 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
+                {/* Next Below Line: Thakar Chemicals Limited (Large with reduced top/bottom padding) */}
+                <div className="w-full pt-1.5 sm:pt-2.5 border-t border-brand-primary/10 flex items-center justify-center py-0.5">
+                  <div className="flex items-center justify-center p-1 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
                     <img
                       src={backdropSponsors.sponsors[5].src}
                       alt={backdropSponsors.sponsors[5].name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-24 sm:max-h-36 md:max-h-44 max-w-[92%] sm:max-w-[600px] object-contain scale-125 sm:scale-135 origin-center hover:scale-145 transition-transform duration-300 py-1"
+                      className="max-h-20 sm:max-h-32 md:max-h-40 max-w-[92%] sm:max-w-[600px] object-contain scale-120 sm:scale-130 origin-center hover:scale-140 transition-transform duration-300"
                     />
                   </div>
                 </div>
