@@ -790,9 +790,9 @@ export default function Season2Page() {
               <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-1.5">
                 SPONSORS
               </h3>
-              <div className="w-full bg-white rounded-2xl px-3 sm:px-6 py-2 sm:py-2.5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex flex-col items-center gap-1">
+              <div className="w-full bg-white rounded-2xl px-3 sm:px-5 py-2 sm:py-2.5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex flex-col items-center gap-1.5">
                 {/* Top Row: 5 Sponsors */}
-                <div className="w-full flex flex-wrap items-center justify-evenly sm:justify-center gap-4 sm:gap-7 md:gap-9">
+                <div className="w-full flex flex-wrap items-center justify-center gap-3.5 sm:gap-6 md:gap-8">
                   {backdropSponsors.sponsors.slice(0, 5).map((logo, idx) => (
                     <div key={idx} className="flex items-center justify-center p-0.5 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
                       <img
@@ -800,20 +800,20 @@ export default function Season2Page() {
                         alt={logo.name}
                         loading="lazy"
                         decoding="async"
-                        className="max-h-11 sm:max-h-15 md:max-h-17 max-w-[160px] sm:max-w-[210px] object-contain hover:scale-105 transition-transform duration-300"
+                        className="max-h-10 sm:max-h-13 md:max-h-15 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                   ))}
                 </div>
 
                 {/* Next Below Line: Thakar Chemicals Limited */}
-                <div className="w-full pt-2 pb-1 border-t border-brand-primary/10 flex items-center justify-center overflow-hidden">
+                <div className="w-full pt-1.5 pb-0.5 border-t border-brand-primary/10 flex items-center justify-center">
                   <img
                     src={backdropSponsors.sponsors[5].src}
                     alt={backdropSponsors.sponsors[5].name}
                     loading="lazy"
                     decoding="async"
-                    className="w-full max-w-[280px] sm:max-w-[450px] md:max-w-[580px] lg:max-w-[640px] h-auto object-contain hover:scale-105 transition-transform duration-300 my-0 block"
+                    className="max-h-11 sm:max-h-14 md:max-h-16 max-w-[240px] sm:max-w-[320px] md:max-w-[380px] h-auto object-contain hover:scale-105 transition-transform duration-300 block"
                   />
                 </div>
               </div>
