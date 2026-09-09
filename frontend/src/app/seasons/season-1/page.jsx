@@ -394,26 +394,30 @@ export default function Season1Page() {
       {/* Theme Section */}
       <section className="py-16 md:py-24 bg-brand-surface">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div {...fadeInUp} className="mb-10 max-w-3xl">
-            <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">The Inaugural Theme</div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold leading-tight mb-4 text-brand-dark">
-              Building the foundational bridge for rural communications
-            </h2>
-            <p className="text-base md:text-lg text-brand-dark/80 font-sans leading-relaxed">
-              The inaugural season brought together forward-looking voices to address communication barriers, vernacular media penetration, and structured brand trust in rural markets.
-            </p>
-          </motion.div>
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
-            <motion.div {...fadeInUp} className="text-base text-brand-dark/80 leading-relaxed space-y-5">
-              <p>
-                BRAND R.Comm was conceived to serve as a national summit dedicated to rural brand building, agricultural PR, and stakeholder engagement across India's vibrant farming regions.
-              </p>
-              <p>
-                Season 1 established the blueprint for technical panel exchanges, leadership keynotes, brand presentations, and the annual awards ceremony celebrating impactful rural communication campaigns.
-              </p>
+            {/* Left Column: Heading & Paragraphs */}
+            <motion.div {...fadeInUp} className="space-y-6">
+              <div>
+                <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">The Inaugural Theme</div>
+                <h2 className="text-3xl md:text-4xl font-serif font-bold leading-tight mb-4 text-brand-dark">
+                  Building the foundational bridge for rural communications
+                </h2>
+                <p className="text-base md:text-lg text-brand-dark/80 font-sans leading-relaxed">
+                  The inaugural season brought together forward-looking voices to address communication barriers, vernacular media penetration, and structured brand trust in rural markets.
+                </p>
+              </div>
+
+              <div className="text-base text-brand-dark/80 leading-relaxed space-y-4 pt-2 border-t border-brand-primary/10">
+                <p>
+                  BRAND R.Comm was conceived to serve as a national summit dedicated to rural brand building, agricultural PR, and stakeholder engagement across India's vibrant farming regions.
+                </p>
+                <p>
+                  Season 1 established the blueprint for technical panel exchanges, leadership keynotes, brand presentations, and the annual awards ceremony celebrating impactful rural communication campaigns.
+                </p>
+              </div>
             </motion.div>
 
+            {/* Right Column: Featured Image & Quote Card */}
             <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="flex flex-col gap-6">
               {/* Featured Theme Image */}
               <div className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 group relative">
