@@ -190,7 +190,7 @@ const backdropSponsors = {
     { name: "Novonesis", src: "/all_brands_logos/All Brands logo-21.png" },
     { name: "AlgaEnergy", src: "/season-2/brand_rcomm_2024_sponsor_logos/AlgaEnergy.png" },
     { name: "IFFCO-MC Crop Science", src: "/season-2/brand_rcomm_2024_sponsor_logos/IFFCO-MC Crop Science.png" },
-    { name: "Thakar Chemicals Limited", src: "/all_brands_logos/All Brands logo-75.png" }
+    { name: "Thakar Chemicals Limited", src: "/all_brands_logos/All Brands logo-75.png", className: "max-h-24 sm:max-h-36 md:max-h-40 max-w-[280px] sm:max-w-[420px] object-contain hover:scale-105 transition-transform duration-300 scale-125 sm:scale-140" }
   ],
   associations: [
     { name: "BASAI", src: "/all_brands_logos/basai.png" },
@@ -798,7 +798,7 @@ export default function Season2Page() {
                     alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className="max-h-16 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"
+                    className={logo.className || "max-h-16 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
                   />
                 ))}
               </div>
