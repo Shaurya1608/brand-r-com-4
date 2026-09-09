@@ -806,17 +806,15 @@ export default function Season2Page() {
                   ))}
                 </div>
 
-                {/* Next Below Line: Thakar Chemicals Limited (Ultra compact vertical padding) */}
-                <div className="w-full pt-1 sm:pt-1.5 border-t border-brand-primary/10 flex items-center justify-center py-0">
-                  <div className="flex items-center justify-center p-0 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
-                    <img
-                      src={backdropSponsors.sponsors[5].src}
-                      alt={backdropSponsors.sponsors[5].name}
-                      loading="lazy"
-                      decoding="async"
-                      className="max-h-16 sm:max-h-24 md:max-h-28 max-w-[90%] sm:max-w-[550px] object-contain scale-110 sm:scale-120 origin-center hover:scale-130 transition-transform duration-300"
-                    />
-                  </div>
+                {/* Next Below Line: Thakar Chemicals Limited */}
+                <div className="w-full pt-2 pb-1 border-t border-brand-primary/10 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={backdropSponsors.sponsors[5].src}
+                    alt={backdropSponsors.sponsors[5].name}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full max-w-[280px] sm:max-w-[450px] md:max-w-[580px] lg:max-w-[640px] h-auto object-contain hover:scale-105 transition-transform duration-300 my-0 block"
+                  />
                 </div>
               </div>
             </div>
