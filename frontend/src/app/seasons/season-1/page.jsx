@@ -415,6 +415,19 @@ export default function Season1Page() {
             </motion.div>
 
             <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="flex flex-col gap-6">
+              {/* Featured Theme Image */}
+              <div className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 group relative">
+                <img 
+                  src="/IMG_5630.jpg" 
+                  alt="BRAND R.Comm 1st Edition Summit Stage" 
+                  className="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform transform-gpu" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-90 group-hover:opacity-100 transition-opacity p-4 flex items-end">
+                  <span className="text-white text-xs font-serif font-medium drop-shadow-xs">Inaugural Session • Hotel Holiday Inn, New Delhi</span>
+                </div>
+              </div>
+
+              {/* Summit Theme Quote Card */}
               <div className="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-sm border border-brand-primary/10 relative">
                 <div className="text-5xl text-brand-primary/20 font-serif absolute top-4 left-6">"</div>
                 <p className="text-xl font-serif italic leading-relaxed text-brand-dark relative z-10 pt-2 mb-6">
@@ -428,18 +441,6 @@ export default function Season1Page() {
                     <div className="font-bold text-xs uppercase tracking-wider text-brand-dark">Summit Theme</div>
                     <div className="text-[11px] text-brand-dark/60 font-mono mt-0.5">First Edition 2024</div>
                   </div>
-                </div>
-              </div>
-
-              {/* Featured Theme Image */}
-              <div className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 group relative">
-                <img 
-                  src="/IMG_5630.jpg" 
-                  alt="BRAND R.Comm 1st Edition Summit Stage" 
-                  className="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform transform-gpu" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-90 group-hover:opacity-100 transition-opacity p-4 flex items-end">
-                  <span className="text-white text-xs font-serif font-medium drop-shadow-xs">Inaugural Session • Hotel Holiday Inn, New Delhi</span>
                 </div>
               </div>
             </motion.div>
