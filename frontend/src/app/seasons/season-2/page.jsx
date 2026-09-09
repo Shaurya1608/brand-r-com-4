@@ -822,42 +822,41 @@ export default function Season2Page() {
               </div>
             </div>
 
-            {/* INDUSTRY ASSOCIATION PARTNERS & ASSOCIATE SPONSORS */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-              <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
-                  INDUSTRY ASSOCIATION PARTNERS
-                </h3>
-                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-9 h-full min-h-[75px] sm:min-h-[95px]">
-                  {backdropSponsors.associations.map((logo, idx) => (
-                    <img
-                      key={idx}
-                      src={logo.src}
-                      alt={logo.name}
-                      loading="lazy"
-                      decoding="async"
-                      className="max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[280px] object-contain hover:scale-105 transition-transform duration-300"
-                    />
-                  ))}
-                </div>
+            {/* INDUSTRY ASSOCIATION PARTNERS (Full Width) */}
+            <div className="flex flex-col items-center">
+              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                INDUSTRY ASSOCIATION PARTNERS
+              </h3>
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-2.5 sm:py-3.5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[80px] sm:min-h-[105px]">
+                {backdropSponsors.associations.map((logo, idx) => (
+                  <img
+                    key={idx}
+                    src={logo.src}
+                    alt={logo.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[280px] object-contain hover:scale-105 transition-transform duration-300"
+                  />
+                ))}
               </div>
+            </div>
 
-              <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
-                  ASSOCIATE SPONSORS
-                </h3>
-                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-9 h-full min-h-[75px] sm:min-h-[95px]">
-                  {backdropSponsors.associateSponsors.map((logo, idx) => (
-                    <img
-                      key={idx}
-                      src={logo.src}
-                      alt={logo.name}
-                      loading="lazy"
-                      decoding="async"
-                      className="max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[280px] object-contain hover:scale-105 transition-transform duration-300"
-                    />
-                  ))}
-                </div>
+            {/* ASSOCIATE SPONSORS (Full Width) */}
+            <div className="flex flex-col items-center">
+              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                ASSOCIATE SPONSORS
+              </h3>
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-2.5 sm:py-3.5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[80px] sm:min-h-[105px]">
+                {backdropSponsors.associateSponsors.map((logo, idx) => (
+                  <img
+                    key={idx}
+                    src={logo.src}
+                    alt={logo.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[280px] object-contain hover:scale-105 transition-transform duration-300"
+                  />
+                ))}
               </div>
             </div>
 
