@@ -638,7 +638,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-18 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -656,7 +656,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-18 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -676,7 +676,7 @@ export default function Season3Page() {
                     alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className={logo.className || "max-h-16 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
+                    className={logo.className || "max-h-20 sm:max-h-28 md:max-h-32 max-w-[240px] sm:max-w-[360px] object-contain hover:scale-105 transition-transform duration-300"}
                   />
                 ))}
               </div>
@@ -696,7 +696,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -714,7 +714,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -732,7 +732,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -750,7 +750,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -770,7 +770,7 @@ export default function Season3Page() {
                     alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"}
+                    className={logo.className || "max-h-20 sm:max-h-28 md:max-h-32 max-w-[240px] sm:max-w-[360px] object-contain hover:scale-105 transition-transform duration-300"}
                   />
                 ))}
               </div>
@@ -790,7 +790,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -808,7 +808,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -826,7 +826,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
