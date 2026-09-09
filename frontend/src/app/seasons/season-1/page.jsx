@@ -321,7 +321,7 @@ export default function Season1Page() {
             
             <div className="mb-3 sm:mb-4 flex justify-center">
               <img 
-                src="/season-1/logo/Brand R.comm 1st edition logo-04.png" 
+                src="/season-1/logo/Brand R.comm 1st edition logo-04 (2).png" 
                 alt="Brand R.Comm Season 1 Official Logo" 
                 loading="eager"
                 fetchPriority="high"
