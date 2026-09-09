@@ -212,7 +212,7 @@ const backdropSponsors = {
     { name: "Pestology", src: "/all_brands_logos/pestology.png" }
   ],
   researchPartners: [
-    { name: "Market Insight Consultants", src: "/season-2/brand_rcomm_2024_sponsor_logos/Market Insight Consultants.png" }
+    { name: "Market Insight Consultants", src: "/all_brands_logos/market-insight.png" }
   ],
   knowledgePartners: [
     { name: "Synergy Technofin", src: "/season-2/brand_rcomm_2024_sponsor_logos/Synergy Technofin.png" }
