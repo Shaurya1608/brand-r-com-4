@@ -190,7 +190,7 @@ const backdropSponsors = {
     { name: "Novonesis", src: "/all_brands_logos/All Brands logo-21.png" },
     { name: "AlgaEnergy", src: "/season-2/brand_rcomm_2024_sponsor_logos/AlgaEnergy.png" },
     { name: "IFFCO-MC Crop Science", src: "/season-2/brand_rcomm_2024_sponsor_logos/IFFCO-MC Crop Science.png" },
-    { name: "Thakar Chemicals Limited", src: "/season-2/brand_rcomm_2024_sponsor_logos/Thakar Chemicals Limited.png" }
+    { name: "Thakar Chemicals Limited", src: "/all_brands_logos/All Brands logo-75.png" }
   ],
   associations: [
     { name: "BASAI", src: "/all_brands_logos/basai.png" },
