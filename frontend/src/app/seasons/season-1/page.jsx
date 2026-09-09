@@ -422,7 +422,7 @@ export default function Season1Page() {
               {/* Featured Theme Image */}
               <div className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 group relative">
                 <img 
-                  src="/IMG_5630.jpg" 
+                  src="/season-1/DSC09609.JPG" 
                   alt="BRAND R.Comm 1st Edition Summit Stage" 
                   className="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform transform-gpu" 
                 />
