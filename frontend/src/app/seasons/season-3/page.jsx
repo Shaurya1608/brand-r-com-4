@@ -147,6 +147,49 @@ const allGalleryImages = [
   ...randomClicksImages
 ];
 
+const season3Sponsors = {
+  poweredBy: [
+    { name: "Epilogic", src: "/all_brands_logos/All Brands logo-01.png" }
+  ],
+  supportedBy: [
+    { name: "Novonesis", src: "/all_brands_logos/All Brands logo-21.png" }
+  ],
+  sponsoredBy: [
+    { name: "Momentive", src: "/all_brands_logos/momentive.png" },
+    { name: "AquAgri", src: "/all_brands_logos/All Brands logo-80.png" },
+    { name: "Thakar Chemicals Limited", src: "/all_brands_logos/All Brands logo-75.png", className: "max-h-24 sm:max-h-36 md:max-h-40 max-w-[280px] sm:max-w-[420px] object-contain hover:scale-105 transition-transform duration-300 scale-125 sm:scale-140" }
+  ],
+  kitSponsor: [
+    { name: "CCFI", src: "/all_brands_logos/cccfi.png" }
+  ],
+  mementoSponsor: [
+    { name: "ACFI", src: "/all_brands_logos/acfi.png" }
+  ],
+  researchPartner: [
+    { name: "Market Insight Consultants", src: "/all_brands_logos/market-insight.png" }
+  ],
+  podcastPartner: [
+    { name: "The Snail Show", src: "/all_brands_logos/SnailShowPodcastLogo-01.webp" }
+  ],
+  industryAssociations: [
+    { name: "NBIF", src: "/all_brands_logos/nbif.png" },
+    { name: "CropLife India", src: "/all_brands_logos/crop-life.png" },
+    { name: "BASAI", src: "/all_brands_logos/basai.png" },
+    { name: "BIPA", src: "/all_brands_logos/bipa.png" }
+  ],
+  strategicPartners: [
+    { name: "Ray Consulting", src: "/all_brands_logos/ray-consult.png" },
+    { name: "ANCC", src: "/all_brands_logos/ancc.png" }
+  ],
+  globalPartner: [
+    { name: "BioAg World", src: "/all_brands_logos/bio-agri-con.png" }
+  ],
+  mediaPartners: [
+    { name: "Pestology", src: "/all_brands_logos/pestology.png" },
+    { name: "Fasal Kranti", src: "/all_brands_logos/fasalkranti.png" }
+  ]
+};
+
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
@@ -562,6 +605,234 @@ export default function Season3Page() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Section 9 — Partners & Sponsors */}
+      <section id="partners" className="py-10 sm:py-12 bg-brand-surface border-t border-brand-primary/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <motion.div {...fadeInUp} className="mb-6 sm:mb-8 text-center max-w-3xl mx-auto">
+            <div className="text-[#5b8432] font-mono text-[11px] font-bold uppercase tracking-[0.18em] mb-1">
+              GRATITUDE
+            </div>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-1.5 text-brand-dark leading-tight">
+              Sponsors, partners and brands <span className="text-[#5b8432] italic font-normal whitespace-nowrap">that trust us</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-brand-dark/70 font-sans max-w-lg mx-auto leading-relaxed">
+              The companies and associations who made the third edition possible.
+            </p>
+          </motion.div>
+
+          <motion.div {...fadeInUp} className="bg-brand-surface rounded-3xl p-4 sm:p-6 border border-brand-primary/15 shadow-sm space-y-5 sm:space-y-6">
+            {/* ROW 1: POWERED BY & SUPPORTED BY */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                  POWERED BY
+                </h3>
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-6 h-full min-h-[105px] sm:min-h-[135px]">
+                  {season3Sponsors.poweredBy.map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                  SUPPORTED BY
+                </h3>
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-6 h-full min-h-[105px] sm:min-h-[135px]">
+                  {season3Sponsors.supportedBy.map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ROW 2: SPONSORED BY (FULL WIDTH) */}
+            <div className="flex flex-col items-center">
+              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                SPONSORED BY
+              </h3>
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-4 sm:py-6 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[110px] sm:min-h-[145px]">
+                {season3Sponsors.sponsoredBy.map((logo, idx) => (
+                  <img
+                    key={idx}
+                    src={logo.src}
+                    alt={logo.name}
+                    loading="lazy"
+                    decoding="async"
+                    className={logo.className || "max-h-16 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* ROW 3: KIT SPONSOR, MEMENTO SPONSOR, RESEARCH PARTNER, PODCAST PARTNER (4-COL GRID) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                  KIT SPONSOR
+                </h3>
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[105px] sm:min-h-[135px]">
+                  {season3Sponsors.kitSponsor.map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                  MEMENTO SPONSOR
+                </h3>
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[105px] sm:min-h-[135px]">
+                  {season3Sponsors.mementoSponsor.map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                  RESEARCH PARTNER
+                </h3>
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[105px] sm:min-h-[135px]">
+                  {season3Sponsors.researchPartner.map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                  PODCAST PARTNER
+                </h3>
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[105px] sm:min-h-[135px]">
+                  {season3Sponsors.podcastPartner.map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ROW 4: INDUSTRY ASSOCIATION PARTNER (FULL WIDTH) */}
+            <div className="flex flex-col items-center">
+              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                INDUSTRY ASSOCIATION PARTNER
+              </h3>
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[105px] sm:min-h-[135px]">
+                {season3Sponsors.industryAssociations.map((logo, idx) => (
+                  <img
+                    key={idx}
+                    src={logo.src}
+                    alt={logo.name}
+                    loading="lazy"
+                    decoding="async"
+                    className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* ROW 5: STRATEGIC PARTNER, GLOBAL PARTNER, MEDIA PARTNER (3-COL GRID) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                  STRATEGIC PARTNER
+                </h3>
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[105px] sm:min-h-[135px]">
+                  {season3Sponsors.strategicPartners.map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                  GLOBAL PARTNER
+                </h3>
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[105px] sm:min-h-[135px]">
+                  {season3Sponsors.globalPartner.map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                  MEDIA PARTNER
+                </h3>
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[105px] sm:min-h-[135px]">
+                  {season3Sponsors.mediaPartners.map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={logo.className || "max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
