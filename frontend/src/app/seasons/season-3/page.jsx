@@ -631,7 +631,7 @@ export default function Season3Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   POWERED BY
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-6 h-full min-h-[105px] sm:min-h-[135px]">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-6 h-full min-h-[75px] sm:min-h-[95px]">
                   {season3Sponsors.poweredBy.map((logo, idx) => (
                     <img
                       key={idx}
@@ -639,7 +639,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-18 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-20 sm:max-h-28 md:max-h-32 max-w-[240px] sm:max-w-[340px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -649,7 +649,7 @@ export default function Season3Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   SUPPORTED BY
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-6 h-full min-h-[105px] sm:min-h-[135px]">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-6 h-full min-h-[75px] sm:min-h-[95px]">
                   {season3Sponsors.supportedBy.map((logo, idx) => (
                     <img
                       key={idx}
@@ -657,7 +657,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-18 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-20 sm:max-h-28 md:max-h-32 max-w-[240px] sm:max-w-[340px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -669,7 +669,7 @@ export default function Season3Page() {
               <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                 SPONSORED BY
               </h3>
-              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-4 sm:py-6 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[110px] sm:min-h-[145px]">
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-2.5 sm:py-3.5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[80px] sm:min-h-[105px]">
                 {season3Sponsors.sponsoredBy.map((logo, idx) => (
                   <img
                     key={idx}
@@ -677,7 +677,7 @@ export default function Season3Page() {
                     alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className={logo.className || "max-h-20 sm:max-h-28 md:max-h-32 max-w-[240px] sm:max-w-[360px] object-contain hover:scale-105 transition-transform duration-300"}
+                    className={logo.className || "max-h-22 sm:max-h-30 md:max-h-34 max-w-[260px] sm:max-w-[380px] object-contain hover:scale-105 transition-transform duration-300"}
                   />
                 ))}
               </div>
@@ -689,7 +689,7 @@ export default function Season3Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   KIT SPONSOR
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[105px] sm:min-h-[135px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[75px] sm:min-h-[95px]">
                   {season3Sponsors.kitSponsor.map((logo, idx) => (
                     <img
                       key={idx}
@@ -697,7 +697,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-20 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -707,7 +707,7 @@ export default function Season3Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   MEMENTO SPONSOR
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[105px] sm:min-h-[135px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[75px] sm:min-h-[95px]">
                   {season3Sponsors.mementoSponsor.map((logo, idx) => (
                     <img
                       key={idx}
@@ -715,7 +715,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-20 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -725,7 +725,7 @@ export default function Season3Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   RESEARCH PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[105px] sm:min-h-[135px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[75px] sm:min-h-[95px]">
                   {season3Sponsors.researchPartner.map((logo, idx) => (
                     <img
                       key={idx}
@@ -733,7 +733,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-20 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -743,7 +743,7 @@ export default function Season3Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   PODCAST PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[105px] sm:min-h-[135px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-center gap-4 h-full min-h-[75px] sm:min-h-[95px]">
                   {season3Sponsors.podcastPartner.map((logo, idx) => (
                     <img
                       key={idx}
@@ -751,7 +751,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-20 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -763,7 +763,7 @@ export default function Season3Page() {
               <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                 INDUSTRY ASSOCIATION PARTNER
               </h3>
-              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[105px] sm:min-h-[135px]">
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-2.5 sm:py-3.5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[80px] sm:min-h-[105px]">
                 {season3Sponsors.industryAssociations.map((logo, idx) => (
                   <img
                     key={idx}
@@ -771,7 +771,7 @@ export default function Season3Page() {
                     alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className={logo.className || "max-h-20 sm:max-h-28 md:max-h-32 max-w-[240px] sm:max-w-[360px] object-contain hover:scale-105 transition-transform duration-300"}
+                    className={logo.className || "max-h-22 sm:max-h-30 md:max-h-34 max-w-[260px] sm:max-w-[380px] object-contain hover:scale-105 transition-transform duration-300"}
                   />
                 ))}
               </div>
@@ -783,7 +783,7 @@ export default function Season3Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   STRATEGIC PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[105px] sm:min-h-[135px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[75px] sm:min-h-[95px]">
                   {season3Sponsors.strategicPartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -791,7 +791,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-20 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -801,7 +801,7 @@ export default function Season3Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   GLOBAL PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[105px] sm:min-h-[135px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[75px] sm:min-h-[95px]">
                   {season3Sponsors.globalPartner.map((logo, idx) => (
                     <img
                       key={idx}
@@ -809,7 +809,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-20 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
@@ -819,7 +819,7 @@ export default function Season3Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   MEDIA PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[105px] sm:min-h-[135px]">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[75px] sm:min-h-[95px]">
                   {season3Sponsors.mediaPartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -827,7 +827,7 @@ export default function Season3Page() {
                       alt={logo.name}
                       loading="lazy"
                       decoding="async"
-                      className={logo.className || "max-h-18 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"}
+                      className={logo.className || "max-h-20 sm:max-h-26 md:max-h-30 max-w-[220px] sm:max-w-[320px] object-contain hover:scale-105 transition-transform duration-300"}
                     />
                   ))}
                 </div>
