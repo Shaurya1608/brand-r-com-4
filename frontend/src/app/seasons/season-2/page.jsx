@@ -318,7 +318,7 @@ export default function Season2Page() {
             </div>
             
             <div className="mb-2 sm:mb-2.5 flex justify-center">
-              <img src="/season-2/logo/Brand R.comm 2nd edition logo for white bg-02.png" alt="Brand R.Comm Season 2" loading="eager" fetchPriority="high" decoding="async" className="h-16 sm:h-22 md:h-28 lg:h-34 object-contain drop-shadow-2xl" />
+              <img src="/season-2/logo/Brand R.comm 2nd edition logo-02.png" alt="Brand R.Comm Season 2" loading="eager" fetchPriority="high" decoding="async" className="h-16 sm:h-22 md:h-28 lg:h-34 object-contain drop-shadow-2xl" />
             </div>
 
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-bold leading-[1.25] mb-2.5 sm:mb-3 text-white drop-shadow-lg max-w-3xl">
