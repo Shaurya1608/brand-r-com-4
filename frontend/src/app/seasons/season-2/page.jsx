@@ -301,7 +301,7 @@ export default function Season2Page() {
       {/* Hero Section */}
       <section 
         className="relative min-h-screen pt-40 pb-16 sm:pt-48 sm:pb-20 md:pt-36 md:pb-24 lg:pt-32 flex items-center justify-center text-white overflow-hidden bg-cover bg-no-repeat"
-        style={{ backgroundImage: `url('/season-2/IMG_7943.JPG')`, backgroundPosition: 'center 20%' }}
+        style={{ backgroundImage: `url('/season-2/IMG_7290.JPG')`, backgroundPosition: 'center 20%' }}
       >
         <div className="absolute inset-0 bg-black/65 pointer-events-none" />
         
