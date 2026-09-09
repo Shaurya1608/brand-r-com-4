@@ -831,6 +831,9 @@ export default function Season1Page() {
           <motion.div {...fadeInUp} className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-[#3d5a22]/80 shadow-md max-w-6xl mx-auto space-y-8 sm:space-y-10">
             {/* 1. OUR SPONSORS */}
             <div className="flex flex-col items-center">
+              <h3 className="text-center font-sans text-xs sm:text-sm font-extrabold text-black tracking-wider uppercase mb-4">
+                OUR SPONSORS
+              </h3>
               <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:gap-10 md:gap-12 min-h-[90px] sm:min-h-[110px] py-2">
                 {backdropSponsors.sponsors.map((logo, idx) => (
                   <img
@@ -847,15 +850,15 @@ export default function Season1Page() {
                   />
                 ))}
               </div>
-              <h3 className="text-center font-sans text-xs sm:text-sm font-extrabold text-black tracking-wider uppercase mt-4">
-                OUR SPONSORS
-              </h3>
             </div>
 
             {/* 2. 3 COLUMNS: INDUSTRY ASSOCIATION PARTNERS | MEDIA PARTNERS | AWARD RESEARCH PARTNER */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 pt-6 border-t border-gray-100">
               {/* Col 1: INDUSTRY ASSOCIATION PARTNERS */}
-              <div className="flex flex-col items-center justify-between">
+              <div className="flex flex-col items-center justify-start">
+                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mb-3">
+                  INDUSTRY ASSOCIATION PARTNERS
+                </h3>
                 <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[70px] sm:min-h-[85px]">
                   {backdropSponsors.associations.map((logo, idx) => (
                     <img
@@ -868,13 +871,13 @@ export default function Season1Page() {
                     />
                   ))}
                 </div>
-                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mt-4">
-                  INDUSTRY ASSOCIATION PARTNERS
-                </h3>
               </div>
 
               {/* Col 2: MEDIA PARTNERS */}
-              <div className="flex flex-col items-center justify-between">
+              <div className="flex flex-col items-center justify-start">
+                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mb-3">
+                  MEDIA PARTNERS
+                </h3>
                 <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[70px] sm:min-h-[85px]">
                   {backdropSponsors.mediaPartners.map((logo, idx) => (
                     <img
@@ -887,13 +890,13 @@ export default function Season1Page() {
                     />
                   ))}
                 </div>
-                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mt-4">
-                  MEDIA PARTNERS
-                </h3>
               </div>
 
               {/* Col 3: AWARD RESEARCH PARTNER */}
-              <div className="flex flex-col items-center justify-between">
+              <div className="flex flex-col items-center justify-start">
+                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mb-3">
+                  AWARD RESEARCH PARTNER
+                </h3>
                 <div className="flex items-center justify-center flex-wrap gap-4 sm:gap-6 min-h-[70px] sm:min-h-[85px]">
                   {backdropSponsors.researchPartner.map((logo, idx) => (
                     <img
@@ -906,9 +909,6 @@ export default function Season1Page() {
                     />
                   ))}
                 </div>
-                <h3 className="text-center font-sans text-[11px] sm:text-xs font-extrabold text-black tracking-wider uppercase mt-4">
-                  AWARD RESEARCH PARTNER
-                </h3>
               </div>
             </div>
           </motion.div>
