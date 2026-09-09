@@ -183,7 +183,7 @@ const season3Sponsors = {
   ],
   globalPartner: [
     { name: "BioAgTech World Congress", src: "/all_brands_logos/bio-agri-con.png" },
-    { name: "Global BioAg Alliance", src: "/all_brands_logos/global-bioag-alliance.png" }
+    { name: "Global BioAg Alliance", src: "/all_brands_logos/global-bioag-alliance.png", className: "max-h-12 sm:max-h-16 md:max-h-20 max-w-[150px] sm:max-w-[200px] object-contain hover:scale-105 transition-transform duration-300" }
   ],
   mediaPartners: [
     { name: "Pestology", src: "/all_brands_logos/pestology.png" },
