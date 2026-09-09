@@ -787,74 +787,57 @@ export default function Season2Page() {
           <motion.div {...fadeInUp} className="bg-brand-surface rounded-3xl p-4 sm:p-6 border border-brand-primary/15 shadow-sm space-y-5 sm:space-y-6">
             {/* SPONSORS */}
             <div className="flex flex-col items-center">
-              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-1.5">
+              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                 SPONSORS
               </h3>
-              <div className="w-full bg-white rounded-2xl px-3 sm:px-5 py-2 sm:py-2.5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex flex-col items-center gap-1.5">
-                {/* Top Row: 5 Sponsors */}
-                <div className="w-full flex flex-wrap items-center justify-center gap-3.5 sm:gap-6 md:gap-8">
-                  {backdropSponsors.sponsors.slice(0, 5).map((logo, idx) => (
-                    <div key={idx} className="flex items-center justify-center p-0.5 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
-                      <img
-                        src={logo.src}
-                        alt={logo.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="max-h-10 sm:max-h-13 md:max-h-15 max-w-[140px] sm:max-w-[180px] object-contain hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                {/* Next Below Line: Thakar Chemicals Limited */}
-                <div className="w-full pt-1.5 pb-0.5 border-t border-brand-primary/10 flex items-center justify-center">
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-4 sm:py-6 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[110px] sm:min-h-[145px]">
+                {backdropSponsors.sponsors.map((logo, idx) => (
                   <img
-                    src={backdropSponsors.sponsors[5].src}
-                    alt={backdropSponsors.sponsors[5].name}
+                    key={idx}
+                    src={logo.src}
+                    alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className="max-h-11 sm:max-h-14 md:max-h-16 max-w-[240px] sm:max-w-[320px] md:max-w-[380px] h-auto object-contain hover:scale-105 transition-transform duration-300 block"
+                    className="max-h-16 sm:max-h-24 md:max-h-28 max-w-[200px] sm:max-w-[300px] object-contain hover:scale-105 transition-transform duration-300"
                   />
-                </div>
+                ))}
               </div>
             </div>
 
             {/* INDUSTRY ASSOCIATION PARTNERS & ASSOCIATE SPONSORS */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2.5">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   INDUSTRY ASSOCIATION PARTNERS
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 items-center justify-items-center h-full">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-9 h-full min-h-[105px] sm:min-h-[135px]">
                   {backdropSponsors.associations.map((logo, idx) => (
-                    <div key={idx} className="w-full h-16 sm:h-20 flex items-center justify-center p-2 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
-                      <img
-                        src={logo.src}
-                        alt={logo.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="max-h-12 sm:max-h-15 md:max-h-17 max-w-full object-contain hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
+                    />
                   ))}
                 </div>
               </div>
 
               <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2.5">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   ASSOCIATE SPONSORS
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 grid grid-cols-2 sm:grid-cols-5 gap-2.5 sm:gap-3.5 items-center justify-items-center h-full">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-9 h-full min-h-[105px] sm:min-h-[135px]">
                   {backdropSponsors.associateSponsors.map((logo, idx) => (
-                    <div key={idx} className="w-full h-16 sm:h-20 flex items-center justify-center p-2 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
-                      <img
-                        src={logo.src}
-                        alt={logo.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="max-h-12 sm:max-h-15 md:max-h-17 max-w-full object-contain hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
+                    />
                   ))}
                 </div>
               </div>
@@ -863,58 +846,55 @@ export default function Season2Page() {
             {/* MEDIA PARTNERS, RESEARCH PARTNER & KNOWLEDGE PARTNER */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2.5">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   MEDIA PARTNERS
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-3.5 sm:px-5 py-4 sm:py-5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 grid grid-cols-2 sm:grid-cols-4 gap-2.5 items-center justify-items-center h-full">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[100px] sm:min-h-[125px]">
                   {backdropSponsors.mediaPartners.map((logo, idx) => (
-                    <div key={idx} className="w-full h-14 sm:h-18 flex items-center justify-center p-1.5 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
-                      <img
-                        src={logo.src}
-                        alt={logo.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="max-h-11 sm:max-h-14 md:max-h-15 max-w-full object-contain hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-14 sm:max-h-18 md:max-h-22 max-w-[160px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"
+                    />
                   ))}
                 </div>
               </div>
 
               <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2.5">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   RESEARCH PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex items-center justify-center h-full">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[100px] sm:min-h-[125px]">
                   {backdropSponsors.researchPartners.map((logo, idx) => (
-                    <div key={idx} className="w-full h-16 sm:h-20 flex items-center justify-center p-2 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
-                      <img
-                        src={logo.src}
-                        alt={logo.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="max-h-13 sm:max-h-16 md:max-h-18 max-w-full object-contain hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
+                    />
                   ))}
                 </div>
               </div>
 
               <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2.5">
+                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   KNOWLEDGE PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex items-center justify-center h-full">
+                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[100px] sm:min-h-[125px]">
                   {backdropSponsors.knowledgePartners.map((logo, idx) => (
-                    <div key={idx} className="w-full h-16 sm:h-20 flex items-center justify-center p-2 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
-                      <img
-                        src={logo.src}
-                        alt={logo.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="max-h-13 sm:max-h-16 md:max-h-18 max-w-full object-contain hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
+                    <img
+                      key={idx}
+                      src={logo.src}
+                      alt={logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
+                    />
                   ))}
                 </div>
               </div>
