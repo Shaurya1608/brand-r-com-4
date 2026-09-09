@@ -1,8 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function Navbar({ logo = "/logo/brand-r-comm-logo.png", logoClassName = "h-10 md:h-12 lg:h-14 -my-2 md:-my-3" }) {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const calculateTimeLeft = () => {
@@ -89,42 +91,66 @@ export default function Navbar({ logo = "/logo/brand-r-comm-logo.png", logoClass
 
           {/* Desktop Links */}
           <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
-            {navLinks.map((link) => (
-              <div key={link.name} className="relative group">
-                {link.dropdown ? (
-                  <>
-                    <div className="text-sm font-medium text-brand-dark/80 hover:text-brand-primary transition-colors flex items-center gap-1 cursor-pointer py-2 relative group-hover:text-brand-primary">
+            {navLinks.map((link) => {
+              const isParentActive = link.dropdown
+                ? link.dropdown.some((drop) => drop.href === pathname) || pathname?.startsWith('/seasons')
+                : pathname === link.href;
+
+              return (
+                <div key={link.name} className="relative group">
+                  {link.dropdown ? (
+                    <>
+                      <div className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer py-2 relative group-hover:text-brand-primary ${
+                        isParentActive ? "text-brand-primary font-bold" : "text-brand-dark/80 hover:text-brand-primary"
+                      }`}>
+                        {link.name}
+                        <svg className="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                        <span className={`absolute -bottom-1 left-0 h-0.5 bg-brand-primary transition-all duration-300 rounded-full ${
+                          isParentActive ? "w-full" : "w-0 group-hover:w-full"
+                        }`}></span>
+                      </div>
+                      <div className="absolute top-full left-0 w-64 bg-brand-light/95 backdrop-blur-xl rounded-xl shadow-xl border border-brand-primary/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col py-3 z-50 transform translate-y-2 group-hover:translate-y-0">
+                        {link.dropdown.map((dropLink) => {
+                          const isDropActive = pathname === dropLink.href;
+                          return (
+                            <Link
+                              key={dropLink.name}
+                              href={dropLink.href}
+                              target={dropLink.external ? "_blank" : "_self"}
+                              rel={dropLink.external ? "noopener noreferrer" : ""}
+                              className={`px-5 py-2.5 text-sm flex items-center justify-between transition-all duration-200 ${
+                                isDropActive
+                                  ? "text-brand-primary font-bold bg-brand-primary/10 pl-6 border-l-3 border-brand-primary"
+                                  : "font-medium text-brand-dark/70 hover:text-brand-primary hover:bg-brand-primary/5 hover:pl-7"
+                              }`}
+                            >
+                              <span>{dropLink.name}</span>
+                              {isDropActive && (
+                                <span className="w-2 h-2 rounded-full bg-brand-primary ml-2 flex-shrink-0" />
+                              )}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </>
+                  ) : (
+                    <Link 
+                      href={link.href}
+                      className={`relative text-sm font-medium transition-colors py-2 group-hover:text-brand-primary ${
+                        isParentActive ? "text-brand-primary font-bold" : "text-brand-dark/80 hover:text-brand-primary"
+                      }`}
+                    >
                       {link.name}
-                      <svg className="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all duration-300 group-hover:w-full rounded-full"></span>
-                    </div>
-                    <div className="absolute top-full left-0 w-60 bg-brand-light/95 backdrop-blur-xl rounded-xl shadow-xl border border-brand-primary/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col py-3 z-50 transform translate-y-2 group-hover:translate-y-0">
-                      {link.dropdown.map((dropLink) => (
-                        <Link
-                          key={dropLink.name}
-                          href={dropLink.href}
-                          target={dropLink.external ? "_blank" : "_self"}
-                          rel={dropLink.external ? "noopener noreferrer" : ""}
-                          className="px-5 py-2.5 text-sm font-medium text-brand-dark/70 hover:text-brand-primary hover:bg-brand-primary/5 hover:pl-7 transition-all duration-200"
-                        >
-                          {dropLink.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <Link 
-                    href={link.href}
-                    className="relative text-sm font-medium text-brand-dark/80 hover:text-brand-primary transition-colors py-2 group-hover:text-brand-primary"
-                  >
-                    {link.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all duration-300 group-hover:w-full rounded-full"></span>
-                  </Link>
-                )}
-              </div>
-            ))}
+                      <span className={`absolute -bottom-1 left-0 h-0.5 bg-brand-primary transition-all duration-300 rounded-full ${
+                        isParentActive ? "w-full" : "w-0 group-hover:w-full"
+                      }`}></span>
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Desktop Actions */}
@@ -158,47 +184,67 @@ export default function Navbar({ logo = "/logo/brand-r-comm-logo.png", logoClass
       {/* Mobile Menu Dropdown */}
       {isOpen && (
         <div className="lg:hidden absolute top-full left-0 w-full bg-brand-surface/95 backdrop-blur-md border-b border-brand-dark/10 py-6 px-6 flex flex-col space-y-4">
-          {navLinks.map((link) => (
-            <div key={link.name} className="border-b border-brand-dark/5 pb-2">
-              {link.dropdown ? (
-                <div className="flex flex-col">
-                  <button 
-                    onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
-                    className="w-full flex items-center justify-between text-lg font-serif text-brand-dark/90 hover:text-brand-primary transition-colors"
+          {navLinks.map((link) => {
+            const isParentActive = link.dropdown
+              ? link.dropdown.some((drop) => drop.href === pathname) || pathname?.startsWith('/seasons')
+              : pathname === link.href;
+
+            return (
+              <div key={link.name} className="border-b border-brand-dark/5 pb-2">
+                {link.dropdown ? (
+                  <div className="flex flex-col">
+                    <button 
+                      onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+                      className={`w-full flex items-center justify-between text-lg font-serif transition-colors ${
+                        isParentActive ? "text-brand-primary font-bold" : "text-brand-dark/90 hover:text-brand-primary"
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      <svg className={`w-4 h-4 transition-transform ${mobileDropdownOpen || isParentActive ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    {(mobileDropdownOpen || isParentActive) && (
+                      <div className="flex flex-col space-y-2 mt-3 ml-4 border-l-2 border-brand-primary/20 pl-4">
+                        {link.dropdown.map((dropLink) => {
+                          const isDropActive = pathname === dropLink.href;
+                          return (
+                            <Link
+                              key={dropLink.name}
+                              href={dropLink.href}
+                              target={dropLink.external ? "_blank" : "_self"}
+                              rel={dropLink.external ? "noopener noreferrer" : ""}
+                              onClick={() => !dropLink.external && setIsOpen(false)}
+                              className={`text-sm flex items-center justify-between transition-colors ${
+                                isDropActive
+                                  ? "text-brand-primary font-bold"
+                                  : "font-medium text-brand-dark/70 hover:text-brand-primary"
+                              }`}
+                            >
+                              <span>{dropLink.name}</span>
+                              {isDropActive && (
+                                <span className="w-2 h-2 rounded-full bg-brand-primary ml-2 flex-shrink-0" />
+                              )}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link 
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`block text-lg font-serif transition-colors ${
+                      isParentActive ? "text-brand-primary font-bold" : "text-brand-dark/90 hover:text-brand-primary"
+                    }`}
                   >
-                    <span>{link.name}</span>
-                    <svg className={`w-4 h-4 transition-transform ${mobileDropdownOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {mobileDropdownOpen && (
-                    <div className="flex flex-col space-y-2 mt-3 ml-4 border-l-2 border-brand-primary/20 pl-4">
-                      {link.dropdown.map((dropLink) => (
-                        <Link
-                          key={dropLink.name}
-                          href={dropLink.href}
-                          target={dropLink.external ? "_blank" : "_self"}
-                          rel={dropLink.external ? "noopener noreferrer" : ""}
-                          onClick={() => !dropLink.external && setIsOpen(false)}
-                          className="text-sm font-medium text-brand-dark/70 hover:text-brand-primary transition-colors"
-                        >
-                          {dropLink.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link 
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-lg font-serif text-brand-dark/90 hover:text-brand-primary transition-colors"
-                >
-                  {link.name}
-                </Link>
-              )}
-            </div>
-          ))}
+                    {link.name}
+                  </Link>
+                )}
+              </div>
+            );
+          })}
           <div className="flex flex-col pt-6 mt-2 border-t border-brand-dark/10">
              <Link 
                href="/media-kit"
