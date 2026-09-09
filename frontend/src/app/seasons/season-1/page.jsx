@@ -303,7 +303,7 @@ export default function Season1Page() {
       {/* Hero Section */}
       <section 
         className="relative min-h-screen pt-36 pb-16 sm:pt-40 sm:pb-20 md:py-24 lg:py-0 flex items-center justify-center text-white overflow-hidden bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url('/IMG_5630.jpg')` }}
+        style={{ backgroundImage: `url('/season-1/DSC09911.JPG')` }}
       >
         <div className="absolute inset-0 bg-black/70 pointer-events-none" />
         
