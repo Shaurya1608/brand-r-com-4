@@ -843,31 +843,32 @@ export default function Season2Page() {
               </div>
             </div>
 
-            {/* MEDIA PARTNERS, RESEARCH PARTNER & KNOWLEDGE PARTNER */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              <div className="flex flex-col items-center">
-                <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
-                  MEDIA PARTNERS
-                </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[100px] sm:min-h-[125px]">
-                  {backdropSponsors.mediaPartners.map((logo, idx) => (
-                    <img
-                      key={idx}
-                      src={logo.src}
-                      alt={logo.name}
-                      loading="lazy"
-                      decoding="async"
-                      className="max-h-14 sm:max-h-18 md:max-h-22 max-w-[160px] sm:max-w-[240px] object-contain hover:scale-105 transition-transform duration-300"
-                    />
-                  ))}
-                </div>
+            {/* MEDIA PARTNERS (Full Width) */}
+            <div className="flex flex-col items-center">
+              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+                MEDIA PARTNERS
+              </h3>
+              <div className="w-full bg-white rounded-2xl px-6 sm:px-10 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-10 md:gap-14 min-h-[105px] sm:min-h-[135px]">
+                {backdropSponsors.mediaPartners.map((logo, idx) => (
+                  <img
+                    key={idx}
+                    src={logo.src}
+                    alt={logo.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
+                  />
+                ))}
               </div>
+            </div>
 
+            {/* RESEARCH PARTNER & KNOWLEDGE PARTNER */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="flex flex-col items-center">
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   RESEARCH PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[100px] sm:min-h-[125px]">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-9 h-full min-h-[105px] sm:min-h-[135px]">
                   {backdropSponsors.researchPartners.map((logo, idx) => (
                     <img
                       key={idx}
@@ -885,7 +886,7 @@ export default function Season2Page() {
                 <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
                   KNOWLEDGE PARTNER
                 </h3>
-                <div className="w-full bg-white rounded-2xl px-4 sm:px-6 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-7 h-full min-h-[100px] sm:min-h-[125px]">
+                <div className="w-full bg-white rounded-2xl px-5 sm:px-8 py-4 sm:py-5 border border-brand-primary/10 shadow-xs flex flex-wrap items-center justify-evenly sm:justify-center gap-6 sm:gap-9 h-full min-h-[105px] sm:min-h-[135px]">
                   {backdropSponsors.knowledgePartners.map((logo, idx) => (
                     <img
                       key={idx}
