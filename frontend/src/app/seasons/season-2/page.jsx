@@ -383,42 +383,49 @@ export default function Season2Page() {
       </section>
 
       {/* Theme Section */}
-      <section className="py-24 bg-brand-surface">
+      <section className="py-16 md:py-24 bg-brand-surface">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div {...fadeInUp} className="mb-10 max-w-3xl">
-            <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">The Theme</div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold leading-tight mb-4 text-brand-dark">
-              Communication for development, empowerment and sustainability
-            </h2>
-            <p className="text-base md:text-lg text-brand-dark/80 font-sans leading-relaxed">
-              Building on the debut edition, BRAND R.Comm's second year brought a wider mix of voices to the stage, from central government officials to agri-input CEOs to independent journalists.
-            </p>
-          </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
+            {/* Left Column: Heading & Paragraphs */}
+            <motion.div {...fadeInUp} className="space-y-6">
+              <div>
+                <div className="text-brand-primary font-mono text-sm font-bold uppercase tracking-widest mb-3">The Theme</div>
+                <h2 className="text-3xl md:text-4xl font-serif font-bold leading-tight mb-4 text-brand-dark">
+                  Communication for development, empowerment and sustainability
+                </h2>
+                <p className="text-base md:text-lg text-brand-dark/80 font-sans leading-relaxed">
+                  Building on the debut edition, BRAND R.Comm's second year brought a wider mix of voices to the stage, from central government officials to agri-input CEOs to independent journalists.
+                </p>
+              </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Left side */}
-            <motion.div {...fadeInUp} className="text-base text-brand-dark/80 leading-relaxed space-y-5">
-              <p>
-                BRAND R.Comm is a platform built to foster dialogue, collaboration and innovation in rural communication. It brings thought leaders, industry experts, policymakers and stakeholders together to explore the trends, practices and solutions shaping rural India.
-              </p>
-              <p>
-                The second edition carried this forward with a full day of keynotes, panel discussions, brand presentations and networking, closing with an awards night that recognised the people and companies driving change on the ground.
-              </p>
+              <div className="text-base text-brand-dark/80 leading-relaxed space-y-4 pt-2 border-t border-brand-primary/10">
+                <p>
+                  BRAND R.Comm is a platform built to foster dialogue, collaboration and innovation in rural communication. It brings thought leaders, industry experts, policymakers and stakeholders together to explore the trends, practices and solutions shaping rural India.
+                </p>
+                <p>
+                  The second edition carried this forward with a full day of keynotes, panel discussions, brand presentations and networking, closing with an awards night that recognised the people and companies driving change on the ground.
+                </p>
+              </div>
             </motion.div>
 
-            {/* Right side image & quote box */}
+            {/* Right Column: Featured Image & Quote Card */}
             <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="flex flex-col gap-6">
-              <div className="relative rounded-2xl overflow-hidden shadow-md border border-brand-primary/10 aspect-[16/10]">
+              {/* Featured Theme Image */}
+              <div className="overflow-hidden rounded-2xl shadow-sm border border-brand-primary/10 group relative">
                 <img 
                   src="/season-2/IMG_7133.JPG" 
                   alt="BRAND R.Comm 2024 Inaugural Session" 
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  className="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform transform-gpu" 
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-90 group-hover:opacity-100 transition-opacity p-4 flex items-end">
+                  <span className="text-white text-xs font-serif font-medium drop-shadow-xs">Inaugural Session • Hotel The Park, New Delhi</span>
+                </div>
               </div>
 
-              <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-brand-primary/10 relative">
+              {/* Summit Theme Quote Card */}
+              <div className="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-sm border border-brand-primary/10 relative">
                 <div className="text-5xl text-brand-primary/20 font-serif absolute top-4 left-6">"</div>
                 <p className="text-xl font-serif italic leading-relaxed text-brand-dark relative z-10 pt-2 mb-6">
                   Role of communication in aligning with development, empowerment and sustainability for the nation.
