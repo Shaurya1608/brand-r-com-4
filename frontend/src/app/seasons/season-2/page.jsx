@@ -856,7 +856,7 @@ export default function Season2Page() {
                     alt={logo.name}
                     loading="lazy"
                     decoding="async"
-                    className="max-h-14 sm:max-h-20 md:max-h-24 max-w-[180px] sm:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300"
+                    className={logo.className || "max-h-20 sm:max-h-28 md:max-h-32 max-w-[240px] sm:max-w-[360px] object-contain hover:scale-105 transition-transform duration-300"}
                   />
                 ))}
               </div>
