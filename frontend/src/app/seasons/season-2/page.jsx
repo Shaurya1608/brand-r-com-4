@@ -787,34 +787,34 @@ export default function Season2Page() {
           <motion.div {...fadeInUp} className="bg-brand-surface rounded-3xl p-4 sm:p-6 border border-brand-primary/15 shadow-sm space-y-5 sm:space-y-6">
             {/* SPONSORS */}
             <div className="flex flex-col items-center">
-              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-2">
+              <h3 className="text-center font-mono text-[11px] sm:text-xs font-bold text-brand-dark/80 tracking-[0.18em] uppercase mb-1.5">
                 SPONSORS
               </h3>
-              <div className="w-full bg-white rounded-2xl px-4 sm:px-8 py-3 sm:py-4 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex flex-col items-center gap-2 sm:gap-3">
+              <div className="w-full bg-white rounded-2xl px-3 sm:px-6 py-2 sm:py-2.5 border border-brand-primary/15 shadow-xs hover:border-brand-primary/30 transition-all duration-300 flex flex-col items-center gap-1">
                 {/* Top Row: 5 Sponsors */}
-                <div className="w-full flex flex-wrap items-center justify-evenly sm:justify-center gap-5 sm:gap-8 md:gap-10">
+                <div className="w-full flex flex-wrap items-center justify-evenly sm:justify-center gap-4 sm:gap-7 md:gap-9">
                   {backdropSponsors.sponsors.slice(0, 5).map((logo, idx) => (
-                    <div key={idx} className="flex items-center justify-center p-1 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
+                    <div key={idx} className="flex items-center justify-center p-0.5 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
                       <img
                         src={logo.src}
                         alt={logo.name}
                         loading="lazy"
                         decoding="async"
-                        className="max-h-12 sm:max-h-16 md:max-h-18 max-w-[170px] sm:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300"
+                        className="max-h-11 sm:max-h-15 md:max-h-17 max-w-[160px] sm:max-w-[210px] object-contain hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                   ))}
                 </div>
 
-                {/* Next Below Line: Thakar Chemicals Limited (Large with reduced top/bottom padding) */}
-                <div className="w-full pt-1.5 sm:pt-2.5 border-t border-brand-primary/10 flex items-center justify-center py-0.5">
-                  <div className="flex items-center justify-center p-1 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
+                {/* Next Below Line: Thakar Chemicals Limited (Ultra compact vertical padding) */}
+                <div className="w-full pt-1 sm:pt-1.5 border-t border-brand-primary/10 flex items-center justify-center py-0">
+                  <div className="flex items-center justify-center p-0 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
                     <img
                       src={backdropSponsors.sponsors[5].src}
                       alt={backdropSponsors.sponsors[5].name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-20 sm:max-h-32 md:max-h-40 max-w-[92%] sm:max-w-[600px] object-contain scale-120 sm:scale-130 origin-center hover:scale-140 transition-transform duration-300"
+                      className="max-h-16 sm:max-h-24 md:max-h-28 max-w-[90%] sm:max-w-[550px] object-contain scale-110 sm:scale-120 origin-center hover:scale-130 transition-transform duration-300"
                     />
                   </div>
                 </div>
