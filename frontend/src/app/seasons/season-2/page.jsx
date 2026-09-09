@@ -807,14 +807,14 @@ export default function Season2Page() {
                 </div>
 
                 {/* Next Below Line: Thakar Chemicals Limited (Large) */}
-                <div className="w-full pt-3 sm:pt-4 border-t border-brand-primary/10 flex items-center justify-center">
-                  <div className="flex items-center justify-center p-2 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
+                <div className="w-full pt-4 sm:pt-6 border-t border-brand-primary/10 flex items-center justify-center py-2">
+                  <div className="flex items-center justify-center p-3 rounded-xl transition-colors duration-200 hover:bg-brand-surface/20">
                     <img
                       src={backdropSponsors.sponsors[5].src}
                       alt={backdropSponsors.sponsors[5].name}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-16 sm:max-h-24 md:max-h-28 max-w-[300px] sm:max-w-[450px] object-contain hover:scale-105 transition-transform duration-300"
+                      className="max-h-24 sm:max-h-36 md:max-h-44 max-w-[92%] sm:max-w-[600px] object-contain scale-125 sm:scale-135 origin-center hover:scale-145 transition-transform duration-300 py-1"
                     />
                   </div>
                 </div>
