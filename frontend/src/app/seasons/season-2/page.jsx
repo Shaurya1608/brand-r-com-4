@@ -185,7 +185,7 @@ const galleryImages = [
 
 const backdropSponsors = {
   sponsors: [
-    { name: "Zydex", src: "/season-2/brand_rcomm_2024_sponsor_logos/Zydex.png" },
+    { name: "Zydex", src: "/season-2/brand_rcomm_2024_sponsor_logos/Zydex.png", className: "max-h-12 sm:max-h-18 md:max-h-20 max-w-[150px] sm:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300" },
     { name: "AGMA Energy", src: "/season-2/brand_rcomm_2024_sponsor_logos/agma.png" },
     { name: "Novonesis", src: "/all_brands_logos/All Brands logo-21.png" },
     { name: "AlgaEnergy", src: "/season-2/brand_rcomm_2024_sponsor_logos/AlgaEnergy.png" },
