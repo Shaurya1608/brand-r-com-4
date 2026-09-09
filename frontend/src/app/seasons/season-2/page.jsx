@@ -170,7 +170,7 @@ const season2NominationWinners = [
   }
 ];
 
-const galleryImages = [
+const initialFloorMoments = [
   { src: "/season-2/brand_rcomm_2024_floor_moments/Moment%20from%20BRAND%20R.Comm%20Second%20Edition%20awards%2001.jpg", title: "Summit Inauguration & Stage Keynotes" },
   { src: "/season-2/brand_rcomm_2024_floor_moments/Moment%20from%20BRAND%20R.Comm%20Second%20Edition%20awards%2002.jpg", title: "Panel Discussion & Industry Exchange" },
   { src: "/season-2/brand_rcomm_2024_floor_moments/Moment%20from%20BRAND%20R.Comm%20Second%20Edition%20awards%2003.jpg", title: "Audience & Senior Delegates" },
@@ -181,6 +181,24 @@ const galleryImages = [
   { src: "/season-2/brand_rcomm_2024_floor_moments/Moment%20from%20BRAND%20R.Comm%20Second%20Edition%20awards%2008.jpg", title: "Rural Communication Awards" },
   { src: "/season-2/brand_rcomm_2024_floor_moments/Moment%20from%20BRAND%20R.Comm%20Second%20Edition%20awards%2009.jpg", title: "Industry Leaders & Policy Voices" },
   { src: "/season-2/brand_rcomm_2024_floor_moments/Moment%20from%20BRAND%20R.Comm%20Second%20Edition%20awards%2010.jpg", title: "Closing Ceremony & Celebrations" }
+];
+
+const brc2FolderPhotos = [
+  "IMG_7133.JPG", "IMG_7140.JPG", "IMG_7163.JPG", "IMG_7168.JPG", "IMG_7181.JPG", "IMG_7182.JPG",
+  "IMG_7183.JPG", "IMG_7184.JPG", "IMG_7185.JPG", "IMG_7186.JPG", "IMG_7197.JPG", "IMG_7210.JPG",
+  "IMG_7274.JPG", "IMG_7290.JPG", "IMG_7302.JPG", "IMG_7309.JPG", "IMG_7345.JPG", "IMG_7431.JPG",
+  "IMG_7481.JPG", "IMG_7506.JPG", "IMG_7534.JPG", "IMG_7535.JPG", "IMG_7536.JPG", "IMG_7544.JPG",
+  "IMG_7547.JPG", "IMG_7548.JPG", "IMG_7553.JPG", "IMG_7554.JPG", "IMG_7560.JPG", "IMG_7659.JPG",
+  "IMG_7673.JPG", "IMG_7676.JPG", "IMG_7763.JPG", "IMG_7786.JPG", "IMG_7791.JPG", "IMG_7834.JPG",
+  "IMG_7845.JPG", "IMG_7943.JPG", "IMG_7946.JPG", "IMG_7986.JPG"
+].map((file, idx) => ({
+  src: `/season-2/BRC 2 Photos/${file}`,
+  title: `BRAND R.Comm 2nd Edition Photo #${idx + 11}`
+}));
+
+const galleryImages = [
+  ...initialFloorMoments,
+  ...brc2FolderPhotos
 ];
 
 const backdropSponsors = {
