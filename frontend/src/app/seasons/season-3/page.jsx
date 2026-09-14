@@ -473,23 +473,28 @@ export default function Season3Page() {
               >
                 <div>
                   <div className="h-52 md:h-56 overflow-hidden bg-brand-primary/5 relative">
-                    <img 
-                      src={session.img.startsWith('/') ? session.img : `/seasons/season-3/sessions/${session.img}`} 
-                      alt={session.title} 
-                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
-                      onError={(e) => { e.target.src = `/on-the-end/${session.img}`; }}
-                    />
-                    {session.videoUrl && (
+                    {session.videoUrl ? (
                       <a
                         href={session.videoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 hover:bg-red-600 text-white backdrop-blur-md border border-white/30 shadow-md flex items-center justify-center transition-all duration-300 hover:scale-110"
+                        className="block w-full h-full"
                         title="Watch Panel Recording on YouTube"
-                        aria-label="Watch Video"
                       >
-                        <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+                        <img 
+                          src={session.img.startsWith('/') ? session.img : `/seasons/season-3/sessions/${session.img}`} 
+                          alt={session.title} 
+                          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 cursor-pointer" 
+                          onError={(e) => { e.target.src = `/on-the-end/${session.img}`; }}
+                        />
                       </a>
+                    ) : (
+                      <img 
+                        src={session.img.startsWith('/') ? session.img : `/seasons/season-3/sessions/${session.img}`} 
+                        alt={session.title} 
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
+                        onError={(e) => { e.target.src = `/on-the-end/${session.img}`; }}
+                      />
                     )}
                   </div>
                   <div className="p-6 flex flex-col justify-between">
