@@ -16,7 +16,8 @@ const seasons = [
     href: "/seasons/season-1",
     external: false,
     badge: "1st Edition Archive",
-    bgImage: "/IMG_5630.jpg"
+    bgImage: "/season-1/DSC09911.JPG",
+    bgPosition: "center 30%"
   },
   {
     edition: "Season 2",
@@ -27,7 +28,8 @@ const seasons = [
     href: "/seasons/season-2",
     external: false,
     badge: "2nd Edition Archive",
-    bgImage: "/IMG_5791.jpg"
+    bgImage: "/season-2/IMG_7290.JPG",
+    bgPosition: "center 20%"
   },
   {
     edition: "Season 3",
@@ -38,7 +40,8 @@ const seasons = [
     href: "/seasons/season-3",
     external: false,
     badge: "Latest Edition Recap",
-    bgImage: "/IMG_5570.jpg"
+    bgImage: "/IMG_5630.jpg",
+    bgPosition: "center 25%"
   }
 ];
 
@@ -87,6 +90,7 @@ export default function SeasonsHubPage() {
                   <img 
                     src={season.bgImage} 
                     alt={season.edition} 
+                    style={{ objectPosition: season.bgPosition || 'center' }}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                   />
                   <div className="absolute inset-0 bg-black/40" />
