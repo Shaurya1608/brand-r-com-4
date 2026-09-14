@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, User, Calendar, MapPin, Star, Mic, Users, Award, Handshake, Phone, Mail, Globe, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, Download } from "lucide-react";
+import { ArrowRight, User, Calendar, MapPin, Star, Mic, Users, Award, Handshake, Phone, Mail, Globe, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, Download, Play } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const speakers = [
@@ -58,31 +58,36 @@ const sessions = [
     title: "Soil & Seed — Foundation of Growth",
     desc: "Soil data, seed law reform and affordable access named as the real bottlenecks.",
     label: "SESSION 01",
-    img: "1st-technical.jpg"
+    img: "1st-technical.jpg",
+    videoUrl: "https://youtu.be/4T3D2nFmIiM?si=b6vgI9w9IDz3I738"
   },
   {
     title: "Agri-Input — Productivity with Responsibility",
     desc: "Chemicals and bio-solutions positioned as partners, not rivals, in crop protection.",
     label: "SESSION 02",
-    img: "2nd-technical.jpg"
+    img: "2nd-technical.jpg",
+    videoUrl: "https://youtu.be/Nepgb0CAHTk?si=Nuu6__UYgQa5tHRZ"
   },
   {
     title: "Fertiser — Reimagining Nutrition",
     desc: "Nano-nutrients, net-zero targets and fortified produce for a healthier nation.",
     label: "SESSION 03",
-    img: "3rd-tecchnical.jpg"
+    img: "3rd-tecchnical.jpg",
+    videoUrl: "https://youtu.be/voJz4NErnSE?si=DIOyBH3OpeuIigSd"
   },
   {
     title: "Agri-Biologicals — Driving the Bio-Revolution",
     desc: "From inputs to intelligence, with regulation named as the biggest lever for scale.",
     label: "SESSION 04",
-    img: "4th-session.jpg"
+    img: "4th-session.jpg",
+    videoUrl: "https://youtu.be/BSDtQViLyks?si=WUP3JCjK04v7UToZ"
   },
   {
     title: "The Future of Agri & Rural Communication",
     desc: "A shared 2030 blueprint built on trust, IP protection and public-private synergy.",
     label: "CEO PANEL",
-    img: "ceo-pannel (2).jpg"
+    img: "ceo-pannel (2).jpg",
+    videoUrl: "https://youtu.be/TF6RYWNZkdM?si=QY_ZxztaVfOmsuwa"
   }
 ];
 
@@ -474,11 +479,37 @@ export default function Season3Page() {
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
                       onError={(e) => { e.target.src = `/on-the-end/${session.img}`; }}
                     />
+                    {session.videoUrl && (
+                      <a
+                        href={session.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="absolute top-3 right-3 z-10 bg-red-600 hover:bg-red-700 text-white text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 transition-all duration-300 transform hover:scale-105 border border-white/20"
+                        title="Watch Panel Recording on YouTube"
+                      >
+                        <Play className="w-3 h-3 fill-current" />
+                        <span>Watch Video</span>
+                      </a>
+                    )}
                   </div>
-                  <div className="p-6">
-                    <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-2">{session.label}</div>
-                    <h3 className="text-lg font-bold font-serif leading-tight mb-2 text-brand-dark">{session.title}</h3>
-                    <p className="text-brand-dark/70 leading-relaxed text-sm">{session.desc}</p>
+                  <div className="p-6 flex flex-col justify-between">
+                    <div>
+                      <div className="text-brand-primary font-mono text-[10px] font-bold uppercase tracking-widest mb-2">{session.label}</div>
+                      <h3 className="text-lg font-bold font-serif leading-tight mb-2 text-brand-dark">{session.title}</h3>
+                      <p className="text-brand-dark/70 leading-relaxed text-sm">{session.desc}</p>
+                    </div>
+                    {session.videoUrl && (
+                      <a
+                        href={session.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 mt-4 pt-3 border-t border-brand-primary/10 text-xs font-bold text-red-600 hover:text-red-700 uppercase tracking-wider transition-colors font-mono group/btn"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <span>Watch Panel Recording</span>
+                        <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>
