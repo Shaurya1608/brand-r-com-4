@@ -682,18 +682,18 @@ export default function Season2Page() {
               <div className="flex-grow h-px bg-gradient-to-l from-transparent to-brand-primary/25 hidden md:block"></div>
             </div>
 
-            <motion.div {...fadeInUp} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 max-w-6xl mx-auto">
+            <motion.div {...fadeInUp} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
               {season2NominationWinners.map((winner, idx) => (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl p-4 shadow-sm border border-brand-primary/10 hover:shadow-md hover:border-brand-primary/30 transition-all duration-300 flex flex-col justify-between group transform-gpu"
+                  className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-brand-primary/15 hover:shadow-xl hover:border-brand-primary/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group transform-gpu"
                 >
                   <div>
-                    <div className="w-full text-[#4a6b28] text-[10px] font-mono font-bold tracking-wider uppercase mb-2 min-h-[28px] flex items-center leading-tight bg-[#f1f5ec] px-2.5 py-1 rounded-md border border-[#4a6b28]/15">
+                    <div className="w-full text-[#4a6b28] text-xs font-mono font-bold tracking-wider uppercase mb-3 min-h-[36px] flex items-center justify-center text-center leading-tight bg-[#f1f5ec] px-3 py-1.5 rounded-xl border border-[#4a6b28]/20">
                       {winner.award}
                     </div>
 
-                    <div className="w-full aspect-[16/10] relative overflow-hidden rounded-xl shadow-xs mb-3 border border-brand-primary/10 bg-brand-surface transform-gpu">
+                    <div className="w-full aspect-[16/10] relative overflow-hidden rounded-2xl shadow-sm mb-4 border border-brand-primary/10 bg-brand-surface transform-gpu">
                       <img 
                         src={winner.image} 
                         alt={winner.name} 
@@ -704,12 +704,12 @@ export default function Season2Page() {
                     </div>
                   </div>
 
-                  <div className="text-center w-full pt-1 border-t border-brand-primary/10">
-                    <h3 className="text-xs sm:text-sm font-bold text-brand-dark uppercase mb-0.5 group-hover:text-brand-primary transition-colors duration-200 font-serif">
+                  <div className="text-center w-full pt-2 border-t border-brand-primary/10">
+                    <h3 className="text-sm sm:text-base font-bold text-brand-dark uppercase mb-1 group-hover:text-brand-primary transition-colors duration-200 font-serif">
                       {winner.name}
                     </h3>
                     {winner.company && (
-                      <p className="text-[11px] font-medium text-brand-dark/70 font-sans">
+                      <p className="text-xs sm:text-sm font-medium text-brand-dark/75 font-sans">
                         {winner.company}
                       </p>
                     )}
