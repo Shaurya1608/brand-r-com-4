@@ -508,11 +508,11 @@ export default function Season3Page() {
                         href={session.videoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 mt-4 pt-3 border-t border-brand-primary/10 text-xs font-medium text-brand-dark/60 hover:text-brand-primary transition-colors group/btn"
+                        className="inline-flex items-center gap-1.5 mt-4 pt-3 border-t border-brand-primary/10 text-xs font-bold text-[#2d5a27] hover:text-[#183815] transition-colors group/btn"
                       >
-                        <Play className="w-3 h-3 fill-brand-dark/40 text-brand-dark/40 group-hover/btn:fill-red-600 group-hover/btn:text-red-600 transition-colors" />
-                        <span>Watch Panel Video</span>
-                        <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
+                        <Play className="w-3.5 h-3.5 fill-[#2d5a27] text-[#2d5a27] group-hover/btn:fill-[#183815] group-hover/btn:text-[#183815] transition-colors" />
+                        <span>Watch Panel Discussion</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                       </a>
                     )}
                   </div>
