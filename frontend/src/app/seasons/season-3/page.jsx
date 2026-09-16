@@ -1073,8 +1073,9 @@ export default function Season3Page() {
               <div className="text-brand-primary font-mono text-[9px] font-bold uppercase tracking-widest">Organizer</div>
               <h3 className="font-serif font-bold text-base text-brand-dark">Snail Integral</h3>
               <p className="leading-relaxed text-brand-dark/70 text-xs font-sans text-center">
-                Q-170141, 14th Avenue, Gaur City-2<br />
-                Noida Extension, Uttar Pradesh, India
+                Unit 1107 & 1108, 11th Floor, Iconic Tower, Corenthum Complex<br />
+                A-41, Sector 62, Near Noida Electronic City Metro Station<br />
+                Noida - 201301 (UP) India
               </p>
             </div>
 

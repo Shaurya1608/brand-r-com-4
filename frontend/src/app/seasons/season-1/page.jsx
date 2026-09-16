@@ -1059,9 +1059,9 @@ export default function Season1Page() {
                   <MapPin size={16} />
                   <span>Headquarters</span>
                 </div>
-                <p className="font-medium text-brand-dark">Q-170141, 14th Avenue, Gaur City-2</p>
-                <p>Noida Extension, Greater Noida West</p>
-                <p>Uttar Pradesh, 201309</p>
+                <p className="font-medium text-brand-dark">Unit 1107 & 1108, 11th Floor, Iconic Tower</p>
+                <p>Corenthum Complex, A-41, Sector 62</p>
+                <p>Near Noida Electronic City Metro Station, Noida - 201301 (UP) India</p>
               </div>
             </div>
 

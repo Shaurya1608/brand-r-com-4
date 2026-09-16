@@ -185,9 +185,10 @@ export default function Footer() {
               <MapPin size={16} className="text-[#8CC63F] shrink-0 mt-1" />
               <div className="flex flex-col gap-1.5 leading-relaxed">
                 <span className="text-brand-dark font-semibold">Snail Integral Private Limited</span>
-                <span>Q-170141, 14th Avenue, Gaur City - 2,</span>
-                <span>Noida Extension, Greater Noida,</span>
-                <span>Uttar Pradesh, India</span>
+                <span>Unit 1107 & 1108, 11th Floor, Iconic Tower,</span>
+                <span>Corenthum Complex, A-41, Sector 62,</span>
+                <span>Near Noida Electronic City Metro Station,</span>
+                <span>Noida - 201301 (UP) India</span>
               </div>
             </li>
           </ul>
