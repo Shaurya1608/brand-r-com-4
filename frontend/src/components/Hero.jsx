@@ -13,7 +13,7 @@ export default function Hero() {
 
   return (
     <section 
-      className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center pt-28 md:pt-32 lg:pt-36 pb-16 overflow-hidden bg-cover bg-center"
+      className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center pt-22 md:pt-24 lg:pt-26 pb-12 overflow-hidden bg-cover bg-center"
       style={{ backgroundImage: `url('/landing/topp.png')` }}
     >
       
@@ -21,7 +21,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 bg-black/75" />
 
       {/* Text Container */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-10 pt-2 pb-6 md:pb-8 w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 my-auto">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-10 pt-2 pb-6 md:pb-8 w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 my-auto -mt-4 md:-mt-8 lg:-mt-12">
         
         {/* Event Logo */}
         <div className="mb-3 md:mb-4">
