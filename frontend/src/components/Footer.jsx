@@ -139,11 +139,12 @@ export default function Footer() {
         <div className="flex flex-col">
           <h4 className="font-bold mb-5 uppercase text-xs tracking-widest text-brand-dark">Explore</h4>
           <ul className="flex flex-col gap-3.5 text-sm font-medium text-brand-dark/70">
-            <li><Link href="#about" className="hover:text-[#8CC63F] transition-colors">About</Link></li>
-            <li><Link href="#awards" className="hover:text-[#8CC63F] transition-colors">Awards</Link></li>
-            <li><Link href="#sponsors" className="hover:text-[#8CC63F] transition-colors">Sponsors</Link></li>
-            <li><Link href="#delegates" className="hover:text-[#8CC63F] transition-colors">Delegates</Link></li>
-            <li><Link href="#past-editions" className="hover:text-[#8CC63F] transition-colors">Past Editions</Link></li>
+            <li><Link href="/#about" className="hover:text-[#8CC63F] transition-colors">About</Link></li>
+            <li><Link href="/#awards" className="hover:text-[#8CC63F] transition-colors">Awards</Link></li>
+            <li><Link href="/#sponsors" className="hover:text-[#8CC63F] transition-colors">Sponsors</Link></li>
+            <li><Link href="/#delegates" className="hover:text-[#8CC63F] transition-colors">Delegates</Link></li>
+            <li><Link href="/#coffee-table-book" className="hover:text-[#8CC63F] transition-colors">Coffee Table Book</Link></li>
+            <li><Link href="/seasons" className="hover:text-[#8CC63F] transition-colors">Past Editions</Link></li>
           </ul>
         </div>
 

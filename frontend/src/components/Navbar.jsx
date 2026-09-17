@@ -37,10 +37,11 @@ export default function Navbar({ logo = "/logo/brand-r-comm-logo.png", logoClass
   }, []);
 
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Awards", href: "#awards" },
-    { name: "Sponsors", href: "#sponsors" },
-    { name: "Delegates", href: "#delegates" },
+    { name: "About", href: "/#about" },
+    { name: "Awards", href: "/#awards" },
+    { name: "Sponsors", href: "/#sponsors" },
+    { name: "Delegates", href: "/#delegates" },
+    { name: "Coffee Table Book", href: "/#coffee-table-book" },
     { 
       name: "Past Editions", 
       href: "/seasons",
@@ -51,7 +52,7 @@ export default function Navbar({ logo = "/logo/brand-r-comm-logo.png", logoClass
         { name: "Brand R.Comm Season 3", href: "/seasons/season-3" },
       ]
     },
-    { name: "Contact", href: "#contact" },
+    { name: "Contact", href: "/#contact" },
   ];
 
   return (
