@@ -13,7 +13,7 @@ export default function Hero() {
 
   return (
     <section 
-      className="relative w-full min-h-[100dvh] flex items-center justify-center pt-24 pb-20 overflow-hidden bg-cover bg-center"
+      className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center pt-28 md:pt-32 lg:pt-36 pb-16 overflow-hidden bg-cover bg-center"
       style={{ backgroundImage: `url('/landing/topp.png')` }}
     >
       
@@ -21,11 +21,11 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 bg-black/75" />
 
       {/* Text Container */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-10 pt-4 pb-6 md:pt-6 md:pb-8 w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 mt-4 md:-mt-24">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-10 pt-2 pb-6 md:pb-8 w-full flex flex-col items-center justify-center text-center opacity-0 animate-fade-in-up delay-100 my-auto">
         
         {/* Event Logo */}
-        <div className="mb-4 md:mb-2 -mt-2 md:-mt-4">
-          <img src="/logo/brand-r-comm-logo-2.png" alt="Brand R.Comm Logo" className="h-14 sm:h-20 md:h-32 lg:h-40 w-auto object-contain mx-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500" />
+        <div className="mb-3 md:mb-4">
+          <img src="/logo/brand-r-comm-logo-2.png" alt="Brand R.Comm Logo" className="h-14 sm:h-20 md:h-28 lg:h-36 w-auto object-contain mx-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500" />
         </div>
 
         {/* Subtitle / Edition */}
