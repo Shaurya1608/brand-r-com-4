@@ -1,4 +1,4 @@
-export const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || '1044554088609124';
+export const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || '1558080888595774';
 
 /**
  * Trigger Meta Pixel PageView event
