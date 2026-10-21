@@ -48,6 +48,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
   const [razorpayPaymentId, setRazorpayPaymentId] = useState("");
   const [paymentCancelled, setPaymentCancelled] = useState(false);
   const pollIntervalRef = useRef(null);
+  const purchaseFiredRef = useRef(false);
   const [isExistingRecord, setIsExistingRecord] = useState(false);
   const [existingData, setExistingData] = useState(null);
 
@@ -312,13 +313,16 @@ export default function AwardNominationModal({ isOpen, onClose }) {
             if (verifyData.success) {
               setRazorpayPaymentId(response.razorpay_payment_id);
               setPaymentSuccess(true);
-              trackEvent("Purchase", {
-                value: 14160,
-                currency: "INR",
-                content_name: `Award Nomination - ${formData.awardCategory || "Nomination"}`,
-                content_type: "product",
-                transaction_id: response.razorpay_payment_id,
-              });
+              if (!purchaseFiredRef.current) {
+                purchaseFiredRef.current = true;
+                trackEvent("Purchase", {
+                  value: 14160,
+                  currency: "INR",
+                  content_name: `Award Nomination - ${formData.awardCategory || "Nomination"}`,
+                  content_type: "product",
+                  transaction_id: response.razorpay_payment_id,
+                });
+              }
             } else {
               setError('Payment received but verification failed. Payment ID: ' + response.razorpay_payment_id);
             }

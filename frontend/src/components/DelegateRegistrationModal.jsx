@@ -70,6 +70,7 @@ function loadRazorpayScript() {
 export default function DelegateRegistrationModal({ isOpen, onClose, defaultType = "indian" }) {
   const [delegateType, setDelegateType] = useState(defaultType);
   const pollIntervalRef = useRef(null);
+  const purchaseFiredRef = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -426,13 +427,16 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
             if (verifyData.success) {
               setRazorpayPaymentId(response.razorpay_payment_id);
               setPaymentSuccess(true);
-              trackEvent("Purchase", {
-                value: finalAmountForApi,
-                currency: delegateType === "foreign" ? "USD" : "INR",
-                content_name: "Delegate Registration Pass",
-                content_type: "product",
-                transaction_id: response.razorpay_payment_id,
-              });
+              if (!purchaseFiredRef.current) {
+                purchaseFiredRef.current = true;
+                trackEvent("Purchase", {
+                  value: finalAmountForApi,
+                  currency: delegateType === "foreign" ? "USD" : "INR",
+                  content_name: "Delegate Registration Pass",
+                  content_type: "product",
+                  transaction_id: response.razorpay_payment_id,
+                });
+              }
             } else {
               setError('Payment received but verification failed. Please contact support with your payment ID: ' + response.razorpay_payment_id);
             }
@@ -498,13 +502,16 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
             
             if (checkData.data.paymentStatus === 'Paid') {
               setPaymentSuccess(true);
-              trackEvent("Purchase", {
-                value: finalAmountForApi,
-                currency: delegateType === "foreign" ? "USD" : "INR",
-                content_name: "Delegate Registration Pass",
-                content_type: "product",
-                transaction_id: registeredDelegateId,
-              });
+              if (!purchaseFiredRef.current) {
+                purchaseFiredRef.current = true;
+                trackEvent("Purchase", {
+                  value: finalAmountForApi,
+                  currency: delegateType === "foreign" ? "USD" : "INR",
+                  content_name: "Delegate Registration Pass",
+                  content_type: "product",
+                  transaction_id: registeredDelegateId,
+                });
+              }
             } else {
               setError('Payment failed. Please try again.');
             }

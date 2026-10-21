@@ -23,6 +23,7 @@ function loadRazorpayScript() {
 function PaymentContent() {
   const searchParams = useSearchParams();
   const pollIntervalRef = useRef(null);
+  const purchaseFiredRef = useRef(false);
   const token = searchParams.get("token");
 
   const [loading, setLoading] = useState(true);
@@ -130,13 +131,16 @@ function PaymentContent() {
             if (verifyData.success) {
               setPaymentSuccess(true);
               setDelegateData((prev) => ({ ...prev, paymentStatus: "Paid" }));
-              trackEvent("Purchase", {
-                value: delegateData.totalAmount || (orderData.amount ? orderData.amount / 100 : 0),
-                currency: orderData.currency || (delegateData.delegateType === "foreign" ? "USD" : "INR"),
-                content_name: isNomination ? "Award Nomination" : "Delegate Registration",
-                content_type: "product",
-                transaction_id: response.razorpay_payment_id,
-              });
+              if (!purchaseFiredRef.current) {
+                purchaseFiredRef.current = true;
+                trackEvent("Purchase", {
+                  value: delegateData.totalAmount || (orderData.amount ? orderData.amount / 100 : 0),
+                  currency: orderData.currency || (delegateData.delegateType === "foreign" ? "USD" : "INR"),
+                  content_name: isNomination ? "Award Nomination" : "Delegate Registration",
+                  content_type: "product",
+                  transaction_id: response.razorpay_payment_id,
+                });
+              }
             } else {
               alert(verifyData.message || "Payment verification failed.");
             }
@@ -220,13 +224,16 @@ function PaymentContent() {
             
             if (isPaid) {
               setPaymentSuccess(true);
-              trackEvent("Purchase", {
-                value: delegateData.totalAmount || (orderData.amount ? orderData.amount / 100 : 0),
-                currency: orderData.currency || (delegateData.delegateType === "foreign" ? "USD" : "INR"),
-                content_name: isNomination ? "Award Nomination" : "Delegate Registration",
-                content_type: "product",
-                transaction_id: delegateData._id,
-              });
+              if (!purchaseFiredRef.current) {
+                purchaseFiredRef.current = true;
+                trackEvent("Purchase", {
+                  value: delegateData.totalAmount || (orderData.amount ? orderData.amount / 100 : 0),
+                  currency: orderData.currency || (delegateData.delegateType === "foreign" ? "USD" : "INR"),
+                  content_name: isNomination ? "Award Nomination" : "Delegate Registration",
+                  content_type: "product",
+                  transaction_id: delegateData._id,
+                });
+              }
             } else {
               setError('Payment failed. Please try again.');
             }
