@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { COUNTRY_CODES } from "../utils/countryCodes";
 import CountryCodeSelect from "./CountryCodeSelect";
+import { trackEvent } from "../utils/metaPixel";
 
 /**
  * Returns the current date/time in IST (UTC+5:30).
@@ -425,6 +426,13 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
             if (verifyData.success) {
               setRazorpayPaymentId(response.razorpay_payment_id);
               setPaymentSuccess(true);
+              trackEvent("Purchase", {
+                value: finalAmountForApi,
+                currency: delegateType === "foreign" ? "USD" : "INR",
+                content_name: "Delegate Registration Pass",
+                content_type: "product",
+                transaction_id: response.razorpay_payment_id,
+              });
             } else {
               setError('Payment received but verification failed. Please contact support with your payment ID: ' + response.razorpay_payment_id);
             }
@@ -455,6 +463,12 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
         setError(`Payment failed: ${response.error.description}`);
         setPaymentLoading(false);
       });
+      trackEvent("InitiateCheckout", {
+        value: finalAmountForApi,
+        currency: delegateType === "foreign" ? "USD" : "INR",
+        content_name: "Delegate Registration Pass",
+        content_category: delegateType,
+      });
       rzp.open();
 
       // Fallback Polling Loop: In case Razorpay frontend fails/hangs (e.g. UPI QR issue)
@@ -484,6 +498,13 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
             
             if (checkData.data.paymentStatus === 'Paid') {
               setPaymentSuccess(true);
+              trackEvent("Purchase", {
+                value: finalAmountForApi,
+                currency: delegateType === "foreign" ? "USD" : "INR",
+                content_name: "Delegate Registration Pass",
+                content_type: "product",
+                transaction_id: registeredDelegateId,
+              });
             } else {
               setError('Payment failed. Please try again.');
             }

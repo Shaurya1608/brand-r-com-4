@@ -1,5 +1,6 @@
 import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
+import MetaPixel from "@/components/MetaPixel";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} ${cormorantGaramond.variable} h-full antialiased overflow-x-hidden`}
     >
       <body className="min-h-full flex flex-col font-sans bg-[#0A0A0A] text-[#F5F2EB] overflow-x-hidden">
+        <MetaPixel />
         {children}
       </body>
     </html>

@@ -1,12 +1,19 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import { motion } from "framer-motion";
+import { trackEvent } from "@/utils/metaPixel";
 
 export default function MediaKit() {
+  useEffect(() => {
+    trackEvent("ViewContent", {
+      content_name: "Media Kit Page",
+      content_category: "Brand Assets",
+    });
+  }, []);
   const brandLogos = [
     {
       name: "Brand R.Comm Official Logo",

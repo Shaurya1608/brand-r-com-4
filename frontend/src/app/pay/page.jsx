@@ -3,6 +3,7 @@
 import React, { useState, useEffect, Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, AlertCircle, Lock, ShieldCheck, ArrowRight, RefreshCw, Mail, Phone, Calendar, MapPin } from "lucide-react";
+import { trackEvent } from "@/utils/metaPixel";
 
 function loadRazorpayScript() {
   return new Promise((resolve) => {
@@ -129,6 +130,13 @@ function PaymentContent() {
             if (verifyData.success) {
               setPaymentSuccess(true);
               setDelegateData((prev) => ({ ...prev, paymentStatus: "Paid" }));
+              trackEvent("Purchase", {
+                value: delegateData.totalAmount || (orderData.amount ? orderData.amount / 100 : 0),
+                currency: orderData.currency || (delegateData.delegateType === "foreign" ? "USD" : "INR"),
+                content_name: isNomination ? "Award Nomination" : "Delegate Registration",
+                content_type: "product",
+                transaction_id: response.razorpay_payment_id,
+              });
             } else {
               alert(verifyData.message || "Payment verification failed.");
             }
@@ -158,6 +166,12 @@ function PaymentContent() {
         if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
         alert(`Payment failed: ${response.error.description}`);
         setPaymentLoading(false);
+      });
+      trackEvent("InitiateCheckout", {
+        value: delegateData.totalAmount || (orderData.amount ? orderData.amount / 100 : 0),
+        currency: orderData.currency || (delegateData.delegateType === "foreign" ? "USD" : "INR"),
+        content_name: isNomination ? "Award Nomination" : "Delegate Registration",
+        content_category: isNomination ? "Nomination" : "Delegate",
       });
       rzp.open();
 
@@ -206,6 +220,13 @@ function PaymentContent() {
             
             if (isPaid) {
               setPaymentSuccess(true);
+              trackEvent("Purchase", {
+                value: delegateData.totalAmount || (orderData.amount ? orderData.amount / 100 : 0),
+                currency: orderData.currency || (delegateData.delegateType === "foreign" ? "USD" : "INR"),
+                content_name: isNomination ? "Award Nomination" : "Delegate Registration",
+                content_type: "product",
+                transaction_id: delegateData._id,
+              });
             } else {
               setError('Payment failed. Please try again.');
             }

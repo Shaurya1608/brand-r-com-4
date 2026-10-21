@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { COUNTRY_CODES } from "../utils/countryCodes";
 import CountryCodeSelect from "./CountryCodeSelect";
+import { trackEvent } from "../utils/metaPixel";
 
 export default function AwardNominationModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -311,6 +312,13 @@ export default function AwardNominationModal({ isOpen, onClose }) {
             if (verifyData.success) {
               setRazorpayPaymentId(response.razorpay_payment_id);
               setPaymentSuccess(true);
+              trackEvent("Purchase", {
+                value: 14160,
+                currency: "INR",
+                content_name: `Award Nomination - ${formData.awardCategory || "Nomination"}`,
+                content_type: "product",
+                transaction_id: response.razorpay_payment_id,
+              });
             } else {
               setError('Payment received but verification failed. Payment ID: ' + response.razorpay_payment_id);
             }
@@ -338,6 +346,12 @@ export default function AwardNominationModal({ isOpen, onClose }) {
       rzp.on('payment.failed', (response) => {
         setError(`Payment failed: ${response.error.description}`);
         setPaymentLoading(false);
+      });
+      trackEvent("InitiateCheckout", {
+        value: 14160,
+        currency: "INR",
+        content_name: `Award Nomination - ${formData.awardCategory || "Nomination"}`,
+        content_category: "Awards",
       });
       rzp.open();
     } catch (err) {

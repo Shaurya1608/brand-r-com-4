@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import DelegateRegistrationModal from "./DelegateRegistrationModal";
+import { trackEvent } from "../utils/metaPixel";
 
 export default function DelegateRegistrationSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,6 +12,12 @@ export default function DelegateRegistrationSection() {
   const openModal = (type) => {
     setModalType(type);
     setIsModalOpen(true);
+    trackEvent("AddToCart", {
+      content_name: type === "foreign" ? "International Delegate Pass" : "Indian Delegate Pass",
+      content_category: "Delegate Registration",
+      value: type === "foreign" ? 250 : 6000,
+      currency: type === "foreign" ? "USD" : "INR",
+    });
   };
 
   const indianPricing = [

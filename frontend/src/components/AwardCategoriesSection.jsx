@@ -1,11 +1,19 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { trackEvent } from "../utils/metaPixel";
 
 export default function AwardCategoriesSection() {
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    trackEvent("ViewContent", {
+      content_name: "Award Categories List",
+      content_category: "Awards",
+    });
+  }, []);
 
   const scroll = (direction) => {
     if (scrollRef.current) {
