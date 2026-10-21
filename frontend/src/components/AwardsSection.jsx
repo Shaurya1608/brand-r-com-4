@@ -119,7 +119,7 @@ export default function AwardsSection() {
   ];
 
   const timeline = [
-    { label: "Last Date for application", date: "10 Nov 2026" },
+    { label: "Last Date for application", date: "18 Nov 2026" },
     { label: "Screening & Jury Round", date: "20 Nov 2026" },
     { label: "Winner Announcement", date: "25 Nov 2026" },
     { label: "Awards Distribution", date: "4 Dec 2026" }
