@@ -138,6 +138,8 @@ exports.handleRazorpayWebhook = async (req, res) => {
         return;
       } else {
         // If not a delegate, try nomination
+        const existingNom = await AwardNomination.findById(targetRegistrationId);
+        const finalPaidAmount = existingNom?.totalAmount || 1;
         const nomination = await AwardNomination.findOneAndUpdate(
           { _id: targetRegistrationId, paymentStatus: { $ne: 'Paid' } },
           {
@@ -145,6 +147,8 @@ exports.handleRazorpayWebhook = async (req, res) => {
               paymentStatus: 'Paid',
               paymentMethod: 'Online (Razorpay)',
               razorpayPaymentId: paymentId,
+              amountPaid: finalPaidAmount,
+              amountDue: 0,
               resumeTokenHash: null,
               paymentTokenExpires: null,
             }

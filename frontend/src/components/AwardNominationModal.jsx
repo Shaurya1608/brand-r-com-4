@@ -592,8 +592,8 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                           <input required type="text" name="organization" value={formData.organization} onChange={handleChange} placeholder="Enter company name" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium" />
                         </div>
                         <div className="space-y-1">
-                          <label className="text-[12px] font-bold text-brand-dark">GST Number <span className="text-gray-400 font-normal">(Optional)</span></label>
-                          <input type="text" name="gstNumber" value={formData.gstNumber} onChange={handleChange} placeholder="e.g. 27AAAAA0000A1Z5" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium uppercase" />
+                          <label className="text-[12px] font-bold text-brand-dark">Company GST No. <span className="text-gray-400 font-normal">(Optional, 15-char GSTIN for Tax Invoice)</span></label>
+                          <input type="text" name="gstNumber" maxLength={15} value={formData.gstNumber} onChange={handleChange} placeholder="e.g. 20AAAAA0000A1Z5" className="w-full px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium uppercase" />
                         </div>
                         <div className="space-y-1">
                           <label className="text-[12px] font-bold text-brand-dark">City <span className="text-red-500">*</span></label>
