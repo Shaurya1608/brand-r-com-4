@@ -274,7 +274,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nominationId: submittedNominationId,
-          amountRs: 14160,
+          amountRs: 1, // Testing mode: ₹1 (Production: 14160)
         }),
       });
       

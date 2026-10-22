@@ -163,9 +163,9 @@ exports.createNomination = async (req, res) => {
       paymentStatus: finalPaymentStatus,
       paymentMethod: finalPaymentMethod,
       isManuallyCreated: finalIsManuallyCreated,
-      totalAmount: 14160,
-      amountPaid: isPaid ? 14160 : 0,
-      amountDue: isPaid ? 0 : 14160,
+      totalAmount: 1, // Testing mode: ₹1 (Production: 14160)
+      amountPaid: isPaid ? 1 : 0,
+      amountDue: isPaid ? 0 : 1,
       resumeTokenHash: isPaid ? null : tokenHash,
       paymentTokenExpires: isPaid ? null : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
     });
@@ -269,7 +269,7 @@ exports.createOrder = async (req, res) => {
   try {
     const { nominationId, amountRs } = req.body;
 
-    const targetAmount = amountRs || 14160; // Default ₹12,000 + 18% GST = ₹14,160
+    const targetAmount = 1; // Testing mode: ₹1 (Production: amountRs || 14160)
 
     if (!nominationId) {
       return res.status(400).json({ success: false, message: 'nominationId is required' });
@@ -376,7 +376,7 @@ exports.verifyPayment = async (req, res) => {
           paymentStatus: 'Paid',
           paymentMethod: 'Online (Razorpay)',
           razorpayPaymentId: razorpay_payment_id,
-          amountPaid: nominationCheck.totalAmount || 9440,
+          amountPaid: nominationCheck.totalAmount || 1,
           amountDue: 0,
           resumeTokenHash: null,
           paymentTokenExpires: null,
