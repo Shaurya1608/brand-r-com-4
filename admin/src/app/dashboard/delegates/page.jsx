@@ -734,16 +734,22 @@ export default function DelegatesPage() {
                       {delegate.invoiceId ? (
                         <div className="flex flex-col gap-1 items-start">
                           <span className="font-mono text-xs font-semibold text-gray-700">{delegate.invoiceId.invoiceNumber}</span>
-                          <div className="flex items-center gap-2">
-                            <a 
-                              href={`${process.env.NEXT_PUBLIC_API_URL}/invoices/${delegate.invoiceId._id}/pdf`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline cursor-pointer"
-                            >
-                              [View PDF]
-                            </a>
-                          </div>
+                            <div className="flex items-center gap-2">
+                              <a 
+                                href={`${process.env.NEXT_PUBLIC_API_URL}/invoices/${delegate.invoiceId._id}/pdf`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline cursor-pointer"
+                              >
+                                [View PDF]
+                              </a>
+                              <button
+                                onClick={() => handleResendInvoice(delegate.invoiceId._id)}
+                                className="text-[10px] font-bold text-[#5e8e33] hover:text-[#4c7727] underline cursor-pointer"
+                              >
+                                [Resend]
+                              </button>
+                            </div>
                         </div>
                       ) : (delegate.paymentStatus === 'Paid' ? (
                         <span className="text-xs text-gray-400">Not Generated</span>

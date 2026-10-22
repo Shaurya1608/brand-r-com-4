@@ -36,6 +36,7 @@ export default function NominationsPage() {
   const [statusUpdateLoading, setStatusUpdateLoading] = useState({});
 
   const [toastMessage, setToastMessage] = useState('');
+  const [resendingInvoiceId, setResendingInvoiceId] = useState(null);
 
   const showToast = (message) => {
     setToastMessage(message);
@@ -43,19 +44,28 @@ export default function NominationsPage() {
   };
 
   const handleResendInvoice = async (invoiceId) => {
+    if (!invoiceId) return;
     try {
+      setResendingInvoiceId(invoiceId);
+      const token = Cookies.get('admin_token');
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/invoices/${invoiceId}/resend`, {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
       });
       const data = await res.json();
       if (data.success) {
-        showToast('Invoice sent successfully!');
+        showToast(data.message || 'Invoice sent successfully!');
       } else {
         alert(data.message || 'Failed to resend invoice');
       }
     } catch (err) {
       console.error('Error resending invoice:', err);
       alert('Error resending invoice');
+    } finally {
+      setResendingInvoiceId(null);
     }
   };
 
@@ -613,9 +623,10 @@ export default function NominationsPage() {
                               </a>
                               <button
                                 onClick={() => handleResendInvoice(typeof nomination.invoiceId === 'object' ? nomination.invoiceId._id : nomination.invoiceId)}
-                                className="text-[10px] font-bold text-[#5e8e33] hover:text-[#4c7727] underline cursor-pointer"
+                                disabled={resendingInvoiceId === (typeof nomination.invoiceId === 'object' ? nomination.invoiceId._id : nomination.invoiceId)}
+                                className="text-[10px] font-bold text-[#5e8e33] hover:text-[#4c7727] underline cursor-pointer disabled:opacity-50"
                               >
-                                [Resend]
+                                {resendingInvoiceId === (typeof nomination.invoiceId === 'object' ? nomination.invoiceId._id : nomination.invoiceId) ? '[Sending...]' : '[Resend]'}
                               </button>
                             </div>
                           </div>
