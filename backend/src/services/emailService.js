@@ -13,6 +13,14 @@ const getResendInstance = () => {
   return new Resend(process.env.RESEND_API_KEY);
 };
 
+const getSenderEmail = () => {
+  let sender = (process.env.RESEND_FROM_EMAIL || '').trim() || 'Brandrcomm <noreply@brandrcomm.com>';
+  if (sender.includes('events.brandrcomm.com')) {
+    sender = 'Brandrcomm <noreply@brandrcomm.com>';
+  }
+  return sender;
+};
+
 const getEmailConfig = (doc, isNomination) => {
   const isPaidOrFreeStatus = (status) => {
     if (!status) return false;
@@ -324,7 +332,7 @@ const sendDelegateConfirmationEmail = async (delegate, rawToken = null) => {
       return { success: false, error: 'Resend not configured' };
     }
 
-    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
+    const senderEmail = getSenderEmail();
     const config = getEmailConfig(delegate, false);
     
     let attachments = [];
@@ -385,7 +393,7 @@ const sendNominationConfirmationEmail = async (nomination, rawToken = null) => {
       return { success: false, error: 'Resend not configured' };
     }
 
-    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
+    const senderEmail = getSenderEmail();
     const config = getEmailConfig(nomination, true);
     
     let attachments = [];
@@ -435,7 +443,7 @@ const sendSpeakerConfirmationEmail = async (doc) => {
     const resend = getResendInstance();
     if (!resend) return;
 
-    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
+    const senderEmail = getSenderEmail();
     const eventName = 'BRAND R.Comm 2026';
     const toEmail = doc.email.trim();
 
@@ -556,7 +564,7 @@ const sendAdminNotificationEmail = async (entityType, dataDoc) => {
     const resend = getResendInstance();
     if (!resend) return;
 
-    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
+    const senderEmail = getSenderEmail();
     const isPaid = dataDoc.paymentStatus === 'Paid';
     const isFree = dataDoc.paymentStatus === 'Free' || (dataDoc.paymentMethod && ['free', 'coupon', 'complimentary'].includes(dataDoc.paymentMethod.toLowerCase()));
     const isForeign = dataDoc.delegateType === 'foreign';

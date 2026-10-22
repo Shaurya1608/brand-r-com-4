@@ -59,8 +59,10 @@ const resendInvoiceEmail = async (req, res) => {
 
     const pdfBuffer = await generateInvoicePdf(invoice, transactionDoc);
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const senderEmail = process.env.RESEND_FROM_EMAIL || 'Brandrcomm <noreply@brandrcomm.com>';
+    let senderEmail = (process.env.RESEND_FROM_EMAIL || '').trim() || 'Brandrcomm <noreply@brandrcomm.com>';
+    if (senderEmail.includes('events.brandrcomm.com')) {
+      senderEmail = 'Brandrcomm <noreply@brandrcomm.com>';
+    }
 
     const safeBuyerName = (invoice.buyerName || 'Invoice').replace(/[^a-z0-9]/gi, '_').replace(/_+/g, '_');
     const regId = `#${transactionDoc._id.toString().slice(-8).toUpperCase()}`;
