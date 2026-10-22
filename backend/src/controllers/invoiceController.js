@@ -57,8 +57,9 @@ const resendInvoiceEmail = async (req, res) => {
       return res.status(400).json({ success: false, message: 'No valid recipient email address on file' });
     }
 
-    const pdfBuffer = await generateInvoicePdf(invoice, transactionDoc);
+    const pdfBuffer = await generateInvoicePdf(invoice, transactionDoc || {});
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
     let senderEmail = (process.env.RESEND_FROM_EMAIL || '').trim() || 'Brandrcomm <noreply@brandrcomm.com>';
     if (senderEmail.includes('events.brandrcomm.com')) {
       senderEmail = 'Brandrcomm <noreply@brandrcomm.com>';
