@@ -163,9 +163,9 @@ exports.createNomination = async (req, res) => {
       paymentStatus: finalPaymentStatus,
       paymentMethod: finalPaymentMethod,
       isManuallyCreated: finalIsManuallyCreated,
-      totalAmount: 1, // Testing mode: ₹1 (Production: 14160)
-      amountPaid: isPaid ? 1 : 0,
-      amountDue: isPaid ? 0 : 1,
+      totalAmount: 14160,
+      amountPaid: isPaid ? 14160 : 0,
+      amountDue: isPaid ? 0 : 14160,
       resumeTokenHash: isPaid ? null : tokenHash,
       paymentTokenExpires: isPaid ? null : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
     });
@@ -269,7 +269,7 @@ exports.createOrder = async (req, res) => {
   try {
     const { nominationId, amountRs } = req.body;
 
-    const targetAmount = 1; // Testing mode: ₹1 (Production: amountRs || 14160)
+    const targetAmount = Number(amountRs) || Number(req.body.amount) || nomination.totalAmount || 14160;
 
     if (!nominationId) {
       return res.status(400).json({ success: false, message: 'nominationId is required' });
@@ -362,7 +362,7 @@ exports.verifyPayment = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Nomination or matching order not found' });
     }
 
-    const expectedAmountPaise = Math.round((nominationCheck.totalAmount || 9440) * 100);
+    const expectedAmountPaise = Math.round((nominationCheck.totalAmount || 14160) * 100);
     if (paymentDetails.amount !== expectedAmountPaise) {
       console.error(`Amount mismatch! Expected: ${expectedAmountPaise}, Received: ${paymentDetails.amount}`);
       return res.status(400).json({ success: false, message: 'Payment amount mismatch. Order flagged.' });
@@ -376,7 +376,7 @@ exports.verifyPayment = async (req, res) => {
           paymentStatus: 'Paid',
           paymentMethod: 'Online (Razorpay)',
           razorpayPaymentId: razorpay_payment_id,
-          amountPaid: nominationCheck.totalAmount || 1,
+          amountPaid: nominationCheck.totalAmount || 14160,
           amountDue: 0,
           resumeTokenHash: null,
           paymentTokenExpires: null,
@@ -453,8 +453,8 @@ exports.resumePayment = async (req, res) => {
           email: nomination.email,
           awardCategory: nomination.awardCategory,
           paymentStatus: 'Paid',
-          totalAmount: nomination.totalAmount || 9440,
-          amountPaid: nomination.amountPaid || 9440,
+          totalAmount: nomination.totalAmount || 14160,
+          amountPaid: nomination.amountPaid || 14160,
           amountDue: 0,
         }
       });

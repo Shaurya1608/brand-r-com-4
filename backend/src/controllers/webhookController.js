@@ -86,7 +86,7 @@ exports.handleRazorpayWebhook = async (req, res) => {
       } else {
         const nominationCheck = await AwardNomination.findOne({ razorpayOrderId: orderId });
         if (nominationCheck) {
-          const expectedPaise = Math.round((nominationCheck.totalAmount || 9440) * 100);
+          const expectedPaise = Math.round((nominationCheck.totalAmount || 14160) * 100);
           if (webhookAmount !== expectedPaise) {
             console.error(`Webhook amount mismatch for Nomination ${orderId}. Expected: ${expectedPaise}, Received: ${webhookAmount}`);
             return res.status(400).json({ success: false, message: 'Amount mismatch' });

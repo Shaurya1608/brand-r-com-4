@@ -139,11 +139,11 @@ const awardNominationSchema = new mongoose.Schema({
   },
   totalAmount: {
     type: Number,
-    default: 9440,
+    default: 14160,
   },
   amountDue: {
     type: Number,
-    default: 9440,
+    default: 14160,
   },
   resumeTokenHash: {
     type: String,

@@ -91,7 +91,7 @@ const getEmailConfig = (doc, isNomination) => {
 const buildHtmlTemplate = (doc, isNomination, config, rawToken) => {
   const { subject, messageText, statusBadge, showCTA, hideFinancials } = config;
   
-  const amountToFormat = doc.amountPaid || doc.totalAmount || (isNomination ? 9440 : 5664);
+  const amountToFormat = doc.amountPaid || doc.totalAmount || (isNomination ? 14160 : 5664);
   const formattedAmount = (!isNomination && doc.delegateType === 'foreign') 
     ? `USD ${amountToFormat}` 
     : `₹${amountToFormat.toLocaleString('en-IN')}`;

@@ -90,7 +90,7 @@ function PaymentContent() {
 
       const endpointPrefix = isNomination ? 'nominations' : 'delegates';
       const orderPayload = isNomination 
-        ? { nominationId: delegateData._id, amount: 1 }
+        ? { nominationId: delegateData._id, amountRs: delegateData.totalAmount || 14160 }
         : { delegateId: delegateData._id, amount: delegateData.totalAmount, currency: delegateData.delegateType === "foreign" ? "USD" : "INR" };
 
       // Create order via backend
