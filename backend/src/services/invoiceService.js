@@ -8,9 +8,15 @@ const InvoiceCounter = require('../models/InvoiceCounter');
  */
 const isValidGSTIN = (gstin) => {
   if (!gstin) return false;
-  // Standard Indian GSTIN Regex
+  const clean = gstin.trim().toUpperCase();
+  // Standard Indian GSTIN Regex (15 characters: 2 state digits + 10 PAN + 1 entity + Z + 1 check digit)
   const gstinRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/i;
-  return gstinRegex.test(gstin.trim());
+  if (gstinRegex.test(clean)) return true;
+  // In development/test mode or if ALLOW_TEST_GST is set, allow test GST format (10-15 alphanumeric characters)
+  if (process.env.ALLOW_TEST_GST === 'true' || process.env.NODE_ENV !== 'production' || clean.startsWith('TEST')) {
+    return /^[0-9A-Z]{10,15}$/i.test(clean);
+  }
+  return false;
 };
 
 /**
@@ -18,7 +24,7 @@ const isValidGSTIN = (gstin) => {
  */
 const calculateTax = (buyerGSTIN, taxableAmount) => {
   const supplierStateCode = process.env.SUPPLIER_GST_STATE_CODE || '09'; // Default to UP (09)
-  const buyerStateCode = buyerGSTIN.substring(0, 2);
+  const buyerStateCode = (buyerGSTIN || '').substring(0, 2);
   
   let cgst = 0, sgst = 0, igst = 0;
   
@@ -44,22 +50,33 @@ const processInvoiceGeneration = async (transactionDoc, type) => {
     const hasGSTIN = isValidGSTIN(transactionDoc.gstNumber);
     const isFree = (transactionDoc.amountPaid || transactionDoc.totalAmount) <= 0;
     
-    if (!isPaid) return { skipped: true, reason: 'Payment not successful' };
-    if (isFree) return { skipped: true, reason: 'Free registration, no invoice required' };
-    if (!hasGSTIN) return { skipped: true, reason: 'No valid GSTIN provided' };
-
-    // 2. Idempotency Check: Check if an invoice was already generated for this payment
-    if (!transactionDoc.razorpayPaymentId) {
-      return { skipped: true, reason: 'No payment ID found' };
+    if (!isPaid) {
+      console.warn(`[Invoice] Skipped: Payment status is ${transactionDoc.paymentStatus} (not Paid)`);
+      return { skipped: true, reason: 'Payment not successful' };
     }
-    const existingInvoice = await Invoice.findOne({ paymentId: transactionDoc.razorpayPaymentId });
+    if (isFree) {
+      console.warn('[Invoice] Skipped: Free registration, no invoice required');
+      return { skipped: true, reason: 'Free registration, no invoice required' };
+    }
+    if (!hasGSTIN) {
+      console.warn(`[Invoice] Skipped: Invalid GSTIN "${transactionDoc.gstNumber}" (must be 15 chars e.g. 27AAAAA0000A1Z5)`);
+      return { skipped: true, reason: `No valid GSTIN provided: "${transactionDoc.gstNumber || ''}"` };
+    }
+
+    // 2. Check if an invoice was already generated for this payment or transaction
+    const existingInvoice = (transactionDoc.razorpayPaymentId ? await Invoice.findOne({ paymentId: transactionDoc.razorpayPaymentId }) : null)
+      || (transactionDoc.invoiceId ? await Invoice.findById(transactionDoc.invoiceId) : null);
+    
     if (existingInvoice) {
-      console.log(`Invoice already exists for payment ${transactionDoc.razorpayPaymentId}`);
-      return { skipped: true, reason: 'Invoice already generated (idempotent)' };
-    }
-
-    if (transactionDoc.invoiceId) {
-       return { skipped: true, reason: 'Transaction already has invoiceId' };
+      console.log(`[Invoice] Existing invoice ${existingInvoice.invoiceNumber} found. Generating PDF buffer for email attachment.`);
+      const { generateInvoicePdf } = require('../utils/generateInvoicePdf');
+      const pdfBuffer = await generateInvoicePdf(existingInvoice, transactionDoc);
+      // Ensure transactionDoc has invoiceId set
+      if (!transactionDoc.invoiceId) {
+        transactionDoc.invoiceId = existingInvoice._id;
+        await transactionDoc.save();
+      }
+      return { success: true, invoice: existingInvoice, pdfBuffer, alreadyExisted: true };
     }
 
     // 3. Atomically get and increment the sequence number

@@ -37,6 +37,34 @@ export default function NominationsPage() {
 
   const [toastMessage, setToastMessage] = useState('');
   const [resendingInvoiceId, setResendingInvoiceId] = useState(null);
+  const [generatingInvoiceId, setGeneratingInvoiceId] = useState(null);
+
+  const handleGenerateInvoice = async (nominationId) => {
+    if (!window.confirm('Generate official Tax Invoice for this nomination now?')) return;
+    try {
+      setGeneratingInvoiceId(nominationId);
+      const token = Cookies.get('admin_token');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/invoices/generate/nomination/${nominationId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(data.message || 'Invoice generated successfully!');
+        fetchNominations();
+      } else {
+        alert(data.message || 'Failed to generate invoice');
+      }
+    } catch (err) {
+      console.error('Error generating invoice:', err);
+      alert('Error generating invoice');
+    } finally {
+      setGeneratingInvoiceId(null);
+    }
+  };
 
   const showToast = (message) => {
     setToastMessage(message);
@@ -636,7 +664,16 @@ export default function NominationsPage() {
                           </div>
                         ) : (nomination.paymentStatus === 'Paid' ? (
                           nomination.gstNumber ? (
-                            <span className="text-xs text-amber-600 font-medium">Pending Gen</span>
+                            <div className="flex flex-col gap-1 items-start">
+                              <span className="text-xs text-amber-600 font-medium font-mono">Pending Gen</span>
+                              <button
+                                onClick={() => handleGenerateInvoice(nomination._id)}
+                                disabled={generatingInvoiceId === nomination._id}
+                                className="text-[10px] font-bold text-amber-700 hover:text-amber-900 underline cursor-pointer disabled:opacity-50"
+                              >
+                                {generatingInvoiceId === nomination._id ? '[Generating...]' : '[Generate]'}
+                              </button>
+                            </div>
                           ) : (
                             <span className="text-xs text-gray-400">No GSTIN</span>
                           )

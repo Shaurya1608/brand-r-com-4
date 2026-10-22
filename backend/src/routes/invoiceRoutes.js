@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { downloadInvoicePdf, resendInvoiceEmail } = require('../controllers/invoiceController');
-// If there is an auth middleware, you might want to protect this route.
-// For now, it might be open or protected by adminAuth. Assuming it's needed for admins.
-// const { protect, adminAuth } = require('../middleware/authMiddleware');
+const { downloadInvoicePdf, resendInvoiceEmail, generateManualInvoice } = require('../controllers/invoiceController');
 
-// router.get('/:id/pdf', protect, adminAuth, downloadInvoicePdf);
 router.get('/:id/pdf', downloadInvoicePdf);
 router.post('/:id/resend', resendInvoiceEmail);
+router.post('/generate/:type/:id', generateManualInvoice);
 
 module.exports = router;

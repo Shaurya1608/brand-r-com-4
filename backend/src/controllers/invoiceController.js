@@ -21,12 +21,8 @@ const downloadInvoicePdf = async (req, res) => {
       transactionDoc = await AwardNomination.findById(invoice.awardNominationId);
     }
 
-    if (!transactionDoc) {
-      return res.status(404).json({ success: false, message: 'Associated registration not found' });
-    }
-
-    // Generate PDF on the fly
-    const pdfBuffer = await generateInvoicePdf(invoice, transactionDoc);
+    // Generate PDF on the fly (transactionDoc is optional)
+    const pdfBuffer = await generateInvoicePdf(invoice, transactionDoc || {});
 
     // Send PDF response
     res.setHeader('Content-Type', 'application/pdf');
@@ -150,7 +146,11 @@ const resendInvoiceEmail = async (req, res) => {
 
     if (emailResponse.error) {
       console.error('Error sending invoice email via Resend:', emailResponse.error);
-      return res.status(500).json({ success: false, message: emailResponse.error.message || 'Failed to send invoice email' });
+      let errorMsg = emailResponse.error.message || 'Failed to send invoice email';
+      if (emailResponse.error.name === 'validation_error' && errorMsg.includes('testing emails')) {
+        errorMsg = 'Resend Test Restriction: Free tier can only send to account owner (shaurya098n@gmail.com). To send to all emails, verify your domain at resend.com/domains';
+      }
+      return res.status(500).json({ success: false, message: errorMsg });
     }
 
     console.log(`✉️ Tax Invoice (${invoice.invoiceNumber}) resent successfully to ${recipientEmail}`);
@@ -162,7 +162,59 @@ const resendInvoiceEmail = async (req, res) => {
   }
 };
 
+
+const { processInvoiceGeneration } = require('../services/invoiceService');
+
+const generateManualInvoice = async (req, res) => {
+  try {
+    const { type, id } = req.params;
+    let transactionDoc;
+    let invType;
+    if (type === 'delegate') {
+      transactionDoc = await DelegateRegistration.findById(id);
+      invType = 'Delegate';
+    } else if (type === 'nomination') {
+      transactionDoc = await AwardNomination.findById(id);
+      invType = 'Award';
+    } else {
+      return res.status(400).json({ success: false, message: 'Invalid entity type. Use delegate or nomination.' });
+    }
+
+    if (!transactionDoc) {
+      return res.status(404).json({ success: false, message: 'Record not found' });
+    }
+
+    if (!transactionDoc.gstNumber) {
+      return res.status(400).json({ success: false, message: 'No GST number provided for this record.' });
+    }
+
+    if (transactionDoc.paymentStatus !== 'Paid') {
+      return res.status(400).json({ success: false, message: 'Cannot generate invoice: Payment status is not Paid.' });
+    }
+
+    if (!transactionDoc.razorpayPaymentId) {
+      transactionDoc.razorpayPaymentId = `MANUAL_${Date.now()}`;
+      await transactionDoc.save();
+    }
+
+    const result = await processInvoiceGeneration(transactionDoc, invType);
+    if (!result.success) {
+      return res.status(400).json({ success: false, message: result.reason || 'Failed to generate invoice', error: result.error });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Invoice ${result.invoice.invoiceNumber} generated successfully!`,
+      invoice: result.invoice
+    });
+  } catch (error) {
+    console.error('Error in generateManualInvoice:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   downloadInvoicePdf,
-  resendInvoiceEmail
+  resendInvoiceEmail,
+  generateManualInvoice
 };
