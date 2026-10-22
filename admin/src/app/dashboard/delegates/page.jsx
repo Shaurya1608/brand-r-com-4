@@ -35,6 +35,7 @@ export default function DelegatesPage() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const [toastMessage, setToastMessage] = useState('');
+  const [resendingInvoiceId, setResendingInvoiceId] = useState(null);
 
   const showToast = (message) => {
     setToastMessage(message);
@@ -275,8 +276,17 @@ export default function DelegatesPage() {
     }
   };
 
-  const handleResendInvoice = async (invoiceId) => {
+  const handleResendInvoice = async (invoiceId, recipientEmail) => {
+    if (!invoiceId) {
+      alert('Invoice ID not found.');
+      return;
+    }
+    const confirmMsg = recipientEmail
+      ? `Resend tax invoice to ${recipientEmail}?`
+      : 'Are you sure you want to resend this tax invoice email?';
+    if (!window.confirm(confirmMsg)) return;
     try {
+      setResendingInvoiceId(invoiceId);
       const token = Cookies.get('admin_token');
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/invoices/${invoiceId}/resend`, {
         method: 'POST',
@@ -284,13 +294,15 @@ export default function DelegatesPage() {
       });
       const data = await res.json();
       if (data.success) {
-        alert('Invoice sent successfully!');
+        showToast(data.message || 'Invoice sent successfully!');
       } else {
         alert(data.message || 'Failed to resend invoice');
       }
     } catch (err) {
       console.error('Error resending invoice:', err);
       alert('Error resending invoice');
+    } finally {
+      setResendingInvoiceId(null);
     }
   };
 
@@ -733,10 +745,10 @@ export default function DelegatesPage() {
                                         <td className="px-4 py-2.5 whitespace-nowrap">
                       {delegate.invoiceId ? (
                         <div className="flex flex-col gap-1 items-start">
-                          <span className="font-mono text-xs font-semibold text-gray-700">{delegate.invoiceId.invoiceNumber}</span>
+                          <span className="font-mono text-xs font-semibold text-gray-700">{typeof delegate.invoiceId === 'object' ? delegate.invoiceId.invoiceNumber : 'Generated'}</span>
                             <div className="flex items-center gap-2">
                               <a 
-                                href={`${process.env.NEXT_PUBLIC_API_URL}/invoices/${delegate.invoiceId._id}/pdf`}
+                                href={`${process.env.NEXT_PUBLIC_API_URL}/invoices/${typeof delegate.invoiceId === 'object' ? delegate.invoiceId._id : delegate.invoiceId}/pdf`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline cursor-pointer"
@@ -744,10 +756,11 @@ export default function DelegatesPage() {
                                 [View PDF]
                               </a>
                               <button
-                                onClick={() => handleResendInvoice(delegate.invoiceId._id)}
-                                className="text-[10px] font-bold text-[#5e8e33] hover:text-[#4c7727] underline cursor-pointer"
+                                onClick={() => handleResendInvoice(typeof delegate.invoiceId === 'object' ? delegate.invoiceId._id : delegate.invoiceId, delegate.email)}
+                                disabled={resendingInvoiceId === (typeof delegate.invoiceId === 'object' ? delegate.invoiceId._id : delegate.invoiceId)}
+                                className="text-[10px] font-bold text-[#5e8e33] hover:text-[#4c7727] underline cursor-pointer disabled:opacity-50"
                               >
-                                [Resend]
+                                {resendingInvoiceId === (typeof delegate.invoiceId === 'object' ? delegate.invoiceId._id : delegate.invoiceId) ? '[Sending...]' : '[Resend]'}
                               </button>
                             </div>
                         </div>

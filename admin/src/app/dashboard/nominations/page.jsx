@@ -43,8 +43,12 @@ export default function NominationsPage() {
     setTimeout(() => setToastMessage(''), 3000);
   };
 
-  const handleResendInvoice = async (invoiceId) => {
+  const handleResendInvoice = async (invoiceId, recipientEmail) => {
     if (!invoiceId) return;
+    const confirmMsg = recipientEmail
+      ? `Resend tax invoice to ${recipientEmail}?`
+      : 'Are you sure you want to resend this tax invoice email?';
+    if (!window.confirm(confirmMsg)) return;
     try {
       setResendingInvoiceId(invoiceId);
       const token = Cookies.get('admin_token');
@@ -622,7 +626,7 @@ export default function NominationsPage() {
                                 [View PDF]
                               </a>
                               <button
-                                onClick={() => handleResendInvoice(typeof nomination.invoiceId === 'object' ? nomination.invoiceId._id : nomination.invoiceId)}
+                                onClick={() => handleResendInvoice(typeof nomination.invoiceId === 'object' ? nomination.invoiceId._id : nomination.invoiceId, nomination.email)}
                                 disabled={resendingInvoiceId === (typeof nomination.invoiceId === 'object' ? nomination.invoiceId._id : nomination.invoiceId)}
                                 className="text-[10px] font-bold text-[#5e8e33] hover:text-[#4c7727] underline cursor-pointer disabled:opacity-50"
                               >
@@ -1023,6 +1027,18 @@ export default function NominationsPage() {
         }}
         nomination={selectedNominationForCoupon}
       />
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-[9999] bg-[#1a1a1a] text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+          <div className="w-7 h-7 rounded-full bg-[#5e8e33]/20 flex items-center justify-center">
+            <svg className="w-4 h-4 text-[#5e8e33]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p className="text-sm font-medium">{toastMessage}</p>
+        </div>
+      )}
+
     </div>
   );
 }
