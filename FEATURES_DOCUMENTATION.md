@@ -18,6 +18,7 @@ This document serves as the single source of truth for all built features, detai
 8. [Multi-Recipient Team Notification System](#8-multi-recipient-team-notification-system-admin_notification_emails)
 9. [Award Nomination Security, Duplicate Locking & Pay Later Resumption](#9-award-nomination-security-duplicate-locking--pay-later-resumption)
 10. [Media Kit Page](#10-media-kit-page)
+11. [Automated Tax Invoice Generation & Email System](#11-automated-tax-invoice-generation--email-system)
 
 ---
 
@@ -293,10 +294,31 @@ Sponsors, partners, exhibitors, delegates, and speakers need official graphics, 
 
 ---
 
+## 11. Automated Tax Invoice Generation & Email System
+
+### ❓ Why It Was Implemented
+Corporate sponsors, delegates, and award nominees in India require GST-compliant Tax Invoices for input tax credit (ITC) and accounting reconciliation. Automating this eliminates manual invoice generation and guarantees that invoices are delivered instantly as PDF attachments upon successful Razorpay payment.
+
+### 🛠️ How It Works
+- **Eligibility Trigger**: Evaluated when payment succeeds (`paymentStatus === 'Paid'`). If the user provided a valid 15-character GSTIN (`gstNumber`) and `amountPaid > 0`, `processInvoiceGeneration` is called.
+- **Atomic Counter**: Assigns sequential numbers per prefix via MongoDB atomic `$inc`:
+  - Delegate: `SIPLBRCOMM26-DEL-001`
+  - Award: `SIPLBRCOMM26-AWD-001`
+- **Tax Calculation**: Backward calculation from gross price (`amount / 1.18`).
+  - Intra-State (State `09` UP): 9% CGST + 9% SGST.
+  - Inter-State (State != `09` UP): 18% IGST.
+- **In-Memory PDF Generation**: Uses `pdfkit` to compile official branded PDFs (`header.png`, `stamp.png`, `footer.png`) with words-to-number amount.
+- **Instant Email Delivery**: Resend attaches the generated PDF (`Tax_Invoice_<Name>.pdf`) to the participant's confirmation email and switches the email subject line to `✅ Registration Confirmed & Tax Invoice: BRAND R.Comm 2026 (<Name>)`.
+- **Admin Panel Control**: Admins can inspect the invoice number, download the PDF (`GET /api/invoices/:id/pdf`), or 1-click resend the invoice (`POST /api/invoices/:id/resend`).
+- **Comprehensive Master Documentation**: See [INVOICE_SYSTEM_DOCUMENTATION.md](file:///c:/Users/Asus/Desktop/Snail-integral/Brand-r-com-4/INVOICE_SYSTEM_DOCUMENTATION.md) for full architecture and technical diagrams.
+
+---
+
 ## 📝 Revision Log
 
 | **Date** | **Change** | **Files** | **Author** |
 |---|---|---|---|
+| **2026-10-22** | Automated Tax Invoice System & Email Documentation | `INVOICE_SYSTEM_DOCUMENTATION.md`, `FEATURES_DOCUMENTATION.md` | Antigravity AI |
 | **2026-08-25** | Media Kit Page — hero, logos, social templates, brochures | `frontend/src/app/media-kit/page.js`, `Navbar.jsx`, assets | Antigravity AI |
 | **2026-08-25** | Admin Panel complete documentation — all 7 sections | `admin/src/app/dashboard/*` | Antigravity AI |
 | **2026-08-06** | Award Nomination Security, Hashed Resume Tokens & Duplicate Prevention | `nominationController.js`, `AwardNomination.js`, `AwardNominationModal.jsx` | Antigravity AI |

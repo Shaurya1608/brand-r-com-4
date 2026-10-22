@@ -42,6 +42,23 @@ export default function NominationsPage() {
     setTimeout(() => setToastMessage(''), 3000);
   };
 
+  const handleResendInvoice = async (invoiceId) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/invoices/${invoiceId}/resend`, {
+        method: 'POST'
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Invoice sent successfully!');
+      } else {
+        alert(data.message || 'Failed to resend invoice');
+      }
+    } catch (err) {
+      console.error('Error resending invoice:', err);
+      alert('Error resending invoice');
+    }
+  };
+
   useEffect(() => {
     fetchNominations();
   }, []);
@@ -394,6 +411,7 @@ export default function NominationsPage() {
                   <th scope="col" className="px-3 py-2.5 min-w-[180px] sticky top-0 bg-gray-100">Contact Person & Details</th>
                   <th scope="col" className="px-3 py-2.5 whitespace-nowrap text-right sticky top-0 bg-gray-100">Amount</th>
                   <th scope="col" className="px-3 py-2.5 whitespace-nowrap sticky top-0 bg-gray-100">Payment & Type</th>
+                  <th scope="col" className="px-3 py-2.5 whitespace-nowrap sticky top-0 bg-gray-100">Invoice</th>
                   <th scope="col" className="px-3 py-2.5 whitespace-nowrap text-center sticky top-0 bg-gray-100">Status</th>
                   <th scope="col" className="px-3 py-2.5 whitespace-nowrap text-center sticky right-0 top-0 z-50 bg-gray-100 shadow-[-1px_0_0_0_#e5e7eb]">Action</th>
                 </tr>
@@ -575,6 +593,41 @@ export default function NominationsPage() {
                             </button>
                           )}
                         </div>
+                      </td>
+
+                      {/* Invoice */}
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        {nomination.invoiceId ? (
+                          <div className="flex flex-col gap-1 items-start">
+                            <span className="font-mono text-xs font-semibold text-gray-700">
+                              {typeof nomination.invoiceId === 'object' ? nomination.invoiceId.invoiceNumber : 'Generated'}
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <a 
+                                href={`${process.env.NEXT_PUBLIC_API_URL}/invoices/${typeof nomination.invoiceId === 'object' ? nomination.invoiceId._id : nomination.invoiceId}/pdf`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline cursor-pointer"
+                              >
+                                [View PDF]
+                              </a>
+                              <button
+                                onClick={() => handleResendInvoice(typeof nomination.invoiceId === 'object' ? nomination.invoiceId._id : nomination.invoiceId)}
+                                className="text-[10px] font-bold text-[#5e8e33] hover:text-[#4c7727] underline cursor-pointer"
+                              >
+                                [Resend]
+                              </button>
+                            </div>
+                          </div>
+                        ) : (nomination.paymentStatus === 'Paid' ? (
+                          nomination.gstNumber ? (
+                            <span className="text-xs text-amber-600 font-medium">Pending Gen</span>
+                          ) : (
+                            <span className="text-xs text-gray-400">No GSTIN</span>
+                          )
+                        ) : (
+                          <span className="text-xs text-gray-400">Not Applicable</span>
+                        ))}
                       </td>
 
                       {/* 17. Status Dropdown (Sleek Compact Pill) */}

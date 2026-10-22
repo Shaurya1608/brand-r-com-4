@@ -200,7 +200,7 @@ exports.createNomination = async (req, res) => {
 // Get all nominations (Admin only)
 exports.getNominations = async (req, res) => {
   try {
-    const nominations = await AwardNomination.find().sort({ createdAt: -1 });
+    const nominations = await AwardNomination.find().populate('invoiceId').sort({ createdAt: -1 });
     const nominationIds = nominations.map(n => n._id);
 
     const DelegateRegistration = require('../models/DelegateRegistration');
