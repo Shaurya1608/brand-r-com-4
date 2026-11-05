@@ -8,6 +8,7 @@ router.post('/validate', couponController.validateCoupon);
 
 // Admin: Manage Coupons
 router.get('/', protect, couponController.getAllCoupons);
+router.post('/', protect, couponController.createCoupon);
 router.get('/:id', protect, couponController.getCouponById);
 router.patch('/:id/limit', protect, couponController.updateLimit);
 router.patch('/:id/expiry', protect, couponController.updateExpiry);

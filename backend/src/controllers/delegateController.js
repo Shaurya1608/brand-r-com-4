@@ -237,6 +237,8 @@ exports.registerDelegate = async (req, res) => {
           } else if (validCoupon.nominationId) {
             awardNominationId = validCoupon.nominationId;
             awardNominationName = validCoupon.sponsorName;
+          } else {
+            sponsorshipCompany = validCoupon.sponsorName;
           }
         }
       }

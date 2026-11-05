@@ -11,6 +11,24 @@ const generateCouponCode = (prefix = 'BRAND') => {
   return `${prefix}-${randomPart}`;
 };
 
+// Helper to parse date inputs (handles YYYY-MM-DD from <input type="date">)
+const parseStartDate = (dateVal) => {
+  if (!dateVal) return new Date();
+  if (typeof dateVal === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateVal.trim())) {
+    return new Date(`${dateVal.trim()}T00:00:00.000`);
+  }
+  return new Date(dateVal);
+};
+
+const parseExpiryDate = (dateVal) => {
+  if (!dateVal) return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  if (typeof dateVal === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateVal.trim())) {
+    // End of selected day (23:59:59.999) so it remains valid all day
+    return new Date(`${dateVal.trim()}T23:59:59.999`);
+  }
+  return new Date(dateVal);
+};
+
 // 1. Generate Coupon from Sponsorship
 exports.generateCoupon = async (req, res) => {
   try {
@@ -52,8 +70,8 @@ exports.generateCoupon = async (req, res) => {
       sponsorshipId,
       sponsorName: sponsorship.companyName,
       maxUses: maxUses || 50,
-      startsAt: startsAt ? new Date(startsAt) : new Date(),
-      expiresAt: expiresAt ? new Date(expiresAt) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days default
+      startsAt: parseStartDate(startsAt),
+      expiresAt: parseExpiryDate(expiresAt),
       isActive: true
     });
 
@@ -106,8 +124,8 @@ exports.generateNominationCoupon = async (req, res) => {
       nominationId,
       sponsorName: nomination.organizationName || nomination.fullName,
       maxUses: maxUses || 50,
-      startsAt: startsAt ? new Date(startsAt) : new Date(),
-      expiresAt: expiresAt ? new Date(expiresAt) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days default
+      startsAt: parseStartDate(startsAt),
+      expiresAt: parseExpiryDate(expiresAt),
       isActive: true
     });
 
@@ -116,6 +134,44 @@ exports.generateNominationCoupon = async (req, res) => {
   } catch (error) {
     console.error('Error generating nomination coupon:', error);
     res.status(500).json({ success: false, message: 'Failed to generate coupon' });
+  }
+};
+
+// 1C. Standalone / Direct Coupon Creation (Admin)
+exports.createCoupon = async (req, res) => {
+  try {
+    let { code, sponsorName, maxUses, startsAt, expiresAt, sponsorshipId, nominationId } = req.body;
+
+    if (!sponsorName || !sponsorName.trim()) {
+      return res.status(400).json({ success: false, message: 'Organization / Sponsor Name is required' });
+    }
+
+    if (!code) {
+      code = generateCouponCode('CPN');
+    } else {
+      code = code.toUpperCase().trim();
+      const existing = await Coupon.findOne({ code, deletedAt: null });
+      if (existing) {
+        return res.status(400).json({ success: false, message: 'Coupon code already exists. Please choose another code.' });
+      }
+    }
+
+    const coupon = new Coupon({
+      code,
+      sponsorName: sponsorName.trim(),
+      sponsorshipId: sponsorshipId || null,
+      nominationId: nominationId || null,
+      maxUses: maxUses ? parseInt(maxUses) : 50,
+      startsAt: parseStartDate(startsAt),
+      expiresAt: parseExpiryDate(expiresAt),
+      isActive: true
+    });
+
+    await coupon.save();
+    res.status(201).json({ success: true, coupon });
+  } catch (error) {
+    console.error('Error creating standalone coupon:', error);
+    res.status(500).json({ success: false, message: 'Failed to create coupon' });
   }
 };
 
@@ -253,7 +309,7 @@ exports.updateExpiry = async (req, res) => {
 
     const coupon = await Coupon.findOneAndUpdate(
       { _id: id, deletedAt: null },
-      { $set: { expiresAt: new Date(expiresAt) } },
+      { $set: { expiresAt: parseExpiryDate(expiresAt) } },
       { new: true }
     );
 
