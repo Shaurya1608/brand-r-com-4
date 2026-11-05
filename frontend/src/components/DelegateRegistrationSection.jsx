@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import DelegateRegistrationModal from "./DelegateRegistrationModal";
 import { trackEvent } from "../utils/metaPixel";
@@ -8,6 +8,15 @@ import { trackEvent } from "../utils/metaPixel";
 export default function DelegateRegistrationSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("indian");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("coupon")) {
+        setIsModalOpen(true);
+      }
+    }
+  }, []);
 
   const openModal = (type) => {
     setModalType(type);
