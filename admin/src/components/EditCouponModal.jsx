@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { X, Save, Calendar, Users } from 'lucide-react';
+import { X, Save, Calendar, Users, Edit3 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import Cookies from 'js-cookie';
 
@@ -59,7 +59,7 @@ const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ expiresAt: new Date(expiresAt).toISOString() })
+        body: JSON.stringify({ expiresAt })
       });
       const expiryData = await expiryRes.json();
 
@@ -85,7 +85,7 @@ const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
         <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-white rounded-t-2xl">
           <div>
             <h2 className="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
-              <Edit3Icon className="w-5 h-5 text-[#6a9a38]" />
+              <Edit3 className="w-5 h-5 text-[#6a9a38]" />
               Edit Coupon
             </h2>
             <p className="text-xs text-gray-500 font-mono mt-1">{coupon.code}</p>

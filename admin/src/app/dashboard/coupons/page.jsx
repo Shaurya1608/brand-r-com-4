@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Ticket, Search, Edit2, Trash2, Users, CheckCircle, XCircle } from 'lucide-react';
+import { Ticket, Search, Edit2, Trash2, Users, CheckCircle, XCircle, Plus } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { toast } from 'react-hot-toast';
 import EditCouponModal from '../../../components/EditCouponModal';
+import GenerateCouponModal from '../../../components/GenerateCouponModal';
+import CouponDetailsModal from '../../../components/CouponDetailsModal';
 
 export default function CouponsPage() {
   const [coupons, setCoupons] = useState([]);
@@ -12,6 +14,7 @@ export default function CouponsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCoupon, setSelectedCoupon] = useState(null); // For viewing delegates
   
+  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -108,6 +111,14 @@ export default function CouponsPage() {
             Manage discount codes, usage limits, and sponsor linkages.
           </p>
         </div>
+
+        <button
+          onClick={() => setIsGenerateModalOpen(true)}
+          className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#6a9a38] hover:bg-[#5c8730] text-white rounded-xl shadow-md hover:shadow-lg text-xs font-bold uppercase tracking-wider transition-all transform active:scale-95 cursor-pointer"
+        >
+          <Plus size={16} />
+          Generate Coupon
+        </button>
       </div>
 
       {/* Stats Cards */}
@@ -192,9 +203,17 @@ export default function CouponsPage() {
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-end gap-2">
                           <button
+                            onClick={() => setSelectedCoupon(coupon)}
+                            className="p-1.5 hover:bg-emerald-50 text-emerald-600 rounded-lg transition-colors"
+                            title="View Registered Delegates"
+                          >
+                            <Users size={16} />
+                          </button>
+
+                          <button
                             onClick={() => handleEditClick(coupon)}
                             className="p-1.5 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors"
-                            title="Edit Usage Limit"
+                            title="Edit Usage Limit & Expiry"
                           >
                             <Edit2 size={16} />
                           </button>
@@ -230,11 +249,24 @@ export default function CouponsPage() {
         </div>
       </div>
 
+      <GenerateCouponModal
+        isOpen={isGenerateModalOpen}
+        onClose={() => setIsGenerateModalOpen(false)}
+        onSuccess={fetchCoupons}
+      />
+
       <EditCouponModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         coupon={editingCoupon}
         onSuccess={fetchCoupons}
+      />
+
+      <CouponDetailsModal
+        isOpen={!!selectedCoupon}
+        onClose={() => setSelectedCoupon(null)}
+        coupon={selectedCoupon}
+        onStatusChange={fetchCoupons}
       />
     </div>
   );

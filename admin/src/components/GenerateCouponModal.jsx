@@ -5,62 +5,81 @@ import { X, Copy, CheckCircle2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { toast } from 'react-hot-toast';
 
-const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination }) => {
+const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [successData, setSuccessData] = useState(null);
   
   // Form fields
   const [code, setCode] = useState('');
+  const [customOrganization, setCustomOrganization] = useState('');
   const [maxUses, setMaxUses] = useState(50);
   const [startsAt, setStartsAt] = useState('');
   const [expiresAt, setExpiresAt] = useState('');
 
-  // Source entity details
+  // Determine mode: standalone vs entity-linked
+  const isStandalone = !sponsorship && !nomination;
   const entityId = sponsorship?._id || nomination?._id;
-  const entityName = sponsorship?.companyName || nomination?.organizationName || nomination?.fullName || 'Organization';
+  const entityName = isStandalone
+    ? (customOrganization || 'Organization')
+    : (sponsorship?.companyName || nomination?.organizationName || nomination?.fullName || 'Organization');
   const entityType = sponsorship ? 'sponsorships' : 'nominations';
 
   useEffect(() => {
     if (isOpen) {
       setSuccessData(null);
+      setCustomOrganization('');
       
-      const prefix = sponsorship ? 'SPO' : 'NOM';
+      const prefix = sponsorship ? 'SPO' : nomination ? 'NOM' : 'CPN';
       const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
       setCode(`${prefix}-${randomPart}`);
       
       setMaxUses(50);
-      setStartsAt(new Date().toISOString().slice(0, 16));
+      const today = new Date();
+      setStartsAt(today.toISOString().split('T')[0]);
       
       const nextMonth = new Date();
       nextMonth.setMonth(nextMonth.getMonth() + 1);
-      setExpiresAt(nextMonth.toISOString().slice(0, 16));
+      setExpiresAt(nextMonth.toISOString().split('T')[0]);
     }
-  }, [isOpen]);
+  }, [isOpen, sponsorship, nomination]);
 
-  if (!isOpen || !entityId) return null;
+  if (!isOpen) return null;
+  if (!isStandalone && !entityId) return null;
 
   const handleGenerate = async (e) => {
     e.preventDefault();
+
+    if (isStandalone && !customOrganization.trim()) {
+      toast.error('Please enter an Organization or Sponsor name');
+      return;
+    }
+
     setLoading(true);
 
     try {
       const token = Cookies.get('admin_token');
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/${entityType}/${entityId}/coupons`,
-        { 
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({ code, maxUses, startsAt, expiresAt })
-        }
-      );
+      const url = isStandalone
+        ? `${process.env.NEXT_PUBLIC_API_URL}/coupons`
+        : `${process.env.NEXT_PUBLIC_API_URL}/${entityType}/${entityId}/coupons`;
+
+      const payload = isStandalone
+        ? { code, sponsorName: customOrganization.trim(), maxUses, startsAt, expiresAt }
+        : { code, maxUses, startsAt, expiresAt };
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
       
       const data = await response.json();
       
       if (data.success) {
         setSuccessData(data.coupon);
+        if (onSuccess) onSuccess(data.coupon);
         toast.success('Coupon generated successfully!', {
           style: { background: '#10B981', color: '#fff', fontWeight: 'bold' }
         });
@@ -84,6 +103,9 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination }) => {
     toast.success(`${type} copied to clipboard!`);
   };
 
+  const frontendBaseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://brandrcomm.com';
+  const directLink = successData ? `${frontendBaseUrl}/?coupon=${successData.code}` : '';
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-md p-4 sm:p-6 overflow-y-auto">
       <div className="bg-white border border-gray-100 rounded-2xl w-full max-w-lg shadow-2xl relative my-8 transform transition-all animate-in fade-in zoom-in-95 duration-200">
@@ -105,7 +127,9 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination }) => {
             </div>
             <div>
               <h3 className="text-2xl font-black text-gray-900 mb-2">Coupon Created!</h3>
-              <p className="text-sm font-medium text-gray-500">The 100% Free coupon for <strong className="text-gray-800">{entityName}</strong> is ready.</p>
+              <p className="text-sm font-medium text-gray-500">
+                The 100% Free coupon for <strong className="text-gray-800">{successData.sponsorName || entityName}</strong> is ready.
+              </p>
             </div>
 
             <div className="space-y-4 pt-2">
@@ -127,11 +151,11 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination }) => {
                 <div className="overflow-hidden">
                   <p className="text-[11px] uppercase tracking-widest font-bold text-gray-500 text-left mb-1">Direct Registration Link</p>
                   <p className="text-[13px] font-medium text-gray-600 truncate pr-4">
-                    https://brandrcomm.com/delegate-registration?coupon={successData.code}
+                    {directLink}
                   </p>
                 </div>
                 <button 
-                  onClick={() => copyToClipboard(`https://brandrcomm.com/delegate-registration?coupon=${successData.code}`, 'Link')}
+                  onClick={() => copyToClipboard(directLink, 'Link')}
                   className="p-2.5 bg-white border border-gray-200 hover:border-[#6a9a38] hover:text-[#6a9a38] rounded-lg transition-all shadow-sm text-gray-600 shrink-0"
                   title="Copy Link"
                 >
@@ -150,12 +174,31 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination }) => {
         ) : (
           <form onSubmit={handleGenerate} className="p-6 space-y-6">
             <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Organization</label>
-                <div className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 font-semibold shadow-inner">
-                  {entityName}
+              {isStandalone ? (
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">
+                    Organization / Sponsor Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Reliance Foundation, Govt of India, AgroTech Ltd"
+                    value={customOrganization}
+                    onChange={(e) => setCustomOrganization(e.target.value)}
+                    className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-semibold focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] focus:outline-none transition-colors shadow-sm"
+                    required
+                  />
+                  <p className="text-xs text-gray-400 mt-2 font-medium">
+                    Any delegate registering with this coupon will be tagged under this organization.
+                  </p>
                 </div>
-              </div>
+              ) : (
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Organization</label>
+                  <div className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 font-semibold shadow-inner">
+                    {entityName}
+                  </div>
+                </div>
+              )}
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Coupon Code</label>
@@ -188,7 +231,7 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination }) => {
                     type="date"
                     value={startsAt}
                     onChange={(e) => setStartsAt(e.target.value)}
-                    className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-semibold focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] focus:outline-none transition-colors shadow-sm"
+                    className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-semibold focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] focus:outline-none transition-colors shadow-sm text-sm"
                     required
                   />
                 </div>
@@ -198,7 +241,7 @@ const GenerateCouponModal = ({ isOpen, onClose, sponsorship, nomination }) => {
                     type="date"
                     value={expiresAt}
                     onChange={(e) => setExpiresAt(e.target.value)}
-                    className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-semibold focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] focus:outline-none transition-colors shadow-sm"
+                    className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-semibold focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] focus:outline-none transition-colors shadow-sm text-sm"
                     required
                   />
                 </div>
