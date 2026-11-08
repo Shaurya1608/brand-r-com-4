@@ -134,6 +134,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   
   const [couponCode, setCouponCode] = useState('');
   const [isCouponValid, setIsCouponValid] = useState(false);
+  const [couponDiscount, setCouponDiscount] = useState(0);
   const [couponLoading, setCouponLoading] = useState(false);
   const [couponError, setCouponError] = useState('');
   const [industryDiscountApplied, setIndustryDiscountApplied] = useState(false);
@@ -143,6 +144,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
     setCouponLoading(true);
     setCouponError('');
     setIsCouponValid(false);
+    setCouponDiscount(0);
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coupons/validate`, {
         method: 'POST',
@@ -152,9 +154,13 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
       const data = await res.json();
       if (data.success) {
         setIsCouponValid(true);
+        const discount = typeof data.data?.discountPercentage === 'number' ? data.data.discountPercentage : 100;
+        setCouponDiscount(discount);
         setCouponError('');
       } else {
-        setCouponError('Invalid coupon code.');
+        setIsCouponValid(false);
+        setCouponDiscount(0);
+        setCouponError(data.message || 'Invalid coupon code.');
       }
     } catch (err) {
       setCouponError('Error validating coupon');
@@ -330,9 +336,13 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   const baseRs = pricingTier.amountRs;
   let taxableRs = baseRs;
   if (isCouponValid) {
-    taxableRs = 0;
+    if (couponDiscount === 100) {
+      taxableRs = 0;
+    } else if (couponDiscount > 0) {
+      taxableRs = Math.max(0, Math.round(baseRs * (1 - couponDiscount / 100)));
+    }
   } else if (industryDiscountApplied) {
-    taxableRs = baseRs * 0.8;
+    taxableRs = Math.round(baseRs * 0.8);
   }
   const gstRs = Math.round(taxableRs * 0.18);
   const finalRs = taxableRs + gstRs;
@@ -340,9 +350,13 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
   const baseUsd = 250;
   let taxableUsd = baseUsd;
   if (isCouponValid) {
-    taxableUsd = 0;
+    if (couponDiscount === 100) {
+      taxableUsd = 0;
+    } else if (couponDiscount > 0) {
+      taxableUsd = Math.max(0, baseUsd - Math.round(baseUsd * (couponDiscount / 100)));
+    }
   } else if (industryDiscountApplied) {
-    taxableUsd = baseUsd * 0.8;
+    taxableUsd = 200;
   }
 
   const finalAmountForApi = delegateType === 'indian' ? finalRs : taxableUsd;
@@ -1019,6 +1033,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                             onChange={(e) => {
                               setCouponCode(e.target.value.toUpperCase());
                               setIsCouponValid(false);
+                              setCouponDiscount(0);
                               setCouponError('');
                             }}
                             placeholder="Enter Code" 
@@ -1034,7 +1049,13 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                           </button>
                         </div>
                         {couponError && <p className="text-[11px] text-red-500 font-semibold">{couponError}</p>}
-                        {isCouponValid && <p className="text-[11px] text-brand-primary font-semibold">Coupon applied! Delegate pass is 100% Free.</p>}
+                        {isCouponValid && (
+                          <p className="text-[11px] text-brand-primary font-semibold">
+                            {couponDiscount === 100 
+                              ? '🎉 Coupon applied! Delegate pass is 100% Free.' 
+                              : `🏷️ Coupon applied! ${couponDiscount}% discount applied.`}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </form>
@@ -1061,7 +1082,7 @@ export default function DelegateRegistrationModal({ isOpen, onClose, defaultType
                     disabled={loading}
                     className="w-full py-3.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    {loading ? 'PROCESSING...' : (delegateType === 'foreign' ? 'SUBMIT REGISTRATION' : isCouponValid ? 'COMPLETE REGISTRATION' : 'PROCEED TO PAYMENT')}
+                    {loading ? 'PROCESSING...' : (delegateType === 'foreign' ? 'SUBMIT REGISTRATION' : (isCouponValid && couponDiscount === 100) ? 'COMPLETE REGISTRATION' : 'PROCEED TO PAYMENT')}
                   </button>
                 </div>
               </div>
