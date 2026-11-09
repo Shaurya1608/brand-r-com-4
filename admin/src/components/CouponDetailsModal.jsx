@@ -83,18 +83,23 @@ const CouponDetailsModal = ({ isOpen, onClose, coupon, onStatusChange }) => {
             </div>
             
             <div className="text-right">
-              <p className="text-[10px] uppercase tracking-widest font-extrabold text-gray-400 mb-1">Status</p>
-              <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bold text-xs border ${
-                status === 'Active' ? 'bg-[#6a9a38]/10 text-[#5c8730] border-[#6a9a38]/20' :
-                status === 'Exhausted' ? 'bg-orange-100 text-orange-700 border-orange-200' :
-                status === 'Expired' ? 'bg-red-100 text-red-700 border-red-200' : 'bg-gray-100 text-gray-600 border-gray-200'
-              }`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${
-                  status === 'Active' ? 'bg-[#6a9a38] animate-pulse' :
-                  status === 'Exhausted' ? 'bg-orange-500' :
-                  status === 'Expired' ? 'bg-red-500' : 'bg-gray-400'
-                }`} />
-                {status}
+              <p className="text-[10px] uppercase tracking-widest font-extrabold text-gray-400 mb-1">Discount & Status</p>
+              <div className="flex items-center justify-end gap-1.5">
+                <span className={`px-2 py-0.5 rounded-full font-bold text-xs border ${(coupon.discountPercentage === undefined || coupon.discountPercentage === 100) ? 'bg-emerald-100 text-emerald-800 border-emerald-200' : 'bg-blue-100 text-blue-800 border-blue-200'}`}>
+                  {(coupon.discountPercentage === undefined || coupon.discountPercentage === 100) ? '100% Free' : `${coupon.discountPercentage}% OFF`}
+                </span>
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bold text-xs border ${
+                  status === 'Active' ? 'bg-[#6a9a38]/10 text-[#5c8730] border-[#6a9a38]/20' :
+                  status === 'Exhausted' ? 'bg-orange-100 text-orange-700 border-orange-200' :
+                  status === 'Expired' ? 'bg-red-100 text-red-700 border-red-200' : 'bg-gray-100 text-gray-600 border-gray-200'
+                }`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${
+                    status === 'Active' ? 'bg-[#6a9a38] animate-pulse' :
+                    status === 'Exhausted' ? 'bg-orange-500' :
+                    status === 'Expired' ? 'bg-red-500' : 'bg-gray-400'
+                  }`} />
+                  {status}
+                </div>
               </div>
             </div>
           </div>

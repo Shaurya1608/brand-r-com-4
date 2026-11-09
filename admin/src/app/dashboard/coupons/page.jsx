@@ -165,6 +165,7 @@ export default function CouponsPage() {
                 <tr>
                   <th className="px-4 py-3">Code</th>
                   <th className="px-4 py-3">Sponsor</th>
+                  <th className="px-4 py-3 text-center">Discount</th>
                   <th className="px-4 py-3 text-center">Usage</th>
                   <th className="px-4 py-3">Starts At</th>
                   <th className="px-4 py-3">Expires At</th>
@@ -180,6 +181,17 @@ export default function CouponsPage() {
                     <tr key={coupon._id} className="hover:bg-gray-50">
                       <td className="px-4 py-3 font-mono font-bold text-gray-900">{coupon.code}</td>
                       <td className="px-4 py-3 font-medium">{coupon.sponsorName}</td>
+                      <td className="px-4 py-3 text-center">
+                        {(coupon.discountPercentage === undefined || coupon.discountPercentage === 100) ? (
+                          <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 whitespace-nowrap">
+                            100% Free
+                          </span>
+                        ) : (
+                          <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-blue-100 text-blue-800 border border-blue-200 whitespace-nowrap">
+                            {coupon.discountPercentage}% OFF
+                          </span>
+                        )}
+                      </td>
                       <td className="px-4 py-3 text-center">
                         <span className={`font-bold ${status === 'Exhausted' ? 'text-orange-500' : 'text-gray-900'}`}>
                           {coupon.usedCount}
@@ -240,7 +252,7 @@ export default function CouponsPage() {
                 })}
                 {filteredCoupons.length === 0 && (
                   <tr>
-                    <td colSpan="7" className="text-center py-8 text-gray-500">No coupons found.</td>
+                    <td colSpan="8" className="text-center py-8 text-gray-500">No coupons found.</td>
                   </tr>
                 )}
               </tbody>

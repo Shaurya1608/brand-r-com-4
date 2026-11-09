@@ -1,18 +1,20 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { X, Save, Calendar, Users, Edit3 } from 'lucide-react';
+import { X, Save, Calendar, Users, Edit3, Tag } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import Cookies from 'js-cookie';
 
 const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
   const [maxUses, setMaxUses] = useState(1);
+  const [discountPercentage, setDiscountPercentage] = useState(100);
   const [expiresAt, setExpiresAt] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (coupon && isOpen) {
       setMaxUses(coupon.maxUses || 1);
+      setDiscountPercentage(typeof coupon.discountPercentage === 'number' ? coupon.discountPercentage : 100);
       if (coupon.expiresAt) {
         // Format date for date input (YYYY-MM-DD)
         const date = new Date(coupon.expiresAt);
@@ -29,6 +31,12 @@ const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
     const limitInt = parseInt(maxUses, 10);
     if (isNaN(limitInt) || limitInt < coupon.usedCount) {
       toast.error(`Limit must be at least ${coupon.usedCount} (current usage)`);
+      return;
+    }
+
+    const discountNum = parseInt(discountPercentage, 10);
+    if (isNaN(discountNum) || discountNum < 1 || discountNum > 100) {
+      toast.error('Discount percentage must be between 1% and 100%');
       return;
     }
 
@@ -63,12 +71,23 @@ const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
       });
       const expiryData = await expiryRes.json();
 
-      if (limitData.success && expiryData.success) {
+      // Update Discount
+      const discountRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coupons/${coupon._id}/discount`, {
+        method: 'PATCH',
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ discountPercentage: discountNum })
+      });
+      const discountData = await discountRes.json();
+
+      if (limitData.success && expiryData.success && discountData.success) {
         toast.success('Coupon updated successfully');
         onSuccess && onSuccess();
         onClose();
       } else {
-        toast.error(limitData.message || expiryData.message || 'Failed to update coupon');
+        toast.error(limitData.message || expiryData.message || discountData.message || 'Failed to update coupon');
       }
     } catch (error) {
       toast.error('Server error updating coupon');
@@ -88,7 +107,7 @@ const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
               <Edit3 className="w-5 h-5 text-[#6a9a38]" />
               Edit Coupon
             </h2>
-            <p className="text-xs text-gray-500 font-mono mt-1">{coupon.code}</p>
+            <p className="text-xs text-gray-500 font-mono mt-1">{coupon.code} ({coupon.sponsorName})</p>
           </div>
           <button 
             onClick={onClose}
@@ -99,8 +118,60 @@ const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
         </div>
 
         {/* Content */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div className="space-y-4">
+
+            {/* Discount Percentage */}
+            <div className="bg-gray-50/70 p-3.5 rounded-xl border border-gray-200">
+              <div className="flex items-center justify-between mb-2">
+                <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-700">
+                  <Tag className="w-3.5 h-3.5 text-[#6a9a38]" />
+                  Discount
+                </label>
+                <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${discountPercentage == 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'}`}>
+                  {discountPercentage == 100 ? '100% Free Pass' : `${discountPercentage}% OFF`}
+                </span>
+              </div>
+              
+              <div className="relative">
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  value={discountPercentage}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === '') {
+                      setDiscountPercentage('');
+                    } else {
+                      const num = parseInt(val, 10);
+                      setDiscountPercentage(isNaN(num) ? 100 : Math.max(1, Math.min(100, num)));
+                    }
+                  }}
+                  className="w-full bg-white border border-gray-300 rounded-xl px-4 py-2 text-gray-900 font-bold text-base focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] focus:outline-none transition-colors shadow-sm"
+                  required
+                />
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">%</span>
+              </div>
+
+              {/* Quick Select Buttons */}
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {[100, 5, 10, 15, 20, 25, 30, 50].map((pct) => (
+                  <button
+                    key={pct}
+                    type="button"
+                    onClick={() => setDiscountPercentage(pct)}
+                    className={`px-2.5 py-0.5 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
+                      discountPercentage == pct
+                        ? 'bg-[#6a9a38] text-white border-[#6a9a38]'
+                        : 'bg-white hover:bg-gray-100 text-gray-700 border-gray-200'
+                    }`}
+                  >
+                    {pct === 100 ? '100% Free' : `${pct}%`}
+                  </button>
+                ))}
+              </div>
+            </div>
             
             {/* Max Uses */}
             <div>
@@ -125,25 +196,24 @@ const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
             <div>
               <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">
                 <Calendar className="w-4 h-4" />
-                Expiry Date
+                Valid Until (Expires At)
               </label>
               <input
                 type="date"
                 value={expiresAt}
                 onChange={(e) => setExpiresAt(e.target.value)}
-                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-bold focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] focus:outline-none transition-colors shadow-sm"
+                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-semibold focus:ring-2 focus:ring-[#6a9a38]/30 focus:border-[#6a9a38] focus:outline-none transition-colors shadow-sm text-sm"
                 required
               />
             </div>
 
           </div>
 
-          {/* Footer */}
           <div className="flex gap-3 pt-6 border-t border-gray-100">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-3 px-4 bg-white border-2 border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-700 rounded-xl transition-all font-bold uppercase tracking-widest text-xs"
+              className="flex-1 py-3 px-4 bg-white border-2 border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer"
               disabled={loading}
             >
               Cancel
@@ -151,10 +221,10 @@ const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
             <button
               type="submit"
               disabled={loading}
-              className="flex-[2] py-3 px-4 bg-[#6a9a38] hover:bg-[#5c8730] text-white shadow-md hover:shadow-lg rounded-xl transition-all font-bold uppercase tracking-widest text-xs disabled:opacity-70 disabled:cursor-not-allowed transform active:scale-[0.98] flex items-center justify-center gap-2"
+              className="flex-[2] py-3 px-4 bg-[#6a9a38] hover:bg-[#5c8730] text-white shadow-md hover:shadow-lg rounded-xl font-bold uppercase tracking-widest text-xs transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
             >
               <Save className="w-4 h-4" />
-              {loading ? 'SAVING...' : 'SAVE CHANGES'}
+              {loading ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
         </form>
@@ -163,13 +233,5 @@ const EditCouponModal = ({ isOpen, onClose, coupon, onSuccess }) => {
     </div>
   );
 };
-
-// Internal icon for Edit3 since I didn't import it in standard lucide sometimes
-const Edit3Icon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M12 20h9"></path>
-    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-  </svg>
-);
 
 export default EditCouponModal;
