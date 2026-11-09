@@ -52,8 +52,85 @@ export default function AwardNominationModal({ isOpen, onClose }) {
   const [isExistingRecord, setIsExistingRecord] = useState(false);
   const [existingData, setExistingData] = useState(null);
 
+  // Coupon states
+  const [couponCode, setCouponCode] = useState("");
+  const [isCouponValid, setIsCouponValid] = useState(false);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponError, setCouponError] = useState("");
+
+  // Post-submit coupon state on payment screen
+  const [postSubmitCouponCode, setPostSubmitCouponCode] = useState("");
+  const [postSubmitCouponLoading, setPostSubmitCouponLoading] = useState(false);
+  const [postSubmitCouponError, setPostSubmitCouponError] = useState("");
+  const [postSubmitCouponSuccess, setPostSubmitCouponSuccess] = useState("");
+
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const categoryDropdownRef = useRef(null);
+
+  const validateCoupon = async (codeToValidate) => {
+    if (!codeToValidate || !codeToValidate.trim()) return;
+    setCouponLoading(true);
+    setCouponError("");
+    setIsCouponValid(false);
+    setCouponDiscount(0);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coupons/validate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: codeToValidate.trim().toUpperCase() })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsCouponValid(true);
+        const discount = typeof data.data?.discountPercentage === "number" ? data.data.discountPercentage : 100;
+        setCouponDiscount(discount);
+        setCouponError("");
+      } else {
+        setIsCouponValid(false);
+        setCouponDiscount(0);
+        setCouponError(data.message || "Invalid coupon code.");
+      }
+    } catch (err) {
+      setCouponError("Error validating coupon. Please try again.");
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const handleApplyPostSubmitCoupon = async () => {
+    if (!submittedNominationId || !postSubmitCouponCode.trim()) return;
+    setPostSubmitCouponLoading(true);
+    setPostSubmitCouponError("");
+    setPostSubmitCouponSuccess("");
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/apply-coupon`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nominationId: submittedNominationId,
+          couponCode: postSubmitCouponCode.trim().toUpperCase()
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const discount = typeof data.discountPercentage === "number" ? data.discountPercentage : 100;
+        setCouponDiscount(discount);
+        setIsCouponValid(true);
+        setCouponCode(postSubmitCouponCode.trim().toUpperCase());
+        setPostSubmitCouponSuccess(data.message || "Coupon applied successfully!");
+        if (data.alreadyPaid || discount >= 100) {
+          setPaymentSuccess(true);
+        }
+      } else {
+        setPostSubmitCouponError(data.message || "Failed to apply coupon.");
+      }
+    } catch (err) {
+      setPostSubmitCouponError("Error connecting to server. Please try again.");
+    } finally {
+      setPostSubmitCouponLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -71,9 +148,19 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                 setIsExistingRecord(true);
                 setSuccess(true);
                 if (data.alreadyPaid) setPaymentSuccess(true);
+                if (data.data.discountPercentage) {
+                  setCouponDiscount(data.data.discountPercentage);
+                  setIsCouponValid(true);
+                }
               }
             })
             .catch(err => console.error('Error resuming nomination session:', err));
+        }
+
+        const couponParam = urlParams.get('coupon') || urlParams.get('couponCode');
+        if (couponParam) {
+          setCouponCode(couponParam.toUpperCase());
+          validateCoupon(couponParam.toUpperCase());
         }
       }
     }
@@ -120,7 +207,28 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     "Best Integrated Communication Award"
   ];
 
-  const totalAmount = "₹14,160/-";
+  const basePrice = 12000;
+  const standardTotal = 14160;
+
+  let discountedBase = basePrice;
+  let calculatedGst = 2160;
+  let finalAmount = standardTotal;
+
+  if (isCouponValid) {
+    if (couponDiscount >= 100) {
+      discountedBase = 0;
+      calculatedGst = 0;
+      finalAmount = 0;
+    } else {
+      discountedBase = Math.round(basePrice * (1 - couponDiscount / 100));
+      calculatedGst = Math.round(discountedBase * 0.18);
+      finalAmount = discountedBase + calculatedGst;
+    }
+  }
+
+  const totalAmount = isCouponValid && couponDiscount >= 100 
+    ? "FREE (₹0)" 
+    : `₹${finalAmount.toLocaleString('en-IN')}/-`;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -221,6 +329,8 @@ export default function AwardNominationModal({ isOpen, onClose }) {
       if (summaryDocumentFile) data.append('summaryDocument', summaryDocumentFile);
       if (profileDocumentFile) data.append('profileDocument', profileDocumentFile);
       if (supportingDocumentFile) data.append('supportingDocument', supportingDocumentFile);
+      // Attach validated coupon code if any
+      if (isCouponValid && couponCode) data.append('couponCode', couponCode.trim().toUpperCase());
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations`, {
         method: "POST",
@@ -235,6 +345,15 @@ export default function AwardNominationModal({ isOpen, onClose }) {
           setIsExistingRecord(true);
           setExistingData(result.data);
           if (result.alreadyPaid) setPaymentSuccess(true);
+          // Restore coupon data from existing record if present
+          if (result.data.discountPercentage) {
+            setCouponDiscount(result.data.discountPercentage);
+            setIsCouponValid(true);
+          }
+        }
+        // If 100% free coupon was applied, mark as paid immediately
+        if (result.data.paymentStatus === 'Paid' && result.data.paymentMethod === 'Coupon') {
+          setPaymentSuccess(true);
         }
         setSuccess(true);
       } else {
@@ -268,13 +387,14 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     setPaymentCancelled(false);
 
     try {
-      // 1. Create order on backend (₹12,000 + 18% GST = ₹14,160)
+      // 1. Create order on backend — uses DB-stored totalAmount (respects coupon)
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nominationId: submittedNominationId,
-          amountRs: 14160,
+          // Backend now uses nomination.totalAmount from DB; this is a fallback only
+          amountRs: finalAmount,
         }),
       });
       
@@ -316,7 +436,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
               if (!purchaseFiredRef.current) {
                 purchaseFiredRef.current = true;
                 trackEvent("Purchase", {
-                  value: 14160,
+                  value: finalAmount,
                   currency: "INR",
                   content_name: `Award Nomination - ${formData.awardCategory || "Nomination"}`,
                   content_type: "product",
@@ -352,7 +472,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
         setPaymentLoading(false);
       });
       trackEvent("InitiateCheckout", {
-        value: 14160,
+        value: finalAmount,
         currency: "INR",
         content_name: `Award Nomination - ${formData.awardCategory || "Nomination"}`,
         content_category: "Awards",
@@ -432,7 +552,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                 </button>
               </div>
             ) : success ? (
-              <div className="relative p-8 md:p-12 flex flex-col items-center text-center bg-white h-full justify-center">
+              <div className="relative overflow-y-auto max-h-[90vh] flex flex-col items-center text-center bg-white p-6 md:p-10">
                 <button
                   onClick={onClose}
                   className="absolute top-4 right-4 text-brand-dark/40 hover:text-brand-primary bg-brand-surface hover:bg-brand-primary/10 p-2 rounded-full transition-colors"
@@ -461,17 +581,74 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                   </>
                 ) : (
                   <>
-                    <h2 className="text-[20px] md:text-[22px] font-sans text-gray-900 font-black mb-4 text-center">
+                    <h2 className="text-[20px] md:text-[22px] font-sans text-gray-900 font-black mb-2 text-center">
                       Details Saved Successfully
                     </h2>
-
-                    <div className="text-gray-800 font-semibold text-[14px] leading-relaxed space-y-4 mb-8 text-center w-full max-w-md mx-auto">
-                      <p>Thank you for completing your nomination details.</p>
-                      <p>Your nomination information has been saved successfully.</p>
-                      <p>Please proceed to the payment page to complete your nomination submission.</p>
+                    <div className="text-gray-600 font-medium text-[13px] leading-relaxed mb-4 text-center max-w-xs">
+                      <p>Your nomination details have been saved. Complete your payment below to finalise your submission.</p>
                     </div>
                   </>
                 )}
+
+                {/* ── Coupon Section on Payment Screen ── */}
+                <div className="w-full max-w-sm mb-4 text-left">
+                  <label className="text-[10px] font-bold tracking-widest uppercase text-brand-dark block mb-1.5">Have a Coupon Code?</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={postSubmitCouponCode}
+                      onChange={(e) => {
+                        setPostSubmitCouponCode(e.target.value.toUpperCase());
+                        setPostSubmitCouponError("");
+                        setPostSubmitCouponSuccess("");
+                      }}
+                      placeholder="Enter coupon code"
+                      className="flex-1 px-3 py-2 text-[13px] border border-brand-primary/20 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary/50 focus:border-brand-primary/50 bg-white transition-all shadow-sm text-brand-dark font-medium uppercase tracking-wider"
+                      disabled={isCouponValid && couponDiscount >= 100}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApplyPostSubmitCoupon}
+                      disabled={postSubmitCouponLoading || !postSubmitCouponCode || (isCouponValid && couponDiscount >= 100)}
+                      className="px-4 py-2 bg-brand-primary hover:bg-brand-primary-hover text-white text-[11px] font-bold uppercase rounded-lg disabled:opacity-50 whitespace-nowrap transition-colors"
+                    >
+                      {postSubmitCouponLoading ? "Applying..." : "Apply"}
+                    </button>
+                  </div>
+                  {postSubmitCouponError && <p className="text-[11px] text-red-500 font-semibold mt-1">{postSubmitCouponError}</p>}
+                  {postSubmitCouponSuccess && <p className="text-[11px] text-brand-primary font-semibold mt-1">✓ {postSubmitCouponSuccess}</p>}
+                </div>
+
+                {/* ── Pricing Breakdown ── */}
+                <div className="w-full max-w-sm bg-brand-primary/5 border border-brand-primary/20 rounded-xl p-3.5 mb-4 text-left space-y-1.5 font-sans">
+                  <div className="flex justify-between text-[12px]">
+                    <span className="text-brand-dark/60 font-medium">Base Fee</span>
+                    {isCouponValid && couponDiscount > 0 ? (
+                      <span className="font-semibold text-brand-dark">
+                        <span className="line-through text-gray-400 mr-1">₹12,000</span>
+                        <span className="text-brand-primary">₹{discountedBase.toLocaleString('en-IN')}</span>
+                      </span>
+                    ) : (
+                      <span className="font-semibold text-brand-dark">₹12,000</span>
+                    )}
+                  </div>
+                  <div className="flex justify-between text-[12px]">
+                    <span className="text-brand-dark/60 font-medium">GST (18%)</span>
+                    <span className="font-semibold text-brand-dark">₹{calculatedGst.toLocaleString('en-IN')}</span>
+                  </div>
+                  {isCouponValid && couponDiscount > 0 && (
+                    <div className="flex justify-between text-[12px] text-brand-primary">
+                      <span className="font-semibold">Coupon Discount ({couponDiscount}%)</span>
+                      <span className="font-bold">— ₹{(12000 - discountedBase).toLocaleString('en-IN')}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-[14px] border-t border-brand-primary/20 pt-1.5 mt-1">
+                    <span className="font-bold text-brand-dark">Total Payable</span>
+                    <span className={`font-black tracking-tight ${isCouponValid && couponDiscount >= 100 ? 'text-emerald-600' : 'text-brand-primary'}`}>
+                      {isCouponValid && couponDiscount >= 100 ? 'FREE (₹0)' : `₹${finalAmount.toLocaleString('en-IN')}/-`}
+                    </span>
+                  </div>
+                </div>
 
                 {error && (
                   <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs w-full max-w-sm">
@@ -486,20 +663,26 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                 )}
 
                 <div className="flex flex-col w-full gap-3 max-w-sm">
-                  <button
-                    onClick={handleProceedToPayment}
-                    disabled={paymentLoading}
-                    className="w-full py-3.5 bg-[#4B7934] hover:bg-[#3D632A] disabled:opacity-50 text-white font-sans font-bold text-[13px] uppercase tracking-wide rounded-md transition-all flex items-center justify-center gap-2"
-                  >
-                    {paymentLoading ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Opening Payment...</span>
-                      </>
-                    ) : (
-                      "PROCEED TO PAYMENT"
-                    )}
-                  </button>
+                  {isCouponValid && couponDiscount >= 100 ? (
+                    <div className="w-full py-3.5 bg-emerald-100 border border-emerald-300 text-emerald-800 font-sans font-bold text-[13px] uppercase tracking-wide rounded-md text-center">
+                      🎉 Nomination is 100% Free — No Payment Required
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleProceedToPayment}
+                      disabled={paymentLoading}
+                      className="w-full py-3.5 bg-[#4B7934] hover:bg-[#3D632A] disabled:opacity-50 text-white font-sans font-bold text-[13px] uppercase tracking-wide rounded-md transition-all flex items-center justify-center gap-2"
+                    >
+                      {paymentLoading ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <span>Opening Payment...</span>
+                        </>
+                      ) : (
+                        `PROCEED TO PAYMENT${finalAmount < 14160 ? ` — ₹${finalAmount.toLocaleString('en-IN')}` : ''}`
+                      )}
+                    </button>
+                  )}
 
                   <button
                     onClick={() => setSuccess(false)}
@@ -882,6 +1065,46 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                       </div>
                     )}
 
+                    {/* Coupon Code Section — Step 3 only */}
+                    {currentStep === 3 && (
+                      <div className="pt-4 mt-2 border-t border-gray-200">
+                        <div className="flex flex-col gap-2">
+                          <label className="text-[12px] font-bold text-brand-dark">Have a Coupon Code? <span className="text-gray-400 font-normal">(Optional)</span></label>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              value={couponCode}
+                              onChange={(e) => {
+                                setCouponCode(e.target.value.toUpperCase());
+                                setIsCouponValid(false);
+                                setCouponDiscount(0);
+                                setCouponError("");
+                              }}
+                              placeholder="e.g. CPN-XXXXXX"
+                              className="flex-1 px-3 py-2.5 text-[13px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary bg-white transition-all text-brand-dark font-medium uppercase tracking-wider"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => validateCoupon(couponCode)}
+                              disabled={couponLoading || !couponCode}
+                              className="px-4 py-2.5 bg-brand-primary hover:bg-brand-primary-hover text-white text-[11px] font-bold uppercase rounded-lg disabled:opacity-50 whitespace-nowrap transition-colors"
+                            >
+                              {couponLoading ? "Checking..." : "Apply"}
+                            </button>
+                          </div>
+                          {couponError && <p className="text-[11px] text-red-500 font-semibold">{couponError}</p>}
+                          {isCouponValid && (
+                            <p className="text-[11px] text-brand-primary font-semibold">
+                              {couponDiscount >= 100
+                                ? "🎉 Coupon applied! Your nomination entry is 100% Free."
+                                : `🏷️ Coupon applied! ${couponDiscount}% discount — you pay ₹${finalAmount.toLocaleString('en-IN')} instead of ₹14,160`
+                              }
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Error Display */}
                     {error && (
                       <div className="p-4 bg-red-50 rounded-xl border border-red-200">
@@ -895,10 +1118,24 @@ export default function AwardNominationModal({ isOpen, onClose }) {
                 <div className="bg-white px-4 py-4 md:px-6 md:py-5 border-t border-brand-primary/10 shadow-[0_-4px_15px_-3px_rgb(0,0,0,0.05)] z-10 shrink-0">
                   <div className="w-full mx-auto space-y-2.5">
                     {currentStep === 3 && (
-                      <div className="flex items-center justify-between bg-brand-primary/5 border border-brand-primary/20 rounded-lg px-3 py-2">
-                        <span className="text-[13px] font-bold text-brand-dark">Total Amount <span className="text-[11px] font-normal text-brand-dark/60 ml-1">(₹12,000 + 18% GST)</span>:</span>
-                        <span className="text-lg md:text-xl font-bold text-brand-primary tracking-tight">{totalAmount}</span>
-                      </div>
+                      isCouponValid ? (
+                        <div className="flex items-center justify-between bg-brand-primary/5 border border-brand-primary/20 rounded-lg px-3 py-2">
+                          <span className="text-[13px] font-bold text-brand-dark">
+                            Total{" "}
+                            {couponDiscount > 0 && couponDiscount < 100 && (
+                              <span className="text-[11px] font-normal text-brand-dark/50 ml-1 line-through">₹14,160</span>
+                            )}
+                          </span>
+                          <span className={`text-lg md:text-xl font-bold tracking-tight ${couponDiscount >= 100 ? 'text-emerald-600' : 'text-brand-primary'}`}>
+                            {totalAmount}
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between bg-brand-primary/5 border border-brand-primary/20 rounded-lg px-3 py-2">
+                          <span className="text-[13px] font-bold text-brand-dark">Total Amount <span className="text-[11px] font-normal text-brand-dark/60 ml-1">(₹12,000 + 18% GST)</span>:</span>
+                          <span className="text-lg md:text-xl font-bold text-brand-primary tracking-tight">{totalAmount}</span>
+                        </div>
+                      )
                     )}
 
                     <div className="flex items-center gap-3">

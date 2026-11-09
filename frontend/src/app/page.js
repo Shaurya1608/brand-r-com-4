@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import SponsorsShowcaseSection from "@/components/SponsorsShowcaseSection";
 import AboutSection from "@/components/AboutSection";
 import ByTheNumbers from "@/components/ByTheNumbers";
 import WhyAttend from "@/components/WhyAttend";
@@ -33,6 +34,7 @@ export default function Home() {
     <main className="min-h-screen bg-brand-surface text-brand-dark font-sans selection:bg-brand-primary selection:text-white">
       <Navbar />
       <Hero />
+      <SponsorsShowcaseSection />
       <ByTheNumbers />
       <AboutSection />
       <WhyAttend />
