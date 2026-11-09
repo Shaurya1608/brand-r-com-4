@@ -29,11 +29,19 @@ const parseExpiryDate = (dateVal) => {
   return new Date(dateVal);
 };
 
+// Helper to parse discount percentage (1-100%, defaults to 100 for 100% Free Pass)
+const parseDiscountPercentage = (val) => {
+  if (val === undefined || val === null || val === '') return 100;
+  const parsed = parseInt(val, 10);
+  if (isNaN(parsed)) return 100;
+  return Math.max(1, Math.min(100, parsed));
+};
+
 // 1. Generate Coupon from Sponsorship
 exports.generateCoupon = async (req, res) => {
   try {
     const { sponsorshipId } = req.params;
-    let { code, maxUses, startsAt, expiresAt } = req.body;
+    let { code, maxUses, startsAt, expiresAt, discountPercentage } = req.body;
 
     const sponsorship = await Sponsorship.findById(sponsorshipId);
     if (!sponsorship) {
@@ -69,6 +77,7 @@ exports.generateCoupon = async (req, res) => {
       code,
       sponsorshipId,
       sponsorName: sponsorship.companyName,
+      discountPercentage: parseDiscountPercentage(discountPercentage),
       maxUses: maxUses || 50,
       startsAt: parseStartDate(startsAt),
       expiresAt: parseExpiryDate(expiresAt),
@@ -87,7 +96,7 @@ exports.generateCoupon = async (req, res) => {
 exports.generateNominationCoupon = async (req, res) => {
   try {
     const { nominationId } = req.params;
-    let { code, maxUses, startsAt, expiresAt } = req.body;
+    let { code, maxUses, startsAt, expiresAt, discountPercentage } = req.body;
 
     const nomination = await AwardNomination.findById(nominationId);
     if (!nomination) {
@@ -123,6 +132,7 @@ exports.generateNominationCoupon = async (req, res) => {
       code,
       nominationId,
       sponsorName: nomination.organizationName || nomination.fullName,
+      discountPercentage: parseDiscountPercentage(discountPercentage),
       maxUses: maxUses || 50,
       startsAt: parseStartDate(startsAt),
       expiresAt: parseExpiryDate(expiresAt),
@@ -140,7 +150,7 @@ exports.generateNominationCoupon = async (req, res) => {
 // 1C. Standalone / Direct Coupon Creation (Admin)
 exports.createCoupon = async (req, res) => {
   try {
-    let { code, sponsorName, maxUses, startsAt, expiresAt, sponsorshipId, nominationId } = req.body;
+    let { code, sponsorName, maxUses, startsAt, expiresAt, sponsorshipId, nominationId, discountPercentage } = req.body;
 
     if (!sponsorName || !sponsorName.trim()) {
       return res.status(400).json({ success: false, message: 'Organization / Sponsor Name is required' });
@@ -161,6 +171,7 @@ exports.createCoupon = async (req, res) => {
       sponsorName: sponsorName.trim(),
       sponsorshipId: sponsorshipId || null,
       nominationId: nominationId || null,
+      discountPercentage: parseDiscountPercentage(discountPercentage),
       maxUses: maxUses ? parseInt(maxUses) : 50,
       startsAt: parseStartDate(startsAt),
       expiresAt: parseExpiryDate(expiresAt),
@@ -205,12 +216,17 @@ exports.validateCoupon = async (req, res) => {
       return res.status(400).json({ success: false, message: 'This coupon has reached its maximum usage limit.' });
     }
 
+    const discountPercentage = typeof coupon.discountPercentage === 'number' ? coupon.discountPercentage : 100;
+    const isFree = discountPercentage === 100;
+
     res.status(200).json({
       success: true,
-      message: 'Coupon is valid',
+      message: isFree ? 'Coupon is valid (100% Free Pass)' : `Coupon is valid (${discountPercentage}% Discount applied)`,
       data: {
         code: coupon.code,
-        sponsorName: coupon.sponsorName
+        sponsorName: coupon.sponsorName,
+        discountPercentage,
+        isFree
       }
     });
   } catch (error) {
@@ -318,6 +334,31 @@ exports.updateExpiry = async (req, res) => {
   } catch (error) {
     console.error('Error updating coupon expiry:', error);
     res.status(500).json({ success: false, message: 'Failed to update expiry' });
+  }
+};
+
+// 7B. Update Discount Percentage (Admin)
+exports.updateDiscount = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { discountPercentage } = req.body;
+    
+    const parsed = parseInt(discountPercentage, 10);
+    if (isNaN(parsed) || parsed < 1 || parsed > 100) {
+      return res.status(400).json({ success: false, message: 'Valid discount percentage between 1 and 100 is required' });
+    }
+
+    const coupon = await Coupon.findOneAndUpdate(
+      { _id: id, deletedAt: null },
+      { $set: { discountPercentage: parsed } },
+      { new: true }
+    );
+
+    if (!coupon) return res.status(404).json({ success: false, message: 'Coupon not found' });
+    res.status(200).json({ success: true, coupon });
+  } catch (error) {
+    console.error('Error updating coupon discount:', error);
+    res.status(500).json({ success: false, message: 'Failed to update discount' });
   }
 };
 

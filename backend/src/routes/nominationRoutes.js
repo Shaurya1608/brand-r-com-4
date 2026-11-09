@@ -43,6 +43,7 @@ router.get('/resume-payment/:token', nominationController.resumePayment);
 // Razorpay Payment Routes
 router.post('/create-order', orderLimiter, nominationController.createOrder);
 router.post('/verify-payment', nominationController.verifyPayment);
+router.post('/apply-coupon', nominationController.applyCoupon);
 
 const { generateNominationCoupon, getCouponsByNomination } = require('../controllers/couponController');
 

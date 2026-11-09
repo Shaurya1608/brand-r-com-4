@@ -90,6 +90,10 @@ const delegateRegistrationSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  discountPercentage: {
+    type: Number,
+    default: 0,
+  },
   amountPaid: {
     type: Number, // in INR or USD
     default: 0,

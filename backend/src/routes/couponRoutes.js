@@ -12,6 +12,7 @@ router.post('/', protect, couponController.createCoupon);
 router.get('/:id', protect, couponController.getCouponById);
 router.patch('/:id/limit', protect, couponController.updateLimit);
 router.patch('/:id/expiry', protect, couponController.updateExpiry);
+router.patch('/:id/discount', protect, couponController.updateDiscount);
 router.patch('/:id/status', protect, couponController.toggleStatus);
 router.delete('/:id', protect, couponController.softDeleteCoupon);
 

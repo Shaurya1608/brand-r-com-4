@@ -27,6 +27,7 @@ exports.createNomination = async (req, res) => {
       fillerDesignation,
       fillerContactNo,
       fillerEmail,
+      couponCode,
     } = req.body;
 
     // Normalize canonical inputs
@@ -56,6 +57,60 @@ exports.createNomination = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Either a brief summary or a summary document is required' });
       }
       summaryDocumentUrl = req.files['summaryDocument'][0].path;
+    }
+
+    // ── Coupon Verification & Amount Calculation ──
+    const Coupon = require('../models/Coupon');
+    let appliedCoupon = null;
+    let discountPercentage = 0;
+    if (couponCode && typeof couponCode === 'string' && couponCode.trim()) {
+      const cleanCode = couponCode.trim().toUpperCase();
+      const foundCoupon = await Coupon.findOne({ code: cleanCode, deletedAt: null });
+
+      if (!foundCoupon) {
+        return res.status(400).json({ success: false, message: 'Invalid coupon code.' });
+      }
+      if (!foundCoupon.isActive) {
+        return res.status(400).json({ success: false, message: 'This coupon is currently inactive.' });
+      }
+      const now = new Date();
+      if (foundCoupon.startsAt && now < foundCoupon.startsAt) {
+        return res.status(400).json({ success: false, message: 'This coupon is not yet valid.' });
+      }
+      if (foundCoupon.expiresAt && now > foundCoupon.expiresAt) {
+        return res.status(400).json({ success: false, message: 'This coupon has expired.' });
+      }
+      if (foundCoupon.usedCount >= foundCoupon.maxUses) {
+        return res.status(400).json({ success: false, message: 'This coupon has reached its maximum usage limit.' });
+      }
+
+      appliedCoupon = foundCoupon;
+      discountPercentage = typeof foundCoupon.discountPercentage === 'number' ? foundCoupon.discountPercentage : 100;
+    }
+
+    const standardBaseFee = 12000;
+    let computedTotalAmount = 14160;
+    let computedAmountPaid = 0;
+    let computedAmountDue = 14160;
+    let computedPaymentStatus = 'Pending';
+    let computedPaymentMethod = 'Online (Razorpay)';
+
+    if (appliedCoupon) {
+      if (discountPercentage >= 100) {
+        computedTotalAmount = 0;
+        computedAmountPaid = 0;
+        computedAmountDue = 0;
+        computedPaymentStatus = 'Paid';
+        computedPaymentMethod = 'Coupon';
+      } else {
+        const discountedBase = Math.round(standardBaseFee * (1 - discountPercentage / 100));
+        const gst = Math.round(discountedBase * 0.18);
+        computedTotalAmount = discountedBase + gst;
+        computedAmountPaid = 0;
+        computedAmountDue = computedTotalAmount;
+        computedPaymentStatus = 'Pending';
+        computedPaymentMethod = 'Online (Razorpay)';
+      }
     }
 
     // ── Check if nomination already exists for this award category ──
@@ -89,6 +144,19 @@ exports.createNomination = async (req, res) => {
       existingNomination.supportingDocumentUrl = supportingDocumentUrl;
       if (summaryDocumentUrl) existingNomination.summaryDocumentUrl = summaryDocumentUrl;
 
+      // Apply coupon if not yet paid
+      if (existingNomination.paymentStatus !== 'Paid' && appliedCoupon) {
+        existingNomination.couponCode = appliedCoupon.code;
+        existingNomination.couponId = appliedCoupon._id;
+        existingNomination.discountPercentage = discountPercentage;
+        existingNomination.totalAmount = computedTotalAmount;
+        existingNomination.amountPaid = computedAmountPaid;
+        existingNomination.amountDue = computedAmountDue;
+        existingNomination.paymentStatus = computedPaymentStatus;
+        existingNomination.paymentMethod = computedPaymentMethod;
+        await Coupon.findByIdAndUpdate(appliedCoupon._id, { $inc: { usedCount: 1 } });
+      }
+
       // Generate SHA-256 hashed payment token for secure email resumption if pending
       const rawToken = crypto.randomBytes(32).toString('hex');
       const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
@@ -100,8 +168,18 @@ exports.createNomination = async (req, res) => {
 
       await existingNomination.save();
 
-      // Email sending is disabled for Pending/Duplicate registrations. 
-      // Users will only receive an email when their payment is successfully verified.
+      // If existing nomination was made 100% Free with coupon, send confirmation email immediately
+      const isExistingPaidOrFree = 
+        existingNomination.paymentStatus === 'Paid' || 
+        existingNomination.paymentStatus === 'Invitee' || 
+        existingNomination.paymentStatus === 'Free' ||
+        (existingNomination.paymentMethod && ['free', 'complimentary', 'coupon'].includes(existingNomination.paymentMethod.toLowerCase()));
+
+      if (!existingNomination.initialEmailSent && isExistingPaidOrFree) {
+        sendNominationConfirmationEmail(existingNomination, rawToken).catch(err => console.error('Error sending confirmation email:', err));
+        existingNomination.initialEmailSent = true;
+        await existingNomination.save();
+      }
 
       return res.status(200).json({
         success: true,
@@ -131,9 +209,12 @@ exports.createNomination = async (req, res) => {
 
     const { paymentStatus, paymentMethod, registrationType } = req.body;
     
-    const finalPaymentStatus = isAdmin && paymentStatus ? paymentStatus : 'Pending';
-    const finalPaymentMethod = isAdmin && paymentMethod ? paymentMethod : 'Online (Razorpay)';
+    const finalPaymentStatus = isAdmin && paymentStatus ? paymentStatus : computedPaymentStatus;
+    const finalPaymentMethod = isAdmin && paymentMethod ? paymentMethod : computedPaymentMethod;
     const isPaid = finalPaymentStatus === 'Paid';
+    const finalTotalAmount = isAdmin && req.body.totalAmount !== undefined ? Number(req.body.totalAmount) : computedTotalAmount;
+    const finalAmountPaid = isPaid ? finalTotalAmount : computedAmountPaid;
+    const finalAmountDue = isPaid ? 0 : computedTotalAmount;
     const finalIsManuallyCreated = isAdmin && registrationType === 'Manual Registration' ? true : false;
 
     const newNomination = new AwardNomination({
@@ -161,25 +242,32 @@ exports.createNomination = async (req, res) => {
       summaryDocumentUrl,
       profileDocumentUrl,
       supportingDocumentUrl,
+      couponId: appliedCoupon ? appliedCoupon._id : null,
+      couponCode: appliedCoupon ? appliedCoupon.code : null,
+      discountPercentage: discountPercentage,
       paymentStatus: finalPaymentStatus,
       paymentMethod: finalPaymentMethod,
       isManuallyCreated: finalIsManuallyCreated,
-      totalAmount: 14160,
-      amountPaid: isPaid ? 14160 : 0,
-      amountDue: isPaid ? 0 : 14160,
+      totalAmount: finalTotalAmount,
+      amountPaid: finalAmountPaid,
+      amountDue: finalAmountDue,
       resumeTokenHash: isPaid ? null : tokenHash,
       paymentTokenExpires: isPaid ? null : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
     });
 
     const savedNomination = await newNomination.save();
 
+    if (appliedCoupon) {
+      await Coupon.findByIdAndUpdate(appliedCoupon._id, { $inc: { usedCount: 1 } });
+    }
+
     // Only send the initial email immediately if the payment status is 'Paid' or 'Invitee',
-    // or if the payment method is 'Free' / 'Complimentary'.
-    // We never send an email for 'Pending' status anymore (not even for manually created ones).
+    // or if the payment method is 'Free' / 'Complimentary' / 'Coupon'.
     const isActuallyPaidOrFree = 
       savedNomination.paymentStatus === 'Paid' || 
       savedNomination.paymentStatus === 'Invitee' || 
-      (savedNomination.paymentMethod && ['free', 'complimentary'].includes(savedNomination.paymentMethod.toLowerCase()));
+      savedNomination.paymentStatus === 'Free' ||
+      (savedNomination.paymentMethod && ['free', 'complimentary', 'coupon'].includes(savedNomination.paymentMethod.toLowerCase()));
 
     if (!savedNomination.initialEmailSent && isActuallyPaidOrFree) {
       sendNominationConfirmationEmail(savedNomination, rawToken).catch(err => console.error('Error sending initial nomination email:', err));
@@ -270,8 +358,6 @@ exports.createOrder = async (req, res) => {
   try {
     const { nominationId, amountRs } = req.body;
 
-    const targetAmount = Number(amountRs) || Number(req.body.amount) || nomination.totalAmount || 14160;
-
     if (!nominationId) {
       return res.status(400).json({ success: false, message: 'nominationId is required' });
     }
@@ -279,6 +365,16 @@ exports.createOrder = async (req, res) => {
     const nomination = await AwardNomination.findById(nominationId);
     if (!nomination) {
       return res.status(404).json({ success: false, message: 'Award nomination not found' });
+    }
+
+    if (nomination.paymentStatus === 'Paid') {
+      return res.status(400).json({ success: false, message: 'This nomination is already confirmed and paid.' });
+    }
+
+    const targetAmount = nomination.totalAmount !== undefined ? nomination.totalAmount : (Number(amountRs) || 14160);
+
+    if (targetAmount <= 0) {
+      return res.status(400).json({ success: false, message: 'Nomination balance is ₹0 (Free entry). No payment required.' });
     }
 
     const Razorpay = require('razorpay');
@@ -298,7 +394,9 @@ exports.createOrder = async (req, res) => {
         nominationId: nominationId.toString(),
         fullName: nomination.fullName,
         organization: nomination.organization,
-        awardCategory: nomination.awardCategory
+        awardCategory: nomination.awardCategory,
+        couponCode: nomination.couponCode || '',
+        discountPercentage: String(nomination.discountPercentage || 0)
       },
     });
 
@@ -320,6 +418,98 @@ exports.createOrder = async (req, res) => {
   } catch (error) {
     console.error('Error in createOrder for nomination:', error);
     res.status(500).json({ success: false, message: 'Failed to create payment order' });
+  }
+};
+
+// ─── Apply Coupon to Nomination ───────────────────────────────────────────────
+// @desc    Apply a coupon to an existing pending nomination
+// @route   POST /api/nominations/apply-coupon
+// @access  Public
+exports.applyCoupon = async (req, res) => {
+  try {
+    const { nominationId, couponCode } = req.body;
+    if (!nominationId || !couponCode) {
+      return res.status(400).json({ success: false, message: 'Nomination ID and Coupon Code are required.' });
+    }
+
+    const nomination = await AwardNomination.findById(nominationId);
+    if (!nomination) {
+      return res.status(404).json({ success: false, message: 'Nomination not found.' });
+    }
+    if (nomination.paymentStatus === 'Paid') {
+      return res.status(400).json({ success: false, message: 'This nomination is already paid.' });
+    }
+
+    const cleanCode = couponCode.trim().toUpperCase();
+    const Coupon = require('../models/Coupon');
+    const coupon = await Coupon.findOne({ code: cleanCode, deletedAt: null });
+    if (!coupon) {
+      return res.status(404).json({ success: false, message: 'Invalid coupon code.' });
+    }
+    if (!coupon.isActive) {
+      return res.status(400).json({ success: false, message: 'This coupon is currently inactive.' });
+    }
+    const now = new Date();
+    if (coupon.startsAt && now < coupon.startsAt) {
+      return res.status(400).json({ success: false, message: 'This coupon is not yet valid.' });
+    }
+    if (coupon.expiresAt && now > coupon.expiresAt) {
+      return res.status(400).json({ success: false, message: 'This coupon has expired.' });
+    }
+    if (coupon.usedCount >= coupon.maxUses) {
+      return res.status(400).json({ success: false, message: 'This coupon has reached its maximum usage limit.' });
+    }
+
+    const discountPercentage = typeof coupon.discountPercentage === 'number' ? coupon.discountPercentage : 100;
+    const standardBaseFee = 12000;
+    let finalTotalAmount = 14160;
+    let finalPaymentStatus = 'Pending';
+    let finalPaymentMethod = 'Online (Razorpay)';
+
+    if (discountPercentage >= 100) {
+      finalTotalAmount = 0;
+      finalPaymentStatus = 'Paid';
+      finalPaymentMethod = 'Coupon';
+      nomination.amountPaid = 0;
+      nomination.amountDue = 0;
+    } else {
+      const discountedBase = Math.round(standardBaseFee * (1 - discountPercentage / 100));
+      const gst = Math.round(discountedBase * 0.18);
+      finalTotalAmount = discountedBase + gst;
+      nomination.amountPaid = 0;
+      nomination.amountDue = finalTotalAmount;
+      finalPaymentStatus = 'Pending';
+    }
+
+    nomination.couponCode = coupon.code;
+    nomination.couponId = coupon._id;
+    nomination.discountPercentage = discountPercentage;
+    nomination.totalAmount = finalTotalAmount;
+    nomination.paymentStatus = finalPaymentStatus;
+    nomination.paymentMethod = finalPaymentMethod;
+
+    await nomination.save();
+    await Coupon.findByIdAndUpdate(coupon._id, { $inc: { usedCount: 1 } });
+
+    // If 100% discount, send confirmation email immediately
+    if (finalPaymentStatus === 'Paid' && !nomination.initialEmailSent) {
+      const rawToken = crypto.randomBytes(32).toString('hex');
+      sendNominationConfirmationEmail(nomination, rawToken).catch(err => console.error('Error sending confirmation email:', err));
+      nomination.initialEmailSent = true;
+      await nomination.save();
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: discountPercentage >= 100 ? 'Coupon applied! Your nomination is 100% Free.' : `Coupon applied! ${discountPercentage}% discount applied.`,
+      data: nomination,
+      discountPercentage,
+      totalAmount: finalTotalAmount,
+      alreadyPaid: finalPaymentStatus === 'Paid',
+    });
+  } catch (err) {
+    console.error('Error applying coupon to nomination:', err);
+    res.status(500).json({ success: false, message: 'Server error while applying coupon.' });
   }
 };
 

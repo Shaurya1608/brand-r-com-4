@@ -110,13 +110,27 @@ const awardNominationSchema = new mongoose.Schema({
   },
   paymentStatus: {
     type: String,
-    enum: ['Pending', 'Paid', 'Failed'],
+    enum: ['Pending', 'Paid', 'Failed', 'Invitee', 'Free'],
     default: 'Pending',
   },
   paymentMethod: {
     type: String,
-    enum: ['Online (Razorpay)', 'Invoice', 'Offline'],
     default: 'Online (Razorpay)'
+  },
+  couponId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Coupon',
+    default: null,
+  },
+  couponCode: {
+    type: String,
+    trim: true,
+    uppercase: true,
+    default: null,
+  },
+  discountPercentage: {
+    type: Number,
+    default: 0,
   },
   registrationType: {
     type: String,
@@ -179,6 +193,7 @@ const awardNominationSchema = new mongoose.Schema({
 awardNominationSchema.index({ email: 1 });
 awardNominationSchema.index({ razorpayOrderId: 1 });
 awardNominationSchema.index({ paymentStatus: 1 });
+awardNominationSchema.index({ couponCode: 1 });
 awardNominationSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model('AwardNomination', awardNominationSchema);

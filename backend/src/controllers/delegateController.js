@@ -24,16 +24,48 @@ function getISTDate() {
 }
 
 // Dynamically calculates applicable fee based on CURRENT IST server date at payment time
-const calculateDelegatePricing = (type, coupon) => {
+const calculateDelegatePricing = (type, coupon, discountPercent = null) => {
+  let effectiveDiscount = 0;
+  if (typeof discountPercent === 'number' && discountPercent > 0) {
+    effectiveDiscount = Math.min(100, Math.max(0, discountPercent));
+  } else if (coupon) {
+    const c = String(coupon).toUpperCase().trim();
+    if (c.includes('#IAP2026')) {
+      effectiveDiscount = 20;
+    }
+  }
+
   if (type === 'foreign') {
-    const baseUsd = coupon ? 200 : 250;
+    const baseUsd = 250;
+    if (effectiveDiscount === 100) {
+      return {
+        baseAmount: baseUsd,
+        discountPercentage: 100,
+        discountAmount: baseUsd,
+        taxableAmount: 0,
+        gstAmount: 0,
+        totalAmount: 0,
+        amountDue: 0,
+        currency: 'USD',
+        symbol: '$',
+        tierName: 'International Delegate',
+        isFree: true
+      };
+    }
+    const discountAmountUsd = effectiveDiscount > 0 ? Math.round(baseUsd * (effectiveDiscount / 100)) : 0;
+    const finalUsd = Math.max(0, baseUsd - discountAmountUsd);
     return {
       baseAmount: baseUsd,
-      taxableAmount: baseUsd,
+      discountPercentage: effectiveDiscount,
+      discountAmount: discountAmountUsd,
+      taxableAmount: finalUsd,
       gstAmount: 0,
-      totalAmount: baseUsd,
-      amountDue: baseUsd,
-      tierName: 'International Delegate'
+      totalAmount: finalUsd,
+      amountDue: finalUsd,
+      currency: 'USD',
+      symbol: '$',
+      tierName: 'International Delegate',
+      isFree: false
     };
   }
 
@@ -56,17 +88,39 @@ const calculateDelegatePricing = (type, coupon) => {
     tierName = 'After 31 October 2026';
   }
 
-  const taxableRs = coupon ? baseRs * 0.8 : baseRs;
+  if (effectiveDiscount === 100) {
+    return {
+      baseAmount: baseRs,
+      discountPercentage: 100,
+      discountAmount: baseRs,
+      taxableAmount: 0,
+      gstAmount: 0,
+      totalAmount: 0,
+      amountDue: 0,
+      currency: 'INR',
+      symbol: '₹',
+      tierName,
+      isFree: true
+    };
+  }
+
+  const discountAmountRs = effectiveDiscount > 0 ? Math.round(baseRs * (effectiveDiscount / 100)) : 0;
+  const taxableRs = Math.max(0, baseRs - discountAmountRs);
   const gstRs = Math.round(taxableRs * 0.18);
   const totalRs = taxableRs + gstRs;
 
   return {
     baseAmount: baseRs,
+    discountPercentage: effectiveDiscount,
+    discountAmount: discountAmountRs,
     taxableAmount: taxableRs,
     gstAmount: gstRs,
     totalAmount: totalRs,
     amountDue: totalRs,
-    tierName
+    currency: 'INR',
+    symbol: '₹',
+    tierName,
+    isFree: false
   };
 };
 
@@ -179,7 +233,7 @@ exports.registerDelegate = async (req, res) => {
       } catch (err) {}
     }
 
-    const pricing = calculateDelegatePricing(delegateType, couponCode);
+    let effectiveDiscount = 0;
     let finalPaymentStatus = isAdmin && paymentStatus ? paymentStatus : 'Pending';
     let finalPaymentMethod = isAdmin && paymentMethod ? paymentMethod : 'Online';
     const finalIsManuallyCreated = isAdmin && isManuallyCreated ? true : false;
@@ -211,6 +265,7 @@ exports.registerDelegate = async (req, res) => {
         
         if (code === '#IAP2026') {
           // It's the Industry Partner 20% discount code, no DB lookup needed, it's just a 20% price reduction
+          effectiveDiscount = 20;
         } else {
           validCoupon = await Coupon.findOne({ code, deletedAt: null }).session(session);
           
@@ -225,10 +280,20 @@ exports.registerDelegate = async (req, res) => {
           validCoupon.usedCount += 1;
           await validCoupon.save({ session });
   
-          isFreeCoupon = true;
-          finalPaymentStatus = 'Free';
-          finalPaymentMethod = 'Coupon';
-          isPaid = true;
+          const discountPct = typeof validCoupon.discountPercentage === 'number' ? validCoupon.discountPercentage : 100;
+          effectiveDiscount = discountPct;
+
+          if (discountPct === 100) {
+            isFreeCoupon = true;
+            finalPaymentStatus = 'Free';
+            finalPaymentMethod = 'Coupon';
+            isPaid = true;
+          } else {
+            isFreeCoupon = false;
+            finalPaymentStatus = 'Pending';
+            finalPaymentMethod = 'Online (Razorpay)';
+            isPaid = false;
+          }
           
           // Automatically link the delegate to the sponsor or nomination that generated this coupon
           if (validCoupon.sponsorshipId) {
@@ -242,6 +307,9 @@ exports.registerDelegate = async (req, res) => {
           }
         }
       }
+
+      // Calculate pricing considering dynamic tier and effective coupon discount
+      const pricing = calculateDelegatePricing(delegateType, couponCode, effectiveDiscount);
 
       const last10Digits = mobileDigits.slice(-10);
       const queryOr = [{ email: cleanEmail }];
@@ -292,6 +360,7 @@ exports.registerDelegate = async (req, res) => {
           existingDelegate.registrationType = 'Manual';
         }
 
+        existingDelegate.discountPercentage = effectiveDiscount;
         existingDelegate.totalAmount = isFreeCoupon ? 0 : pricing.totalAmount;
         if (isStatusPaidOrFree(existingDelegate.paymentStatus)) {
           existingDelegate.amountPaid = isFreeCoupon ? 0 : pricing.totalAmount;
@@ -351,6 +420,7 @@ exports.registerDelegate = async (req, res) => {
         sponsorshipCompany: sponsorshipCompany || '',
         awardNominationId: awardNominationId || null,
         awardNominationName: awardNominationName || '',
+        discountPercentage: effectiveDiscount,
         totalAmount: isFreeCoupon ? 0 : pricing.totalAmount,
         amountPaid: isFreeCoupon ? 0 : (isPaid ? pricing.totalAmount : 0),
         amountDue: isFreeCoupon ? 0 : (isPaid ? 0 : pricing.totalAmount),
@@ -750,7 +820,12 @@ exports.createOrder = async (req, res) => {
     }
 
     // Dynamic fee calculation based on CURRENT IST server date at order creation time
-    const currentPricing = calculateDelegatePricing(delegate.delegateType, delegate.couponCode);
+    let discountPercent = delegate.discountPercentage || 0;
+    if (!discountPercent && delegate.couponCode && !delegate.couponCode.toUpperCase().includes('#IAP2026')) {
+      const c = await Coupon.findOne({ code: delegate.couponCode.toUpperCase().trim(), deletedAt: null });
+      if (c) discountPercent = typeof c.discountPercentage === 'number' ? c.discountPercentage : 100;
+    }
+    const currentPricing = calculateDelegatePricing(delegate.delegateType, delegate.couponCode, discountPercent);
     const previousAmount = delegate.totalAmount;
     const priceChanged = previousAmount && previousAmount !== currentPricing.totalAmount;
 
@@ -971,7 +1046,12 @@ exports.resumePayment = async (req, res) => {
     };
 
     // Recalculate current pricing dynamically for IST server date
-    const currentPricing = calculateDelegatePricing(delegate.delegateType, delegate.couponCode);
+    let discountPercent = delegate.discountPercentage || 0;
+    if (!discountPercent && delegate.couponCode && !delegate.couponCode.toUpperCase().includes('#IAP2026')) {
+      const c = await Coupon.findOne({ code: delegate.couponCode.toUpperCase().trim(), deletedAt: null });
+      if (c) discountPercent = typeof c.discountPercentage === 'number' ? c.discountPercentage : 100;
+    }
+    const currentPricing = calculateDelegatePricing(delegate.delegateType, delegate.couponCode, discountPercent);
     const previousPrice = delegate.totalAmount;
     const priceChanged = previousPrice && previousPrice !== currentPricing.totalAmount;
 

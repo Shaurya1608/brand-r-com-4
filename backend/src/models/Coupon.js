@@ -22,6 +22,13 @@ const couponSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  discountPercentage: {
+    type: Number,
+    required: true,
+    default: 100,
+    min: 1,
+    max: 100,
+  },
   maxUses: {
     type: Number,
     required: true,
