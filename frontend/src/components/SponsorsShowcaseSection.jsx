@@ -25,6 +25,27 @@ export default function SponsorsShowcaseSection() {
     },
   ];
 
+  const eventSponsors = [
+    {
+      category: "Lunch Sponsor",
+      name: "IFFCO-MC Crop Science",
+      logo: "/sponsors_2026/lunch_iffco_mc.png",
+      alt: "IFFCO-MC Crop Science - Lunch Sponsor",
+    },
+    {
+      category: "Agenda Sponsor",
+      name: "Swaroop Agrochemical Industries",
+      logo: "/sponsors_2026/agenda_swaroop.png",
+      alt: "Swaroop - Agenda Sponsor",
+    },
+    {
+      category: "High Tea Sponsor",
+      name: "Trishul Biotech",
+      logo: "/sponsors_2026/high_tea_trishul.png",
+      alt: "Trishul Biotech - High Tea Sponsor",
+    },
+  ];
+
   const midSponsors = [
     {
       category: "Lanyard Sponsor",
@@ -193,7 +214,32 @@ export default function SponsorsShowcaseSection() {
           ))}
         </motion.div>
 
-        {/* ── Tier 2: Lanyard Sponsor & Research Partner (2 columns, centered) ── */}
+        {/* ── Tier 2: Lunch Sponsor, Agenda Sponsor, High Tea Sponsor (3 columns) ── */}
+        <motion.div 
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.18 }}
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10"
+        >
+          {eventSponsors.map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center">
+              <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
+                {item.category}
+              </h3>
+              <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-4 flex items-center justify-center group hover:-translate-y-0.5">
+                <img
+                  src={item.logo}
+                  alt={item.alt}
+                  className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* ── Tier 3: Lanyard Sponsor & Research Partner (2 columns, centered) ── */}
         <motion.div 
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
