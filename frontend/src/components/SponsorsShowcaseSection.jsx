@@ -4,6 +4,13 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export default function SponsorsShowcaseSection() {
+  const goldSponsor = {
+    category: "Gold Sponsor",
+    name: "Bayer",
+    logo: "/sponsors_2026/bayer.png",
+    alt: "Bayer - Gold Sponsor",
+  };
+
   const topSponsors = [
     {
       category: "Award Sponsor",
@@ -54,10 +61,25 @@ export default function SponsorsShowcaseSection() {
       alt: "Reliance New Energy Bio Energy - Lanyard Sponsor",
     },
     {
+      category: "Badge Sponsor",
+      name: "Dhanesha",
+      logo: "/sponsors_2026/dhanesha.png",
+      alt: "Dhanesha - Badge Sponsor",
+    },
+    {
       category: "Research Partner",
       name: "Market Insight Consultants",
       logo: "/sponsors_2026/market_insight.png",
       alt: "Market Insight Consultants - Research Partner",
+    },
+  ];
+
+  const corporateContributors = [
+    {
+      category: "Corporate Contributor",
+      name: "Bandhan Agritech Pvt. Ltd.",
+      logo: "/sponsors_2026/bandhan.png",
+      alt: "Bandhan Agritech Pvt. Ltd. - Corporate Contributor",
     },
   ];
 
@@ -189,6 +211,27 @@ export default function SponsorsShowcaseSection() {
           </motion.p>
         </div>
 
+        {/* ── Premier Tier: Gold Sponsor (Bayer) ── */}
+        <motion.div 
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.12 }}
+          className="flex flex-col items-center mb-8 md:mb-10"
+        >
+          <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
+            {goldSponsor.category}
+          </h3>
+          <div className="w-full max-w-xs sm:max-w-sm h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-4 flex items-center justify-center group hover:-translate-y-0.5">
+            <img
+              src={goldSponsor.logo}
+              alt={goldSponsor.alt}
+              className="max-h-14 sm:max-h-16 md:max-h-20 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+            />
+          </div>
+        </motion.div>
+
         {/* ── Tier 1: Award Sponsor, Kit Sponsor, Memento Sponsor (3 columns) ── */}
         <motion.div 
           initial={{ opacity: 0, y: 18 }}
@@ -239,13 +282,13 @@ export default function SponsorsShowcaseSection() {
           ))}
         </motion.div>
 
-        {/* ── Tier 3: Lanyard Sponsor & Research Partner (2 columns, centered) ── */}
+        {/* ── Tier 3: Lanyard Sponsor, Badge Sponsor, Research Partner (3 columns) ── */}
         <motion.div 
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-2xl mx-auto mb-8 md:mb-10"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10"
         >
           {midSponsors.map((item, idx) => (
             <div key={idx} className="flex flex-col items-center">
@@ -262,6 +305,34 @@ export default function SponsorsShowcaseSection() {
               </div>
             </div>
           ))}
+        </motion.div>
+
+        {/* ── Tier: Corporate Contributor (Bandhan) ── */}
+        <motion.div 
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.22 }}
+          className="flex flex-col items-center mb-8 md:mb-10"
+        >
+          <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
+            Corporate Contributor
+          </h3>
+          <div className="w-full max-w-xs sm:max-w-sm">
+            {corporateContributors.map((item, idx) => (
+              <div 
+                key={idx}
+                className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-4 flex items-center justify-center group hover:-translate-y-0.5"
+              >
+                <img
+                  src={item.logo}
+                  alt={item.alt}
+                  className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
         </motion.div>
 
         {/* ── Tier 3: Media Partner (4 columns) ── */}
