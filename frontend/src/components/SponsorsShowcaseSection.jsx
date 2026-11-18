@@ -4,14 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export default function SponsorsShowcaseSection() {
-  const goldSponsor = {
-    category: "Gold Sponsor",
-    name: "Bayer",
-    logo: "/sponsors_2026/bayer.png",
-    alt: "Bayer - Gold Sponsor",
-  };
-
-  const topSponsors = [
+  const mainSponsors = [
     {
       category: "Award Sponsor",
       name: "Indofil Industries Limited",
@@ -19,20 +12,11 @@ export default function SponsorsShowcaseSection() {
       alt: "Indofil Industries Limited - Award Sponsor",
     },
     {
-      category: "Kit Sponsor",
-      name: "Crop Care Federation of India (CCFI)",
-      logo: "/sponsors_2026/ccfi.png",
-      alt: "CCFI - Kit Sponsor",
-    },
-    {
       category: "Memento Sponsor",
       name: "Bharat Certis AgriScience Ltd.",
       logo: "/sponsors_2026/bca.png",
       alt: "BCA Bharat Certis AgriScience Ltd. - Memento Sponsor",
     },
-  ];
-
-  const eventSponsors = [
     {
       category: "Lunch Sponsor",
       name: "IFFCO-MC Crop Science",
@@ -40,10 +24,16 @@ export default function SponsorsShowcaseSection() {
       alt: "IFFCO-MC Crop Science - Lunch Sponsor",
     },
     {
-      category: "Agenda Sponsor",
-      name: "Swaroop Agrochemical Industries",
-      logo: "/sponsors_2026/agenda_swaroop.png",
-      alt: "Swaroop - Agenda Sponsor",
+      category: "Lanyard Sponsor",
+      name: "Reliance New Energy Bio Energy",
+      logo: "/sponsors_2026/reliance.png",
+      alt: "Reliance New Energy Bio Energy - Lanyard Sponsor",
+    },
+    {
+      category: "Gold Sponsor",
+      name: "Bayer",
+      logo: "/sponsors_2026/bayer.png",
+      alt: "Bayer - Gold Sponsor",
     },
     {
       category: "High Tea Sponsor",
@@ -51,14 +41,11 @@ export default function SponsorsShowcaseSection() {
       logo: "/sponsors_2026/high_tea_trishul.png",
       alt: "Trishul Biotech - High Tea Sponsor",
     },
-  ];
-
-  const midSponsors = [
     {
-      category: "Lanyard Sponsor",
-      name: "Reliance New Energy Bio Energy",
-      logo: "/sponsors_2026/reliance.png",
-      alt: "Reliance New Energy Bio Energy - Lanyard Sponsor",
+      category: "Agenda Sponsor",
+      name: "Swaroop Agrochemical Industries",
+      logo: "/sponsors_2026/agenda_swaroop.png",
+      alt: "Swaroop - Agenda Sponsor",
     },
     {
       category: "Badge Sponsor",
@@ -202,28 +189,7 @@ export default function SponsorsShowcaseSection() {
           </motion.p>
         </div>
 
-        {/* ── Premier Tier: Gold Sponsor (Bayer) ── */}
-        <motion.div 
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.12 }}
-          className="flex flex-col items-center mb-8 md:mb-10"
-        >
-          <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
-            {goldSponsor.category}
-          </h3>
-          <div className="w-full max-w-xs sm:max-w-sm h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-4 flex items-center justify-center group hover:-translate-y-0.5">
-            <img
-              src={goldSponsor.logo}
-              alt={goldSponsor.alt}
-              className="max-h-14 sm:max-h-16 md:max-h-20 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
-            />
-          </div>
-        </motion.div>
-
-        {/* ── Tier 1: Award Sponsor, Kit Sponsor, Memento Sponsor (3 columns) ── */}
+        {/* ── Main Sponsors (3 columns, 9 items in requested sequence) ── */}
         <motion.div 
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -231,57 +197,7 @@ export default function SponsorsShowcaseSection() {
           transition={{ delay: 0.15 }}
           className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10"
         >
-          {topSponsors.map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center">
-              <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
-                {item.category}
-              </h3>
-              <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-4 flex items-center justify-center group hover:-translate-y-0.5">
-                <img
-                  src={item.logo}
-                  alt={item.alt}
-                  className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* ── Tier 2: Lunch Sponsor, Agenda Sponsor, High Tea Sponsor (3 columns) ── */}
-        <motion.div 
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.18 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10"
-        >
-          {eventSponsors.map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center">
-              <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
-                {item.category}
-              </h3>
-              <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-4 flex items-center justify-center group hover:-translate-y-0.5">
-                <img
-                  src={item.logo}
-                  alt={item.alt}
-                  className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* ── Tier 3: Lanyard Sponsor, Badge Sponsor, Research Partner (3 columns) ── */}
-        <motion.div 
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10"
-        >
-          {midSponsors.map((item, idx) => (
+          {mainSponsors.map((item, idx) => (
             <div key={idx} className="flex flex-col items-center">
               <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
                 {item.category}
