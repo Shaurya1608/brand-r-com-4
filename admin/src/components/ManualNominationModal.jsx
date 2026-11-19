@@ -66,12 +66,38 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
   const [profileFile, setProfileFile] = useState(null);
   const [summaryFile, setSummaryFile] = useState(null);
   const [supportingFile, setSupportingFile] = useState(null);
+  const [fileSizeError, setFileSizeError] = useState(null);
   const [successData, setSuccessData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [copiedLink, setCopiedLink] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const dropdownRef = useRef(null);
+
+  const MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024; // 15MB
+  const MAX_FILE_SIZE_MB = 15;
+
+  const handleFileValidation = (file, setFile, inputElement) => {
+    if (!file) return;
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+      setFileSizeError({
+        fileName: file.name,
+        fileSizeMB: sizeMB,
+        maxLimitMB: MAX_FILE_SIZE_MB,
+      });
+      setError(`"${file.name}" (${sizeMB} MB) exceeds the maximum allowed file size of ${MAX_FILE_SIZE_MB} MB. Please upload a smaller file.`);
+      if (inputElement) {
+        inputElement.value = '';
+      }
+      setFile(null);
+      return false;
+    }
+    setError(null);
+    setFileSizeError(null);
+    setFile(file);
+    return true;
+  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -87,6 +113,7 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
     if (!isOpen) {
       setSuccessData(null);
       setError(null);
+      setFileSizeError(null);
       setCopiedLink(false);
     }
   }, [isOpen]);
@@ -204,6 +231,26 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
         return;
       }
 
+      // Pre-upload file size check
+      if (profileFile && profileFile.size > MAX_FILE_SIZE_BYTES) {
+        const sizeMB = (profileFile.size / (1024 * 1024)).toFixed(1);
+        setFileSizeError({ fileName: profileFile.name, fileSizeMB: sizeMB, maxLimitMB: MAX_FILE_SIZE_MB });
+        setError(`Profile document "${profileFile.name}" (${sizeMB} MB) exceeds maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`);
+        return;
+      }
+      if (supportingFile && supportingFile.size > MAX_FILE_SIZE_BYTES) {
+        const sizeMB = (supportingFile.size / (1024 * 1024)).toFixed(1);
+        setFileSizeError({ fileName: supportingFile.name, fileSizeMB: sizeMB, maxLimitMB: MAX_FILE_SIZE_MB });
+        setError(`Supporting document "${supportingFile.name}" (${sizeMB} MB) exceeds maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`);
+        return;
+      }
+      if (summaryFile && summaryFile.size > MAX_FILE_SIZE_BYTES) {
+        const sizeMB = (summaryFile.size / (1024 * 1024)).toFixed(1);
+        setFileSizeError({ fileName: summaryFile.name, fileSizeMB: sizeMB, maxLimitMB: MAX_FILE_SIZE_MB });
+        setError(`Summary document "${summaryFile.name}" (${sizeMB} MB) exceeds maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`);
+        return;
+      }
+
       setLoading(true);
 
       const token = Cookies.get('admin_token');
@@ -217,8 +264,8 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           },
           body: JSON.stringify(formData)
         });
-        const updateData = await updateRes.json();
-        if (updateData.success) {
+        const updateData = await updateRes.json().catch(() => null);
+        if (updateRes.ok && updateData?.success) {
           setSuccessData({
             isEditing: true,
             fullName: updateData.data.fullName || formData.fullName,
@@ -230,7 +277,7 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           });
           onNominationAdded && onNominationAdded();
         } else {
-          setError(updateData.message || 'Failed to update nomination');
+          setError(updateData?.message || updateData?.error || 'Failed to update nomination');
         }
         return;
       }
@@ -259,9 +306,9 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
         body: data,
       });
 
-      const result = await res.json();
+      const result = await res.json().catch(() => null);
 
-      if (result.success) {
+      if (res.ok && result?.success) {
         let finalNomination = result.data;
 
         if (formData.paymentStatus || formData.registeredBy) {
@@ -277,8 +324,8 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
               registrationType: 'Manual Registration',
             })
           });
-          const updateData = await updateRes.json();
-          if (updateData.success) {
+          const updateData = await updateRes.json().catch(() => null);
+          if (updateData?.success) {
             finalNomination = updateData.data;
           }
         }
@@ -288,8 +335,8 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           const linkRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nominations/${finalNomination._id}/payment-link`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
-          const linkData = await linkRes.json();
-          if (linkData.success) {
+          const linkData = await linkRes.json().catch(() => null);
+          if (linkData?.success) {
             paymentUrl = linkData.paymentUrl;
           }
         }
@@ -306,11 +353,19 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
 
         onNominationAdded && onNominationAdded();
       } else {
-        setError(result.message || 'Failed to submit manual nomination');
+        const errorMsg = result?.message || result?.error || `Failed to submit manual nomination (Status ${res.status}).`;
+        if (res.status === 413 || (errorMsg && (errorMsg.toLowerCase().includes('large') || errorMsg.toLowerCase().includes('exceed') || errorMsg.toLowerCase().includes('size')))) {
+          setFileSizeError({
+            fileName: profileFile?.name || supportingFile?.name || summaryFile?.name || 'Attached Document',
+            fileSizeMB: 'Exceeded',
+            maxLimitMB: MAX_FILE_SIZE_MB
+          });
+        }
+        setError(errorMsg);
       }
     } catch (err) {
       console.error('Error submitting manual nomination:', err);
-      setError('Connection error. Please try again.');
+      setError('Connection error or upload timed out. If your document is large, please compress it under 15MB and try again.');
     } finally {
       setLoading(false);
     }
@@ -760,9 +815,19 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                   
                   <div className="flex items-center gap-2">
                     {summaryFile && (
-                      <span className="text-[10px] font-bold text-[#5e8e33] truncate max-w-[140px] bg-[#5e8e33]/10 px-2 py-0.5 rounded-md">
-                        ✓ {summaryFile.name}
-                      </span>
+                      <div className="flex items-center gap-1.5 bg-[#5e8e33]/10 px-2.5 py-0.5 rounded-md">
+                        <span className="text-[10px] font-bold text-[#5e8e33] truncate max-w-[140px]">
+                          ✓ {summaryFile.name}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setSummaryFile(null)}
+                          className="text-red-500 hover:text-red-700 font-bold text-xs"
+                          title="Remove summary file"
+                        >
+                          ×
+                        </button>
+                      </div>
                     )}
                     <label className="cursor-pointer bg-[#5e8e33] hover:bg-[#4c7727] text-white font-black text-[10px] uppercase tracking-wide px-3 py-1 rounded-full transition-all shadow-xs flex items-center gap-1 active:scale-95">
                       <Upload size={12} />
@@ -770,7 +835,7 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                       <input
                         type="file"
                         accept=".pdf,.ppt,.pptx,.doc,.docx"
-                        onChange={(e) => setSummaryFile(e.target.files[0])}
+                        onChange={(e) => handleFileValidation(e.target.files[0], setSummaryFile, e.target)}
                         className="hidden"
                       />
                     </label>
@@ -789,12 +854,14 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
 
               {/* Upload Profile */}
               <div>
-                <label className="block font-bold text-gray-800 text-xs mb-1.5">Upload Company/Individual Profile</label>
-                <div className="p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50/80 hover:bg-gray-50 transition-colors text-center cursor-pointer">
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">
+                  Upload Company/Individual Profile <span className="text-red-500">*</span>
+                </label>
+                <div className="p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50/80 hover:bg-gray-50 transition-colors text-center cursor-pointer relative">
                   <input
                     type="file"
                     accept=".pdf,.ppt,.pptx,.doc,.docx"
-                    onChange={(e) => setProfileFile(e.target.files[0])}
+                    onChange={(e) => handleFileValidation(e.target.files[0], setProfileFile, e.target)}
                     className="hidden"
                     id="profile-upload"
                   />
@@ -805,17 +872,34 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                     </p>
                     <p className="text-[10px] text-gray-500 font-medium">PDF, PPT or DOC — max 15MB</p>
                   </label>
+                  {profileFile && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setProfileFile(null);
+                        const el = document.getElementById('profile-upload');
+                        if (el) el.value = '';
+                      }}
+                      className="mt-2 inline-block text-[11px] text-red-600 hover:text-red-800 font-bold underline cursor-pointer"
+                    >
+                      Remove file
+                    </button>
+                  )}
                 </div>
               </div>
 
               {/* Upload Supporting Documents */}
               <div>
-                <label className="block font-bold text-gray-800 text-xs mb-1.5">Upload Supporting Documents</label>
-                <div className="p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50/80 hover:bg-gray-50 transition-colors text-center cursor-pointer">
+                <label className="block font-bold text-gray-800 text-xs mb-1.5">
+                  Upload Supporting Documents <span className="text-red-500">*</span>
+                </label>
+                <div className="p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50/80 hover:bg-gray-50 transition-colors text-center cursor-pointer relative">
                   <input
                     type="file"
                     accept=".pdf,.ppt,.pptx,.doc,.docx"
-                    onChange={(e) => setSupportingFile(e.target.files[0])}
+                    onChange={(e) => handleFileValidation(e.target.files[0], setSupportingFile, e.target)}
                     className="hidden"
                     id="supporting-upload"
                   />
@@ -826,6 +910,21 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
                     </p>
                     <p className="text-[10px] text-gray-500 font-medium">PDF, PPT or DOC — max 15MB</p>
                   </label>
+                  {supportingFile && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setSupportingFile(null);
+                        const el = document.getElementById('supporting-upload');
+                        if (el) el.value = '';
+                      }}
+                      className="mt-2 inline-block text-[11px] text-red-600 hover:text-red-800 font-bold underline cursor-pointer"
+                    >
+                      Remove file
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -925,6 +1024,14 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
             </div>
           </div>
 
+          {/* Bottom Error Message */}
+          {error && (
+            <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-bold flex items-center gap-2">
+              <Info size={16} className="flex-shrink-0 text-red-600" />
+              <span>{error}</span>
+            </div>
+          )}
+
           {/* Submit Button */}
           <div className="pt-4 border-t border-gray-100 flex items-center justify-end gap-3">
             <button
@@ -954,6 +1061,56 @@ export default function ManualNominationModal({ isOpen, onClose, onNominationAdd
           )}
         </div>
       </div>
+
+      {/* File Size Exceeded Error Modal Popup */}
+      {fileSizeError && (
+        <div className="fixed inset-0 z-60 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-red-200 text-center animate-in fade-in zoom-in-95 duration-200">
+            <div className="w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
+              <X size={28} className="stroke-[2.5]" />
+            </div>
+            
+            <h3 className="text-lg font-black text-gray-900 mb-1">
+              File Size Exceeded! ⚠️
+            </h3>
+            
+            <p className="text-xs text-gray-600 mb-4 font-medium">
+              The document you selected exceeds the upload limit.
+            </p>
+
+            <div className="bg-red-50/90 border border-red-200 rounded-xl p-3.5 mb-4 text-left text-xs space-y-1.5">
+              <div className="flex justify-between items-center text-gray-700">
+                <span className="font-bold text-gray-500">File Name:</span>
+                <span className="font-mono font-bold truncate max-w-[200px]" title={fileSizeError.fileName}>
+                  {fileSizeError.fileName}
+                </span>
+              </div>
+              {fileSizeError.fileSizeMB !== 'Exceeded' && (
+                <div className="flex justify-between items-center text-red-600 font-bold">
+                  <span>Detected File Size:</span>
+                  <span>{fileSizeError.fileSizeMB} MB</span>
+                </div>
+              )}
+              <div className="flex justify-between items-center text-gray-700 font-bold">
+                <span>Maximum Allowed:</span>
+                <span className="text-emerald-700">{fileSizeError.maxLimitMB} MB</span>
+              </div>
+            </div>
+
+            <p className="text-[11px] text-gray-500 mb-5 leading-relaxed">
+              Please compress your presentation or document below <strong>{fileSizeError.maxLimitMB} MB</strong> using a free PDF/PPT compressor and select it again.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setFileSizeError(null)}
+              className="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer"
+            >
+              I Understand — Change File
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
