@@ -36,6 +36,7 @@ export default function AwardNominationModal({ isOpen, onClose }) {
   const [summaryDocumentFile, setSummaryDocumentFile] = useState(null);
   const [profileDocumentFile, setProfileDocumentFile] = useState(null);
   const [supportingDocumentFile, setSupportingDocumentFile] = useState(null);
+  const [fileSizeError, setFileSizeError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -240,15 +241,21 @@ export default function AwardNominationModal({ isOpen, onClose }) {
   };
 
   const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB (Cloudinary Free Tier limit)
+  const MAX_FILE_SIZE_MB = 20;
 
   const handleSummaryFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > MAX_FILE_SIZE) {
-        setError(`"${file.name}" exceeds the maximum allowed file size of 20MB.`);
+        const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+        setFileSizeError({ fileName: file.name, fileSizeMB: sizeMB, maxLimitMB: MAX_FILE_SIZE_MB });
+        setError(`"${file.name}" (${sizeMB} MB) exceeds maximum allowed file size of ${MAX_FILE_SIZE_MB}MB.`);
+        e.target.value = '';
+        setSummaryDocumentFile(null);
         return;
       }
       setError("");
+      setFileSizeError(null);
       setSummaryDocumentFile(file);
     }
   };
@@ -257,10 +264,15 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     const file = e.target.files[0];
     if (file) {
       if (file.size > MAX_FILE_SIZE) {
-        setError(`"${file.name}" exceeds the maximum allowed file size of 20MB.`);
+        const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+        setFileSizeError({ fileName: file.name, fileSizeMB: sizeMB, maxLimitMB: MAX_FILE_SIZE_MB });
+        setError(`"${file.name}" (${sizeMB} MB) exceeds maximum allowed file size of ${MAX_FILE_SIZE_MB}MB.`);
+        e.target.value = '';
+        setProfileDocumentFile(null);
         return;
       }
       setError("");
+      setFileSizeError(null);
       setProfileDocumentFile(file);
     }
   };
@@ -269,10 +281,15 @@ export default function AwardNominationModal({ isOpen, onClose }) {
     const file = e.target.files[0];
     if (file) {
       if (file.size > MAX_FILE_SIZE) {
-        setError(`"${file.name}" exceeds the maximum allowed file size of 20MB.`);
+        const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+        setFileSizeError({ fileName: file.name, fileSizeMB: sizeMB, maxLimitMB: MAX_FILE_SIZE_MB });
+        setError(`"${file.name}" (${sizeMB} MB) exceeds maximum allowed file size of ${MAX_FILE_SIZE_MB}MB.`);
+        e.target.value = '';
+        setSupportingDocumentFile(null);
         return;
       }
       setError("");
+      setFileSizeError(null);
       setSupportingDocumentFile(file);
     }
   };
@@ -1166,6 +1183,54 @@ export default function AwardNominationModal({ isOpen, onClose }) {
               </div>
             )}
           </motion.div>
+        </div>
+      )}
+
+      {/* File Size Exceeded Error Modal Popup */}
+      {fileSizeError && (
+        <div className="fixed inset-0 z-60 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-red-200 text-center animate-in fade-in zoom-in-95 duration-200">
+            <div className="w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
+              <X size={28} className="stroke-[2.5]" />
+            </div>
+            
+            <h3 className="text-lg font-black text-gray-900 mb-1">
+              File Size Exceeded! ⚠️
+            </h3>
+            
+            <p className="text-xs text-gray-600 mb-4 font-medium">
+              The document you selected exceeds the upload limit.
+            </p>
+
+            <div className="bg-red-50/90 border border-red-200 rounded-xl p-3.5 mb-4 text-left text-xs space-y-1.5">
+              <div className="flex justify-between items-center text-gray-700">
+                <span className="font-bold text-gray-500">File Name:</span>
+                <span className="font-mono font-bold truncate max-w-[200px]" title={fileSizeError.fileName}>
+                  {fileSizeError.fileName}
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-red-600 font-bold">
+                <span>Detected File Size:</span>
+                <span>{fileSizeError.fileSizeMB} MB</span>
+              </div>
+              <div className="flex justify-between items-center text-gray-700 font-bold">
+                <span>Maximum Allowed:</span>
+                <span className="text-emerald-700">{fileSizeError.maxLimitMB} MB</span>
+              </div>
+            </div>
+
+            <p className="text-[11px] text-gray-500 mb-5 leading-relaxed">
+              Please compress your presentation or document below <strong>{fileSizeError.maxLimitMB} MB</strong> using a free PDF/PPT compressor and select it again.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setFileSizeError(null)}
+              className="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer"
+            >
+              I Understand — Change File
+            </button>
+          </div>
         </div>
       )}
     </AnimatePresence>
