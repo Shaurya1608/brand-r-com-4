@@ -207,20 +207,24 @@ export default function SponsorsShowcaseSection() {
               </h3>
               <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-3 sm:p-4 flex items-center justify-center group hover:-translate-y-0.5">
                 {item.logos ? (
-                  <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 w-full h-full px-1">
-                    <img
-                      src={item.logos[0].src}
-                      alt={item.logos[0].alt}
-                      className="max-h-11 sm:max-h-13 md:max-h-15 max-w-[42%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="h-8 sm:h-10 w-px bg-gray-200 flex-shrink-0" />
-                    <img
-                      src={item.logos[1].src}
-                      alt={item.logos[1].alt}
-                      className="max-h-8 sm:max-h-10 md:max-h-12 max-w-[50%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
-                    />
+                  <div className="flex items-center justify-between w-full h-full px-1.5 sm:px-2">
+                    <div className="flex-1 flex items-center justify-center pr-2 sm:pr-3">
+                      <img
+                        src={item.logos[0].src}
+                        alt={item.logos[0].alt}
+                        className="max-h-10 sm:max-h-12 md:max-h-14 max-w-full w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="h-10 sm:h-12 md:h-14 w-[1.5px] bg-gray-400 flex-shrink-0 rounded-full" />
+                    <div className="flex-1 flex items-center justify-center pl-2 sm:pl-3">
+                      <img
+                        src={item.logos[1].src}
+                        alt={item.logos[1].alt}
+                        className="max-h-7 sm:max-h-9 md:max-h-11 max-w-full w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
                 ) : (
                   <img
