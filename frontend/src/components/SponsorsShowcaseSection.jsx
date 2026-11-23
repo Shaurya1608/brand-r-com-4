@@ -31,9 +31,12 @@ export default function SponsorsShowcaseSection() {
     },
     {
       category: "Gold Sponsor",
-      name: "Bayer",
-      logo: "/sponsors_2026/bayer.png",
-      alt: "Bayer - Gold Sponsor",
+      name: "Bayer & Savannah",
+      logos: [
+        { src: "/sponsors_2026/bayer.png", alt: "Bayer - Gold Sponsor" },
+        { src: "/sponsors_2026/savannah.png", alt: "Savannah - Gold Sponsor" },
+      ],
+      alt: "Bayer & Savannah - Gold Sponsor",
     },
     {
       category: "High Tea Sponsor",
@@ -202,13 +205,31 @@ export default function SponsorsShowcaseSection() {
               <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
                 {item.category}
               </h3>
-              <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-4 flex items-center justify-center group hover:-translate-y-0.5">
-                <img
-                  src={item.logo}
-                  alt={item.alt}
-                  className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
+              <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-3 sm:p-4 flex items-center justify-center group hover:-translate-y-0.5">
+                {item.logos ? (
+                  <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 w-full h-full px-1">
+                    <img
+                      src={item.logos[0].src}
+                      alt={item.logos[0].alt}
+                      className="max-h-11 sm:max-h-13 md:max-h-15 max-w-[42%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="h-8 sm:h-10 w-px bg-gray-200 flex-shrink-0" />
+                    <img
+                      src={item.logos[1].src}
+                      alt={item.logos[1].alt}
+                      className="max-h-8 sm:max-h-10 md:max-h-12 max-w-[50%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <img
+                    src={item.logo}
+                    alt={item.alt}
+                    className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                )}
               </div>
             </div>
           ))}
