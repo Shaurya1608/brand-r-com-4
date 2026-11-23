@@ -205,36 +205,36 @@ export default function SponsorsShowcaseSection() {
               <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
                 {item.category}
               </h3>
-              <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-3 sm:p-4 flex items-center justify-center group hover:-translate-y-0.5">
-                {item.logos ? (
-                  <div className="flex items-center justify-between w-full h-full px-2 sm:px-3">
-                    <div className="flex-1 flex items-center justify-center pr-3 sm:pr-4 md:pr-6">
+              {item.logos ? (
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-3 w-full h-24 sm:h-28 md:h-32">
+                  {item.logos.map((logo, lIdx) => (
+                    <div
+                      key={lIdx}
+                      className="h-full bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-2 sm:p-3 flex items-center justify-center group hover:-translate-y-0.5"
+                    >
                       <img
-                        src={item.logos[0].src}
-                        alt={item.logos[0].alt}
-                        className="max-h-12 sm:max-h-14 md:max-h-16 max-w-full w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                        src={logo.src}
+                        alt={logo.alt}
+                        className={`${
+                          lIdx === 0
+                            ? "max-h-11 sm:max-h-13 md:max-h-15 max-w-[85%]"
+                            : "max-h-8 sm:max-h-9 md:max-h-11 max-w-[90%]"
+                        } w-auto object-contain transition-transform duration-300 group-hover:scale-105`}
                         loading="lazy"
                       />
                     </div>
-                    <div className="h-10 sm:h-12 md:h-14 w-[1.5px] bg-gray-300 flex-shrink-0 rounded-full" />
-                    <div className="flex-1 flex items-center justify-center pl-3 sm:pl-4 md:pl-6">
-                      <img
-                        src={item.logos[1].src}
-                        alt={item.logos[1].alt}
-                        className="max-h-9 sm:max-h-11 md:max-h-13 max-w-full w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
-                ) : (
+                  ))}
+                </div>
+              ) : (
+                <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-3 sm:p-4 flex items-center justify-center group hover:-translate-y-0.5">
                   <img
                     src={item.logo}
                     alt={item.alt}
                     className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           ))}
         </motion.div>
