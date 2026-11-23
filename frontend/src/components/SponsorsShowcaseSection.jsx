@@ -207,17 +207,17 @@ export default function SponsorsShowcaseSection() {
               </h3>
               <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-3 sm:p-4 flex items-center justify-center group hover:-translate-y-0.5">
                 {item.logos ? (
-                  <div className="flex items-center justify-center gap-7 sm:gap-10 md:gap-12 w-full h-full px-2 sm:px-3">
+                  <div className="flex items-center justify-center gap-5 sm:gap-7 md:gap-8 w-full h-full px-2 sm:px-3">
                     <img
                       src={item.logos[0].src}
                       alt={item.logos[0].alt}
-                      className="max-h-8 sm:max-h-10 md:max-h-12 max-w-[38%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                      className="max-h-11 sm:max-h-13 md:max-h-15 max-w-[44%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                     />
                     <img
                       src={item.logos[1].src}
                       alt={item.logos[1].alt}
-                      className="max-h-6 sm:max-h-7 md:max-h-9 max-w-[44%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                      className="max-h-8 sm:max-h-9 md:max-h-11 max-w-[48%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                     />
                   </div>
