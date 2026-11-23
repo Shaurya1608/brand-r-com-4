@@ -30,13 +30,10 @@ export default function SponsorsShowcaseSection() {
       alt: "Reliance New Energy Bio Energy - Lanyard Sponsor",
     },
     {
-      category: "Gold Sponsor",
-      name: "Bayer & Savannah",
-      logos: [
-        { src: "/sponsors_2026/bayer.png", alt: "Bayer - Gold Sponsor" },
-        { src: "/sponsors_2026/savannah.png", alt: "Savannah - Gold Sponsor" },
-      ],
-      alt: "Bayer & Savannah - Gold Sponsor",
+      category: "Kit Sponsor",
+      name: "CCFI",
+      logo: "/sponsors_2026/ccfi.png",
+      alt: "CCFI - Kit Sponsor",
     },
     {
       category: "High Tea Sponsor",
@@ -61,6 +58,19 @@ export default function SponsorsShowcaseSection() {
       name: "Market Insight Consultants",
       logo: "/sponsors_2026/market_insight.png",
       alt: "Market Insight Consultants - Research Partner",
+    },
+  ];
+
+  const goldSponsors = [
+    {
+      name: "Bayer",
+      logo: "/sponsors_2026/bayer.png",
+      alt: "Bayer - Gold Sponsor",
+    },
+    {
+      name: "Savannah Seeds",
+      logo: "/sponsors_2026/savannah.png",
+      alt: "Savannah Seeds - Gold Sponsor",
     },
   ];
 
@@ -205,38 +215,48 @@ export default function SponsorsShowcaseSection() {
               <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
                 {item.category}
               </h3>
-              {item.logos ? (
-                <div className="grid grid-cols-2 gap-2.5 sm:gap-3 w-full h-24 sm:h-28 md:h-32">
-                  {item.logos.map((logo, lIdx) => (
-                    <div
-                      key={lIdx}
-                      className="h-full bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-2 sm:p-3 flex items-center justify-center group hover:-translate-y-0.5"
-                    >
-                      <img
-                        src={logo.src}
-                        alt={logo.alt}
-                        className={`${
-                          lIdx === 0
-                            ? "max-h-11 sm:max-h-13 md:max-h-15 max-w-[85%]"
-                            : "max-h-8 sm:max-h-9 md:max-h-11 max-w-[90%]"
-                        } w-auto object-contain transition-transform duration-300 group-hover:scale-105`}
-                        loading="lazy"
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-3 sm:p-4 flex items-center justify-center group hover:-translate-y-0.5">
-                  <img
-                    src={item.logo}
-                    alt={item.alt}
-                    className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-              )}
+              <div className="w-full h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-3 sm:p-4 flex items-center justify-center group hover:-translate-y-0.5">
+                <img
+                  src={item.logo}
+                  alt={item.alt}
+                  className="max-h-12 sm:max-h-14 md:max-h-16 max-w-[85%] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
             </div>
           ))}
+        </motion.div>
+
+        {/* ── Tier 2: Gold Sponsor (Centered line between Main Sponsors and Media Partner) ── */}
+        <motion.div 
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="flex flex-col items-center mb-8 md:mb-10"
+        >
+          <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-brand-dark tracking-tight mb-2.5 text-center">
+            Gold Sponsor
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 w-full max-w-2xl mx-auto">
+            {goldSponsors.map((item, idx) => (
+              <div 
+                key={idx}
+                className="h-24 sm:h-28 md:h-32 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-brand-primary/50 transition-all duration-300 p-3 sm:p-4 flex items-center justify-center group hover:-translate-y-0.5"
+              >
+                <img
+                  src={item.logo}
+                  alt={item.alt}
+                  className={`${
+                    item.name === "Bayer"
+                      ? "max-h-12 sm:max-h-14 md:max-h-16 max-w-[80%]"
+                      : "max-h-9 sm:max-h-11 md:max-h-13 max-w-[85%]"
+                  } w-auto object-contain transition-transform duration-300 group-hover:scale-105`}
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
         </motion.div>
 
         {/* ── Tier 3: Media Partner (4 columns) ── */}
